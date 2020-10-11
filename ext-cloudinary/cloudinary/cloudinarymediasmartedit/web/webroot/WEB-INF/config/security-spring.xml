@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security" xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/security/oauth2 
+     	http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
+
+
+	<beans>
+		<http pattern="/**" xmlns="http://www.springframework.org/schema/security" >
+			<intercept-url pattern="/**" requires-channel="https" />
+			<port-mappings>
+				<port-mapping http="#{configurationService.configuration.getProperty('tomcat.http.port')}" https="#{configurationService.configuration.getProperty('tomcat.ssl.port')}" />
+			</port-mappings>
+			<http-basic />
+		</http>
+		
+		<!--Authentication needs to be configured even though this webapp accept all roles for now -->
+		<security:authentication-manager>
+			<security:authentication-provider ref="coreAuthenticationProvider"/>
+		</security:authentication-manager>
+			
+		<bean id="coreAuthenticationProvider" class="de.hybris.platform.spring.security.CoreAuthenticationProvider">
+			<property name="userDetailsService" ref="coreUserDetailsService" />
+		</bean>	
+		
+		<bean id="coreUserDetailsService" class="de.hybris.platform.spring.security.CoreUserDetailsService" />
+	</beans>
+</beans>

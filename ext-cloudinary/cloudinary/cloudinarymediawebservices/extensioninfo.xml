@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+--><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+        	
+    
+    <extension abstractclassprefix="Generated" classprefix="Ycommercewebservices" name="cloudinarymediawebservices" usemaven="false">
+                		
+        
+        <requires-extension name="commercefacades"/>
+                		
+        
+        <requires-extension name="commercewebservicescommons"/>
+                		
+        
+        <requires-extension name="ordermanagementfacades"/>
+                		
+        
+        <coremodule generated="true" manager="de.hybris.platform.jalo.extension.GenericManager" packageroot="uk.ptr.cloudinary"/>
+                		
+        
+        <webmodule jspcompile="false" webroot="/cloudinarymediawebservices"/>
+                		
+        
+        		
+        
+        <meta key="modulegen-name" value="commercewebservices"/>
+                	
+    
+    </extension>
+        
+
+</extensioninfo>

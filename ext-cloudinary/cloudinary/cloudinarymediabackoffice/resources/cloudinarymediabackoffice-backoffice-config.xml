@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved
+-->
+<config xmlns="http://www.hybris.com/cockpit/config"
+		xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea"
+		xmlns:list-view="http://www.hybris.com/cockpitng/component/listView"
+		xmlns:wz="http://www.hybris.com/cockpitng/config/wizard-config"
+		xmlns:hybris="http://www.hybris.com/cockpit/config/hybris"
+		xmlns:y="http://www.hybris.com/cockpit/config/hybris"
+		xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree">
+
+	<!-- cloudinarymediabackoffice UI configuration should be provided here -->
+
+	<!--<context component="component-code" module="cloudinarymediabackoffice">-->
+		<!--Please check documentation for code snippets for specific components-->
+	<!--</context>-->
+
+	<!--Explorer tree -->
+
+</config>

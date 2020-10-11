@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<web-app id="cloudinarymediasmartedit" version="3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+         metadata-complete="true">
+	<absolute-ordering />
+
+	<display-name>cloudinarymediasmartedit</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<session-config>
+		<cookie-config>
+			<http-only>true</http-only>
+		</cookie-config>
+	</session-config>
+
+	
+	<login-config>
+		<auth-method>BASIC</auth-method>
+	</login-config>
+	<filter>
+   	<filter-name>characterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+<!--
+	Enabling Spring managed Delegating Filter Proxy for hybris Filter Stack.
+-->
+	<filter>
+		<filter-name>smarteditAppPlatformFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>gzipfilter</filter-name>
+		<filter-class>de.hybris.platform.util.GZIPServletFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>gzipfilter</filter-name>
+		<url-pattern>/cloudinarymediasmartedit/js/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>characterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>smarteditAppPlatformFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+<!--
+	Enabling a Spring web application context with 'session' and 'request' scope.
+	- The 'contextConfigLocation' param specifies where your configuration files are located.
+	- The HybrisContextLoaderListener extends the usual SpringContextLoaderListener (which loads
+	  the context from specified location) by adding the global application context of
+	  the platform as parent context. With having the global context set as parent you can access
+	  or override beans of the global context and get the 'tenant' scope.
+	- The RequestContextListener is needed for exposing the 'request' scope to the context.
+	  Furthermore it is needed when overriding the 'jalosession' bean for your web application.
+ -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>WEB-INF/cloudinarymediasmartedit-web-spring.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>de.hybris.platform.spring.HybrisContextLoaderListener</listener-class>
+	</listener>
+	
+	<listener>
+    	<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	
+	
+	<!-- Servlets -->
+
+	<servlet>
+		<description>
+			DispatcherServlet
+			Spring MVC dispatcher servlet. This is the entry point for the Spring MVC application.
+		</description>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<description>
+				Specifies the location for Spring MVC to load an additional XML configuration file.
+				Because hybris is already configured with the XML spring configuration files to load
+				we must set this param value to EMPTY in order to prevent loading of the default
+				/WEB-INF/applicationContext.xml file.
+			</description>
+			<param-name>contextConfigLocation</param-name>
+			<param-value></param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<!-- Map all requests to the DispatcherServlet -->
+		<url-pattern>/resources/*</url-pattern>
+	</servlet-mapping>
+</web-app> 
