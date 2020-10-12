@@ -1,0 +1,101 @@
+@import url("cockpit.css");
+
+$systembar_bg-color: #BD5C33;
+$systembar_hover-bg-color: #ce724b;
+$systembar_selected-bg-color: #c76840;
+
+body {
+    background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAALUlEQVQImWNYtHzHf2S8aceZ/wzoAouW70AIwgTggsgCi5bv+M+ALrBo+Y7/AIsfTAo95vSpAAAAAElFTkSuQmCC) repeat #A2A7B8;
+}
+
+.yw-systemBarContainer {
+    .yw-systemItemsContainer {
+        .z-toolbarbutton {
+            display: none;
+        }
+    }
+}
+.cng-adminmode .mainToolbar > div.yw-logoContainer,
+.yw-systemBarContainer .yw-statusToolbar div.yw-logoContainer {
+    background: url('images/my_bg.png');
+    background-position: 0 -28px;
+    width: 200px;
+    height: 34px;
+    margin-top: 5px;
+}
+
+.yw-com_hybris_cockpitng_widgets_common_systembar div.yw-systemBarContainer,
+.yw-systemBarContainer .yw-perspective-breadcrumb.yw-perspective-breadcrumb-expanded,
+.yw-perspective-popup tbody.z-treechildren,
+.yw-roleChooser-popup .z-listbox-body .z-listbox-emptybody td,
+.yw-quickToggleLocale .yw-quickToggleLocale-cl,
+.yw-systemBarContainer .yw-processes-sidebar .yw-processes-header,
+.yw-systemBarContainer .yw-processes-open-btn.yw-processes-unseen .z-toolbarbutton-content:before, 
+.yw-systemBarContainer .yw-processes-open-btn-spin .z-toolbarbutton-content:before {
+    background-color: $systembar_bg-color;
+}
+
+.yw-systemBarContainer .yw-statusToolbar .widget_cnt .z-toolbarbutton,
+.yw-systemBarContainer .yw-statusToolbar a.z-toolbarbutton,
+.yw-perspective-popup tr.z-treerow,
+.yw-systemBarContainer .ya-toggle .z-toolbarbutton {
+    &:hover, 
+    &:focus, 
+    &:active {
+        background-color: $systembar_hover-bg-color;
+    }
+}
+
+.yw-perspective-popup tr.z-treerow.z-treerow-selected,
+.yw-perspective-popup tr.z-treerow.z-treerow-selected:hover,
+.yw-systemBarContainer .yw-statusToolbar .widget_body span[style="display: none;"] + .z-toolbarbutton {
+    background-color: $systembar_hover-bg-color;
+}
+
+.yw-systemBarContainer .ya-toggle {
+    .z-toolbarbutton {
+        img:hover,
+        &.yw-flexlayout-trigger,
+        &.cng-action-enabled img:hover {
+            background: transparent;
+        }
+        > tbody {
+            display: block;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            table-layout: fixed;
+
+            td {
+                text-align: center;
+            }
+        }
+    }
+    &.ya-toggle-active .z-toolbarbutton {
+        background-color: $systembar_hover-bg-color;
+    }
+}
+
+.yw-quickToggleLocale .z-popup-content,
+.yw-roleChooser-popup .z-popup-content {
+    .z-listitem {
+        &, 
+        &:hover,
+        &.z-listitem-selected, 
+        &.z-listitem-selected:hover {
+            background-color: $systembar_bg-color;
+        }
+        .z-listcell {
+            &:hover {
+                background-color: $systembar_hover-bg-color;
+            }
+        }
+        &.z-listitem-selected .z-listcell {
+            background-color: $systembar_selected-bg-color;
+            &:hover {
+                background-color: $systembar_hover-bg-color;
+            }
+        }
+    }
+}

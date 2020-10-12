@@ -1,0 +1,17 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# you can put key/value pairs here.
+# Use Config.getParameter(..) to retrieve the values during runtime.
+
+cloudinarymediaaddon.key=value
+
+# Specifies the location of the spring context file added automatically to the global platform application context.
+cloudinarymediaaddon.application-context=cloudinarymediaaddon-spring.xml
+
+yacceleratorstorefront.additionalWebSpringConfigs.cloudinarymediaaddon=classpath:/cloudinarymediaaddon/web/spring/cloudinarymediaaddon-web-spring.xml
+
+
+
+cloudinarymediaaddon.javascript.paths.responsive=/responsive/common/js/cloudinarymediaaddon.js
+cloudinarymediaaddon.css.paths.responsive=/responsive/common/css/cloudinarymediaaddon.css

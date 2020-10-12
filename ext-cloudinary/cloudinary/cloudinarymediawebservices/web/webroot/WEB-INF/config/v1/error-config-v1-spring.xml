@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="abstractRestHandlerExceptionResolverV1" abstract="true">
+		<property name="webserviceErrorFactory" ref="webserviceErrorFactory" />
+		<property name="messageConverters" ref="messageConvertersV1" />
+	</bean>
+
+	<bean id="restHandlerExceptionResolverV1" class="de.hybris.platform.webservicescommons.resolver.RestHandlerExceptionResolver"
+		parent="abstractRestHandlerExceptionResolverV1">
+		<property name="propertySpecificKey" value="cloudinarymediawebservices"/>
+		<property name="configurationService" ref="configurationService"/>
+	</bean>
+
+	<util:list id="exceptionResolversV1">
+		<ref bean="restHandlerExceptionResolverV1" />
+	</util:list>
+
+</beans>

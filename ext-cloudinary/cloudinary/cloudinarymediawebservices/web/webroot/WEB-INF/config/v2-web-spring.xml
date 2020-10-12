@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	                       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="v2/dto-level-mappings-v2-spring.xml"/>
+	<import resource="v2/dto-mappings-v2-spring.xml"/>
+	<import resource="v2/jaxb-converters-spring.xml"/>
+	<import resource="v2/error-config-v2-spring.xml"/>
+	<import resource="v2/filter-config-v2-spring.xml"/>
+	<import resource="v2/security-v2-spring.xml"/>
+	<import resource="v2/validators-v2-spring.xml"/>
+
+	<!-- Extension point to inject beans from other sources -->
+	<import resource="classpath*:/occ/v2/*occ/web/spring/*-web-spring.xml"/>
+	<import resource="classpath*:/commercewebservices/v2/additional-web-spring-context.xml"/>
+</beans>
