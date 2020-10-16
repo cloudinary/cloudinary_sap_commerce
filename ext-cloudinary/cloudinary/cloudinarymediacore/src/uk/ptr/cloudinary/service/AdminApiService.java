@@ -5,9 +5,8 @@
 package uk.ptr.cloudinary.service;
 
 import com.cloudinary.api.ApiResponse;
-import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 
 public interface AdminApiService {
 
-    public ApiResponse getCloudinaryPlanInfo(CloudinaryConfigModel cloudinaryConfigModel);
+    public ApiResponse getDataUsagesInformation() throws Exception;
 }

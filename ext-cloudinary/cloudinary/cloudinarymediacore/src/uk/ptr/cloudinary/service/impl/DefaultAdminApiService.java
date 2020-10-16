@@ -6,36 +6,25 @@ package uk.ptr.cloudinary.service.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.api.ApiResponse;
 import com.cloudinary.utils.ObjectUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
-import uk.ptr.cloudinary.jalo.CloudinaryConfig;
-import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 import uk.ptr.cloudinary.service.AdminApiService;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class DefaultAdminApiService implements AdminApiService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultAdminApiService.class);
+public class DefaultAdminApiService implements AdminApiService
+{
+    private final String  dateFormat = "dd-MM-yyyy";
+    @Resource
+    private Cloudinary cloudinary;
 
     @Override
-    public ApiResponse getCloudinaryPlanInfo(CloudinaryConfigModel cloudinaryConfigModel) {
+    public ApiResponse getDataUsagesInformation() throws Exception {
 
-        try {
-            Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
-            LocalDate date = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(CloudinarymediacoreConstants.DATE_FORMAT);
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
 
-            cloudinaryConfigModel.getCloudinaryURL();
-            return cloudinary.api().usage(ObjectUtils.asMap("date", date.format(formatter)));
-        } catch (IllegalArgumentException illegalException) {
-            LOG.error("Illegal Argument " + illegalException.getMessage());
-        } catch (Exception e) {
-            LOG.error("Exception occured calling Admin Usage API " + e.getMessage());
-        }
-        return null;
+        return cloudinary.api().usage(ObjectUtils.asMap("date", date.format(formatter)));
+
     }
 }

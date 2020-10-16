@@ -79,8 +79,6 @@
 						<editorArea:attribute qualifier="globalCloudinaryVideoTransformation"/>
 						<editorArea:attribute qualifier="cloudinaryCname"/>
 					</editorArea:section>
-					<ea:customSection name="hmc.section.cloudinary.connection" position="4"
-									  spring-bean="cloudinaryConfigAdminUsageRenderer"/>
 				</editorArea:tab>
 			</editorArea:editorArea>
 		</context>
