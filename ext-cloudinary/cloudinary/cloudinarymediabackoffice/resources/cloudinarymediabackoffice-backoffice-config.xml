@@ -25,16 +25,7 @@
 				<explorer-tree:type-node code="CloudinaryConfig" id="hmc_typenode_cloudinaryconfig"/>
 			</explorer-tree:navigation-node>
 		</explorer-tree:explorer-tree>
-	</context> -->
-
-	<context type="CloudinaryConfig" module="cloudinarymediabackoffice">
-		<context type="CloudinaryConfig" component="base">
-			<y:base>
-				<y:labels>
-					<y:label></y:label>
-				</y:labels>
-			</y:base>
-		</context>
+	</context>
 
 		<context type="CloudinaryConfig" parent="GenericItem" component="create-wizard" merge-by="type" >
 			<wz:flow  id="ItemWizard" title="create.title(ctx.TYPE_CODE)">
