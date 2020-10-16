@@ -7,6 +7,7 @@
 		xmlns:list-view="http://www.hybris.com/cockpitng/component/listView"
 		xmlns:wz="http://www.hybris.com/cockpitng/config/wizard-config"
 		xmlns:hybris="http://www.hybris.com/cockpit/config/hybris"
+		xmlns:ea="http://www.hybris.com/cockpitng/component/editorArea"
 		xmlns:y="http://www.hybris.com/cockpit/config/hybris"
 		xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree">
 
@@ -17,5 +18,71 @@
 	<!--</context>-->
 
 	<!--Explorer tree -->
+
+	<context component="explorer-tree" module="cloudinarymediabackoffice">
+		<explorer-tree:explorer-tree>
+			<explorer-tree:navigation-node id="hmc_treenode_cloudinary">
+				<explorer-tree:type-node code="CloudinaryConfig" id="hmc_typenode_cloudinaryconfig"/>
+			</explorer-tree:navigation-node>
+		</explorer-tree:explorer-tree>
+	</context>
+
+		<context type="CloudinaryConfig" parent="GenericItem" component="create-wizard" merge-by="type" >
+			<wz:flow  id="ItemWizard" title="create.title(ctx.TYPE_CODE)">
+				<wz:prepare id="itemPrepare">
+					<wz:initialize property="newCloudinaryConfig" type="ctx.TYPE_CODE" />
+				</wz:prepare>
+				<wz:step id="step1" label="create.cloudinaryconfig.configuration">
+					<wz:content id="step1.content">
+						<wz:property-list root="newCloudinaryConfig">
+							<wz:property qualifier="enableCloudinary" type="java.lang.Boolean" />
+							<wz:property qualifier="cloudinaryURL" type="java.lang.String" />
+							<wz:property qualifier="cloudinaryCname" type="java.lang.String" />
+							<wz:property qualifier="globalCloudinaryImageTransformation" type="java.lang.String" />
+							<wz:property qualifier="globalCloudinaryVideoTransformation" type="java.lang.String" />
+							<wz:property qualifier="cloudinaryResponsive" type="java.lang.Boolean" />
+							<wz:property qualifier="cloudinaryImageWidthLimitMax" type="java.lang.Integer" />
+							<wz:property qualifier="cloudinaryImageWidthLimitMin" type="java.lang.Integer" />
+							<wz:property qualifier="enableCloudinaryGalleryWidget" type="java.lang.Boolean" />
+							<wz:property qualifier="cloudinaryByteStep" type="java.lang.String" />
+							<wz:property qualifier="cloudinaryFolderPath" type="java.lang.String" />
+							<wz:property qualifier="cloudinaryImageFormat" type="java.lang.String" />
+							<wz:property qualifier="cloudinaryMaxBreakPoints" type="java.lang.Integer" />
+							<wz:property qualifier="cloudinaryQuality" type="java.lang.String" />
+						</wz:property-list>
+					</wz:content>
+					<wz:navigation id="step1.navigation">
+						<wz:cancel/>
+						<wz:done>
+							<wz:save property="newCloudinaryConfig"/>
+						</wz:done>
+					</wz:navigation>
+				</wz:step>
+			</wz:flow>
+		</context>
+
+		<context component="editor-area" merge-mode="append" merge-by="type" type="CloudinaryConfig">
+			<editorArea:editorArea>
+				<editorArea:tab name="hmc.tab.cloudinaryconfig" merge-mode="append">
+					<editorArea:section name="cloudinaryconfig.section.common.attributes">
+						<editorArea:attribute qualifier="cloudinaryURL"/>
+						<editorArea:attribute qualifier="cloudinaryFolderPath"/>
+						<editorArea:attribute qualifier="cloudinaryImageFormat"/>
+						<editorArea:attribute qualifier="cloudinaryQuality"/>
+						<editorArea:attribute qualifier="cloudinaryResponsive"/>
+						<editorArea:attribute qualifier="cloudinaryMaxBreakPoints"/>
+						<editorArea:attribute qualifier="cloudinaryByteStep"/>
+						<editorArea:attribute qualifier="cloudinaryImageWidthLimitMax"/>
+						<editorArea:attribute qualifier="cloudinaryImageWidthLimitMin"/>
+						<editorArea:attribute qualifier="enableCloudinaryGalleryWidget"/>
+						<editorArea:attribute qualifier="globalCloudinaryImageTransformation"/>
+						<editorArea:attribute qualifier="globalCloudinaryVideoTransformation"/>
+						<editorArea:attribute qualifier="cloudinaryCname"/>
+					</editorArea:section>
+				</editorArea:tab>
+			</editorArea:editorArea>
+		</context>
+	</context>
+
 
 </config>
