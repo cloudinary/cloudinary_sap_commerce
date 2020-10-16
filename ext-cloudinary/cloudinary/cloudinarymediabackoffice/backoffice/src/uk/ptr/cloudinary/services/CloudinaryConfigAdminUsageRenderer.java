@@ -9,6 +9,7 @@ import com.hybris.cockpitng.widgets.editorarea.renderer.impl.AbstractEditorAreaC
 import de.hybris.platform.servicelayer.model.ModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ObjectUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
@@ -34,34 +35,48 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
     public CloudinaryConfigAdminUsageRenderer() {
     }
 
-    protected boolean setConnectionDetailsOnDiv(CloudinaryConfigModel cloudinaryConfigModel, Div newValueContainer, Label label, Html html, Hbox boxHeader) {
+    protected String setConnectionDetailsOnDiv(CloudinaryConfigModel cloudinaryConfigModel, Div newValueContainer, Label label, Html html, Hbox boxHeader) throws Exception {
 
-        ApiResponse response = adminApiService.getCloudinaryPlanInfo(cloudinaryConfigModel);
+        ApiResponse response = null;
 
-        if (response != null) {
-            Map<String, Integer> storageUsage = new HashMap<>();
-            Map<String, Integer> banditUsages = new HashMap<>();
-            Map<String, Integer> transformationUsages = new HashMap<>();
-
-            storageUsage = (Map<String, Integer>) response.get("bandwidth");
-            banditUsages = (Map<String, Integer>) response.get("bandwidth");
-            transformationUsages = (Map<String, Integer>) response.get("bandwidth");
-
-            label.setValue(CloudinarymediacoreConstants.CONNECTED);
-            label.setSclass("yw-labelstyle-z-label");
-            boxHeader.appendChild(label);
-
-            String usagesData = CloudinarymediacoreConstants.STORAGE_USUAGE + storageUsage.get("usage") + CloudinarymediacoreConstants.BANDWIDTH_USUAGE + banditUsages.get("usage") + CloudinarymediacoreConstants.TRANSFORMATION_USUAGE + transformationUsages.get("usage");
-
-
-            html.setContent(usagesData);
-            html.setSclass("yw-editorarea-z-html");
-            newValueContainer.setSclass("yw-editorarea-z-div");
-            newValueContainer.appendChild(boxHeader);
-            newValueContainer.appendChild(html);
-            return true;
+        try {
+            response = adminApiService.getCloudinaryPlanInfo(cloudinaryConfigModel);
         }
-        return false;
+        catch (IllegalArgumentException illegalException) {
+            LOG.error("Illegal Argument " + illegalException.getMessage());
+            return illegalException.getMessage();
+        }
+        catch (Exception e) {
+            LOG.error("Exception occured calling Admin Usage API " + e.getMessage());
+            return e.getMessage();
+        }
+        if (response != null) {
+            return setUsageResponseData(newValueContainer, label, html, boxHeader, response);
+        }
+        return Boolean.FALSE.toString();
+    }
+
+    private String setUsageResponseData(Div newValueContainer, Label label, Html html, Hbox boxHeader, ApiResponse response) {
+        Map<String, Integer> storageUsage = new HashMap<>();
+        Map<String, Integer> banditUsages = new HashMap<>();
+        Map<String, Integer> transformationUsages = new HashMap<>();
+
+        storageUsage = (Map<String, Integer>) response.get("bandwidth");
+        banditUsages = (Map<String, Integer>) response.get("bandwidth");
+        transformationUsages = (Map<String, Integer>) response.get("bandwidth");
+
+        label.setValue(CloudinarymediacoreConstants.CONNECTED);
+        label.setSclass("yw-labelstyle-z-label");
+        boxHeader.appendChild(label);
+
+        String usagesData = CloudinarymediacoreConstants.STORAGE_USUAGE + storageUsage.get("usage") + CloudinarymediacoreConstants.BANDWIDTH_USUAGE + banditUsages.get("usage") + CloudinarymediacoreConstants.TRANSFORMATION_USUAGE + transformationUsages.get("usage");
+
+        html.setContent(usagesData);
+        html.setSclass("yw-editorarea-z-html");
+        newValueContainer.setSclass("yw-editorarea-z-div");
+        newValueContainer.appendChild(boxHeader);
+        newValueContainer.appendChild(html);
+        return Boolean.TRUE.toString();
     }
 
     @Override
@@ -70,17 +85,21 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         Div usageResponseDiv = new Div();
         final Div enableCloudinaryRadioDiv = new Div();
         final Div radioDiv = new Div();
+        final Html nextHtml = new Html();
         final Html html = new Html();
         Hbox boxHeader = new Hbox();
 
+        nextHtml.setContent("&nbsp;<br>");
+
         Label enableCloudinaryFieldName = new Label(CloudinarymediacoreConstants.ENABLE_CLOUDINARY);
         Label cloudinaryConnectionLabel = new Label();
+        Label connectionErrorMessage = new Label("");
 
         UITools.modifySClass(enableCloudinaryFieldName, "yw-enablelabelstyle", true);
         UITools.modifySClass(cloudinaryConnectionLabel, "yw-labelstyle-z-label", true);
+        UITools.modifySClass(connectionErrorMessage, "yw-error-connection-labelstyle-z-label", true);
 
         enableCloudinaryRadioDiv.appendChild(enableCloudinaryFieldName);
-
 
         Radio trueCheck = new Radio();
         trueCheck.setLabel("True");
@@ -104,42 +123,53 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         radioDiv.appendChild(falseCheck);
         usageResponseDiv.appendChild(enableCloudinaryRadioDiv);
         usageResponseDiv.appendChild(radioDiv);
+        usageResponseDiv.appendChild(nextHtml);
 
         if (cloudinaryConfigModel.getEnableCloudinary()) {
-            setConnectionDetailsOnDiv(cloudinaryConfigModel, usageResponseDiv, cloudinaryConnectionLabel, html, boxHeader);
+            try {
+                setConnectionDetailsOnDiv(cloudinaryConfigModel, usageResponseDiv, cloudinaryConnectionLabel, html, boxHeader);
+            } catch (IllegalArgumentException illegalException) {
+                LOG.error("Illegal Argument " + illegalException.getMessage());
+            } catch (Exception e) {
+                LOG.error("Exception occured calling Admin Usage API " + e.getMessage());
+            }
         } else {
             cloudinaryConnectionLabel.setValue(CloudinarymediacoreConstants.NOT_CONNECTED);
         }
 
         trueCheck.addEventListener(Events.ON_CLICK, (event) -> {
-            boolean isConnectionEnabled = setConnectionDetailsOnDiv(cloudinaryConfigModel, usageResponseDiv, cloudinaryConnectionLabel, html, boxHeader);
-            if (isConnectionEnabled) {
+            modelService.refresh(cloudinaryConfigModel);
+            String response = setConnectionDetailsOnDiv(cloudinaryConfigModel, usageResponseDiv, cloudinaryConnectionLabel, html, boxHeader);
+            if (response.equalsIgnoreCase("true")) {
                 falseCheck.setChecked(Boolean.FALSE);
                 cloudinaryConfigModel.setEnableCloudinary(true);
+                connectionErrorMessage.setValue("");
                 modelService.save(cloudinaryConfigModel);
-            }
-            else {
+            } else {
                 falseCheck.setChecked(Boolean.TRUE);
+                trueCheck.setChecked(Boolean.FALSE);
                 cloudinaryConnectionLabel.setValue(CloudinarymediacoreConstants.NOT_CONNECTED);
-                html.setContent("");
+                connectionErrorMessage.setValue(response);
+                html.setContent("&nbsp;");
                 boxHeader.appendChild(cloudinaryConnectionLabel);
-                usageResponseDiv.appendChild(boxHeader);
-                usageResponseDiv.appendChild(html);
             }
         });
 
         falseCheck.addEventListener(Events.ON_CLICK, (event) -> {
+            modelService.refresh(cloudinaryConfigModel);
             trueCheck.setChecked(Boolean.FALSE);
             cloudinaryConnectionLabel.setValue(CloudinarymediacoreConstants.NOT_CONNECTED);
             html.setContent("");
             boxHeader.appendChild(cloudinaryConnectionLabel);
-            usageResponseDiv.appendChild(boxHeader);
-            usageResponseDiv.appendChild(html);
+            connectionErrorMessage.setValue("");
 
             cloudinaryConfigModel.setEnableCloudinary(false);
             modelService.save(cloudinaryConfigModel);
-
         });
+
+        usageResponseDiv.appendChild(boxHeader);
+        usageResponseDiv.appendChild(html);
+        usageResponseDiv.appendChild(connectionErrorMessage);
         usageResponseDiv.setParent(component);
 
     }

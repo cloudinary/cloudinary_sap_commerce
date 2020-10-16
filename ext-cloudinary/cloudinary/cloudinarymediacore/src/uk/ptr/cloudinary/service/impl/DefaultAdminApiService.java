@@ -22,20 +22,16 @@ public class DefaultAdminApiService implements AdminApiService {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultAdminApiService.class);
 
     @Override
-    public ApiResponse getCloudinaryPlanInfo(CloudinaryConfigModel cloudinaryConfigModel) {
+    public ApiResponse getCloudinaryPlanInfo(CloudinaryConfigModel cloudinaryConfigModel) throws IllegalArgumentException, Exception{
 
-        try {
+
             Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
             LocalDate date = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(CloudinarymediacoreConstants.DATE_FORMAT);
 
             cloudinaryConfigModel.getCloudinaryURL();
             return cloudinary.api().usage(ObjectUtils.asMap("date", date.format(formatter)));
-        } catch (IllegalArgumentException illegalException) {
-            LOG.error("Illegal Argument " + illegalException.getMessage());
-        } catch (Exception e) {
-            LOG.error("Exception occured calling Admin Usage API " + e.getMessage());
-        }
-        return null;
+
+
     }
 }

@@ -9,5 +9,5 @@ import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 
 public interface AdminApiService {
 
-    public ApiResponse getCloudinaryPlanInfo(CloudinaryConfigModel cloudinaryConfigModel);
+    public ApiResponse getCloudinaryPlanInfo(CloudinaryConfigModel cloudinaryConfigModel) throws IllegalArgumentException, Exception;
 }
