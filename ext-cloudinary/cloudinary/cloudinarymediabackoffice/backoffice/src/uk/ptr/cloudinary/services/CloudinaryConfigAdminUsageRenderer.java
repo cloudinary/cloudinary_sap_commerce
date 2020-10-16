@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
+import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 import uk.ptr.cloudinary.service.AdminApiService;
 
@@ -22,9 +23,6 @@ import java.util.Map;
 public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaComponentRenderer<AbstractSection, CloudinaryConfigModel> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CloudinaryConfigAdminUsageRenderer.class);
-    private static final String NOT_CONNECTED = "Not Connected to Cloudinary ";
-    private static String CONNECTED = "Connected to cloudinary ";
-    private static String ENABLE_CLOUDINARY = "Enable Cloudinary ";
 
     @Resource
     private AdminApiService adminApiService;
@@ -36,11 +34,11 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
     public CloudinaryConfigAdminUsageRenderer() {
     }
 
-    protected void setConnectionDetailsOnDiv( Div newValueContainer, Label label, Html html, Hbox boxHeader) {
-        try {
+    protected boolean setConnectionDetailsOnDiv(CloudinaryConfigModel cloudinaryConfigModel, Div newValueContainer, Label label, Html html, Hbox boxHeader) {
 
-            ApiResponse response = adminApiService.getDataUsagesInformation();
+        ApiResponse response = adminApiService.getCloudinaryPlanInfo(cloudinaryConfigModel);
 
+        if (response != null) {
             Map<String, Integer> storageUsage = new HashMap<>();
             Map<String, Integer> banditUsages = new HashMap<>();
             Map<String, Integer> transformationUsages = new HashMap<>();
@@ -49,21 +47,21 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
             banditUsages = (Map<String, Integer>) response.get("bandwidth");
             transformationUsages = (Map<String, Integer>) response.get("bandwidth");
 
-            label.setValue(CONNECTED);
+            label.setValue(CloudinarymediacoreConstants.CONNECTED);
             label.setSclass("yw-labelstyle-z-label");
             boxHeader.appendChild(label);
 
-            String usagesData = "<b>Storage Usage : </b>" + storageUsage.get("usage") + "<b> | Bandwidth Usage : </b>" + banditUsages.get("usage") + "<b> | Transformation Usage : </b>" + transformationUsages.get("usage");
+            String usagesData = CloudinarymediacoreConstants.STORAGE_USUAGE + storageUsage.get("usage") + CloudinarymediacoreConstants.BANDWIDTH_USUAGE + banditUsages.get("usage") + CloudinarymediacoreConstants.TRANSFORMATION_USUAGE + transformationUsages.get("usage");
+
 
             html.setContent(usagesData);
             html.setSclass("yw-editorarea-z-html");
             newValueContainer.setSclass("yw-editorarea-z-div");
             newValueContainer.appendChild(boxHeader);
             newValueContainer.appendChild(html);
-
-        } catch (Exception e) {
-            LOG.warn("Exception occurred on Admin Usage Api call");
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -75,7 +73,7 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         final Html html = new Html();
         Hbox boxHeader = new Hbox();
 
-        Label enableCloudinaryFieldName = new Label(ENABLE_CLOUDINARY);
+        Label enableCloudinaryFieldName = new Label(CloudinarymediacoreConstants.ENABLE_CLOUDINARY);
         Label cloudinaryConnectionLabel = new Label();
 
         UITools.modifySClass(enableCloudinaryFieldName, "yw-enablelabelstyle", true);
@@ -108,21 +106,31 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         usageResponseDiv.appendChild(radioDiv);
 
         if (cloudinaryConfigModel.getEnableCloudinary()) {
-            setConnectionDetailsOnDiv(usageResponseDiv, cloudinaryConnectionLabel, html, boxHeader);
+            setConnectionDetailsOnDiv(cloudinaryConfigModel, usageResponseDiv, cloudinaryConnectionLabel, html, boxHeader);
         } else {
-            cloudinaryConnectionLabel.setValue(NOT_CONNECTED);
+            cloudinaryConnectionLabel.setValue(CloudinarymediacoreConstants.NOT_CONNECTED);
         }
 
         trueCheck.addEventListener(Events.ON_CLICK, (event) -> {
-            falseCheck.setChecked(Boolean.FALSE);
-            setConnectionDetailsOnDiv(usageResponseDiv, cloudinaryConnectionLabel, html, boxHeader);
-            cloudinaryConfigModel.setEnableCloudinary(true);
-            modelService.save(cloudinaryConfigModel);
+            boolean isConnectionEnabled = setConnectionDetailsOnDiv(cloudinaryConfigModel, usageResponseDiv, cloudinaryConnectionLabel, html, boxHeader);
+            if (isConnectionEnabled) {
+                falseCheck.setChecked(Boolean.FALSE);
+                cloudinaryConfigModel.setEnableCloudinary(true);
+                modelService.save(cloudinaryConfigModel);
+            }
+            else {
+                falseCheck.setChecked(Boolean.TRUE);
+                cloudinaryConnectionLabel.setValue(CloudinarymediacoreConstants.NOT_CONNECTED);
+                html.setContent("");
+                boxHeader.appendChild(cloudinaryConnectionLabel);
+                usageResponseDiv.appendChild(boxHeader);
+                usageResponseDiv.appendChild(html);
+            }
         });
 
         falseCheck.addEventListener(Events.ON_CLICK, (event) -> {
             trueCheck.setChecked(Boolean.FALSE);
-            cloudinaryConnectionLabel.setValue(NOT_CONNECTED);
+            cloudinaryConnectionLabel.setValue(CloudinarymediacoreConstants.NOT_CONNECTED);
             html.setContent("");
             boxHeader.appendChild(cloudinaryConnectionLabel);
             usageResponseDiv.appendChild(boxHeader);
