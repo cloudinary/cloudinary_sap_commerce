@@ -2,12 +2,24 @@
 <!--
  Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
 -->
-<!--
-	ATTENTION: This is just an example file. You have to edit it according to your needs.
--->
 
 <items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 			xsi:noNamespaceSchemaLocation="items.xsd">
+	<enumtypes>
+		<enumtype code="CloudinaryResourceType" autocreate="true" generate="true"
+				dynamic="true">
+			<description>The type of the media resource</description>
+			<value code="IMAGE" />
+			<value code="VIDEO" />
+			<value code="RAW" />
+		</enumtype>
+		<enumtype code="CloudinaryType" autocreate="true" generate="true"
+				dynamic="true">
+			<description>The type of the media </description>
+			<value code="UPLOAD" />
+			<value code="FETCH" />
+		</enumtype>
+	</enumtypes>
 
 	<itemtypes>
 
@@ -91,6 +103,44 @@
 
 			</attributes>
 
+		</itemtype>
+
+		<itemtype code="Media"
+				autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="cloudinaryURL" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="cloudinaryResourceType" type="CloudinaryResourceType">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="cloudinaryType" type="CloudinaryType">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="cloudinaryTransformation" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="cloudinaryPublicId" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="cloudinaryFetchURL" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="isCloudinaryFetch" type="java.lang.Boolean">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="isCloudinaryOverride" type="java.lang.Boolean">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+			</attributes>
 		</itemtype>
 
 	</itemtypes>
