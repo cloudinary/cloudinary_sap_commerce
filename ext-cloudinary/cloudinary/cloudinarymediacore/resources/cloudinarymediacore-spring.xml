@@ -83,4 +83,11 @@
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
     </bean>
 
+    <bean id="cloudinary" class="com.cloudinary.Cloudinary" scope="singleton">
+        <constructor-arg value="#{configurationService.configuration.getProperty('cloudinaryUrl')}"/>
+    </bean>
+
+    <bean id="adminApiService" class="uk.ptr.cloudinary.service.impl.DefaultAdminApiService" />
+
+
 </beans>

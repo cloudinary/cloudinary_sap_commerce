@@ -8,8 +8,8 @@
                 		
         
         <requires-extension name="backoffice"/>
-                		
-        
+
+        <requires-extension name="cloudinarymediacore"/>
         <!--PLACEHOLDER_FOR_SASS_REGISTRATION-->
                 		
         
