@@ -32,7 +32,7 @@ public class CloudinarymediacoreSystemSetup extends AbstractSystemSetup
 	public void createEssentialData(final SystemSetupContext context)
 	{
 		cloudinarymediacoreService.createLogo(PLATFORM_LOGO_CODE);
-		importImpexFile(context, "/cloudinarymediacore/import/cloudinaryconfig.impex", true);
+		importImpexFile(context, "/cloudinarymediacore/impex/cloudinaryconfig.impex", true);
 	}
 
 	private InputStream getImageStream()
