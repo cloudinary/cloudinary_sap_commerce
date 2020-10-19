@@ -6,33 +6,17 @@
     
     <extension abstractclassprefix="Generated" classprefix="Cloudinarymediacore" jaloLogicFree="true" managername="CloudinarymediacoreManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="cloudinarymediacore" usemaven="false">
                   
-      
-        
-        <!-- for more information on maven managed libraries please consult https://wiki.hybris.com/x/Nq8sDQ -->
-                               
-      
-        
-        <!-- you should add all required extensions to this list, except platform extensions which are automatically required -->
-                         
-      
-        
-        <!-- <requires-extension name="cms"/> -->
-                         
-      
 
-      
-        
+        <!-- for more information on maven managed libraries please consult https://wiki.hybris.com/x/Nq8sDQ -->
+
+        <!-- you should add all required extensions to this list, except platform extensions which are automatically required -->
+
+        <requires-extension name="commerceservices"/>
+
         <coremodule generated="true" manager="uk.ptr.cloudinary.jalo.CloudinarymediacoreManager" packageroot="uk.ptr.cloudinary"/>
-                      
         
         <webmodule jspcompile="false" webroot="/cloudinarymediacore"/>
-                					
-	
-        
-           
-    
-    </extension>
-              
 
+    </extension>
 
 </extensioninfo>

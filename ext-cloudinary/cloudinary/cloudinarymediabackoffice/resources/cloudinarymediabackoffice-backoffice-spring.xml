@@ -14,4 +14,9 @@
   		<property name="name" value="labels"/>
   	</bean>
 
+	<alias name="defaultCloudinaryConfigAdminUsageRenderer" alias="cloudinaryConfigAdminUsageRenderer"/>
+	<bean id="defaultCloudinaryConfigAdminUsageRenderer"
+		  class="uk.ptr.cloudinary.services.CloudinaryConfigAdminUsageRenderer"
+		  parent="abstractEditorAreaComponentRenderer">
+	</bean>
 </beans>
