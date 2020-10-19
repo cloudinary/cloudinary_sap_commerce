@@ -143,5 +143,45 @@
 			</attributes>
 		</itemtype>
 
+		<typegroup name="Category">
+		<itemtype code="Category" autocreate="false" generate="false">
+		<description>Extends existing type with additional attributes.</description>
+			<attributes>
+				<attribute qualifier="cloudinaryImageTransformation" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="cloudinaryVideoTransformation" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="isCloudinaryOverride" type="java.lang.Boolean">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+		</typegroup>
+
+		<typegroup name="Product">
+		<itemtype code="Product" autocreate="false" generate="false">
+		<description>Extends existing type with additional attributes.</description>
+			<attributes>
+				<attribute qualifier="cloudinaryImageTransformation" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="cloudinaryVideoTransformation" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="isCloudinaryOverride" type="java.lang.Boolean">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+		</typegroup>
+
 	</itemtypes>
 </items>
