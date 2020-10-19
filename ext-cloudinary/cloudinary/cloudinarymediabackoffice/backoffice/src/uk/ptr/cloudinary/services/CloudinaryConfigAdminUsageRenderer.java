@@ -137,17 +137,20 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
     protected String setConnectionDetailsOnDiv(CloudinaryConfigModel cloudinaryConfigModel, Div newValueContainer, Label label, Html html, Hbox boxHeader) throws Exception {
 
         ApiResponse response = null;
+        String errorMsg = "";
 
         try {
             response = adminApiService.getCloudinaryPlanInfo(cloudinaryConfigModel);
         }
         catch (IllegalArgumentException illegalException) {
             LOG.error("Illegal Argument " + illegalException.getMessage());
-            return illegalException.getMessage();
+            errorMsg = CloudinarymediacoreConstants.INVALID_URL +cloudinaryConfigModel.getCloudinaryURL();
+            return errorMsg;
         }
         catch (Exception e) {
             LOG.error("Exception occured calling Admin Usage API " + e.getMessage());
-            return e.getMessage();
+            errorMsg = e.getMessage();
+            return errorMsg;
         }
         if (response != null) {
             return setUsageResponseData(newValueContainer, label, html, boxHeader, response);
