@@ -1,0 +1,50 @@
+# Default ignored files
+/workspace.xml
+
+
+# IDEA related files
+.idea/
+*.iml
+*.ipr
+*.iws
+*.ids
+
+# exclude binary files
+*.class
+
+*.orig
+.pmd
+.ruleset
+ruleset.xml
+.springBeans
+.metadata/
+
+build.xml
+*testclasses.xml
+hmc.xsd
+extensioninfo.xsd
+items.xsd
+beans.xsd
+
+# Exclude jalo files
+jalo/
+
+# Exlcude auto-generated source files
+gensrc/
+addons/
+addonsrc/
+commonwebsrc/
+
+rebel.xml
+package-lock.json
+hybris4intellij.properties
+.classpath
+*/platformhome.properties
+platformhome.properties
+cloudinarymediabackoffice_bof.jar
+
+ext-cloudinary/cloudinary/cloudinarymediabackoffice/backoffice/classes
+generatedVariables.tag
+generatedVariables.js
+wro_addons.xml
+ext-cloudinary/cloudinary/cloudinarymediabackoffice/web/addontestsrc
