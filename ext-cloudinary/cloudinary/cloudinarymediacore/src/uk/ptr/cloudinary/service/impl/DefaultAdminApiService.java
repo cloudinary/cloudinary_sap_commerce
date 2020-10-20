@@ -22,16 +22,11 @@ public class DefaultAdminApiService implements AdminApiService {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultAdminApiService.class);
 
     @Override
-    public ApiResponse getCloudinaryPlanInfo(CloudinaryConfigModel cloudinaryConfigModel) throws IllegalArgumentException, Exception{
+    public ApiResponse getCloudinaryPlanInfo(String cloudinaryURL) throws IllegalArgumentException, Exception{
 
-
-            Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
+            Cloudinary cloudinary = new Cloudinary(cloudinaryURL);
             LocalDate date = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(CloudinarymediacoreConstants.DATE_FORMAT);
-
-            cloudinaryConfigModel.getCloudinaryURL();
             return cloudinary.api().usage(ObjectUtils.asMap("date", date.format(formatter)));
-
-
     }
 }

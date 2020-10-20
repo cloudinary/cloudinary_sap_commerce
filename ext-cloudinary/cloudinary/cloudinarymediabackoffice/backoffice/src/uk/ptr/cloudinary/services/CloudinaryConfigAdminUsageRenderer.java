@@ -140,7 +140,10 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         String errorMsg = "";
 
         try {
-            response = adminApiService.getCloudinaryPlanInfo(cloudinaryConfigModel);
+            if(cloudinaryConfigModel != null)
+            {
+                response = adminApiService.getCloudinaryPlanInfo(cloudinaryConfigModel.getCloudinaryURL());
+            }
         }
         catch (IllegalArgumentException illegalException) {
             LOG.error("Illegal Argument " + illegalException.getMessage());
