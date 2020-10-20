@@ -6,7 +6,7 @@ package uk.ptr.cloudinary.service;
 
 import de.hybris.platform.core.model.media.MediaModel;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
-import uk.ptr.cloudinary.response.UplaodApiResponseData;
+import uk.ptr.cloudinary.response.UploadApiResponseData;
 
 import java.io.IOException;
 import java.util.Map;
@@ -32,14 +32,15 @@ public interface UploadApiService
      Map deleteAsset(String cloudinaryURL, String publicId) throws IOException;
 
     /**
-     *  Upload Api
+     * Upload API
      *
      * @param cloudinaryConfigModel
      * @param mediaModel
+     * @param tag
      * @return
      * @throws IllegalArgumentException
      * @throws Exception
      */
-     UplaodApiResponseData uploadMedia(CloudinaryConfigModel cloudinaryConfigModel, MediaModel mediaModel) throws IllegalArgumentException, Exception;
+     UploadApiResponseData uploadMedia(CloudinaryConfigModel cloudinaryConfigModel, MediaModel mediaModel, String tag) throws IllegalArgumentException, Exception;
 
     }

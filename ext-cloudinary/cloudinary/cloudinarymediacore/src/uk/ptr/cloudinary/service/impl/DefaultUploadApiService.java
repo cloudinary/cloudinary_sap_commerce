@@ -14,7 +14,7 @@ import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.enums.CloudinaryResourceType;
 import uk.ptr.cloudinary.enums.CloudinaryType;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
-import uk.ptr.cloudinary.response.UplaodApiResponseData;
+import uk.ptr.cloudinary.response.UploadApiResponseData;
 import uk.ptr.cloudinary.service.UploadApiService;
 
 
@@ -32,43 +32,42 @@ public class DefaultUploadApiService implements UploadApiService
 
         return cloudinary.uploader().destroy(publicId,ObjectUtils.asMap("invalidate", Boolean.TRUE));
     }
-    @Override
-    public UplaodApiResponseData uploadMedia(CloudinaryConfigModel cloudinaryConfigModel, MediaModel mediaModel) throws IllegalArgumentException, Exception {
 
+    @Override
+    public UploadApiResponseData uploadMedia(CloudinaryConfigModel cloudinaryConfigModel, MediaModel mediaModel, String tag) throws IllegalArgumentException, Exception {
         try {
             Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
 
             Map params = ObjectUtils.asMap(
-                    CloudinarymediacoreConstants.PUBLIC_ID, "apparelImages",
+                    CloudinarymediacoreConstants.PUBLIC_ID, mediaModel.getCloudinaryPublicId(),
                     CloudinarymediacoreConstants.FOLDER, cloudinaryConfigModel.getCloudinaryFolderPath(),
                     CloudinarymediacoreConstants.OVERWRITE, true,
-                    CloudinarymediacoreConstants.RESOURCE_TYPE, "auto",
-                    CloudinarymediacoreConstants.TAGS, "myapparel, store, newtag"
+                    CloudinarymediacoreConstants.RESOURCE_TYPE, CloudinaryResourceType.AUTO,
+                    CloudinarymediacoreConstants.TAGS, tag
             );
 
             Map map = cloudinary.uploader().upload(mediaModel.getURL(), params);
 
             final ObjectMapper mapper = new ObjectMapper();
-            final UplaodApiResponseData responseData = mapper.convertValue(map, UplaodApiResponseData.class);
+            final UploadApiResponseData responseData = mapper.convertValue(map, UploadApiResponseData.class);
 
             mediaModel.setCloudinaryPublicId(responseData.getPublic_id());
             mediaModel.setCloudinaryURL(responseData.getSecure_url());
             mediaModel.setCloudinaryResourceType(CloudinaryResourceType.valueOf(responseData.getResource_type()));
-            mediaModel.setIsCloudinaryOverride(Boolean.valueOf(responseData.getOverwritten()));
+            mediaModel.setIsCloudinaryOverride(Boolean.valueOf(responseData.getOverwrite()));
             mediaModel.setCloudinaryType(CloudinaryType.valueOf(responseData.getType()));
 
             mediaModel.setCloudinaryResourceType(CloudinaryResourceType.IMAGE);
             return responseData;
         }
         catch (IllegalArgumentException illegalException) {
-            LOG.error("Illegal Argument " + illegalException.getMessage());
-            return null;
+            LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);
         }
         catch (Exception e) {
-            LOG.error("Exception occurred calling Upload  API " + e.getMessage());
-            return null;
+            LOG.error("Exception occurred calling Upload  API " + e.getMessage() , e);
         }
-
+        return null;
     }
+
 
 }

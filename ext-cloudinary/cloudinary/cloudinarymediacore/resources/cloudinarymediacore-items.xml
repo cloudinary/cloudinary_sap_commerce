@@ -12,6 +12,7 @@
 			<value code="IMAGE" />
 			<value code="VIDEO" />
 			<value code="RAW" />
+			<value code="AUTO" />
 		</enumtype>
 		<enumtype code="CloudinaryType" autocreate="true" generate="true"
 				dynamic="true">
