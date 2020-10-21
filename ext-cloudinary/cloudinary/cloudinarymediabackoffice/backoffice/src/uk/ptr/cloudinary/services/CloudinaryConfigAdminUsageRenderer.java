@@ -179,7 +179,7 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         label.setSclass("yw-labelstyle-z-label");
         boxHeader.appendChild(label);
 
-        String usagesData = response.get("plan") + CloudinarymediacoreConstants.TOTAL_STORAGE_LIMIT + limit.get("limit") + CloudinarymediacoreConstants.STORAGE_USUAGE + storageUsageMB + CloudinarymediacoreConstants.KB + storageUsage.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE   + CloudinarymediacoreConstants.BANDWIDTH_USUAGE + banditUsagesKB + CloudinarymediacoreConstants.KB + banditUsages.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE + CloudinarymediacoreConstants.TRANSFORMATION_USUAGE + transformationUsages.get("usage") + " "+ transformationUsages.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE;
+        String usagesData = response.get("plan") + CloudinarymediacoreConstants.TOTAL_STORAGE_LIMIT + limit.get("limit") + CloudinarymediacoreConstants.STORAGE_USUAGE + storageUsageMB + CloudinarymediacoreConstants.MB + storageUsage.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE   + CloudinarymediacoreConstants.BANDWIDTH_USUAGE + banditUsagesKB + CloudinarymediacoreConstants.KB + banditUsages.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE + CloudinarymediacoreConstants.TRANSFORMATION_USUAGE + transformationUsages.get("usage") + " "+ transformationUsages.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE;
 
         html.setContent(usagesData);
         html.setSclass("yw-editorarea-z-html");
