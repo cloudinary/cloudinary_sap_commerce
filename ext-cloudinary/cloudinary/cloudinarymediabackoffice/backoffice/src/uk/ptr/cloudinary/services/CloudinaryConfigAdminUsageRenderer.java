@@ -163,23 +163,23 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
 
     private String setUsageResponseData(Div newValueContainer, Label label, Html html, Hbox boxHeader, ApiResponse response) {
         Map<String, Integer> storageUsage = new HashMap<>();
-        Map<String, Integer> banditUsages = new HashMap<>();
+        Map<String, Integer> bandwidthUsages = new HashMap<>();
         Map<String, Integer> transformationUsages = new HashMap<>();
         Map<String, Double> limit = new HashMap<>();
 
         storageUsage = (Map<String, Integer>) response.get("storage");
-        banditUsages = (Map<String, Integer>) response.get("bandwidth");
+        bandwidthUsages = (Map<String, Integer>) response.get("bandwidth");
         transformationUsages = (Map<String, Integer>) response.get("transformations");
         limit = (Map<String, Double>) response.get("credits");
 
         Integer storageUsageMB = storageUsage.get("usage")/(1024*1024);
-        Integer banditUsagesKB = banditUsages.get("usage")/1024;
+        Integer banditUsagesKB = bandwidthUsages.get("usage")/1024;
 
         label.setValue(CloudinarymediacoreConstants.CONNECTED);
         label.setSclass("yw-labelstyle-z-label");
         boxHeader.appendChild(label);
 
-        String usagesData = response.get("plan") + CloudinarymediacoreConstants.TOTAL_STORAGE_LIMIT + limit.get("limit") + CloudinarymediacoreConstants.STORAGE_USUAGE + storageUsageMB + CloudinarymediacoreConstants.KB + storageUsage.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE   + CloudinarymediacoreConstants.BANDWIDTH_USUAGE + banditUsagesKB + CloudinarymediacoreConstants.KB + banditUsages.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE + CloudinarymediacoreConstants.TRANSFORMATION_USUAGE + transformationUsages.get("usage") + " "+ transformationUsages.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE;
+        String usagesData = response.get("plan") + CloudinarymediacoreConstants.TOTAL_STORAGE_LIMIT + limit.get("limit") + CloudinarymediacoreConstants.STORAGE_USUAGE + storageUsageMB + CloudinarymediacoreConstants.MB + storageUsage.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE   + CloudinarymediacoreConstants.BANDWIDTH_USUAGE + banditUsagesKB + CloudinarymediacoreConstants.KB + bandwidthUsages.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE + CloudinarymediacoreConstants.TRANSFORMATION_USUAGE + transformationUsages.get("usage") + " "+ transformationUsages.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE;
 
         html.setContent(usagesData);
         html.setSclass("yw-editorarea-z-html");
