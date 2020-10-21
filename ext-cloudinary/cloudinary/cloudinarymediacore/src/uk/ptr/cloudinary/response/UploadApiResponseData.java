@@ -6,31 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UploadApiResponseData {
 
-    @JsonProperty("overwritten")
-    private String overwrite;
-    private String signature;
-    private String format;
     private String resource_type;
     private String type;
     private String secure_url;
-    private String original_filename;
     private String public_id;
-
-    public String getSignature() {
-        return signature;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
-    }
-
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
 
     public String getResource_type() {
         return resource_type;
@@ -50,26 +29,6 @@ public class UploadApiResponseData {
 
     public String getSecure_url() {
         return secure_url;
-    }
-
-    public String getOverwrite() {
-        return overwrite;
-    }
-
-    public void setOverwrite(String overwrite) {
-        this.overwrite = overwrite;
-    }
-
-    public void setSecure_url(String secure_url) {
-        this.secure_url = secure_url;
-    }
-
-    public String getOriginal_filename() {
-        return original_filename;
-    }
-
-    public void setOriginal_filename(String original_filename) {
-        this.original_filename = original_filename;
     }
 
     public String getPublic_id() {

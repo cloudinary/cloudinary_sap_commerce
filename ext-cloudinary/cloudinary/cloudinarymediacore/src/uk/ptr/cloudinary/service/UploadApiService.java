@@ -41,6 +41,6 @@ public interface UploadApiService
      * @throws IllegalArgumentException
      * @throws Exception
      */
-     UploadApiResponseData uploadMedia(CloudinaryConfigModel cloudinaryConfigModel, MediaModel mediaModel, String tag) throws IllegalArgumentException, Exception;
+     UploadApiResponseData uploadAsset(CloudinaryConfigModel cloudinaryConfigModel, MediaModel mediaModel, String tag) throws IllegalArgumentException, Exception;
 
     }

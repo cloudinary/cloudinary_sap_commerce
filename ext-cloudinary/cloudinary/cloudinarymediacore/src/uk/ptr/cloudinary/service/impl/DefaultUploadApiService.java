@@ -34,7 +34,7 @@ public class DefaultUploadApiService implements UploadApiService
     }
 
     @Override
-    public UploadApiResponseData uploadMedia(CloudinaryConfigModel cloudinaryConfigModel, MediaModel mediaModel, String tag) throws IllegalArgumentException, Exception {
+    public UploadApiResponseData uploadAsset(CloudinaryConfigModel cloudinaryConfigModel, MediaModel mediaModel, String tag) throws IllegalArgumentException, Exception {
         try {
             Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
 
@@ -54,10 +54,8 @@ public class DefaultUploadApiService implements UploadApiService
             mediaModel.setCloudinaryPublicId(responseData.getPublic_id());
             mediaModel.setCloudinaryURL(responseData.getSecure_url());
             mediaModel.setCloudinaryResourceType(CloudinaryResourceType.valueOf(responseData.getResource_type()));
-            mediaModel.setIsCloudinaryOverride(Boolean.valueOf(responseData.getOverwrite()));
             mediaModel.setCloudinaryType(CloudinaryType.valueOf(responseData.getType()));
 
-            mediaModel.setCloudinaryResourceType(CloudinaryResourceType.IMAGE);
             return responseData;
         }
         catch (IllegalArgumentException illegalException) {
