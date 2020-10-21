@@ -13,9 +13,13 @@
 
 	<!-- cloudinarymediabackoffice UI configuration should be provided here -->
 
-	<!--<context component="component-code" module="cloudinarymediabackoffice">-->
-		<!--Please check documentation for code snippets for specific components-->
-	<!--</context>-->
+	<context merge-by="type" parent="GenericItem" type="CloudinaryConfig" component="base">
+		<y:base>
+			<y:labels>
+				<y:label>'Cloudinary'+' '+ 'Configuration'</y:label>
+			</y:labels>
+		</y:base>
+	</context>
 
 	<!--Explorer tree -->
 
