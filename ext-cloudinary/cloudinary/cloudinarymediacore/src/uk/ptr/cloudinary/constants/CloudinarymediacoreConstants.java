@@ -27,4 +27,11 @@ public final class CloudinarymediacoreConstants extends GeneratedCloudinarymedia
 	public static final String BANDWIDTH_USUAGE ="<b> | Bandwidth Usage : </b>";
 	public static final String TRANSFORMATION_USUAGE ="<b> | Transformation Usage : </b>";
 	public static final String INVALID_URL ="Invalid URL : ";
+
+	public static final String PUBLIC_ID = "public_id";
+	public static final String FOLDER = "folder";
+	public static final String OVERWRITE = "overwrite";
+	public static final String RESOURCE_TYPE = "resource_type";
+	public static final String TAGS = "tags";
+
 }

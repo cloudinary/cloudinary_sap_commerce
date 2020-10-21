@@ -1,2 +1,2 @@
 INSERT_UPDATE CloudinaryConfig;enableCloudinary[unique=true];cloudinaryURL[unique=true];cloudinaryCname[unique=true];cloudinaryByteStep;cloudinaryFolderPath;cloudinaryImageFormat;cloudinaryImageWidthLimitMax;cloudinaryImageWidthLimitMin;cloudinaryMaxBreakPoints;cloudinaryQuality;cloudinaryResponsive;globalCloudinaryImageTransformation;globalCloudinaryVideoTransformation;
-;true;cloudinary://374658688623197:n0nPzQUL64sZcL4q6sDWbtFuOwI@portaltech-reply;Cloudinary Name;20000;;;80;50;5;;true;;;
+;true;cloudinary://374658688623197:n0nPzQUL64sZcL4q6sDWbtFuOwI@portaltech-reply;Cloudinary Name;20000;apparel/myApparel;;80;50;5;;true;;;

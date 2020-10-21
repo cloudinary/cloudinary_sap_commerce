@@ -86,4 +86,6 @@
 
     <bean id="adminApiService" class="uk.ptr.cloudinary.service.impl.DefaultAdminApiService"/>
 
+    <bean id="uploadApiService" class="uk.ptr.cloudinary.service.impl.DefaultUploadApiService"/>
+
 </beans>
