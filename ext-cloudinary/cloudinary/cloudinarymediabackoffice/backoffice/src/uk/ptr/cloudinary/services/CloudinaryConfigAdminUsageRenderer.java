@@ -165,16 +165,21 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         Map<String, Integer> storageUsage = new HashMap<>();
         Map<String, Integer> banditUsages = new HashMap<>();
         Map<String, Integer> transformationUsages = new HashMap<>();
+        Map<String, Double> limit = new HashMap<>();
 
-        storageUsage = (Map<String, Integer>) response.get("bandwidth");
+        storageUsage = (Map<String, Integer>) response.get("storage");
         banditUsages = (Map<String, Integer>) response.get("bandwidth");
-        transformationUsages = (Map<String, Integer>) response.get("bandwidth");
+        transformationUsages = (Map<String, Integer>) response.get("transformations");
+        limit = (Map<String, Double>) response.get("credits");
+
+        Integer storageUsageMB = storageUsage.get("usage")/(1024*1024);
+        Integer banditUsagesKB = banditUsages.get("usage")/1024;
 
         label.setValue(CloudinarymediacoreConstants.CONNECTED);
         label.setSclass("yw-labelstyle-z-label");
         boxHeader.appendChild(label);
 
-        String usagesData = CloudinarymediacoreConstants.STORAGE_USUAGE + storageUsage.get("usage") + CloudinarymediacoreConstants.BANDWIDTH_USUAGE + banditUsages.get("usage") + CloudinarymediacoreConstants.TRANSFORMATION_USUAGE + transformationUsages.get("usage");
+        String usagesData = response.get("plan") + CloudinarymediacoreConstants.TOTAL_STORAGE_LIMIT + limit.get("limit") + CloudinarymediacoreConstants.STORAGE_USUAGE + storageUsageMB + CloudinarymediacoreConstants.KB + storageUsage.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE   + CloudinarymediacoreConstants.BANDWIDTH_USUAGE + banditUsagesKB + CloudinarymediacoreConstants.KB + banditUsages.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE + CloudinarymediacoreConstants.TRANSFORMATION_USUAGE + transformationUsages.get("usage") + " "+ transformationUsages.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE;
 
         html.setContent(usagesData);
         html.setSclass("yw-editorarea-z-html");
