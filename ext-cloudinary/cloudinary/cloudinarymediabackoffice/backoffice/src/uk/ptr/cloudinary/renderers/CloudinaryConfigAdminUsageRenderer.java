@@ -1,21 +1,24 @@
-package uk.ptr.cloudinary.services;
+package uk.ptr.cloudinary.renderers;
 
 import com.cloudinary.api.ApiResponse;
 import com.hybris.cockpitng.core.config.impl.jaxb.editorarea.AbstractSection;
 import com.hybris.cockpitng.dataaccess.facades.type.DataType;
 import com.hybris.cockpitng.engine.WidgetInstanceManager;
+import com.hybris.cockpitng.util.MessageboxUtils;
 import com.hybris.cockpitng.util.UITools;
 import com.hybris.cockpitng.widgets.editorarea.renderer.impl.AbstractEditorAreaComponentRenderer;
 import de.hybris.platform.servicelayer.model.ModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.ObjectUtils;
+import org.zkoss.util.resource.Labels;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 import uk.ptr.cloudinary.service.AdminApiService;
+import org.zkoss.zul.Messagebox;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -31,9 +34,6 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
     @Resource
     private ModelService modelService;
 
-
-    public CloudinaryConfigAdminUsageRenderer() {
-    }
 
     @Override
     public void render(Component component, AbstractSection abstractSectionConfiguration, CloudinaryConfigModel cloudinaryConfigModel, DataType dataType, WidgetInstanceManager widgetInstanceManager) {
@@ -71,33 +71,56 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         }
 
         trueCheck.addEventListener(Events.ON_CLICK, (event) -> {
-            modelService.refresh(cloudinaryConfigModel);
-            String response = setConnectionDetailsOnDiv(cloudinaryConfigModel, usageResponseDiv, cloudinaryConnectionLabel, html, boxHeader);
-            if (response.equalsIgnoreCase("true")) {
-                falseCheck.setChecked(Boolean.FALSE);
-                cloudinaryConfigModel.setEnableCloudinary(true);
-                connectionErrorMessage.setValue("");
-                modelService.save(cloudinaryConfigModel);
-            } else {
-                falseCheck.setChecked(Boolean.TRUE);
-                trueCheck.setChecked(Boolean.FALSE);
-                cloudinaryConnectionLabel.setValue(CloudinarymediacoreConstants.NOT_CONNECTED);
-                html.setContent("&nbsp;");
-                boxHeader.appendChild(cloudinaryConnectionLabel);
-                connectionErrorMessage.setValue(response);
-            }
+            Messagebox.show(getLabel("configuration.messagebox.message"),getLabel("configuration.messagebox.title"),MessageboxUtils.NO_YES_OPTION,Messagebox.QUESTION,new EventListener<Messagebox.ClickEvent>() {
+                @Override
+                public void onEvent(final Messagebox.ClickEvent evt) throws Exception {
+                    if (Messagebox.ON_YES.equals(evt.getName())) {
+                        // Code if yes clicked
+                        modelService.refresh(cloudinaryConfigModel);
+                        String response = setConnectionDetailsOnDiv(cloudinaryConfigModel, usageResponseDiv, cloudinaryConnectionLabel, html, boxHeader);
+                        if (response.equalsIgnoreCase("true")) {
+                            falseCheck.setChecked(Boolean.FALSE);
+                            cloudinaryConfigModel.setEnableCloudinary(true);
+                            connectionErrorMessage.setValue("");
+                            modelService.save(cloudinaryConfigModel);
+                        } else {
+                            falseCheck.setChecked(Boolean.TRUE);
+                            trueCheck.setChecked(Boolean.FALSE);
+                            cloudinaryConnectionLabel.setValue(CloudinarymediacoreConstants.NOT_CONNECTED);
+                            html.setContent("&nbsp;");
+                            boxHeader.appendChild(cloudinaryConnectionLabel);
+                            connectionErrorMessage.setValue(response);
+                        }
+                    }else{
+                        trueCheck.setChecked(Boolean.FALSE);
+                    }
+                }
+            });
+
         });
 
         falseCheck.addEventListener(Events.ON_CLICK, (event) -> {
-            modelService.refresh(cloudinaryConfigModel);
-            trueCheck.setChecked(Boolean.FALSE);
-            cloudinaryConnectionLabel.setValue(CloudinarymediacoreConstants.NOT_CONNECTED);
-            html.setContent("");
-            boxHeader.appendChild(cloudinaryConnectionLabel);
-            connectionErrorMessage.setValue("");
+            Messagebox.show(getLabel("configuration.messagebox.message"),getLabel("configuration.messagebox.title"),MessageboxUtils.NO_YES_OPTION,Messagebox.QUESTION,new EventListener<Messagebox.ClickEvent>()
+            {
+                @Override
+                public void onEvent(final Messagebox.ClickEvent evt) throws Exception
+                {
+                    if (Messagebox.ON_YES.equals(evt.getName()))
+                    {
+                        modelService.refresh(cloudinaryConfigModel);
+                        trueCheck.setChecked(Boolean.FALSE);
+                        cloudinaryConnectionLabel.setValue(CloudinarymediacoreConstants.NOT_CONNECTED);
+                        html.setContent("");
+                        boxHeader.appendChild(cloudinaryConnectionLabel);
+                        connectionErrorMessage.setValue("");
 
-            cloudinaryConfigModel.setEnableCloudinary(false);
-            modelService.save(cloudinaryConfigModel);
+                        cloudinaryConfigModel.setEnableCloudinary(false);
+                        modelService.save(cloudinaryConfigModel);
+                    }else{
+                        falseCheck.setChecked(Boolean.FALSE);
+                    }
+                }
+            });
         });
 
         usageResponseDiv.appendChild(boxHeader);
@@ -105,6 +128,10 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         usageResponseDiv.appendChild(connectionErrorMessage);
         usageResponseDiv.setParent(component);
 
+    }
+
+    private String getLabel(String key) {
+        return Labels.getLabel(key);
     }
 
     private void setStyleAndContent(Component component, CloudinaryConfigModel cloudinaryConfigModel, Div usageResponseDiv, Div enableCloudinaryRadioDiv, Div radioDiv, Html nextHtml, Label enableCloudinaryFieldName, Label cloudinaryConnectionLabel, Label connectionErrorMessage, Radio trueCheck, Radio falseCheck) {
@@ -179,9 +206,10 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         label.setSclass("yw-labelstyle-z-label");
         boxHeader.appendChild(label);
 
-        String usagesData = response.get("plan") + CloudinarymediacoreConstants.TOTAL_STORAGE_LIMIT + limit.get("limit") + CloudinarymediacoreConstants.STORAGE_USUAGE + storageUsageMB + CloudinarymediacoreConstants.MB + storageUsage.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE   + CloudinarymediacoreConstants.BANDWIDTH_USUAGE + banditUsagesKB + CloudinarymediacoreConstants.KB + bandwidthUsages.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE + CloudinarymediacoreConstants.TRANSFORMATION_USUAGE + transformationUsages.get("usage") + " "+ transformationUsages.get("credits_usage") + CloudinarymediacoreConstants.PERCENTAGE;
+        StringBuilder usagesData = new StringBuilder();
+        usagesData.append(response.get("plan")).append(CloudinarymediacoreConstants.TOTAL_STORAGE_LIMIT).append(limit.get("limit")).append(CloudinarymediacoreConstants.GB).append(CloudinarymediacoreConstants.STORAGE_USUAGE).append(storageUsageMB).append( CloudinarymediacoreConstants.MB).append(storageUsage.get("credits_usage")).append(CloudinarymediacoreConstants.PERCENTAGE).append(CloudinarymediacoreConstants.BANDWIDTH_USUAGE).append(banditUsagesKB).append(CloudinarymediacoreConstants.KB).append(bandwidthUsages.get("credits_usage")).append(CloudinarymediacoreConstants.PERCENTAGE).append(CloudinarymediacoreConstants.TRANSFORMATION_USUAGE).append(transformationUsages.get("usage")).append(" ").append(transformationUsages.get("credits_usage")).append(CloudinarymediacoreConstants.PERCENTAGE);
 
-        html.setContent(usagesData);
+        html.setContent(usagesData.toString());
         html.setSclass("yw-editorarea-z-html");
         newValueContainer.setSclass("yw-editorarea-z-div");
         newValueContainer.appendChild(boxHeader);

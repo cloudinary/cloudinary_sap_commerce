@@ -29,6 +29,7 @@ public final class CloudinarymediacoreConstants extends GeneratedCloudinarymedia
 	public static final String INVALID_URL ="Invalid URL : ";
 	public static final String KB = "<b> KB </b>";
 	public static final String MB = "<b> MB </b>";
+	public static final String GB = "<b> GB </b>";
 	public static final String PERCENTAGE = "<b>%</b>";
 	public static final String TOTAL_STORAGE_LIMIT = "<b> | Total Storage Limit : </b>";
 

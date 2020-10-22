@@ -16,7 +16,7 @@
 
 	<alias name="defaultCloudinaryConfigAdminUsageRenderer" alias="cloudinaryConfigAdminUsageRenderer"/>
 	<bean id="defaultCloudinaryConfigAdminUsageRenderer"
-		  class="uk.ptr.cloudinary.services.CloudinaryConfigAdminUsageRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigAdminUsageRenderer"
 		  parent="abstractEditorAreaComponentRenderer">
 	</bean>
 </beans>
