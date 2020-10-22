@@ -73,15 +73,15 @@
 						<editorArea:attribute qualifier="cloudinaryFolderPath"/>
 						<editorArea:attribute qualifier="cloudinaryImageFormat"/>
 						<editorArea:attribute qualifier="cloudinaryQuality"/>
-						<editorArea:attribute qualifier="cloudinaryResponsive"/>
 						<editorArea:attribute qualifier="cloudinaryMaxBreakPoints"/>
 						<editorArea:attribute qualifier="cloudinaryByteStep"/>
 						<editorArea:attribute qualifier="cloudinaryImageWidthLimitMax"/>
 						<editorArea:attribute qualifier="cloudinaryImageWidthLimitMin"/>
-						<editorArea:attribute qualifier="enableCloudinaryGalleryWidget"/>
 						<editorArea:attribute qualifier="globalCloudinaryImageTransformation"/>
 						<editorArea:attribute qualifier="globalCloudinaryVideoTransformation"/>
 						<editorArea:attribute qualifier="cloudinaryCname"/>
+						<editorArea:attribute qualifier="cloudinaryResponsive"/>
+						<editorArea:attribute qualifier="enableCloudinaryGalleryWidget"/>
 					</editorArea:section>
 					<ea:customSection name="hmc.section.cloudinary.connection" position="4"
 									  spring-bean="cloudinaryConfigAdminUsageRenderer"/>
