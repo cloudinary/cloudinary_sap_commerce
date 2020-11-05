@@ -106,8 +106,7 @@
 
 		</itemtype>
 
-		<itemtype code="Media"
-				autocreate="false" generate="false">
+		<itemtype code="Media" autocreate="false" generate="false">
 			<attributes>
 				<attribute qualifier="cloudinaryURL" type="java.lang.String">
 					<modifiers read="true" write="true" search="true"  />

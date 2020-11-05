@@ -39,4 +39,7 @@ public final class CloudinarymediacoreConstants extends GeneratedCloudinarymedia
 	public static final String RESOURCE_TYPE = "resource_type";
 	public static final String TAGS = "tags";
 
+	public static final String TEXT_FIELD = "txtBxId";
+	public static final String MEDIA_PROPERTY = "mediaProperty";
+
 }
