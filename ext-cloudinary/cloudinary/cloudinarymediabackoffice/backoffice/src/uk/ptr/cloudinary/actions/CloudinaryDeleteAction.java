@@ -15,10 +15,8 @@ import com.hybris.cockpitng.dataaccess.facades.object.exceptions.ObjectAccessExc
 import com.hybris.cockpitng.dataaccess.facades.permissions.PermissionFacade;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -51,6 +49,7 @@ public class CloudinaryDeleteAction implements CockpitAction<Object, Object>
 
     public ActionResult<Object> perform(ActionContext<Object> ctx) {
         ObjectFacadeOperationResult result = new ObjectFacadeOperationResult();
+
         List<Object> ctxObjects = this.getDataAsCollection(ctx);
         try {
             CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
@@ -61,7 +60,11 @@ public class CloudinaryDeleteAction implements CockpitAction<Object, Object>
                         MediaModel mediaModel = (MediaModel)ctxObject;
                         if(mediaModel.getCloudinaryPublicId() != null) {
                             try {
-                                uploadApiService.deleteAsset(cloudinaryConfigModel.getCloudinaryURL(), mediaModel.getCloudinaryPublicId());
+                                Map mapResponse  = uploadApiService.deleteAsset(cloudinaryConfigModel.getCloudinaryURL(), mediaModel.getCloudinaryPublicId());
+                                String response = (String) mapResponse.get("result");
+                                if (response.equalsIgnoreCase("ok") || response.equalsIgnoreCase("Not Found")) {
+                                    result = this.objectFacade.delete(ctxObjects);
+                                }
                             } catch (IOException e) {
                                 LOG.debug("Cannot delete item", (Throwable) e);
                             }
@@ -69,18 +72,20 @@ public class CloudinaryDeleteAction implements CockpitAction<Object, Object>
                     }
             }
         }
+            else {
+                result = this.objectFacade.delete(ctxObjects);
+            }
         }
         catch (RuntimeException ex) {
             result = this.addItemsToFailedObjects(ctxObjects, ex);
             LOG.debug("Cannot delete item", (Throwable)ex);
         }
-        result = this.objectFacade.delete(ctxObjects);
 
         if (result == null) {
             return new ActionResult("error", ctxObjects);
         }
         if (result.hasError()) {
-           // this.showFailureNotification(ctx, result.getFailedObjects().stream().collect(Collectors.toMap(e -> e, result::getErrorForObject)));
+           this.showFailureNotification(ctx, (Map<Object, ObjectAccessException>) result.getFailedObjects().stream().collect(Collectors.toMap(e -> e, result::getErrorForObject)));
         }
         if (result.countSuccessfulObjects() > 0) {
             this.showSuccessNotification(ctx, ctxObjects);
