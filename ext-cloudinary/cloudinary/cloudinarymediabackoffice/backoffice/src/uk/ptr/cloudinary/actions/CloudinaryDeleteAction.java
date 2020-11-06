@@ -63,7 +63,7 @@ public class CloudinaryDeleteAction implements CockpitAction<Object, Object>
                                 Map mapResponse  = uploadApiService.deleteAsset(cloudinaryConfigModel.getCloudinaryURL(), mediaModel.getCloudinaryPublicId());
                                 String response = (String) mapResponse.get("result");
                                 if (response.equalsIgnoreCase("ok") || response.equalsIgnoreCase("Not Found")) {
-                                    result = this.objectFacade.delete(ctxObjects);
+                                    result = this.objectFacade.delete(Collections.singletonList(ctxObject));
                                 }
                             } catch (IOException e) {
                                 LOG.debug("Cannot delete item", (Throwable) e);
