@@ -5,6 +5,7 @@ var widgetUpload = 'widgetUpload';
 var myCropWidget = cloudinary.createUploadWidget({
     cloudName: cloudName,
     uploadPreset: uploadPreset,
+    folder: widgetUpload,
     cropping: false},
     (error, result) => {
         if (!error && result && result.event === "success") {

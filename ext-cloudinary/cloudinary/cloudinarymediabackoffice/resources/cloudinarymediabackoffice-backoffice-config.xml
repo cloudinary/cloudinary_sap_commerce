@@ -162,7 +162,7 @@
 	<context merge-by="type" parent="auto" type="Media" component="editor-area">
 	<editorArea:editorArea>
 	<editorArea:tab name="hmc.tab.common" merge-mode="append">
-		<editorArea:customSection name="hmc.section.media.content" spring-bean="cloudinaryMediaContentUpdateEditor"/>
+		<editorArea:customSection name="hmc.section.media.content" spring-bean="cloudinaryMediaContentUpdateRenderer"/>
 		<editorArea:section name="hmc.cloudinary.response.properties" merge-mode="replace">
 		    <editorArea:attribute qualifier="cloudinaryURL" readonly="true"/>
 			<editorArea:attribute qualifier="cloudinaryResourceType" readonly="true"/>

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -60,18 +59,12 @@ public class CloudinaryDeleteAction implements CockpitAction<Object, Object>
             for(Object ctxObject:ctxObjects){
                     if(ctxObject instanceof MediaModel){
                         MediaModel mediaModel = (MediaModel)ctxObject;
-                        try
-                        {
-                            Map mapResponse =uploadApiService.deleteAsset(cloudinaryConfigModel.getCloudinaryURL(),mediaModel.getCloudinaryPublicId());
-                            String response = (String) mapResponse.get("result");
-                            if(response.equalsIgnoreCase("ok"))
-                            {
-                                result = this.objectFacade.delete(ctxObjects);
+                        if(mediaModel.getCloudinaryPublicId() != null) {
+                            try {
+                                uploadApiService.deleteAsset(cloudinaryConfigModel.getCloudinaryURL(), mediaModel.getCloudinaryPublicId());
+                            } catch (IOException e) {
+                                LOG.debug("Cannot delete item", (Throwable) e);
                             }
-
-                        } catch (IOException e)
-                        {
-                            LOG.debug("Cannot delete item", (Throwable)e);
                         }
                     }
             }
@@ -81,6 +74,8 @@ public class CloudinaryDeleteAction implements CockpitAction<Object, Object>
             result = this.addItemsToFailedObjects(ctxObjects, ex);
             LOG.debug("Cannot delete item", (Throwable)ex);
         }
+        result = this.objectFacade.delete(ctxObjects);
+
         if (result == null) {
             return new ActionResult("error", ctxObjects);
         }

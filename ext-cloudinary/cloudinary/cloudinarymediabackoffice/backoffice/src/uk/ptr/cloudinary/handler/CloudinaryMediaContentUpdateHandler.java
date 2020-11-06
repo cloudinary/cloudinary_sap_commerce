@@ -37,13 +37,16 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
 
     private static final Logger LOG = LoggerFactory.getLogger(CloudinaryMediaContentUpdateHandler.class);
 
-    private MediaService mediaService;
-    private ModelService modelService;
-    private ObjectFacade objectFacade;
-    private NotificationService notificationService;
-
     @Resource
-    CloudinaryConfigDao CloudinaryConfigDao;
+    private MediaService mediaService;
+    @Resource
+    private ModelService modelService;
+    @Resource
+    private ObjectFacade objectFacade;
+    @Resource
+    private NotificationService notificationService;
+    @Resource
+    private CloudinaryConfigDao cloudinaryConfigDao;
 
     public CloudinaryMediaContentUpdateHandler() {
     }
@@ -51,7 +54,7 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
     @Override
     public void perform(CustomType customType, FlowActionHandlerAdapter adapter, Map<String, String> map) {
 
-        CloudinaryConfigModel cloudinaryConfigModel = CloudinaryConfigDao.getCloudinaryConfigModel();
+        CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
         MediaModel mediaToUpdate = this.getMediaToUpdate(adapter, map);
 
         if(cloudinaryConfigModel != null && cloudinaryConfigModel.getEnableCloudinary()) {
@@ -127,44 +130,6 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
             throw new ModelSavingException(var6.getMessage(), var6);
         }
     }
-
-    /*protected void tryToSave(FlowActionHandlerAdapter adapter, Map<String, String> map, UploadApiResponseData mediaContent, MediaModel mediaToUpdate) {
-        try {
-            this.save(mediaToUpdate, mediaContent);
-            this.notifyAboutSuccess(mediaToUpdate);
-        } catch (RuntimeException | ObjectSavingException var6) {
-            LOG.error("Cannot save media", var6);
-            this.rollback(adapter, map, mediaToUpdate);
-            throw new ModelSavingException(var6.getMessage(), var6);
-        }
-    }*/
-
-
-    /*protected void save(MediaModel mediaToUpdate, UploadApiResponseData mediaContent) throws ObjectSavingException {
-        boolean update = !this.modelService.isNew(mediaToUpdate);
-        this.objectFacade.save(mediaToUpdate);
-        if (mediaContent == null) {
-            if (update) {
-                this.mediaService.removeDataFromMedia(mediaToUpdate);
-            }
-        } else {
-            if (StringUtils.isNotEmpty(cName))
-            {   String updatedUrl = UpdateMediaUrl.resetUrl(mediaContent.getSecure_url(), cName);
-                mediaToUpdate.setURL(updatedUrl);
-                mediaToUpdate.setCloudinaryURL(updatedUrl);
-            }
-            else {
-                mediaToUpdate.setURL(mediaContent.getSecure_url());
-                mediaToUpdate.setCloudinaryURL(mediaContent.getSecure_url());
-            }
-            mediaToUpdate.setURL(mediaContent.getSecure_url());
-            mediaToUpdate.setCloudinaryPublicId(mediaContent.getPublic_id());
-            mediaToUpdate.setCloudinaryURL(mediaContent.getSecure_url());
-            mediaToUpdate.setCloudinaryResourceType(CloudinaryResourceType.valueOf(mediaContent.getResource_type()));
-            mediaToUpdate.setCloudinaryType(CloudinaryType.valueOf(mediaContent.getType()));
-            this.objectFacade.save(mediaToUpdate);
-                  }
-    }*/
 
     @Override
     protected void rollback(FlowActionHandlerAdapter adapter, Map<String, String> params, MediaModel mediaToUpdate) {

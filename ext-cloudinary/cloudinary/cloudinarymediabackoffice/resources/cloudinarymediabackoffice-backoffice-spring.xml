@@ -21,15 +21,10 @@
 	</bean>
 
 	<alias name="defaultCloudinaryMediaContentUpdateHandler" alias="mediaContentUpdateHandler"/>
-	<bean id="defaultCloudinaryMediaContentUpdateHandler" class="uk.ptr.cloudinary.handler.CloudinaryMediaContentUpdateHandler" parent="defaultMediaContentUpdateHandler">
-		<property name="mediaService" ref="mediaService"/>
-		<property name="modelService" ref="modelService"/>
-		<property name="objectFacade" ref="objectFacade"/>
-		<property name="notificationService" ref="notificationService"/>
-	</bean>
+	<bean id="defaultCloudinaryMediaContentUpdateHandler" class="uk.ptr.cloudinary.handler.CloudinaryMediaContentUpdateHandler" parent="defaultMediaContentUpdateHandler"/>
 
-	<alias name="defaultCloudinaryMediaContentUpdateEditor" alias="cloudinaryMediaContentUpdateEditor"/>
-	<bean id="defaultCloudinaryMediaContentUpdateEditor"
-		  class="uk.ptr.cloudinary.editor.CloudinaryMediaContentUpdateEditor"  parent="abstractEditorAreaComponentRenderer">
+	<alias name="defaultCloudinaryMediaContentUpdateRenderer" alias="cloudinaryMediaContentUpdateRenderer"/>
+	<bean id="defaultCloudinaryMediaContentUpdateRenderer"
+		  class="uk.ptr.cloudinary.editor.CloudinaryMediaContentUpdateRenderer"  parent="abstractEditorAreaComponentRenderer">
 	</bean>
 </beans>
