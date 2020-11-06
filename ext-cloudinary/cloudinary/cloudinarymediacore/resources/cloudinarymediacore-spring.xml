@@ -88,4 +88,6 @@
 
     <bean id="uploadApiService" class="uk.ptr.cloudinary.service.impl.DefaultUploadApiService"/>
 
+    <bean id="cloudinaryConfigDao" class="uk.ptr.cloudinary.dao.impl.DefaultCloudinaryConfigDao"/>
+
 </beans>

@@ -83,10 +83,106 @@
 						<editorArea:attribute qualifier="cloudinaryResponsive"/>
 						<editorArea:attribute qualifier="enableCloudinaryGalleryWidget"/>
 					</editorArea:section>
-					<ea:customSection name="hmc.section.cloudinary.connection" position="4"
+					<editorArea:customSection name="hmc.section.cloudinary.connection" position="4"
 									  spring-bean="cloudinaryConfigAdminUsageRenderer"/>
 				</editorArea:tab>
 			</editorArea:editorArea>
 		</context>
+
+	<context type="Media" component="create-wizard" merge-by="type" parent="auto" >
+		<wz:flow id="MediaWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="mediaPrepare">
+				<wz:initialize property="newMedia" type="ctx.TYPE_CODE"/>
+				<wz:assign property="newMedia.catalogVersion" value="ctx.parentObject?.catalogVersion"/>
+			</wz:prepare>
+			<wz:step id="step1" label="essential.label" sublabel="essential.sublabel">
+				<wz:content id="step1.content">
+					<wz:property-list root="newMedia">
+						<wz:property qualifier="code" position="10"/>
+						<wz:property qualifier="catalogVersion" position="20"/>
+						<wz:property qualifier="removable" position="30" exclude="true"/>
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:next visible="!#empty(newMedia.code) and newMedia.catalogVersion != null"/>
+					<wz:done visible="!#empty(newMedia.code) and newMedia.catalogVersion != null">
+						<wz:save property="newMedia"/>
+					</wz:done>
+				</wz:navigation>
+			</wz:step>
+
+			<wz:step id="step2" label="media.content.label" sublabel="media.content.sublabel" merge-mode="replace">
+				<wz:content id="step2.content">
+					<wz:custom-view lang="zul" src="widgets/cloudinaryuploadpreview.zul" />
+				</wz:content>
+				<wz:navigation id="step2.navigation">
+					<wz:cancel>
+						<wz:revert property="newMedia"/>
+					</wz:cancel>
+					<wz:back/>
+					<wz:custom visible="!#empty(newMedia.code) and newMedia.catalogVersion != null" label="Done" handler="mediaContentUpdateHandler">
+						<wz:parameter>
+							<wz:name>mediaProperty</wz:name>
+							<wz:value>newMedia</wz:value>
+						</wz:parameter>
+						<wz:parameter>
+							<wz:name>media</wz:name>
+							<wz:value>create</wz:value>
+						</wz:parameter>
+					</wz:custom>
+				</wz:navigation>
+			</wz:step>
+			<wz:step id="step3" label="properties.label" sublabel="properties.sublabel" merge-mode="remove">
+				<wz:content id="step3.content">
+					<wz:property-list root="newMedia">
+						<wz:property qualifier="folder" position="10"/>
+						<wz:property qualifier="mediaFormat" position="20"/>
+						<wz:property qualifier="mediaContainer" position="30"/>
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step3.navigation">
+					<wz:cancel/>
+					<wz:back/>
+					<wz:custom visible="!#empty(newMedia.code) and newMedia.catalogVersion != null" label="Done Upload" handler="mediaContentUpdateHandler">
+						<wz:parameter>
+							<wz:name>mediaProperty</wz:name>
+							<wz:value>newMedia</wz:value>
+						</wz:parameter>
+						<wz:parameter>
+							<wz:name>mediaContentProperty</wz:name>
+							<wz:value>mediaContent1</wz:value>
+						</wz:parameter>
+					</wz:custom>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
+
+	<context merge-by="type" parent="auto" type="Media" component="editor-area">
+	<editorArea:editorArea>
+	<editorArea:tab name="hmc.tab.common" merge-mode="append">
+		<editorArea:customSection name="hmc.section.media.content" spring-bean="cloudinaryMediaContentUpdateRenderer"/>
+		<editorArea:section name="hmc.cloudinary.response.properties" merge-mode="replace">
+		    <editorArea:attribute qualifier="cloudinaryURL" readonly="true"/>
+			<editorArea:attribute qualifier="cloudinaryResourceType" readonly="true"/>
+		    <editorArea:attribute qualifier="cloudinaryType" readonly="true"/>
+		    <editorArea:attribute qualifier="cloudinaryPublicId" readonly="true"/>
+			<editorArea:attribute qualifier="cloudinaryTransformation" readonly="true"/>
+		</editorArea:section>
+	</editorArea:tab>
+	</editorArea:editorArea>
+	</context>
+
+	<context type="Media" component="editorareaactions" merge-by="type">
+		<y:actions>
+			<y:group qualifier="common" position="10">
+				<y:label>actiongroup.common</y:label>
+				<y:action action-id="uk.ptr.cloudinary.backoffice.widgets.actions.deletecloudinarymedia" property="currentObject" position="10"/>
+				<y:action action-id="com.hybris.cockpitng.action.delete" property="currentObject" merge-mode="REMOVE" />
+				<y:action action-id="com.hybris.backoffice.widgets.actions.sync" property="currentObject" position="20" />
+			</y:group>
+		</y:actions>
+	</context>
 
 </config>
