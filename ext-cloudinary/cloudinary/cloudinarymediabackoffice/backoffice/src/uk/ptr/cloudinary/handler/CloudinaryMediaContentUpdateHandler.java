@@ -22,8 +22,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.zkoss.zul.Textbox;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
-import uk.ptr.cloudinary.enums.CloudinaryResourceType;
-import uk.ptr.cloudinary.enums.CloudinaryType;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 import uk.ptr.cloudinary.response.UploadApiResponseData;
 import uk.ptr.cloudinary.util.CloudinaryConfigUtils;
@@ -90,8 +88,8 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
                     mediaToUpdate.setCloudinaryURL(responseData.getSecure_url());
                 }
                 mediaToUpdate.setCloudinaryPublicId(responseData.getPublic_id());
-                mediaToUpdate.setCloudinaryResourceType(CloudinaryResourceType.valueOf(responseData.getResource_type()));
-                mediaToUpdate.setCloudinaryType(CloudinaryType.valueOf(responseData.getType()));
+                mediaToUpdate.setCloudinaryResourceType(responseData.getResource_type());
+                mediaToUpdate.setCloudinaryType(responseData.getType());
                 this.objectFacade.save(mediaToUpdate);
             }
             this.notifyAboutSuccess(mediaToUpdate);

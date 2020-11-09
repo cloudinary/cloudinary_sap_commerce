@@ -5,22 +5,6 @@
 
 <items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 			xsi:noNamespaceSchemaLocation="items.xsd">
-	<enumtypes>
-		<enumtype code="CloudinaryResourceType" autocreate="true" generate="true"
-				dynamic="true">
-			<description>The type of the media resource</description>
-			<value code="IMAGE" />
-			<value code="VIDEO" />
-			<value code="RAW" />
-			<value code="AUTO" />
-		</enumtype>
-		<enumtype code="CloudinaryType" autocreate="true" generate="true"
-				dynamic="true">
-			<description>The type of the media </description>
-			<value code="UPLOAD" />
-			<value code="FETCH" />
-		</enumtype>
-	</enumtypes>
 
 	<itemtypes>
 
@@ -65,7 +49,7 @@
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="cloudinaryByteStep" type="java.lang.String">
+				<attribute qualifier="cloudinaryByteStep" type="java.lang.Integer">
 					<description>Cloudinary Byte Step</description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
@@ -86,12 +70,12 @@
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="globalCloudinaryImageTransformation" type="java.lang.String">
+				<attribute qualifier="cloudinaryGlobalImageTransformation" type="java.lang.String">
 					<description>Cloudinary Image Transformation</description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="globalCloudinaryVideoTransformation" type="java.lang.String">
+				<attribute qualifier="cloudinaryGlobalVideoTransformation" type="java.lang.String">
 					<description>Cloudinary Video Transformation</description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
@@ -112,11 +96,11 @@
 					<modifiers read="true" write="true" search="true"  />
 					<persistence type="property"/>
 				</attribute>
-				<attribute qualifier="cloudinaryResourceType" type="CloudinaryResourceType">
+				<attribute qualifier="cloudinaryResourceType" type="java.lang.String">
 					<modifiers read="true" write="true" search="true"  />
 					<persistence type="property"/>
 				</attribute>
-				<attribute qualifier="cloudinaryType" type="CloudinaryType">
+				<attribute qualifier="cloudinaryType" type="java.lang.String">
 					<modifiers read="true" write="true" search="true"  />
 					<persistence type="property"/>
 				</attribute>

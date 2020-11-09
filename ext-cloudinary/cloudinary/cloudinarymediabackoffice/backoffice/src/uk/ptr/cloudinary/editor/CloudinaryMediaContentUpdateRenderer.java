@@ -1,14 +1,11 @@
 package uk.ptr.cloudinary.editor;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hybris.cockpitng.core.config.impl.jaxb.editorarea.AbstractSection;
-import com.hybris.cockpitng.dataaccess.facades.type.DataType;
-import com.hybris.cockpitng.engine.WidgetInstanceManager;
-import com.hybris.cockpitng.widgets.editorarea.renderer.impl.AbstractEditorAreaComponentRenderer;
 import de.hybris.platform.core.model.media.MediaModel;
 import de.hybris.platform.servicelayer.model.ModelService;
+
+import java.util.Map;
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,17 +13,24 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkplus.databind.AnnotateDataBinder;
-import org.zkoss.zul.*;
+import org.zkoss.zul.Button;
+import org.zkoss.zul.Div;
+import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Window;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hybris.cockpitng.core.config.impl.jaxb.editorarea.AbstractSection;
+import com.hybris.cockpitng.dataaccess.facades.type.DataType;
+import com.hybris.cockpitng.engine.WidgetInstanceManager;
+import com.hybris.cockpitng.widgets.editorarea.renderer.impl.AbstractEditorAreaComponentRenderer;
+
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
-import uk.ptr.cloudinary.enums.CloudinaryResourceType;
-import uk.ptr.cloudinary.enums.CloudinaryType;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 import uk.ptr.cloudinary.response.UploadApiResponseData;
 import uk.ptr.cloudinary.util.CloudinaryConfigUtils;
-
-import javax.annotation.Resource;
-import java.util.Map;
 
 
 public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComponentRenderer<AbstractSection, MediaModel> {
@@ -86,8 +90,8 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
                         mediaModel.setCloudinaryURL(responseData.getSecure_url());
                     }
                     mediaModel.setCloudinaryPublicId(responseData.getPublic_id());
-                    mediaModel.setCloudinaryResourceType(CloudinaryResourceType.valueOf(responseData.getResource_type()));
-                    mediaModel.setCloudinaryType(CloudinaryType.valueOf(responseData.getType()));
+                    mediaModel.setCloudinaryResourceType(responseData.getResource_type());
+                    mediaModel.setCloudinaryType(responseData.getType());
                     modelService.save(mediaModel);
                     modelService.refresh(mediaModel);
                 }
@@ -116,8 +120,8 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
                         mediaModel.setCloudinaryURL(responseData.getSecure_url());
                     }
                     mediaModel.setCloudinaryPublicId(responseData.getPublic_id());
-                    mediaModel.setCloudinaryResourceType(CloudinaryResourceType.valueOf(responseData.getResource_type()));
-                    mediaModel.setCloudinaryType(CloudinaryType.valueOf(responseData.getType()));
+                    mediaModel.setCloudinaryResourceType(responseData.getResource_type());
+                    mediaModel.setCloudinaryType(responseData.getType());
                     modelService.save(mediaModel);
                     modelService.refresh(mediaModel);
                 }
