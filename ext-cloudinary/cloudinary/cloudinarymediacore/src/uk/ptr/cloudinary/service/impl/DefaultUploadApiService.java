@@ -1,18 +1,18 @@
 package uk.ptr.cloudinary.service.impl;
 
+import de.hybris.platform.core.model.media.MediaModel;
+
 import java.io.IOException;
 import java.util.Map;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import de.hybris.platform.core.model.media.MediaModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
-import uk.ptr.cloudinary.enums.CloudinaryResourceType;
-import uk.ptr.cloudinary.enums.CloudinaryType;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 import uk.ptr.cloudinary.response.UploadApiResponseData;
 import uk.ptr.cloudinary.service.UploadApiService;
@@ -42,7 +42,7 @@ public class DefaultUploadApiService implements UploadApiService
                     CloudinarymediacoreConstants.PUBLIC_ID, mediaModel.getCloudinaryPublicId(),
                     CloudinarymediacoreConstants.FOLDER, cloudinaryConfigModel.getCloudinaryFolderPath(),
                     CloudinarymediacoreConstants.OVERWRITE, true,
-                    CloudinarymediacoreConstants.RESOURCE_TYPE, CloudinaryResourceType.AUTO,
+                    CloudinarymediacoreConstants.RESOURCE_TYPE, CloudinarymediacoreConstants.AUTO,
                     CloudinarymediacoreConstants.TAGS, tag
             );
 
@@ -53,8 +53,8 @@ public class DefaultUploadApiService implements UploadApiService
 
             mediaModel.setCloudinaryPublicId(responseData.getPublic_id());
             mediaModel.setCloudinaryURL(responseData.getSecure_url());
-            mediaModel.setCloudinaryResourceType(CloudinaryResourceType.valueOf(responseData.getResource_type()));
-            mediaModel.setCloudinaryType(CloudinaryType.valueOf(responseData.getType()));
+            mediaModel.setCloudinaryResourceType(responseData.getResource_type());
+            mediaModel.setCloudinaryType(responseData.getType());
 
             return responseData;
         }
