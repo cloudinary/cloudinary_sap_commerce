@@ -55,7 +55,9 @@ public class DefaultUploadApiService implements UploadApiService
             mediaModel.setCloudinaryURL(responseData.getSecure_url());
             mediaModel.setCloudinaryResourceType(responseData.getResource_type());
             mediaModel.setCloudinaryType(responseData.getType());
-
+            StringBuilder version = new StringBuilder();
+            version.append("v").append(responseData.getVersion());
+            mediaModel.setCloudinaryVersion(version.toString());
             return responseData;
         }
         catch (IllegalArgumentException illegalException) {

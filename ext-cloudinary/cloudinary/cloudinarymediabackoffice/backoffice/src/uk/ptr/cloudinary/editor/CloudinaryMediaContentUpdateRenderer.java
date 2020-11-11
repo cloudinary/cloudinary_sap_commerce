@@ -59,14 +59,14 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
             uploadButtonDiv.appendChild(button);
 
             button.addEventListener(Events.ON_CLICK, (event) -> {
-                onClickbuttn(component, textbox, mediaModel, cloudinaryConfigModel.getCloudinaryCname());
+                onClickbutton(component, textbox, mediaModel, cloudinaryConfigModel.getCloudinaryCname());
             });
             component.appendChild(uploadButtonDiv);
             component.appendChild(textbox);
         }
     }
 
-    public void onClickbuttn(Component parent, Textbox textbox, MediaModel mediaModel, String cName){
+    public void onClickbutton(Component parent, Textbox textbox, MediaModel mediaModel, String cName){
         Window dialogWin = (Window) Executions.createComponents("widgets/cloudinaryuploadedit.zul", parent, null);
         binder = new AnnotateDataBinder(dialogWin);
         binder.loadAll();
@@ -76,62 +76,45 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
         done.addEventListener(Events.ON_CLICK, event -> {
             Textbox tx = (Textbox) dialogWin.getFellow(CloudinarymediacoreConstants.TEXT_FIELD);
             textbox.setValue(tx!= null ? tx.getValue() : "");
-            UploadApiResponseData responseData = new UploadApiResponseData();
-            try {
-                responseData = getUploadApiResponseData(textbox);
-                if(responseData != null) {
-                    if (StringUtils.isNotEmpty(cName))
-                    {   String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cName);
-                    mediaModel.setURL(updatedUrl);
-                    mediaModel.setCloudinaryURL(updatedUrl);
-                }
-                    else {
-                        mediaModel.setURL(responseData.getSecure_url());
-                        mediaModel.setCloudinaryURL(responseData.getSecure_url());
-                    }
-                    mediaModel.setCloudinaryPublicId(responseData.getPublic_id());
-                    mediaModel.setCloudinaryResourceType(responseData.getResource_type());
-                    mediaModel.setCloudinaryType(responseData.getType());
-                    modelService.save(mediaModel);
-                    modelService.refresh(mediaModel);
-                }
-            } catch (JsonProcessingException e) {
-                LOG.error("Json parsing error save media", e);
-            }
-            catch (RuntimeException runtimeException) {
-                LOG.error("Cannot save media", runtimeException);
-            }
+            populateMediaValues(textbox, mediaModel, cName);
         });
 
         dialogWin.addEventListener(Events.ON_CLOSE, event -> {
             Textbox tx = (Textbox) dialogWin.getFellow(CloudinarymediacoreConstants.TEXT_FIELD);
             textbox.setValue(tx!= null ? tx.getValue() : "");
-            UploadApiResponseData responseData = new UploadApiResponseData();
-            try {
-                responseData = getUploadApiResponseData(textbox);
-                if(responseData != null) {
-                    if (StringUtils.isNotEmpty(cName))
-                    {   String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cName);
-                        mediaModel.setURL(updatedUrl);
-                        mediaModel.setCloudinaryURL(updatedUrl);
-                    }
-                    else {
-                        mediaModel.setURL(responseData.getSecure_url());
-                        mediaModel.setCloudinaryURL(responseData.getSecure_url());
-                    }
-                    mediaModel.setCloudinaryPublicId(responseData.getPublic_id());
-                    mediaModel.setCloudinaryResourceType(responseData.getResource_type());
-                    mediaModel.setCloudinaryType(responseData.getType());
-                    modelService.save(mediaModel);
-                    modelService.refresh(mediaModel);
+            populateMediaValues(textbox, mediaModel, cName);
+        });
+    }
+
+    private void populateMediaValues(final Textbox textbox, final MediaModel mediaModel, final String cName)
+    {
+        try {
+            UploadApiResponseData responseData = getUploadApiResponseData(textbox);
+            if(responseData != null) {
+                if (StringUtils.isNotEmpty(cName))
+                {   String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cName);
+                mediaModel.setURL(updatedUrl);
+                mediaModel.setCloudinaryURL(updatedUrl);
+            }
+                else {
+                    mediaModel.setURL(responseData.getSecure_url());
+                    mediaModel.setCloudinaryURL(responseData.getSecure_url());
                 }
-            } catch (JsonProcessingException e) {
-                LOG.error("Json parsing error save media", e);
+                mediaModel.setCloudinaryPublicId(responseData.getPublic_id());
+                mediaModel.setCloudinaryResourceType(responseData.getResource_type());
+                mediaModel.setCloudinaryType(responseData.getType());
+                StringBuilder version = new StringBuilder();
+                version.append("v").append(responseData.getVersion());
+                mediaModel.setCloudinaryVersion(version.toString());
+                modelService.save(mediaModel);
+                modelService.refresh(mediaModel);
             }
-            catch (RuntimeException runtimeException) {
-                LOG.error("Cannot save media", runtimeException);
-            }
-        });modelService.refresh(mediaModel);
+        } catch (JsonProcessingException e) {
+            LOG.error("Json parsing error save media", e);
+        }
+        catch (RuntimeException runtimeException) {
+            LOG.error("Cannot save media", runtimeException);
+        }
     }
 
     private UploadApiResponseData getUploadApiResponseData(Textbox textField) throws JsonProcessingException {

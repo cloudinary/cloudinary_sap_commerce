@@ -5,6 +5,17 @@
 
 <items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 			xsi:noNamespaceSchemaLocation="items.xsd">
+	<relations>
+		<relation generate="true" localized="false" code="ConversionGroupToMediaFormatRel" autocreate="true">
+			<deployment table="mediacontenttypeformats" typecode="10112"/>
+			<sourceElement type="ConversionGroup" cardinality="many" navigable="false"/>
+			<targetElement type="MediaFormat" cardinality="many" collectiontype="set"
+					qualifier="supportedMediaFormats">
+				<description>All supported formats, i.e. all formats to convert the original media to.</description>
+				<modifiers read="true" write="true"/>
+			</targetElement>
+		</relation>
+	</relations>
 
 	<itemtypes>
 
@@ -112,6 +123,10 @@
 					<modifiers read="true" write="true" search="true"  />
 					<persistence type="property"/>
 				</attribute>
+				<attribute qualifier="cloudinaryVersion" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
 				<attribute qualifier="cloudinaryFetchURL" type="java.lang.String">
 					<modifiers read="true" write="true" search="true"  />
 					<persistence type="property"/>
@@ -161,6 +176,33 @@
 				</attribute>
 				<attribute qualifier="isCloudinaryOverride" type="java.lang.Boolean">
 					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+		</typegroup>
+
+		<typegroup name="MediaFormat">
+		<itemtype code="MediaFormat" autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="mediaMimeType" type="java.lang.String">
+					<description>Mime type of this format.</description>
+					<modifiers initial="true" optional="true"/>
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="transformation" type="java.lang.String">
+					<description>Transformation command</description>
+					<modifiers optional="true"/>
+					<persistence type="property">
+						<columntype>
+							<value>HYBRIS.LONG_STRING</value>
+						</columntype>
+					</persistence>
+				</attribute>
+				<attribute qualifier="transformationStrategy" type="java.lang.String">
+					<description>Bean name of the conversion strategy to use.</description>
+					<defaultvalue>"cloudinaryMediaConversionStrategy"</defaultvalue>
+					<modifiers optional="false"/>
 					<persistence type="property"/>
 				</attribute>
 			</attributes>
