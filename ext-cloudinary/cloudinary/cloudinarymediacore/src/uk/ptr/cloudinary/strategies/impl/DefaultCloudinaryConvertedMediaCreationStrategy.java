@@ -10,12 +10,10 @@ import de.hybris.platform.servicelayer.model.ModelService;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
-
 import javax.annotation.Resource;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Required;
 
 import uk.ptr.cloudinary.service.TransformationApiService;
 import uk.ptr.cloudinary.strategies.CloudinaryConvertedMediaCreationStrategy;
@@ -39,52 +37,31 @@ public class DefaultCloudinaryConvertedMediaCreationStrategy implements Cloudina
 	public MediaModel createOrUpdate(MediaModel parent, MediaFormatModel format, InputStream content) throws
 			MediaIOException
 	{
-		MediaModel dmm;
+		MediaModel media;
 		try {
-			dmm = this.getMediaService().getMediaByFormat(parent.getMediaContainer(), format);
-			LOG.debug("Updating existing media '" + dmm + "'.");
+			media = this.getMediaService().getMediaByFormat(parent.getMediaContainer(), format);
+			LOG.debug("Updating existing media '" + media + "'.");
 		} catch (ModelNotFoundException var5) {
-			dmm = this.createModel();
-			dmm.setCode(this.createCode(parent, format));
-			dmm.setFolder(parent.getFolder());
-			dmm.setMediaContainer(parent.getMediaContainer());
-			dmm.setMediaFormat(format);
-			dmm.setAltText(parent.getAltText());
-			dmm.setCatalogVersion(parent.getCatalogVersion());
-			dmm.setDescription(parent.getDescription());
+			media = this.createModel();
+			media.setCode(this.createCode(parent, format));
+			media.setFolder(parent.getFolder());
+			media.setMediaContainer(parent.getMediaContainer());
+			media.setMediaFormat(format);
+			media.setAltText(parent.getAltText());
+			media.setCatalogVersion(parent.getCatalogVersion());
+			media.setDescription(parent.getDescription());
 		}
 
 
-//		System.out.println("originalUrl-->>"+originalUrl);
-//
-//		int domainUrlIndex = originalUrl.indexOf("/upload/")+8;
-//
-//		System.out.println("domainUrlIndex-->>"+domainUrlIndex);
-//
-//		String domainUrl = originalUrl.substring(0,domainUrlIndex);
-//
-//		System.out.println("domainUrl-->>"+domainUrl);
-//
-//		String resourceUrl = originalUrl.substring(domainUrlIndex-1,originalUrl.length());
-//
-//		System.out.println("resourceUrl-->>"+resourceUrl);
-//
-//		String conversionFormat = format.getConversion();
-//		System.out.println("conversionFormat-->>"+conversionFormat);
-
 		String transformationUrl = getTransformationApiService().createTransformation(parent,format);
-		dmm.setURL(transformationUrl);
-		dmm.setCloudinaryURL(transformationUrl);
-
-		System.out.println("dmm.getURL()-->>"+dmm.getURL());
-
-		dmm.setOriginal(parent);
-		dmm.setOriginalDataPK(parent.getDataPK());
-		//dmm.setSaveToCloudinary(Boolean.TRUE);
-		this.getModelService().save(dmm);
+		media.setURL(transformationUrl);
+		media.setCloudinaryURL(transformationUrl);
+		media.setOriginal(parent);
+		media.setOriginalDataPK(parent.getDataPK());
+		this.getModelService().save(media);
 		//this.loadContents(dmm, parent, format, content);
-		this.getModelService().refresh(dmm);
-		return dmm;
+		this.getModelService().refresh(media);
+		return media;
 	}
 
 	protected MediaModel createModel() {

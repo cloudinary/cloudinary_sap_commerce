@@ -131,12 +131,26 @@
 					<modifiers read="true" write="true" search="true"  />
 					<persistence type="property"/>
 				</attribute>
+				<attribute qualifier="cloudinaryMediaFormat" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
 				<attribute qualifier="isCloudinaryFetch" type="java.lang.Boolean">
 					<modifiers read="true" write="true" search="true"  />
 					<persistence type="property"/>
 				</attribute>
 				<attribute qualifier="isCloudinaryOverride" type="java.lang.Boolean">
 					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+
+		<itemtype code="ConversionErrorLog" autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="targetMediaFormat" type="MediaFormat">
+					<description>The targeted format, for which the conversion failed.</description>
+					<modifiers write="false" read="true" optional="false" initial="true"/>
 					<persistence type="property"/>
 				</attribute>
 			</attributes>
@@ -203,6 +217,11 @@
 					<description>Bean name of the conversion strategy to use.</description>
 					<defaultvalue>"cloudinaryMediaConversionStrategy"</defaultvalue>
 					<modifiers optional="false"/>
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="inputMediaFormat" type="MediaFormat">
+					<description>Media format to take as input for the conversion (optional).</description>
+					<modifiers optional="true"/>
 					<persistence type="property"/>
 				</attribute>
 			</attributes>

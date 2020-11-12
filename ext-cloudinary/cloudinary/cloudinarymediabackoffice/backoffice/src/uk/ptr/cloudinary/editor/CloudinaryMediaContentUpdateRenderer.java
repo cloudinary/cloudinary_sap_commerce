@@ -37,6 +37,8 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
 
     private static final Logger LOG = LoggerFactory.getLogger(CloudinaryMediaContentUpdateRenderer.class);
 
+    public static final String VERSION = "v";
+
     private AnnotateDataBinder binder;
 
     @Resource
@@ -104,8 +106,9 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
                 mediaModel.setCloudinaryResourceType(responseData.getResource_type());
                 mediaModel.setCloudinaryType(responseData.getType());
                 StringBuilder version = new StringBuilder();
-                version.append("v").append(responseData.getVersion());
+                version.append(VERSION).append(responseData.getVersion());
                 mediaModel.setCloudinaryVersion(version.toString());
+                mediaModel.setCloudinaryMediaFormat(responseData.getFormat());
                 modelService.save(mediaModel);
                 modelService.refresh(mediaModel);
             }

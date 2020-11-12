@@ -11,6 +11,7 @@ public class UploadApiResponseData {
     private String secure_url;
     private String public_id;
     private String version;
+    private String format;
 
     public String getResource_type() {
         return resource_type;
@@ -48,5 +49,15 @@ public class UploadApiResponseData {
     public void setVersion(final String version)
     {
         this.version = version;
+    }
+
+    public String getFormat()
+    {
+        return format;
+    }
+
+    public void setFormat(final String format)
+    {
+        this.format = format;
     }
 }

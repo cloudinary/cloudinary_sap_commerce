@@ -7,7 +7,24 @@ import de.hybris.platform.servicelayer.media.MediaIOException;
 import java.io.InputStream;
 
 
+/**
+ * The interface Cloudinary converted media creation strategy.
+ */
 public interface CloudinaryConvertedMediaCreationStrategy
 {
-        MediaModel createOrUpdate(MediaModel var1, MediaFormatModel var2, InputStream var3) throws MediaIOException;
+        /**
+         * Create or update media model.
+         *
+         * @param media
+         *         the var 1
+         * @param format
+         *         the var 2
+         * @param stream
+         *         the var 3
+         *
+         * @return the media model
+         * @throws MediaIOException
+         *         the media io exception
+         */
+        MediaModel createOrUpdate(MediaModel media, MediaFormatModel format, InputStream stream) throws MediaIOException;
 }
