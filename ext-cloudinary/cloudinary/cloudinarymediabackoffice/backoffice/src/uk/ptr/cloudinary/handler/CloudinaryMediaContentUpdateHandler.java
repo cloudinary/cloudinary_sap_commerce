@@ -90,6 +90,11 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
                 mediaToUpdate.setCloudinaryPublicId(responseData.getPublic_id());
                 mediaToUpdate.setCloudinaryResourceType(responseData.getResource_type());
                 mediaToUpdate.setCloudinaryType(responseData.getType());
+                StringBuilder version = new StringBuilder();
+                version.append("v").append(responseData.getVersion());
+                mediaToUpdate.setCloudinaryVersion(version.toString());
+                mediaToUpdate.setCloudinaryMediaFormat(responseData.getFormat());
+
                 this.objectFacade.save(mediaToUpdate);
             }
             this.notifyAboutSuccess(mediaToUpdate);

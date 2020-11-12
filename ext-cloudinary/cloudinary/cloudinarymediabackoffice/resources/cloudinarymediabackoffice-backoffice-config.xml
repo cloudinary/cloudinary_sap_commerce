@@ -185,4 +185,30 @@
 		</y:actions>
 	</context>
 
+	<context merge-by="type" type="MediaFormat" component="editor-area">
+		<editorArea:editorArea name="hmc.tab.media.metadata">
+			<editorArea:tab name="hmc.tab.mediafolder.conversion" >
+				<editorArea:section name="hmc.tab.mediafolder.conversion">
+					<editorArea:attribute qualifier="conversion"/>
+				</editorArea:section>
+			</editorArea:tab>
+		</editorArea:editorArea>
+	</context>
+
+	<context merge-by="type" parent="GenericItem" type="ConversionGroup" component="editor-area">
+		<editorArea:editorArea name="">
+			<editorArea:essentials>
+				<editorArea:essentialSection name="hmc.essential" merge-mode="append">
+					<editorArea:attribute qualifier="code" />
+				</editorArea:essentialSection>
+			</editorArea:essentials>
+			<editorArea:tab name="hmc.tab.mediacontainer.commons">
+				<editorArea:section name="hmc.tab.mediacontainer.properties" merge-mode="replace">
+					<editorArea:attribute qualifier="name"/>
+					<editorArea:attribute qualifier="supportedMediaFormats"/>
+				</editorArea:section>
+			</editorArea:tab>
+		</editorArea:editorArea>
+	</context>
+
 </config>

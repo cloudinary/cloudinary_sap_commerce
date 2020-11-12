@@ -43,5 +43,9 @@ public final class CloudinarymediacoreConstants extends GeneratedCloudinarymedia
 	public static final String MEDIA_PROPERTY = "mediaProperty";
 
 	public static final String AUTO = "auto";
+	public static final String CLOUDINARY_DOMAIN_URL = "https://res.cloudinary.com";
+	public static final String SLASH = "/";
+	public static final String DOT = ".";
+	public static final String AT = "@";
 
 }

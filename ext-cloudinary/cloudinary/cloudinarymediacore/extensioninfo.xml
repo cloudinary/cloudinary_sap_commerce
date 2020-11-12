@@ -12,6 +12,7 @@
         <!-- you should add all required extensions to this list, except platform extensions which are automatically required -->
 
         <requires-extension name="commerceservices"/>
+        <requires-extension name="mediaconversion"/>
 
         <coremodule generated="true" manager="uk.ptr.cloudinary.jalo.CloudinarymediacoreManager" packageroot="uk.ptr.cloudinary"/>
         
