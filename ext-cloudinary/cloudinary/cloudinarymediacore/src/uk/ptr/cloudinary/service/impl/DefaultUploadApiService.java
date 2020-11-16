@@ -3,8 +3,12 @@ package uk.ptr.cloudinary.service.impl;
 import de.hybris.platform.core.model.media.MediaModel;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
+import de.hybris.platform.servicelayer.media.MediaService;
+import de.hybris.platform.servicelayer.model.ModelService;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +20,9 @@ import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 import uk.ptr.cloudinary.response.UploadApiResponseData;
 import uk.ptr.cloudinary.service.UploadApiService;
+import uk.ptr.cloudinary.util.CloudinaryConfigUtils;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -24,6 +31,12 @@ import uk.ptr.cloudinary.service.UploadApiService;
 public class DefaultUploadApiService implements UploadApiService
 {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultUploadApiService.class);
+
+    @Resource
+    ModelService modelService;
+
+    @Resource
+    MediaService mediaService;
 
     @Override
     public Map deleteAsset(String cloudinaryURL, String publicId) throws IOException
@@ -38,6 +51,9 @@ public class DefaultUploadApiService implements UploadApiService
         try {
             Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
 
+            final InputStream inputStream = mediaService.getStreamFromMedia(mediaModel);
+            byte[] bytes = IOUtils.toByteArray(inputStream);
+
             Map params = ObjectUtils.asMap(
                     CloudinarymediacoreConstants.PUBLIC_ID, mediaModel.getCloudinaryPublicId(),
                     CloudinarymediacoreConstants.FOLDER, cloudinaryConfigModel.getCloudinaryFolderPath(),
@@ -46,19 +62,24 @@ public class DefaultUploadApiService implements UploadApiService
                     CloudinarymediacoreConstants.TAGS, tag
             );
 
-            Map map = cloudinary.uploader().upload(mediaModel.getURL(), params);
+            Map map = cloudinary.uploader().upload(bytes, params);
 
             final ObjectMapper mapper = new ObjectMapper();
             final UploadApiResponseData responseData = mapper.convertValue(map, UploadApiResponseData.class);
 
+            String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cloudinaryConfigModel.getCloudinaryCname());
+
+            mediaModel.setURL(updatedUrl);
+            mediaModel.setCloudinaryURL(updatedUrl);
             mediaModel.setCloudinaryPublicId(responseData.getPublic_id());
-            mediaModel.setCloudinaryURL(responseData.getSecure_url());
             mediaModel.setCloudinaryResourceType(responseData.getResource_type());
             mediaModel.setCloudinaryType(responseData.getType());
             StringBuilder version = new StringBuilder();
             version.append("v").append(responseData.getVersion());
             mediaModel.setCloudinaryVersion(version.toString());
             mediaModel.setCloudinaryMediaFormat(responseData.getFormat());
+            modelService.save(mediaModel);
+            modelService.refresh(mediaModel);
             return responseData;
         }
         catch (IllegalArgumentException illegalException) {

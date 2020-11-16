@@ -29,4 +29,14 @@
         <property name="typeCode" value="MediaFormat"/>
     </bean>
 
+    <bean id="cloudinaryMediaDao" class="uk.ptr.cloudinary.dao.impl.DefaultCloudinaryMediaDao"/>
+
+    <bean id="cloudinaryMediaUploadSyncJob" class="uk.ptr.cloudinary.cronjob.CloudinaryMediaUploadSyncJob"
+          parent="abstractJobPerformable"/>
+
+    <bean id="cloudinaryMediaContainerDao" class="uk.ptr.cloudinary.dao.impl.DefaultCloudinaryMediaContainerDao"/>
+
+    <bean id="syncMediaCloudinaryStrategy" class="uk.ptr.cloudinary.service.impl.DefaultSyncMediaCloudinaryStrategy"/>
+
+
 </beans>
