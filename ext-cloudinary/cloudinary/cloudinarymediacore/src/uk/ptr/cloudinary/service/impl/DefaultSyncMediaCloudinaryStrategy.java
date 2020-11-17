@@ -83,11 +83,12 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
 
     private MediaModel createMasterMedia(MediaModel mediaModel) {
 
-        MediaModel masterMedia = this.modelService.create(MediaModel.class);
-        masterMedia.setCode(mediaModel.getCode() + "_" + mediaModel.getMediaFormat().getQualifier());
-        masterMedia.setMediaContainer(mediaModel.getMediaContainer());
-        masterMedia.setCatalogVersion(mediaModel.getCatalogVersion());
-        masterMedia.setURL(mediaModel.getURL());
+        MediaModel masterMedia = this.modelService.clone(mediaModel);
+        String s[] = mediaModel.getCode().split("\\.");
+        masterMedia.setCode(s[0]+ "_" + mediaModel.getMediaFormat().getQualifier() + "\\." + s[1]);
+        masterMedia.setMediaFormat(null);
+        modelService.save(masterMedia);
+        modelService.save(masterMedia);
 
         return masterMedia;
     }

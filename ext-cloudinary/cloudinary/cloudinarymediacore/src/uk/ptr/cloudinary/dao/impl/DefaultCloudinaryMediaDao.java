@@ -39,8 +39,6 @@ public class DefaultCloudinaryMediaDao extends DefaultMediaDao implements Cloudi
                 + MediaModel._TYPECODE + " }  where {" + MediaModel.CLOUDINARYURL + "} IS NULL AND {" + MediaModel.MEDIACONTAINER + "} IS NULL AND {"
                 + MediaModel.CATALOGVERSION + "} = ?catalogVersion";
 
-        System.out.println("DB Query " + query);
-
         final FlexibleSearchQuery searchQuery = new FlexibleSearchQuery(query);;
         searchQuery.setResultClassList(Collections.singletonList(MediaModel.class));
         searchQuery.addQueryParameter("catalogVersion", catalogVersion);
