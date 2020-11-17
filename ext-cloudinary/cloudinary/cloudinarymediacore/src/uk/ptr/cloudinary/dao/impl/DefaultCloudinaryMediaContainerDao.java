@@ -24,12 +24,8 @@ public class DefaultCloudinaryMediaContainerDao extends DefaultMediaContainerDao
         final String query = "SELECT {" + MediaContainerModel._TYPECODE + ":pk}  FROM { "
                 + MediaContainerModel._TYPECODE + " }  where {" + MediaContainerModel.CATALOGVERSION + "} = ?catalogVersion ";
 
-        System.out.println("DB Query  " + query);
-
-        System.out.println("PK of catalog version " + catalogVersion.getPk());
-
-        final FlexibleSearchQuery searchQuery = new FlexibleSearchQuery(query);;
-        searchQuery.setResultClassList(Collections.singletonList(MediaModel.class));
+       final FlexibleSearchQuery searchQuery = new FlexibleSearchQuery(query);;
+        searchQuery.setResultClassList(Collections.singletonList(MediaContainerModel.class));
         searchQuery.addQueryParameter("catalogVersion", catalogVersion);
 
         final SearchResult searchResult = flexibleSearchService.search(searchQuery);

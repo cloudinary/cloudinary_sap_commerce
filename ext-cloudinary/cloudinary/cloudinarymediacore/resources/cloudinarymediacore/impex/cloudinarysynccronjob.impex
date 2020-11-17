@@ -1,7 +1,9 @@
+$catalog-version=Online
+$catalogVersions=catalogVersions(catalog(id),version)
 INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
                              ; cloudinaryMediaUploadSyncJob; cloudinaryMediaUploadSyncJob
-INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
-                     ;cloudinaryMediaUploadSyncCronjob;cloudinaryMediaUploadSyncJob;false;en
+INSERT_UPDATE CloudinaryMediaUploadSyncJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode);catalogVersion
+                     ;cloudinaryMediaUploadSyncCronjob;cloudinaryMediaUploadSyncJob;false;en;
 
 INSERT_UPDATE Trigger;cronJob(code)[unique=true];second;minute;hour;day;month;year;relative;active;maxAcceptableDelay
                      ;cloudinaryMediaUploadSyncCronjob;0;0;0;-1;-1;-1;false;true;-1

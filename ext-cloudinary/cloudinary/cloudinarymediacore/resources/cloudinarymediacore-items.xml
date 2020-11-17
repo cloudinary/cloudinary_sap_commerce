@@ -15,6 +15,19 @@
 				<modifiers read="true" write="true"/>
 			</targetElement>
 		</relation>
+		<relation code="CatalogVersionToCloudinaryMediaUploadSyncJob" generate="true"
+				  localized="false" autocreate="true">
+			<sourceElement type="CatalogVersion" cardinality="many"
+						   qualifier="catalogVersion">
+				<modifiers read="true" write="true" search="true"
+						   optional="false" />
+			</sourceElement>
+			<targetElement type="CloudinaryMediaUploadSyncJob" cardinality="one"
+						   qualifier="cloudinaryMediaUploadSyncJob">
+				<modifiers read="true" write="true" search="true"
+						   optional="true" />
+			</targetElement>
+		</relation>
 	</relations>
 
 	<itemtypes>
@@ -225,6 +238,13 @@
 					<persistence type="property"/>
 				</attribute>
 			</attributes>
+		</itemtype>
+		</typegroup>
+
+		<typegroup name="Cloudinary Media Sync Job">
+		<itemtype code="CloudinaryMediaUploadSyncJob" autocreate="true"
+				  generate="true" extends="CronJob"
+				  jaloclass="de.hybris.platform.core.model.CloudinaryMediaUploadSyncJob">
 		</itemtype>
 		</typegroup>
 

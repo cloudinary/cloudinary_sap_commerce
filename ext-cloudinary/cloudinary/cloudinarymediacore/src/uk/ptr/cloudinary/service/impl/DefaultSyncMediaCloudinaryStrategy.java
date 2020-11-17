@@ -1,6 +1,7 @@
 package uk.ptr.cloudinary.service.impl;
 
 import de.hybris.platform.catalog.CatalogVersionService;
+import de.hybris.platform.catalog.jalo.CatalogVersion;
 import de.hybris.platform.catalog.model.CatalogVersionModel;
 import de.hybris.platform.catalog.synchronization.CatalogSynchronizationService;
 import de.hybris.platform.core.model.media.MediaContainerModel;
@@ -27,42 +28,36 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
     private static final Logger LOG = LoggerFactory.getLogger(DefaultSyncMediaCloudinaryStrategy.class);
 
     @Resource
-    CloudinaryConfigDao cloudinaryConfigDao;
+    private CloudinaryConfigDao cloudinaryConfigDao;
 
     @Resource
-    UploadApiService uploadApiService;
+    private UploadApiService uploadApiService;
 
     @Resource
-    MediaService mediaService;
+    private MediaService mediaService;
 
     @Resource
-    CatalogVersionService catalogVersionService;
+    private CatalogVersionService catalogVersionService;
 
     @Resource
-    CatalogSynchronizationService catalogSynchronizationService;
+    private CatalogSynchronizationService catalogSynchronizationService;
 
     @Resource
-    ModelService modelService;
+    private ModelService modelService;
 
     @Resource
-    MediaConversionService mediaConversionService;
+    private MediaConversionService mediaConversionService;
 
     public MediaModel onDemandSyncMedia(final MediaModel mediaModel) throws Exception {
 
         CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-        CatalogVersionModel contentCatalogVersionStaged = catalogVersionService.getCatalogVersion(CloudinarymediacoreConstants.CONTENT_CATALOG_ID, CloudinarymediacoreConstants.VERSION_STAGED);
-        CatalogVersionModel productCatalogVersionStaged = catalogVersionService.getCatalogVersion(CloudinarymediacoreConstants.PRODUCT_CATALOG_ID, CloudinarymediacoreConstants.VERSION_STAGED);
-        CatalogVersionModel contentCatalogVersionOnline = catalogVersionService.getCatalogVersion(CloudinarymediacoreConstants.CONTENT_CATALOG_ID, CloudinarymediacoreConstants.VERSION_ONLINE);
-        CatalogVersionModel productCatalogVersionOnline = catalogVersionService.getCatalogVersion(CloudinarymediacoreConstants.PRODUCT_CATALOG_ID, CloudinarymediacoreConstants.VERSION_ONLINE);
-
-        MediaModel stagedMedia = getStagedMedia(mediaModel, contentCatalogVersionStaged, productCatalogVersionStaged, contentCatalogVersionOnline, productCatalogVersionOnline);
+        MediaModel stagedMedia = getStagedMedia(mediaModel);
 
         if (stagedMedia != null && cloudinaryConfigModel.getEnableCloudinary()) {
 
             if (stagedMedia.getMediaContainer() == null) {
-                MediaModel masterMedia = createMasterMedia(mediaModel);
-                uploadMediaToCloudinary(cloudinaryConfigModel, masterMedia);
+                uploadMediaToCloudinary(cloudinaryConfigModel, stagedMedia);
             }
             else if(stagedMedia.getMediaFormat() != null)
                 {
@@ -77,26 +72,23 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
                         stagedMedia =  updateOnDemandMedia(stagedMedia);
                 }
             }
-            if(stagedMedia.getCatalogVersion() == contentCatalogVersionStaged) {
-                catalogSynchronizationService.synchronizeFully(contentCatalogVersionStaged, contentCatalogVersionOnline);
-                LOG.info("Sync content media staged to Online " + stagedMedia.getCode());
-            }
-            if(stagedMedia.getCatalogVersion() == productCatalogVersionStaged) {
-                catalogSynchronizationService.synchronizeFully(productCatalogVersionStaged, productCatalogVersionOnline);
-                LOG.info("Sync product media staged to Online " + stagedMedia.getCode());
+            if(stagedMedia.getCatalogVersion().getVersion().equalsIgnoreCase("Staged")) {
+                CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(stagedMedia.getCatalogVersion().getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
+                catalogSynchronizationService.synchronizeFully(stagedMedia.getCatalogVersion(), onlineVersion);
+                LOG.info("Sync media from staged to Online " + stagedMedia.getCode());
             }
         }
-        return getOnlineMedia(stagedMedia, contentCatalogVersionStaged, productCatalogVersionStaged, contentCatalogVersionOnline, productCatalogVersionOnline);
+        return getOnlineMedia(stagedMedia);
     }
 
     private MediaModel createMasterMedia(MediaModel mediaModel) {
-        MediaModel masterMedia = new MediaModel();
+
+        MediaModel masterMedia = this.modelService.create(MediaModel.class);
         masterMedia.setCode(mediaModel.getCode() + "_" + mediaModel.getMediaFormat().getQualifier());
         masterMedia.setMediaContainer(mediaModel.getMediaContainer());
         masterMedia.setCatalogVersion(mediaModel.getCatalogVersion());
         masterMedia.setURL(mediaModel.getURL());
-        modelService.save(masterMedia);
-        modelService.refresh(masterMedia);
+
         return masterMedia;
     }
 
@@ -131,12 +123,29 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
             return false;
     }
 
-    private MediaModel getStagedMedia(MediaModel mediaModel, CatalogVersionModel contentCatalogVersionStaged, CatalogVersionModel productCatalogVersionStaged, CatalogVersionModel contentCatalogVersionOnline, CatalogVersionModel productCatalogVersionOnline) {
-        return  mediaModel.getCatalogVersion() == contentCatalogVersionOnline ?  mediaService.getMedia(contentCatalogVersionStaged, mediaModel.getCode()) :  mediaService.getMedia(productCatalogVersionStaged, mediaModel.getCode());
+    private MediaModel getStagedMedia(MediaModel mediaModel) {
+        CatalogVersionModel stagedCatalogVersion= null;
+        boolean isOnlineVersion = mediaModel.getCatalogVersion().getVersion().equalsIgnoreCase("Online");
+        if(isOnlineVersion){
+            stagedCatalogVersion = catalogVersionService.getCatalogVersion(mediaModel.getCatalogVersion().getCatalog().getId(), "Staged");
+        }
+        else{
+            stagedCatalogVersion = mediaModel.getCatalogVersion();
+        }
+        return mediaService.getMedia(stagedCatalogVersion,mediaModel.getCode());
     }
 
-    private MediaModel getOnlineMedia(MediaModel mediaModel, CatalogVersionModel contentCatalogVersionStaged, CatalogVersionModel productCatalogVersionStaged, CatalogVersionModel contentCatalogVersionOnline, CatalogVersionModel productCatalogVersionOnline) {
-        return mediaModel.getCatalogVersion() == contentCatalogVersionStaged ? mediaService.getMedia(contentCatalogVersionOnline, mediaModel.getCode()) : mediaService.getMedia(productCatalogVersionOnline, mediaModel.getCode());
+    private MediaModel getOnlineMedia(MediaModel mediaModel){
+
+        CatalogVersionModel onlineCatalogVersion= null;
+        boolean isStagedVersion = mediaModel.getCatalogVersion().getVersion().equalsIgnoreCase("Staged");
+        if(isStagedVersion){
+            onlineCatalogVersion = catalogVersionService.getCatalogVersion(mediaModel.getCatalogVersion().getCatalog().getId(), "Online");
+        }
+        else{
+            onlineCatalogVersion = mediaModel.getCatalogVersion();
+        }
+        return mediaService.getMedia(onlineCatalogVersion,mediaModel.getCode());
     }
 
     private MediaModel getMasterImage(MediaModel mediaModel){
