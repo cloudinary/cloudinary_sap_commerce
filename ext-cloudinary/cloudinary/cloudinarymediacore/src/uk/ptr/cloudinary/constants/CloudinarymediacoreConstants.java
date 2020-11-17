@@ -48,4 +48,12 @@ public final class CloudinarymediacoreConstants extends GeneratedCloudinarymedia
 	public static final String DOT = ".";
 	public static final String AT = "@";
 
+	public final static String VERSION_STAGED = "Staged";
+	public final static String VERSION_ONLINE = "Online";
+
+	public static final String PRODUCT_CATALOG_ID = "electronicsProductCatalog";
+	public static final String CONTENT_CATALOG_ID = "electronicsContentCatalog";
+
+
+
 }

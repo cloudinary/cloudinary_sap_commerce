@@ -1,6 +1,6 @@
 <hybrisconfig xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../bin/platform/resources/schemas/extensions.xsd'>
   <extensions>
-    <path dir='${HYBRIS_BIN_DIR}' />
+    <path dir='${HYBRIS_BIN_DIR}' autoload='false' />
     <extension name='yb2bacceleratorstorefront' />
     <extension name='adaptivesearch' />
     <extension name='adaptivesearchbackoffice' />
@@ -266,7 +266,6 @@
     <extension name='cloudinarymediasmartedit' />
     <extension name='cloudinarymediawebservices' />
     <extension name='cloudinarymediaaddon' />
-
-
+    <extension name='cloudinarymediafacades' />
   </extensions>
 </hybrisconfig>

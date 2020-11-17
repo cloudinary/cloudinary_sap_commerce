@@ -1,7 +1,5 @@
 INSERT_UPDATE CloudinaryConfig;enableCloudinary[unique=true];cloudinaryURL[unique=true];cloudinaryCname[unique=true];cloudinaryByteStep;cloudinaryFolderPath;cloudinaryImageFormat;cloudinaryImageWidthLimitMax;cloudinaryImageWidthLimitMin;cloudinaryMaxBreakPoints;cloudinaryQuality;cloudinaryResponsive;cloudinaryGlobalImageTransformation;cloudinaryGlobalVideoTransformation;
-;true;cloudinary://374658688623197:n0nPzQUL64sZcL4q6sDWbtFuOwI@portaltech-reply;Cloudinary Name;20000;apparel/myApparel;;80;50;5;;true;;;
-
-
+;true;cloudinary://374658688623197:n0nPzQUL64sZcL4q6sDWbtFuOwI@portaltech-reply;;20000;syncFolder/uploadAssets;;80;50;5;;true;;;
 
 # Media formats
 INSERT_UPDATE MediaFormat;qualifier[unique=true];transformation;transformationStrategy[default=cloudinaryMediaConversionStrategy]
@@ -9,6 +7,7 @@ INSERT_UPDATE MediaFormat;qualifier[unique=true];transformation;transformationSt
 ;515Wx515H;w_515,h_515
 ;365Wx246H;w_365,h_246
 ;300Wx300H;w_300,h_300
+;192Wx96H;w_192,h_96
 ;96Wx96H;w_96,h_96
 ;65Wx65H;w_65,h_65
 ;30Wx30H;w_30,h_30
