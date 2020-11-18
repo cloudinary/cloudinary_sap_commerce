@@ -80,7 +80,8 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
                             }
 
                             CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(c.getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
-                            catalogSynchronizationService.synchronizeFully(c, onlineVersion);
+                            catalogSynchronizationService.synchronizeFullyInBackground(c, onlineVersion);
+
                         } catch (Exception e) {
                             LOG.error("Exception occurred while running job " + e.getMessage(), e);
 
@@ -117,7 +118,6 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
             masterMedia.setCode(mediaModel.getCode() + "_" + mediaModel.getMediaFormat().getQualifier());
         }
         masterMedia.setMediaFormat(null);
-        modelService.save(masterMedia);
         modelService.save(masterMedia);
         return masterMedia;
     }
