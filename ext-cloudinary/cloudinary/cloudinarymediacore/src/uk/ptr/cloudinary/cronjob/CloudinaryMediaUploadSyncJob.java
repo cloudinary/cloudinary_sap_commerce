@@ -58,47 +58,50 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
     @Override
     public PerformResult perform(CloudinaryMediaUploadSyncJobModel cloudinaryMediaUploadSyncJobModel) {
 
-     Collection<CatalogVersionModel> catalogVersion = cloudinaryMediaUploadSyncJobModel.getCatalogVersion();
-      try {
-          if (!catalogVersion.isEmpty()) {
-              CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
+        Collection<CatalogVersionModel> catalogVersion = cloudinaryMediaUploadSyncJobModel.getCatalogVersion();
+        try {
+            if (!catalogVersion.isEmpty()) {
+                CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-              if (!ObjectUtils.isEmpty(cloudinaryConfigModel) && cloudinaryConfigModel.getEnableCloudinary()) {
-                  catalogVersion.stream().filter(c -> c.getVersion().equalsIgnoreCase("Staged")).forEach(c -> {
+                if (!ObjectUtils.isEmpty(cloudinaryConfigModel) && cloudinaryConfigModel.getEnableCloudinary()) {
+                    catalogVersion.stream().filter(c -> c.getVersion().equalsIgnoreCase("Staged")).forEach(c -> {
+                        try {
+                            List<MediaModel> medias = cloudinaryMediaDao.findMediaForEmptyCloudinaryUrlAndMediaContainer(c);
+                            if (!CollectionUtils.isEmpty(medias)) {
+                                medias.stream().filter(m -> m.getCloudinaryURL() == null).forEach(m -> {
+                                    uploadMediaToCloudinary(cloudinaryConfigModel, m);
+                                });
+                            }
+                            List<MediaContainerModel> mediaContainerModels = cloudinaryMediaContainerDao.findMediaContainerByCatalogVersion(c);
+                            if (!CollectionUtils.isEmpty(mediaContainerModels)) {
+                                mediaContainerModels.forEach(mediaContainer -> {
+                                    updateMedia(cloudinaryConfigModel, mediaContainer);
+                                });
+                            }
 
-                      List<MediaModel> medias = cloudinaryMediaDao.findMediaForEmptyCloudinaryUrlAndMediaContainer(c);
-                      if (!CollectionUtils.isEmpty(medias)) {
-                          medias.stream().filter(m -> m.getCloudinaryURL() == null).forEach(m -> {
-                              uploadMediaToCloudinary(cloudinaryConfigModel, m);
-                          });
-                      }
-                      List<MediaContainerModel> mediaContainerModels = cloudinaryMediaContainerDao.findMediaContainerByCatalogVersion(c);
-                      if (!CollectionUtils.isEmpty(mediaContainerModels)) {
-                          mediaContainerModels.forEach(mediaContainer -> {
-                              updateMedia(cloudinaryConfigModel, mediaContainer);
-                          });
-                      }
+                            CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(c.getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
+                            catalogSynchronizationService.synchronizeFully(c, onlineVersion);
+                        } catch (Exception e) {
+                            LOG.error("Exception occurred while running job " + e.getMessage(), e);
 
-                      CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(c.getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
-                      catalogSynchronizationService.synchronizeFully(c,onlineVersion);
-                  });
-              }
-          }
-          return new PerformResult(CronJobResult.SUCCESS, CronJobStatus.FINISHED);
-      }
-      catch (Exception e) {
-                LOG.error("Exception occurred while running job " + e.getMessage() , e);
-                return new PerformResult(CronJobResult.ERROR, CronJobStatus.ABORTED);
+                        }
+                    });
+                }
             }
+            return new PerformResult(CronJobResult.SUCCESS, CronJobStatus.FINISHED);
+        } catch (Exception e) {
+            LOG.error("Exception occurred while running job " + e.getMessage(), e);
+            return new PerformResult(CronJobResult.ERROR, CronJobStatus.ABORTED);
         }
+    }
 
     private void updateMedia(CloudinaryConfigModel cloudinaryConfigModel, MediaContainerModel mediaContainer) {
         MediaModel mediaModel = getLargestImage(mediaContainer);
-        if(mediaModel.getMediaFormat() != null) {
+        if (mediaModel.getMediaFormat() != null) {
             MediaModel masterMedia = createMasterMedia(mediaModel);
             uploadMediaToCloudinary(cloudinaryConfigModel, masterMedia);
         }
-        mediaContainer.getMedias().stream().filter(subMedia -> subMedia.getMediaFormat()!= null && subMedia.getCloudinaryURL() == null).forEach(subMedia-> {
+        mediaContainer.getMedias().stream().filter(subMedia -> subMedia.getMediaFormat() != null && subMedia.getCloudinaryURL() == null).forEach(subMedia -> {
             updateOnDemandMedia(subMedia);
         });
     }
@@ -106,9 +109,13 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
     private MediaModel createMasterMedia(MediaModel mediaModel) {
 
         MediaModel masterMedia = this.modelService.clone(mediaModel);
-
         String s[] = mediaModel.getCode().split("\\.");
-        masterMedia.setCode(s[0]+ "_" + mediaModel.getMediaFormat().getQualifier() + "\\." + s[1]);
+        LOG.info("Model Media Code " + mediaModel.getCode());
+        if (s.length == 2) {
+            masterMedia.setCode(s[0] + "_" + mediaModel.getMediaFormat().getQualifier() + "\\." + s[1]);
+        } else {
+            masterMedia.setCode(mediaModel.getCode() + "_" + mediaModel.getMediaFormat().getQualifier());
+        }
         masterMedia.setMediaFormat(null);
         modelService.save(masterMedia);
         modelService.save(masterMedia);
@@ -116,14 +123,12 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
     }
 
     private MediaModel updateOnDemandMedia(MediaModel stagedMedia) {
-        if(stagedMedia.getMediaFormat() == null)
-        {
+        if (stagedMedia.getMediaFormat() == null) {
             return stagedMedia;
         }
         MediaContainerModel mediaContainerModel = stagedMedia.getMediaContainer();
 
-        if(mediaContainerModel.getConversionGroup() == null || !isContainsConversionGroupForMediaformat(stagedMedia))
-        {
+        if (mediaContainerModel.getConversionGroup() == null || !isContainsConversionGroupForMediaformat(stagedMedia)) {
             final ConversionGroupModel group = this.modelService.create(ConversionGroupModel.class);
             group.setCode(UUID.randomUUID().toString());
             Set<MediaFormatModel> mediaFormatModel = new HashSet<>();
@@ -141,25 +146,24 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
     }
 
     private boolean isContainsConversionGroupForMediaformat(MediaModel stagedMedia) {
-        if(stagedMedia.getMediaContainer().getConversionGroup() != null && stagedMedia.getMediaContainer().getConversionGroup().getSupportedMediaFormats().contains(stagedMedia.getMediaFormat()))
+        if (stagedMedia.getMediaContainer().getConversionGroup() != null && stagedMedia.getMediaContainer().getConversionGroup().getSupportedMediaFormats().contains(stagedMedia.getMediaFormat()))
             return true;
         else
             return false;
     }
 
-    private MediaModel getLargestImage(MediaContainerModel mediaContainerModel){
+    private MediaModel getLargestImage(MediaContainerModel mediaContainerModel) {
         int imageSize = 0;
         MediaModel masterMedia = null;
 
-        Collection<MediaModel> medias  = mediaContainerModel.getMedias();
+        Collection<MediaModel> medias = mediaContainerModel.getMedias();
         for (MediaModel media : medias) {
-            if(media.getMediaFormat() == null)
-            {
+            if (media.getMediaFormat() == null) {
                 return media;
             }
             String s[] = media.getMediaFormat().getTransformation().split(",");
-            int temp  =  Integer.valueOf(s[0].replace("w_",""))*Integer.valueOf(s[1].replace("h_",""));
-            if(imageSize < temp){
+            int temp = Integer.valueOf(s[0].replace("w_", "")) * Integer.valueOf(s[1].replace("h_", ""));
+            if (imageSize < temp) {
                 imageSize = temp;
                 masterMedia = media;
             }
@@ -168,17 +172,16 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
     }
 
     private void uploadMediaToCloudinary(CloudinaryConfigModel cloudinaryConfigModel, MediaModel media) {
-        if(media.getCloudinaryURL() == null){
+        if (media.getCloudinaryURL() == null) {
             try {
                 LOG.info("Uplaoding Media " + media.getCode() + "Url  " + media.getURL());
                 uploadApiService.uploadAsset(cloudinaryConfigModel, media, "newAssets");
                 LOG.info("Uplaoded Media " + media.getCode() + "cloudinaryUrl  " + media.getCloudinaryURL());
 
-            }  catch (IllegalArgumentException illegalException) {
+            } catch (IllegalArgumentException illegalException) {
                 LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);
-            }
-            catch (Exception e) {
-                LOG.error("Exception occurred calling Upload  API " + e.getMessage() , e);
+            } catch (Exception e) {
+                LOG.error("Exception occurred calling Upload  API " + e.getMessage(), e);
             }
         }
     }
