@@ -58,21 +58,21 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
 
             if (stagedMedia.getMediaContainer() == null) {
                 uploadMediaToCloudinary(cloudinaryConfigModel, stagedMedia);
-            }
-            else if(stagedMedia.getMediaFormat() != null)
-                {
-                    MediaModel largestMedia = getMasterImage(stagedMedia);
-                    if (largestMedia.getMediaFormat() != null && largestMedia.getCloudinaryURL() == null) {
+            } else if (stagedMedia.getMediaFormat() != null) {
+                MediaModel largestMedia = getMasterImage(stagedMedia);
+                LOG.info(largestMedia.getCode() + "  " + largestMedia.getMediaFormat());
+                if (largestMedia.getMediaFormat() != null && largestMedia.getCloudinaryURL() == null) {
 
-                        MediaModel masterMedia = createMasterMedia(mediaModel);
-                        LOG.info("Uploading stage master media to cloudinary " + stagedMedia.getCode());
-                        uploadMediaToCloudinary(cloudinaryConfigModel, masterMedia);
-                    }
-                    if(!largestMedia.getCode().equals(stagedMedia.getCode())) {
-                        stagedMedia =  updateOnDemandMedia(stagedMedia);
+                    MediaModel masterMedia = createMasterMedia(largestMedia);
+                    LOG.info("Uploading stage master media to cloudinary " + masterMedia.getCode());
+                    uploadMediaToCloudinary(cloudinaryConfigModel, masterMedia);
+                }
+                if (!largestMedia.getCode().equals(stagedMedia.getCode())) {
+                    LOG.info("Updating media " + stagedMedia.getCode());
+                    stagedMedia = updateOnDemandMedia(stagedMedia);
                 }
             }
-            if(stagedMedia.getCatalogVersion().getVersion().equalsIgnoreCase("Staged")) {
+            if (stagedMedia.getCatalogVersion().getVersion().equalsIgnoreCase("Staged")) {
                 CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(stagedMedia.getCatalogVersion().getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
                 catalogSynchronizationService.synchronizeFully(stagedMedia.getCatalogVersion(), onlineVersion);
                 LOG.info("Sync media from staged to Online " + stagedMedia.getCode());
@@ -85,21 +85,24 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
 
         MediaModel masterMedia = this.modelService.clone(mediaModel);
         String s[] = mediaModel.getCode().split("\\.");
-        masterMedia.setCode(s[0]+ "_" + mediaModel.getMediaFormat().getQualifier() + "\\." + s[1]);
+        if (s.length == 2) {
+            masterMedia.setCode(s[0] + "_" + mediaModel.getMediaFormat().getQualifier() + "\\." + s[1]);
+        } else {
+            masterMedia.setCode(mediaModel.getCode() + "_" + mediaModel.getMediaFormat().getQualifier());
+        }
         masterMedia.setMediaFormat(null);
         modelService.save(masterMedia);
         modelService.save(masterMedia);
-
+        LOG.info("Created master media  " + masterMedia.getCode());
         return masterMedia;
     }
 
     private MediaModel updateOnDemandMedia(MediaModel stagedMedia) {
-        if(stagedMedia.getMediaFormat() == null)
-          return stagedMedia;
+        if (stagedMedia.getMediaFormat() == null)
+            return stagedMedia;
 
         MediaContainerModel mediaContainerModel = stagedMedia.getMediaContainer();
-        if(mediaContainerModel.getConversionGroup() == null || !isContainsConversionGroupForMediaformat(stagedMedia))
-        {
+        if (mediaContainerModel.getConversionGroup() == null || !isContainsConversionGroupForMediaformat(stagedMedia)) {
             ConversionGroupModel conversionGroupModel = new ConversionGroupModel();
             conversionGroupModel.setCode(UUID.randomUUID().toString());
             Set<MediaFormatModel> mediaFormatModel = new HashSet<>();
@@ -118,49 +121,46 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
     }
 
     private boolean isContainsConversionGroupForMediaformat(MediaModel stagedMedia) {
-        if(stagedMedia.getMediaContainer().getConversionGroup() != null && stagedMedia.getMediaContainer().getConversionGroup().getSupportedMediaFormats().contains(stagedMedia.getMediaFormat()))
-        return true;
+        if (stagedMedia.getMediaContainer().getConversionGroup() != null && stagedMedia.getMediaContainer().getConversionGroup().getSupportedMediaFormats().contains(stagedMedia.getMediaFormat()))
+            return true;
         else
             return false;
     }
 
     private MediaModel getStagedMedia(MediaModel mediaModel) {
-        CatalogVersionModel stagedCatalogVersion= null;
+        CatalogVersionModel stagedCatalogVersion = null;
         boolean isOnlineVersion = mediaModel.getCatalogVersion().getVersion().equalsIgnoreCase("Online");
-        if(isOnlineVersion){
+        if (isOnlineVersion) {
             stagedCatalogVersion = catalogVersionService.getCatalogVersion(mediaModel.getCatalogVersion().getCatalog().getId(), "Staged");
-        }
-        else{
+        } else {
             stagedCatalogVersion = mediaModel.getCatalogVersion();
         }
-        return mediaService.getMedia(stagedCatalogVersion,mediaModel.getCode());
+        return mediaService.getMedia(stagedCatalogVersion, mediaModel.getCode());
     }
 
-    private MediaModel getOnlineMedia(MediaModel mediaModel){
+    private MediaModel getOnlineMedia(MediaModel mediaModel) {
 
-        CatalogVersionModel onlineCatalogVersion= null;
+        CatalogVersionModel onlineCatalogVersion = null;
         boolean isStagedVersion = mediaModel.getCatalogVersion().getVersion().equalsIgnoreCase("Staged");
-        if(isStagedVersion){
+        if (isStagedVersion) {
             onlineCatalogVersion = catalogVersionService.getCatalogVersion(mediaModel.getCatalogVersion().getCatalog().getId(), "Online");
-        }
-        else{
+        } else {
             onlineCatalogVersion = mediaModel.getCatalogVersion();
         }
-        return mediaService.getMedia(onlineCatalogVersion,mediaModel.getCode());
+        return mediaService.getMedia(onlineCatalogVersion, mediaModel.getCode());
     }
 
-    private MediaModel getMasterImage(MediaModel mediaModel){
+    private MediaModel getMasterImage(MediaModel mediaModel) {
         int imageSize = 0;
         MediaModel masterMedia = null;
-        Collection<MediaModel> medias  = mediaModel.getMediaContainer().getMedias();
+        Collection<MediaModel> medias = mediaModel.getMediaContainer().getMedias();
         for (MediaModel mediaModel1 : medias) {
-            if(mediaModel1.getMediaFormat() == null)
-            {
+            if (mediaModel1.getMediaFormat() == null) {
                 return mediaModel1;
             }
             String s[] = mediaModel1.getMediaFormat().getTransformation().split(",");
-            int temp  =  Integer.valueOf(s[0].replace("w_",""))*Integer.valueOf(s[1].replace("h_",""));
-            if(imageSize < temp){
+            int temp = Integer.valueOf(s[0].replace("w_", "")) * Integer.valueOf(s[1].replace("h_", ""));
+            if (imageSize < temp) {
                 imageSize = temp;
                 masterMedia = mediaModel1;
             }
@@ -169,16 +169,15 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
     }
 
     private void uploadMediaToCloudinary(CloudinaryConfigModel cloudinaryConfigModel, MediaModel media) {
-        if(media.getCloudinaryURL() == null){
+        if (media.getCloudinaryURL() == null) {
             try {
                 uploadApiService.uploadAsset(cloudinaryConfigModel, media, "newAssets");
                 LOG.info("Uplaoded Media " + media.getCode() + "cloudinaryUrl  " + media.getCloudinaryURL());
 
-            }  catch (IllegalArgumentException illegalException) {
+            } catch (IllegalArgumentException illegalException) {
                 LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);
-            }
-            catch (Exception e) {
-                LOG.error("Exception occurred calling Upload  API " + e.getMessage() , e);
+            } catch (Exception e) {
+                LOG.error("Exception occurred calling Upload  API " + e.getMessage(), e);
             }
         }
     }
