@@ -182,5 +182,10 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
             }
         }
     }
+
+    @Override
+    public boolean isAbortable() {
+        return true;
+    }
 }
 

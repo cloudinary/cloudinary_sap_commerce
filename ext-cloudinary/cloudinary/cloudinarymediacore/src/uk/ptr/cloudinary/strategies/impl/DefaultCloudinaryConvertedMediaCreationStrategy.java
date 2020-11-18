@@ -58,6 +58,12 @@ public class DefaultCloudinaryConvertedMediaCreationStrategy implements Cloudina
 		media.setCloudinaryURL(transformationUrl);
 		media.setOriginal(parent);
 		media.setOriginalDataPK(parent.getDataPK());
+		media.setCloudinaryTransformation(format.getTransformation());
+		media.setCloudinaryPublicId(parent.getCloudinaryPublicId());
+		media.setCloudinaryResourceType(parent.getCloudinaryResourceType());
+		media.setCloudinaryType(parent.getCloudinaryType());
+		media.setCloudinaryVersion(parent.getCloudinaryVersion());
+		media.setCloudinaryMediaFormat(parent.getCloudinaryMediaFormat());
 		this.getModelService().save(media);
 		//this.loadContents(dmm, parent, format, content);
 		this.getModelService().refresh(media);

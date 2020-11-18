@@ -22,8 +22,20 @@
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
     </bean>
 
+
     <alias name="defaultCloudinaryImagePopulator" alias="imagePopulator"/>
     <bean id="defaultCloudinaryImagePopulator"
           class="uk.ptr.cloudinary.facades.populator.DefaultCloudinaryImagePopulator"/>
+
+    <alias name="defaultCloudinaryProductImagesPopulator" alias="cloudinaryProductImagesPopulator"/>
+    <bean id="defaultCloudinaryProductImagesPopulator" parent="baseProductImagePopulator"
+            class="uk.ptr.cloudinary.facades.populator.DefaultCloudinaryProductImagesPopulator"/>
+
+    <bean parent="configurablePopulatorModification">
+        <property name="target" ref="productVariantConfiguredPopulator" />
+        <property name="keyType" value="de.hybris.platform.commercefacades.product.ProductOption" />
+        <property name="key" value="CLOUDINARY" />
+        <property name="add" ref="cloudinaryProductImagesPopulator" />
+    </bean>
 
 </beans>
