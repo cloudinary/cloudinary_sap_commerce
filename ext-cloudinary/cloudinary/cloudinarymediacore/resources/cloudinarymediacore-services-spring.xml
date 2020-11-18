@@ -44,4 +44,11 @@
 			destroy-method="destroy" parent="defaultConversionErrorLogStrategy">
 	</bean>
 
+	<alias name="defaultCloudinaryOnDemandConversionFacade" alias="cloudinaryOnDemandConversionFacade"/>
+	<bean id="defaultCloudinaryOnDemandConversionFacade"
+			class="uk.ptr.cloudinary.facades.impl.DefaultCloudinaryOnDemandConversionFacade" parent="defaultOnDemandConversionFacade">
+	</bean>
+
+	<bean id="cloudinaryConfigService" class="uk.ptr.cloudinary.service.impl.DefaultCloudinaryConfigService"/>
+
 </beans>
