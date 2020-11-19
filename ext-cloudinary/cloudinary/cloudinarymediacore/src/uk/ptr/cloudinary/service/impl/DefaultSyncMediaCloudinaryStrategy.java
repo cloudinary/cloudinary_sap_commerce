@@ -6,6 +6,7 @@ import de.hybris.platform.catalog.model.CatalogVersionModel;
 import de.hybris.platform.catalog.model.SyncItemJobModel;
 import de.hybris.platform.catalog.synchronization.CatalogSynchronizationService;
 import de.hybris.platform.catalog.synchronization.SyncConfig;
+import de.hybris.platform.core.model.ItemModel;
 import de.hybris.platform.core.model.media.MediaContainerModel;
 import de.hybris.platform.core.model.media.MediaFormatModel;
 import de.hybris.platform.core.model.media.MediaModel;
@@ -58,7 +59,7 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
         MediaModel stagedMedia = getStagedMedia(mediaModel);
 
         if (stagedMedia != null && cloudinaryConfigModel.getEnableCloudinary()) {
-
+            List<ItemModel> itemsToSync = new ArrayList<>();
             if (stagedMedia.getMediaContainer() == null) {
                 uploadMediaToCloudinary(cloudinaryConfigModel, stagedMedia);
             } else if (stagedMedia.getMediaFormat() != null) {
@@ -67,22 +68,37 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
                 if (largestMedia.getMediaFormat() != null && largestMedia.getCloudinaryURL() == null) {
 
                     MediaModel masterMedia = createMasterMedia(largestMedia);
+
                     LOG.info("Uploading stage master media to cloudinary " + masterMedia.getCode());
                     uploadMediaToCloudinary(cloudinaryConfigModel, masterMedia);
+                    itemsToSync.add(masterMedia);
                 }
-                if (!largestMedia.getCode().equals(stagedMedia.getCode())) {
-                    LOG.info("Updating media " + stagedMedia.getCode());
-                    stagedMedia = updateOnDemandMedia(stagedMedia);
-                }
+
+                LOG.info("Updating media " + stagedMedia.getCode());
+                stagedMedia = updateOnDemandMedia(stagedMedia);
+                itemsToSync.add(stagedMedia);
+
             }
             if (stagedMedia.getCatalogVersion().getVersion().equalsIgnoreCase("Staged")) {
                 CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(stagedMedia.getCatalogVersion().getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
-                SyncItemJobModel syncJob = catalogSynchronizationService.getSyncJob(stagedMedia.getCatalogVersion(), onlineVersion, null);
-                catalogSynchronizationService.performSynchronization(Collections.singletonList(stagedMedia), syncJob, getSyncConfig());
+                SyncItemJobModel syncJobModel = catalogSynchronizationService.getSyncJob(stagedMedia.getCatalogVersion(),onlineVersion,null);
+                catalogSynchronizationService.performSynchronization(itemsToSync, syncJobModel, getSyncConfig());
                 LOG.info("Sync media from staged to Online " + stagedMedia.getCode());
             }
         }
         return getOnlineMedia(stagedMedia);
+    }
+
+    private SyncConfig getSyncConfig() {
+        final SyncConfig syncConfig = new SyncConfig();
+        syncConfig.setCreateSavedValues(Boolean.TRUE);
+        syncConfig.setForceUpdate(Boolean.TRUE);
+        syncConfig.setLogLevelDatabase(JobLogLevel.WARNING);
+        syncConfig.setLogLevelFile(JobLogLevel.WARNING);
+        syncConfig.setLogToFile(Boolean.TRUE);
+        syncConfig.setLogToDatabase(Boolean.FALSE);
+        syncConfig.setSynchronous(Boolean.FALSE);
+        return syncConfig;
     }
 
     private MediaModel createMasterMedia(MediaModel mediaModel) {
@@ -96,7 +112,6 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
         }
         masterMedia.setMediaFormat(null);
         modelService.save(masterMedia);
-        modelService.save(masterMedia);
         LOG.info("Created master media  " + masterMedia.getCode());
         return masterMedia;
     }
@@ -106,9 +121,20 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
             return stagedMedia;
 
         MediaContainerModel mediaContainerModel = stagedMedia.getMediaContainer();
-        if (mediaContainerModel.getConversionGroup() == null || !isContainsConversionGroupForMediaformat(stagedMedia)) {
-            ConversionGroupModel conversionGroupModel = new ConversionGroupModel();
-            conversionGroupModel.setCode(UUID.randomUUID().toString());
+
+        ConversionGroupModel conversionGroupModel = null;
+
+        if(!isContainsConversionGroupForMediaformat(stagedMedia))
+        {
+            if (mediaContainerModel.getConversionGroup() == null)
+            {
+                conversionGroupModel = modelService.create(ConversionGroupModel.class);
+                conversionGroupModel.setCode(UUID.randomUUID().toString());
+            }
+            else
+            {
+                conversionGroupModel = stagedMedia.getMediaContainer().getConversionGroup();
+            }
             Set<MediaFormatModel> mediaFormatModel = new HashSet<>();
             mediaFormatModel.add(stagedMedia.getMediaFormat());
 
@@ -121,6 +147,7 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
             modelService.save(mediaContainerModel);
             modelService.refresh(mediaContainerModel);
         }
+
         return mediaConversionService.getOrConvert(stagedMedia.getMediaContainer(), stagedMedia.getMediaFormat());
     }
 
@@ -170,18 +197,6 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
             }
         }
         return masterMedia;
-    }
-
-    private SyncConfig getSyncConfig() {
-        final SyncConfig syncConfig = new SyncConfig();
-        syncConfig.setCreateSavedValues(Boolean.TRUE);
-        syncConfig.setForceUpdate(Boolean.TRUE);
-        syncConfig.setLogLevelDatabase(JobLogLevel.WARNING);
-        syncConfig.setLogLevelFile(JobLogLevel.WARNING);
-        syncConfig.setLogToFile(Boolean.TRUE);
-        syncConfig.setLogToDatabase(Boolean.FALSE);
-        syncConfig.setSynchronous(Boolean.FALSE);
-        return syncConfig;
     }
 
     private void uploadMediaToCloudinary(CloudinaryConfigModel cloudinaryConfigModel, MediaModel media) {
