@@ -54,6 +54,9 @@ public final class CloudinarymediacoreConstants extends GeneratedCloudinarymedia
 	public static final String PRODUCT_CATALOG_ID = "electronicsProductCatalog";
 	public static final String CONTENT_CATALOG_ID = "electronicsContentCatalog";
 
+	public static final String IMAGE = "image";
+	public static final String VIDEO = "video";
+
 
 
 }

@@ -16,11 +16,11 @@ public class DefaultCloudinaryImagePopulator extends ImagePopulator implements P
     private static final Logger LOG = LoggerFactory.getLogger(DefaultCloudinaryImagePopulator.class);
 
     @Resource
-    SyncMediaCloudinaryStrategy syncMediaCloudinaryStrategy;
+    private SyncMediaCloudinaryStrategy syncMediaCloudinaryStrategy;
 
     @Override
     public void populate(final MediaModel source, final ImageData target) {
-        {
+
             Assert.notNull(source, "Parameter source cannot be null.");
             Assert.notNull(target, "Parameter target cannot be null.");
 
@@ -28,22 +28,44 @@ public class DefaultCloudinaryImagePopulator extends ImagePopulator implements P
                 try {
                     LOG.info("Calling on demand sync for Image" , source.getCode());
                     MediaModel media  =  syncMediaCloudinaryStrategy.onDemandSyncMedia(source);
-                    populateData(media, target);
+                    super.populate(media, target);
+                    populateCloudinaryData(media, target);
                 } catch (Exception e) {
                     LOG.error("Error on uploading image to cloudinary ", e);
                 }
             }
             else {
-                populateData(source, target);
+                super.populate(source, target);
+                populateCloudinaryData(source, target);
             }
-        }
     }
-        private void populateData(MediaModel source, ImageData target) {
-        target.setUrl(source.getURL());
-        target.setAltText(source.getAltText());
-        if (source.getMediaFormat() != null)
-        {
-            target.setFormat(source.getMediaFormat().getQualifier());
-        }
+        private void populateCloudinaryData(MediaModel source, ImageData target) {
+
+            if(source.getCloudinaryVersion()!=null){
+                target.setCloudinaryVersion(source.getCloudinaryVersion());
+            }
+            if(source.getCloudinaryPublicId()!=null){
+                target.setCloudinaryPublicId(source.getCloudinaryPublicId());
+            }
+            if(source.getCloudinaryResourceType()!=null){
+                target.setCloudinaryResourceType(source.getCloudinaryResourceType());
+            }
+            if(source.getCloudinaryType()!=null){
+                target.setCloudinaryType(source.getCloudinaryType());
+            }
+            if(source.getCloudinaryMediaFormat()!=null){
+                target.setCloudinaryMediaFormat(source.getCloudinaryMediaFormat());
+            }
+            if(source.getCloudinaryTransformation()!=null){
+                target.setCloudinaryTransformation(source.getCloudinaryTransformation());
+            }
+
+            if(source.getIsCloudinaryOverride()!=null){
+                target.setCloudinaryOverride(source.getIsCloudinaryOverride());
+            }
+
+            if(source.getCloudinaryURL()!=null){
+                target.setCloudinaryURL(source.getCloudinaryURL());
+            }
     }
 }

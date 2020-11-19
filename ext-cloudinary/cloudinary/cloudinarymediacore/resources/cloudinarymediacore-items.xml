@@ -28,6 +28,20 @@
 						   optional="true" />
 			</targetElement>
 		</relation>
+		<relation code="CatalogVersionToCloudinaryMediaTransformationJob" generate="true"
+				localized="false" autocreate="true">
+			<sourceElement type="CatalogVersion" cardinality="many"
+					qualifier="catalogVersions">
+				<modifiers read="true" write="true" search="true"
+						optional="false" />
+			</sourceElement>
+			<targetElement type="CloudinaryMediaTransformationJob" cardinality="one"
+					qualifier="cloudinaryMediaTransformationJob">
+				<modifiers read="true" write="true" search="true"
+						optional="true" />
+			</targetElement>
+		</relation>
+
 	</relations>
 
 	<itemtypes>
@@ -246,6 +260,13 @@
 				  generate="true" extends="CronJob"
 				  jaloclass="de.hybris.platform.core.model.CloudinaryMediaUploadSyncJob">
 		</itemtype>
+		</typegroup>
+
+		<typegroup name="Cloudinary Media Transformation Job">
+			<itemtype code="CloudinaryMediaTransformationJob" autocreate="true"
+					generate="true" extends="CronJob"
+					jaloclass="de.hybris.platform.core.model.CloudinaryMediaTransformationJob">
+			</itemtype>
 		</typegroup>
 
 	</itemtypes>

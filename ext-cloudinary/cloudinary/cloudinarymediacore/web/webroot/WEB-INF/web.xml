@@ -123,6 +123,18 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <description>
+            Servlet to convert an container's master media to a given format
+            and then redirects to the given media url.
+        </description>
+        <servlet-name>CloudinaryConversionServlet</servlet-name>
+        <servlet-class>uk.ptr.cloudinary.servlet.CloudinaryConversionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CloudinaryConversionServlet</servlet-name>
+        <url-pattern>/convert/*</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>springmvc</servlet-name>

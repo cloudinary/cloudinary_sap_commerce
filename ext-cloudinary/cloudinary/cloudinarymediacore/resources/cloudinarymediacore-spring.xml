@@ -38,5 +38,7 @@
 
     <bean id="syncMediaCloudinaryStrategy" class="uk.ptr.cloudinary.service.impl.DefaultSyncMediaCloudinaryStrategy"/>
 
+    <bean id="cloudinaryMediaTransformationJob" class="uk.ptr.cloudinary.cronjob.CloudinaryMediaTransformationJob"
+            parent="abstractJobPerformable"/>
 
 </beans>
