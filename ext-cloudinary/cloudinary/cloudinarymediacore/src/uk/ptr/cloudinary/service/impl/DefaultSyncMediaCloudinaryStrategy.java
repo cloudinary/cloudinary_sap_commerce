@@ -3,10 +3,13 @@ package uk.ptr.cloudinary.service.impl;
 import de.hybris.platform.catalog.CatalogVersionService;
 import de.hybris.platform.catalog.jalo.CatalogVersion;
 import de.hybris.platform.catalog.model.CatalogVersionModel;
+import de.hybris.platform.catalog.model.SyncItemJobModel;
 import de.hybris.platform.catalog.synchronization.CatalogSynchronizationService;
+import de.hybris.platform.catalog.synchronization.SyncConfig;
 import de.hybris.platform.core.model.media.MediaContainerModel;
 import de.hybris.platform.core.model.media.MediaFormatModel;
 import de.hybris.platform.core.model.media.MediaModel;
+import de.hybris.platform.cronjob.enums.JobLogLevel;
 import de.hybris.platform.mediaconversion.model.ConversionGroupModel;
 import de.hybris.platform.servicelayer.media.MediaService;
 import de.hybris.platform.servicelayer.model.ModelService;
@@ -74,7 +77,8 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
             }
             if (stagedMedia.getCatalogVersion().getVersion().equalsIgnoreCase("Staged")) {
                 CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(stagedMedia.getCatalogVersion().getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
-                catalogSynchronizationService.synchronizeFully(stagedMedia.getCatalogVersion(), onlineVersion);
+                SyncItemJobModel syncJob = catalogSynchronizationService.getSyncJob(stagedMedia.getCatalogVersion(), onlineVersion, null);
+                catalogSynchronizationService.performSynchronization(Collections.singletonList(stagedMedia), syncJob, getSyncConfig());
                 LOG.info("Sync media from staged to Online " + stagedMedia.getCode());
             }
         }
@@ -166,6 +170,18 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
             }
         }
         return masterMedia;
+    }
+
+    private SyncConfig getSyncConfig() {
+        final SyncConfig syncConfig = new SyncConfig();
+        syncConfig.setCreateSavedValues(Boolean.TRUE);
+        syncConfig.setForceUpdate(Boolean.TRUE);
+        syncConfig.setLogLevelDatabase(JobLogLevel.WARNING);
+        syncConfig.setLogLevelFile(JobLogLevel.WARNING);
+        syncConfig.setLogToFile(Boolean.TRUE);
+        syncConfig.setLogToDatabase(Boolean.FALSE);
+        syncConfig.setSynchronous(Boolean.FALSE);
+        return syncConfig;
     }
 
     private void uploadMediaToCloudinary(CloudinaryConfigModel cloudinaryConfigModel, MediaModel media) {
