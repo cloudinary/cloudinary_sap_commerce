@@ -74,14 +74,13 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
                     itemsToSync.add(masterMedia);
                 }
 
-                    LOG.info("Updating media " + stagedMedia.getCode());
-                    stagedMedia = updateOnDemandMedia(stagedMedia);
-                    itemsToSync.add(stagedMedia);
+                LOG.info("Updating media " + stagedMedia.getCode());
+                stagedMedia = updateOnDemandMedia(stagedMedia);
+                itemsToSync.add(stagedMedia);
 
             }
             if (stagedMedia.getCatalogVersion().getVersion().equalsIgnoreCase("Staged")) {
                 CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(stagedMedia.getCatalogVersion().getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
-                //catalogSynchronizationService.synchronizeFully(stagedMedia.getCatalogVersion(), onlineVersion);
                 SyncItemJobModel syncJobModel = catalogSynchronizationService.getSyncJob(stagedMedia.getCatalogVersion(),onlineVersion,null);
                 catalogSynchronizationService.performSynchronization(itemsToSync, syncJobModel, getSyncConfig());
                 LOG.info("Sync media from staged to Online " + stagedMedia.getCode());

@@ -102,9 +102,13 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
             MediaModel masterMedia = createMasterMedia(mediaModel);
             uploadMediaToCloudinary(cloudinaryConfigModel, masterMedia);
         }
-        mediaContainer.getMedias().stream().filter(subMedia -> subMedia.getMediaFormat() != null && subMedia.getCloudinaryURL() == null).forEach(subMedia -> {
-            updateOnDemandMedia(subMedia);
-        });
+        List<MediaFormatModel> mediaFormats = new ArrayList<>();
+        for (MediaModel medias : mediaContainer.getMedias()) {
+            if (medias.getMediaFormat() != null)
+                mediaFormats.add(medias.getMediaFormat());
+        }
+        updateOnDemandMedia(mediaContainer, mediaFormats);
+
     }
 
     private MediaModel createMasterMedia(MediaModel mediaModel) {
@@ -122,27 +126,26 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
         return masterMedia;
     }
 
-    private MediaModel updateOnDemandMedia(MediaModel stagedMedia) {
-        if (stagedMedia.getMediaFormat() == null) {
-            return stagedMedia;
+    private void updateOnDemandMedia(MediaContainerModel mediaContainerModel, List<MediaFormatModel> mediaFormatModels) {
+        ConversionGroupModel conversionGroupModel = null;
+        if (mediaContainerModel.getConversionGroup() == null) {
+            conversionGroupModel = this.modelService.create(ConversionGroupModel.class);
+            conversionGroupModel.setCode(UUID.randomUUID().toString());
+        } else {
+            conversionGroupModel = mediaContainerModel.getConversionGroup();
         }
-        MediaContainerModel mediaContainerModel = stagedMedia.getMediaContainer();
+        Set<MediaFormatModel> mediaFormatModel = new HashSet<>();
+        mediaFormatModel.addAll(mediaFormatModels);
 
-        if (mediaContainerModel.getConversionGroup() == null || !isContainsConversionGroupForMediaformat(stagedMedia)) {
-            final ConversionGroupModel group = this.modelService.create(ConversionGroupModel.class);
-            group.setCode(UUID.randomUUID().toString());
-            Set<MediaFormatModel> mediaFormatModel = new HashSet<>();
-            mediaFormatModel.add(stagedMedia.getMediaFormat());
+        conversionGroupModel.setSupportedMediaFormats(mediaFormatModel);
+        modelService.save(conversionGroupModel);
+        modelService.refresh(conversionGroupModel);
+        mediaContainerModel.setConversionGroup(conversionGroupModel);
 
-            group.setSupportedMediaFormats(mediaFormatModel);
-            modelService.save(group);
-            modelService.refresh(group);
-            mediaContainerModel.setConversionGroup(group);
+        modelService.save(mediaContainerModel);
+        modelService.refresh(mediaContainerModel);
 
-            modelService.save(mediaContainerModel);
-            modelService.refresh(mediaContainerModel);
-        }
-        return mediaConversionService.getOrConvert(stagedMedia.getMediaContainer(), stagedMedia.getMediaFormat());
+        mediaConversionService.convertMedias(mediaContainerModel);
     }
 
     private boolean isContainsConversionGroupForMediaformat(MediaModel stagedMedia) {
