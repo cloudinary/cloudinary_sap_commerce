@@ -58,29 +58,31 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
     @Override
     public PerformResult perform(CloudinaryMediaUploadSyncJobModel cloudinaryMediaUploadSyncJobModel) {
 
-        Collection<CatalogVersionModel> catalogVersion = cloudinaryMediaUploadSyncJobModel.getCatalogVersion();
+        Collection<CatalogVersionModel> catalogVersions = cloudinaryMediaUploadSyncJobModel.getCatalogVersion();
         try {
-            if (!catalogVersion.isEmpty()) {
+            if (!CollectionUtils.isEmpty(catalogVersions)) {
                 CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
                 if (!ObjectUtils.isEmpty(cloudinaryConfigModel) && cloudinaryConfigModel.getEnableCloudinary()) {
-                    catalogVersion.stream().filter(c -> c.getVersion().equalsIgnoreCase("Staged")).forEach(c -> {
+                    catalogVersions.stream().filter(catalogVersion -> catalogVersion.getVersion().equalsIgnoreCase("Staged")).forEach(catalogVersion -> {
                         try {
-                            List<MediaModel> medias = cloudinaryMediaDao.findMediaForEmptyCloudinaryUrlAndMediaContainer(c);
-                            if (!CollectionUtils.isEmpty(medias)) {
-                                medias.stream().filter(m -> m.getCloudinaryURL() == null).forEach(m -> {
-                                    uploadMediaToCloudinary(cloudinaryConfigModel, m);
-                                });
-                            }
-                            List<MediaContainerModel> mediaContainerModels = cloudinaryMediaContainerDao.findMediaContainerByCatalogVersion(c);
+
+                            List<MediaContainerModel> mediaContainerModels = cloudinaryMediaContainerDao.findMediaContainerByCatalogVersion(catalogVersion);
                             if (!CollectionUtils.isEmpty(mediaContainerModels)) {
                                 mediaContainerModels.forEach(mediaContainer -> {
                                     updateMedia(cloudinaryConfigModel, mediaContainer);
                                 });
                             }
 
-                            CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(c.getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
-                            catalogSynchronizationService.synchronizeFullyInBackground(c, onlineVersion);
+                            List<MediaModel> medias = cloudinaryMediaDao.findMediaForEmptyCloudinaryUrlAndMediaContainer(catalogVersion);
+                            if (!CollectionUtils.isEmpty(medias)) {
+                                medias.stream().filter(media -> media.getCloudinaryURL() == null).forEach(media -> {
+                                    uploadMediaToCloudinary(cloudinaryConfigModel, media);
+                                });
+                            }
+
+                            CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(catalogVersion.getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
+                            catalogSynchronizationService.synchronizeFullyInBackground(catalogVersion, onlineVersion);
 
                         } catch (Exception e) {
                             LOG.error("Exception occurred while running job " + e.getMessage(), e);
@@ -127,7 +129,7 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
     }
 
     private void updateOnDemandMedia(MediaContainerModel mediaContainerModel, List<MediaFormatModel> mediaFormatModels) {
-        ConversionGroupModel conversionGroupModel = null;
+        ConversionGroupModel conversionGroupModel;
         if (mediaContainerModel.getConversionGroup() == null) {
             conversionGroupModel = this.modelService.create(ConversionGroupModel.class);
             conversionGroupModel.setCode(UUID.randomUUID().toString());
@@ -139,11 +141,11 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
 
         conversionGroupModel.setSupportedMediaFormats(mediaFormatModel);
         modelService.save(conversionGroupModel);
-        modelService.refresh(conversionGroupModel);
+        //modelService.refresh(conversionGroupModel);
         mediaContainerModel.setConversionGroup(conversionGroupModel);
 
         modelService.save(mediaContainerModel);
-        modelService.refresh(mediaContainerModel);
+        //modelService.refresh(mediaContainerModel);
 
         mediaConversionService.convertMedias(mediaContainerModel);
     }
