@@ -51,4 +51,40 @@
 
 	<bean id="cloudinaryConfigService" class="uk.ptr.cloudinary.service.impl.DefaultCloudinaryConfigService"/>
 
+	<bean id="cloudinaryImageValueProvider" class="uk.ptr.cloudinary.search.providers.CloudinaryImageValueProvider" parent="abstractImageValueProvider"/>
+
+	<alias name="cloudinaryImage515ValueProvider" alias="image515ValueProvider"/>
+	<bean id="cloudinaryImage515ValueProvider" parent="cloudinaryImageValueProvider" >
+		<property name="mediaFormat" value="515Wx515H"/>
+	</bean>
+
+	<alias name="cloudinaryImage300ValueProvider" alias="image300ValueProvider"/>
+	<bean id="cloudinaryImage300ValueProvider" parent="cloudinaryImageValueProvider" >
+		<property name="mediaFormat" value="300Wx300H"/>
+	</bean>
+
+	<alias name="cloudinaryImage96ValueProvider" alias="image96ValueProvider"/>
+	<bean id="cloudinaryImage96ValueProvider" parent="cloudinaryImageValueProvider" >
+		<property name="mediaFormat" value="96Wx96H"/>
+	</bean>
+
+	<alias name="cloudinaryImage65ValueProvider" alias="image65ValueProvider"/>
+	<bean id="cloudinaryImage65ValueProvider" parent="cloudinaryImageValueProvider" >
+		<property name="mediaFormat" value="65Wx65H"/>
+	</bean>
+
+	<alias name="cloudinaryImage30ValueProvider" alias="image30ValueProvider"/>
+	<bean id="cloudinaryImage30ValueProvider" parent="cloudinaryImageValueProvider" >
+		<property name="mediaFormat" value="30Wx30H"/>
+	</bean>
+
+	<bean id="cloudinaryMediaSyncTaskRunner"
+			class="uk.ptr.cloudinary.tasks.runner.CloudinaryMediaSyncTaskRunner" />
+
+	<alias name="defaultCloudinaryTaskService" alias="cloudinaryTaskService"/>
+	<bean id="defaultCloudinaryTaskService"
+			class="uk.ptr.cloudinary.service.impl.DefaultCloudinaryTaskService" />
+
+	<bean id="cloudinaryEnabledAttributeHandler" class="uk.ptr.cloudinary.handlers.CloudinaryEnabledAttributeHandler" />
+
 </beans>

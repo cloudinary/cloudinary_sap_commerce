@@ -10,4 +10,6 @@ import java.util.List;
 public interface CloudinaryMediaContainerDao {
 
     public List<MediaContainerModel> findMediaContainerByCatalogVersion(final CatalogVersionModel catalogVersionModel);
+
+    public List<MediaContainerModel> findMediaContainers(final CatalogVersionModel catalogVersionModel);
 }

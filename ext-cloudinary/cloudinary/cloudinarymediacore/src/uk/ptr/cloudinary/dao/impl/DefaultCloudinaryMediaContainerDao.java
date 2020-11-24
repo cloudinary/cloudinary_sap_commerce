@@ -32,4 +32,19 @@ public class DefaultCloudinaryMediaContainerDao extends DefaultMediaContainerDao
 
         return searchResult.getResult();
     }
+
+
+    @Override
+    public List<MediaContainerModel> findMediaContainers(final CatalogVersionModel catalogVersion) {
+        final String query = "SELECT {" + MediaContainerModel._TYPECODE + ":pk}  FROM { "
+                + MediaContainerModel._TYPECODE + " }  where {" + MediaContainerModel.CATALOGVERSION + "} = ?catalogVersion ";
+
+        final FlexibleSearchQuery searchQuery = new FlexibleSearchQuery(query);;
+        searchQuery.setResultClassList(Collections.singletonList(MediaContainerModel.class));
+        searchQuery.addQueryParameter("catalogVersion", catalogVersion);
+
+        final SearchResult searchResult = flexibleSearchService.search(searchQuery);
+
+        return searchResult.getResult();
+    }
 }
