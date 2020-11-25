@@ -1,0 +1,41 @@
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<div xmlns="http://www.w3.org/1999/xhtml" class="xforms-error-dialogs">
+    <div class="xforms-error-panel xforms-initially-hidden">
+        <div class="hd">Session gone</div>
+        <div class="bd">
+            <p>
+                Unfortunately your session is gone. You will be redirected to the home page.
+            </p>
+            <div class="xforms-error-panel-details-hidden">
+                <p>
+                    <a class="xforms-error-panel-show-details" />
+                </p>
+            </div>
+            <div class="xforms-error-panel-details-shown xforms-disabled">
+                <p>
+                    <a class="xforms-error-panel-hide-details" />
+                </p>
+                <div class="xforms-error-panel-details"/>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="if (typeof yForms_session_gone == 'function') { yForms_session_gone(); }else{location.href=/^(http.*\/\/[^/]+\/[^/]+\/?)/.exec(location.href)[1]+'?'+new Date().getTime(); }">OK</button>
+        </div>
+    </div>
+    <!-- This Dialog only appears when using backoffice -->
+    <div class="xforms-login-detected-dialog modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-header">
+            <h4>Session gone</h4>
+        </div>
+        <div class="modal-body">
+            <p>
+               You will have to re-login once again to be able to continue editing yForms.
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary">OK</button>
+        </div>
+    </div>
+</div>

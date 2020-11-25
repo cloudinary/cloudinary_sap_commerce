@@ -1,0 +1,18 @@
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<properties xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:oxf="http://www.orbeon.com/oxf/processors"
+            xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <xi:include href="oxf:/config/properties-common.xml"/>
+    <xi:include href="oxf:/config/properties-orbeon.xml"/>
+    <xi:include href="oxf:/config/properties-yforms.xml"/>
+    
+    <property
+      as="xs:boolean"
+      name="oxf.fr.persistence.exist.active"
+      value="false"/>
+
+</properties>
+
