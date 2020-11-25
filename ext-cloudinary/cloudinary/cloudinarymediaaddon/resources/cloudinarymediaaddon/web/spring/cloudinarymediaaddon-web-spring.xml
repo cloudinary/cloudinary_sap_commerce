@@ -13,8 +13,8 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context.xsd">
            
-    <context:annotation-config/> 
-
+    <context:annotation-config/>
+	<context:component-scan base-package="uk.ptr.cloudinary.controllers.cms" />
 
 	<!-- Expose /acceleratoraddon/web/webroot/WEB-INF/messages/base.js.properties  resource bundle as javascript variables -->
 	<bean id="defaultCloudinarymediaaddonJavaScriptMessageResourceAccessor" parent="abstractJavaScriptMessageResourceAccessor">
@@ -33,5 +33,7 @@
 	<bean id="CloudinarymediaaddonBeforeViewHandlerListMergeDirective" depends-on="beforeViewHandlersList" parent="listMergeDirective">
 		<property name="add" ref="getCloudinarymediaaddonBeforeViewHandler"/>
 	</bean>
+
+	<bean name="productPageController" class="uk.ptr.cloudinary.controllers.pages.ProductPageController"/>
 
 </beans>

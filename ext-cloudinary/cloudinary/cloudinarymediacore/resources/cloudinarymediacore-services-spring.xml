@@ -51,4 +51,6 @@
 
 	<bean id="cloudinaryConfigService" class="uk.ptr.cloudinary.service.impl.DefaultCloudinaryConfigService"/>
 
+	<bean id="updateTagApiService" class="uk.ptr.cloudinary.service.impl.DefaultUpdateTagApiService"/>
+
 </beans>

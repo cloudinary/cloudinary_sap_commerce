@@ -41,4 +41,8 @@
     <bean id="cloudinaryMediaTransformationJob" class="uk.ptr.cloudinary.cronjob.CloudinaryMediaTransformationJob"
             parent="abstractJobPerformable"/>
 
+    <bean id="cloudinaryMediaTagUpdateJob" class="uk.ptr.cloudinary.cronjob.CloudinaryMediaTagUpdateJob"
+          parent="abstractJobPerformable"/>
+
+    <bean id="cloudinaryProductDao" class="uk.ptr.cloudinary.dao.impl.DefaultCloudinaryProductDao"/>
 </beans>

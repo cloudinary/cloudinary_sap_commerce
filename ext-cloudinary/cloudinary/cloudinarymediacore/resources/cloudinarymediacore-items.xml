@@ -41,7 +41,19 @@
 						optional="true" />
 			</targetElement>
 		</relation>
-
+		<relation code="CatalogVersionToCloudinaryMediaTagUpdateJob" generate="true"
+				  localized="false" autocreate="true">
+			<sourceElement type="CatalogVersion" cardinality="many"
+						   qualifier="catalogVersion">
+				<modifiers read="true" write="true" search="true"
+						   optional="false" />
+			</sourceElement>
+			<targetElement type="CloudinaryMediaTagUpdateJob" cardinality="one"
+						   qualifier="cloudinaryMediaTagUpdateJob">
+				<modifiers read="true" write="true" search="true"
+						   optional="true" />
+			</targetElement>
+		</relation>
 	</relations>
 
 	<itemtypes>
@@ -120,6 +132,21 @@
 				</attribute>
 				<attribute qualifier="cloudinaryCname" type="java.lang.String">
 					<description>Cloudinary Name</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="width" type="java.lang.Integer">
+					<description>Product Gallery  Width</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="height" type="java.lang.Integer">
+					<description>Product Gallery Height</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="transformations" type="java.lang.String">
+					<description>Product Gallery Transformation</description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
@@ -260,6 +287,13 @@
 				  generate="true" extends="CronJob"
 				  jaloclass="de.hybris.platform.core.model.CloudinaryMediaUploadSyncJob">
 		</itemtype>
+		</typegroup>
+
+		<typegroup name="Cloudinary Media Tag Update Job">
+			<itemtype code="CloudinaryMediaTagUpdateJob" autocreate="true"
+					  generate="true" extends="CronJob"
+					  jaloclass="de.hybris.platform.core.model.CloudinaryMediaTagUpdateJob">
+			</itemtype>
 		</typegroup>
 
 		<typegroup name="Cloudinary Media Transformation Job">

@@ -36,5 +36,10 @@
 			</attributes>
 		</itemtype>
 -->
+
+		<itemtype code="ProductGalleryWidgetComponent" autocreate="true" generate="true" extends="SimpleCMSComponent"
+				  jaloclass="de.hybris.platform.core.jalo.components.ProductGalleryWidgetComponent">
+		</itemtype>
+
 	</itemtypes>
 </items>
