@@ -112,11 +112,35 @@
 				</wz:navigation>
 			</wz:step>
 
-			<wz:step id="step2" label="media.content.label" sublabel="media.content.sublabel" merge-mode="replace">
+			<wz:step id="step2" label="media.content.label" sublabel="media.content.sublabel">
 				<wz:content id="step2.content">
-					<wz:custom-view lang="zul" src="widgets/cloudinaryuploadpreview.zul" />
+					<wz:property qualifier="mediaContent" position="10"
+								 type="com.hybris.cockpitng.editor.defaultfileupload.FileUploadResult" editor="com.hybris.cockpitng.editor.dndfileupload"/>
 				</wz:content>
 				<wz:navigation id="step2.navigation">
+					<wz:cancel>
+						<wz:revert property="newMedia"/>
+					</wz:cancel>
+					<wz:back/>
+					<wz:next/>
+					<wz:custom visible="!#empty(newMedia.code) and newMedia.catalogVersion != null" label="com.hybris.cockpitng.widgets.configurableflow.flow.done" handler="mediaContentUpdateHandler">
+						<wz:parameter>
+							<wz:name>mediaProperty</wz:name>
+							<wz:value>newMedia</wz:value>
+						</wz:parameter>
+						<wz:parameter>
+							<wz:name>mediaContentProperty</wz:name>
+							<wz:value>mediaContent</wz:value>
+						</wz:parameter>
+					</wz:custom>
+				</wz:navigation>
+			</wz:step>
+
+			<wz:step id="step4" label="media.content.label" sublabel="media.content.sublabel" merge-mode="replace">
+				<wz:content id="step4.content">
+					<wz:custom-view lang="zul" src="widgets/cloudinaryuploadpreview.zul" />
+				</wz:content>
+				<wz:navigation id="step4.navigation">
 					<wz:cancel>
 						<wz:revert property="newMedia"/>
 					</wz:cancel>
