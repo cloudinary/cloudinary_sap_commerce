@@ -197,6 +197,10 @@
 					<modifiers read="true" write="true" search="true"  />
 					<persistence type="property"/>
 				</attribute>
+				<attribute qualifier="isCloudinaryEnabled" type="java.lang.Boolean">
+					<persistence type="dynamic" attributeHandler="cloudinaryEnabledAttributeHandler" />
+					<modifiers read="true" write="false" />
+				</attribute>
 			</attributes>
 		</itemtype>
 
