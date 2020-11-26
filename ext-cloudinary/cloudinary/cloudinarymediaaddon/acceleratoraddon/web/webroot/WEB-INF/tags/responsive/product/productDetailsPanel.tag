@@ -13,17 +13,18 @@
 </div>
 <div class="row">
 	<div class="col-xs-10 col-xs-push-1 col-sm-6 col-sm-push-0 col-lg-4">
-	  <c:choose>
-      	    <c:when test="${isProductGalleryEnabled}">
-      	       <cms:pageSlot position="ProductGalleryWidgetName" var="component" element="div">
-                         	<cms:component component="${component}" element="div"/>
-                 </cms:pageSlot>
-      	    </c:when>
-      	    <c:otherwise>
-      	       <product:productImagePanel galleryImages="${galleryImages}" />
-      	    </c:otherwise>
-      	  </c:choose>
-	</div>
+    	  <c:choose>
+          	    <c:when test="${isProductGalleryEnabled}">
+          	       <cms:pageSlot position="ProductGalleryWidgetName" var="component" element="div">
+                             	<cms:component component="${component}" element="div"/>
+                     </cms:pageSlot>
+                     </div>
+          	    </c:when>
+          	    <c:otherwise>
+          	       <product:productImagePanel galleryImages="${galleryImages}" />
+          	    </c:otherwise>
+          	  </c:choose>
+    	</div>
 	<div class="clearfix hidden-sm hidden-md hidden-lg"></div>
 	<div class="col-sm-6 col-lg-8">
 		<div class="product-main-info">

@@ -123,10 +123,16 @@ public class ProductPageController extends AbstractPageController
 
 		if(cloudinaryConfigModel.getEnableCloudinary() && cloudinaryConfigModel.getEnableCloudinaryGalleryWidget())
 		{
+			if(cloudinaryConfigModel.getCloudinaryURL()!= null){
+				String cloudName[]= cloudinaryConfigModel.getCloudinaryURL().split("@");
+				model.addAttribute("cloudName", cloudName[1]);
+			}
+
 			model.addAttribute("isProductGalleryEnabled", Boolean.TRUE);
 			model.addAttribute("configHeight", cloudinaryConfigModel.getHeight());
 			model.addAttribute("configWidth", cloudinaryConfigModel.getWidth());
 			model.addAttribute("galleryTransformation", cloudinaryConfigModel.getTransformations());
+
 		}
 
 		model.addAttribute(new ReviewForm());
