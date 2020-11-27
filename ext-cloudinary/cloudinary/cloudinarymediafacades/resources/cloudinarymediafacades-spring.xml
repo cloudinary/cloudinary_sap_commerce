@@ -38,4 +38,7 @@
         <property name="add" ref="cloudinaryProductImagesPopulator" />
     </bean>
 
+
+    <alias name="defaulCloudinaryConfigFacade" alias="cloudinaryConfigFacade"/>
+    <bean id="defaulCloudinaryConfigFacade" class="uk.ptr.cloudinary.facades.impl.DefaulCloudinaryConfigFacade"/>
 </beans>

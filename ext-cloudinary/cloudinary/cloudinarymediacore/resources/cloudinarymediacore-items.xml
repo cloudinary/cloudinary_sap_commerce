@@ -41,7 +41,19 @@
 						optional="true" />
 			</targetElement>
 		</relation>
-
+		<relation code="CatalogVersionToCloudinaryMediaTagUpdateJob" generate="true"
+				  localized="false" autocreate="true">
+			<sourceElement type="CatalogVersion" cardinality="many"
+						   qualifier="catalogVersion">
+				<modifiers read="true" write="true" search="true"
+						   optional="false" />
+			</sourceElement>
+			<targetElement type="CloudinaryMediaTagUpdateJob" cardinality="one"
+						   qualifier="cloudinaryMediaTagUpdateJob">
+				<modifiers read="true" write="true" search="true"
+						   optional="true" />
+			</targetElement>
+		</relation>
 	</relations>
 
 	<itemtypes>
@@ -120,6 +132,51 @@
 				</attribute>
 				<attribute qualifier="cloudinaryCname" type="java.lang.String">
 					<description>Cloudinary Name</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryCarouselWidth" type="java.lang.Integer">
+					<description>Cloudinary Carousel Width</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryCarouselHeight" type="java.lang.Integer">
+					<description>Cloudinary Carousel Height</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="transformations" type="java.lang.String">
+					<description>Product Gallery Transformation</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryCarouselLocation" type="java.lang.Integer">
+					<description>Cloudinary Carousel Location</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryCarouselOffset" type="java.lang.Integer">
+					<description>Cloudinary Carousel Offset</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryZoomType" type="java.lang.Integer">
+					<description>Cloudinary ZoomType</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryZoomTrigger" type="java.lang.Integer">
+					<description>Cloudinary Zoom Trigger</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryWidth" type="java.lang.Integer">
+					<description>Cloudinary Video Width</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryHeight" type="java.lang.Integer">
+					<description>Cloudinary Video Height</description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
@@ -264,6 +321,13 @@
 				  generate="true" extends="CronJob"
 				  jaloclass="de.hybris.platform.core.model.CloudinaryMediaUploadSyncJob">
 		</itemtype>
+		</typegroup>
+
+		<typegroup name="Cloudinary Media Tag Update Job">
+			<itemtype code="CloudinaryMediaTagUpdateJob" autocreate="true"
+					  generate="true" extends="CronJob"
+					  jaloclass="de.hybris.platform.core.model.CloudinaryMediaTagUpdateJob">
+			</itemtype>
 		</typegroup>
 
 		<typegroup name="Cloudinary Media Transformation Job">

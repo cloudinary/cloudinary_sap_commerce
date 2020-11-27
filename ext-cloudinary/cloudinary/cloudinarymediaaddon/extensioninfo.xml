@@ -8,18 +8,17 @@
                 		
         
         <!-- you should add all required extensions to this list, except platform extensions which are automatically required -->
-                         
-		
-        
+
+
+        <requires-extension name="cloudinarymediafacades"/>
+
+        <requires-extension name="acceleratorstorefrontcommons"/>
+
         <requires-extension name="addonsupport"/>
-                		
-        
+
         <coremodule generated="true" manager="uk.ptr.cloudinary.jalo.CloudinarymediaaddonManager" packageroot="uk.ptr.cloudinary"/>
                 		
-        
-        		
-        
-        <meta key="classpathgen" value="false"/>
+         <meta key="classpathgen" value="false"/>
                 	
     
     </extension>

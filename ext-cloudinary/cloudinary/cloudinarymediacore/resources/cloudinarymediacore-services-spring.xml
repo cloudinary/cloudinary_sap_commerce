@@ -51,6 +51,7 @@
 
 	<bean id="cloudinaryConfigService" class="uk.ptr.cloudinary.service.impl.DefaultCloudinaryConfigService"/>
 
+
 	<bean id="cloudinaryImageValueProvider" class="uk.ptr.cloudinary.search.providers.CloudinaryImageValueProvider" parent="abstractImageValueProvider"/>
 
 	<alias name="cloudinaryImage515ValueProvider" alias="image515ValueProvider"/>
@@ -86,5 +87,7 @@
 			class="uk.ptr.cloudinary.service.impl.DefaultCloudinaryTaskService" />
 
 	<bean id="cloudinaryEnabledAttributeHandler" class="uk.ptr.cloudinary.handlers.CloudinaryEnabledAttributeHandler" />
+
+	<bean id="updateTagApiService" class="uk.ptr.cloudinary.service.impl.DefaultUpdateTagApiService"/>
 
 </beans>
