@@ -4,12 +4,12 @@
 $contentCatalog=apparel-ukContentCatalog
 $contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
 
-INSERT_UPDATE ProductGalleryWidgetComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;
-                                           ;;ProductGalleryWidgetComponent;Product Gallery Widget Component;ProductGalleryWidgetComponent;;;
+INSERT_UPDATE CloudinaryGalleryComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;
+                                           ;;CloudinaryGalleryComponent;Cloudinary Gallery Component;CloudinaryGalleryComponent;;;
 
 INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
-                         ;;ProductGalleryWidgetSlot;Product Gallery Widget Slot;true;ProductGalleryWidgetComponent
+                         ;;CloudinaryGallerySlot;Cloudinary Gallery Component Slot;true;CloudinaryGalleryComponent
 
 
 INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='ProductDetailsPageTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
-                                    ;;productGalleryWidget-ProductDetails;ProductGalleryWidgetName;;ProductGalleryWidgetSlot;true
+                                    ;;cloudinaryGallery-ProductDetails;CloudinaryGalleryName;;CloudinaryGallerySlot;true

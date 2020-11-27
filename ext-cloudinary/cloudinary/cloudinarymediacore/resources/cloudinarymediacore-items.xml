@@ -135,18 +135,48 @@
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="width" type="java.lang.Integer">
-					<description>Product Gallery  Width</description>
+				<attribute qualifier="cloudinaryCarouselWidth" type="java.lang.Integer">
+					<description>Cloudinary Carousel Width</description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="height" type="java.lang.Integer">
-					<description>Product Gallery Height</description>
+				<attribute qualifier="cloudinaryCarouselHeight" type="java.lang.Integer">
+					<description>Cloudinary Carousel Height</description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
 				<attribute qualifier="transformations" type="java.lang.String">
 					<description>Product Gallery Transformation</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryCarouselLocation" type="java.lang.Integer">
+					<description>Cloudinary Carousel Location</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryCarouselOffset" type="java.lang.Integer">
+					<description>Cloudinary Carousel Offset</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryZoomType" type="java.lang.Integer">
+					<description>Cloudinary ZoomType</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryZoomTrigger" type="java.lang.Integer">
+					<description>Cloudinary Zoom Trigger</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryWidth" type="java.lang.Integer">
+					<description>Cloudinary Video Width</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryHeight" type="java.lang.Integer">
+					<description>Cloudinary Video Height</description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>

@@ -15,7 +15,7 @@
 	<div class="col-xs-10 col-xs-push-1 col-sm-6 col-sm-push-0 col-lg-4">
     	  <c:choose>
           	    <c:when test="${isProductGalleryEnabled}">
-          	       <cms:pageSlot position="ProductGalleryWidgetName" var="component" element="div">
+          	       <cms:pageSlot position="CloudinaryGalleryName" var="component" element="div">
                              	<cms:component component="${component}" element="div"/>
                      </cms:pageSlot>
                      </div>
