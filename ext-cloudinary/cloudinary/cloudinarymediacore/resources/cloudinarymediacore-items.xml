@@ -150,7 +150,7 @@
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="cloudinaryCarouselLocation" type="java.lang.Integer">
+				<attribute qualifier="cloudinaryCarouselLocation" type="java.lang.String">
 					<description>Cloudinary Carousel Location</description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
@@ -160,12 +160,12 @@
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="cloudinaryZoomType" type="java.lang.Integer">
+				<attribute qualifier="cloudinaryZoomType" type="java.lang.String">
 					<description>Cloudinary ZoomType</description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="cloudinaryZoomTrigger" type="java.lang.Integer">
+				<attribute qualifier="cloudinaryZoomTrigger" type="java.lang.String">
 					<description>Cloudinary Zoom Trigger</description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />

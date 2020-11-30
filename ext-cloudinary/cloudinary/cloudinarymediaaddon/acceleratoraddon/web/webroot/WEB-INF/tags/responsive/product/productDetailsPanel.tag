@@ -18,7 +18,6 @@
           	       <cms:pageSlot position="CloudinaryGalleryName" var="component" element="div">
                              	<cms:component component="${component}" element="div"/>
                      </cms:pageSlot>
-                     </div>
           	    </c:when>
           	    <c:otherwise>
           	       <product:productImagePanel galleryImages="${galleryImages}" />
