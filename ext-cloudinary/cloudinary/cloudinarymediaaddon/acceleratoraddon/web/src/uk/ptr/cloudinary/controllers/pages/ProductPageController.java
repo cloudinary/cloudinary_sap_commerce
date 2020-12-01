@@ -129,9 +129,7 @@ public class ProductPageController extends AbstractPageController
 			}
 
 			model.addAttribute("isProductGalleryEnabled", Boolean.TRUE);
-			model.addAttribute("configHeight", cloudinaryConfigModel.getCloudinaryCarouselHeight());
-			model.addAttribute("configWidth", cloudinaryConfigModel.getCloudinaryCarouselWidth());
-			model.addAttribute("galleryTransformation", cloudinaryConfigModel.getTransformations());
+			model.addAttribute("cloudinaryConfig", cloudinaryConfigModel);
 
 		}
 

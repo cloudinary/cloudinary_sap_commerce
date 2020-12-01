@@ -26,7 +26,6 @@ public class DefaultCloudinaryImagePopulator extends ImagePopulator implements P
 
             if (source.getCloudinaryURL() == null) {
                 try {
-                    LOG.info("Calling on demand sync for Image" , source.getCode());
                     MediaModel media  =  syncMediaCloudinaryStrategy.onDemandSyncMedia(source);
                     super.populate(media, target);
                     populateCloudinaryData(media, target);

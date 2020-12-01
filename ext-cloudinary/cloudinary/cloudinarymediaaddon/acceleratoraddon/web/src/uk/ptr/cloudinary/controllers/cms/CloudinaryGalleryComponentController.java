@@ -18,9 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 public class CloudinaryGalleryComponentController extends
         AbstractCMSAddOnComponentController<CloudinaryGalleryComponentModel> {
 
-    @Resource
-    private CloudinaryConfigFacade cloudinaryConfigFacade;
-
     @Override
     protected void fillModel(HttpServletRequest request, Model model, CloudinaryGalleryComponentModel component) {
         model.addAttribute("getComponent", Boolean.TRUE);

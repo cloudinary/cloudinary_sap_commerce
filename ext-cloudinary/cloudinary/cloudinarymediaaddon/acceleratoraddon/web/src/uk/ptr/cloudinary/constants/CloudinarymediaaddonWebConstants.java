@@ -12,6 +12,4 @@ public final class CloudinarymediaaddonWebConstants // NOSONAR
 	{
 		//empty to avoid instantiating this constant class
 	}
-
-	public static final String PRODUCT_GALLERY_COMPONENTVIEW = "addon:/cloudinarymediaaddon/responsive/cms/productgallerywidgetcomponent";
 }
