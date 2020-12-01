@@ -107,12 +107,12 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
                 return stagedMedia;
             }
 
-//            if (stagedMedia.getCatalogVersion().getVersion().equalsIgnoreCase("Staged")) {
-//                CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(stagedMedia.getCatalogVersion().getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
-//                SyncItemJobModel syncJobModel = catalogSynchronizationService.getSyncJob(stagedMedia.getCatalogVersion(),onlineVersion,null);
-//                catalogSynchronizationService.performSynchronization(itemsToSync, syncJobModel, getSyncConfig());
-//                LOG.info("Sync media from staged to Online " + stagedMedia.getCode());
-//            }
+            /*if (stagedMedia.getCatalogVersion().getVersion().equalsIgnoreCase("Staged")) {
+                CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(stagedMedia.getCatalogVersion().getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
+                SyncItemJobModel syncJobModel = catalogSynchronizationService.getSyncJob(stagedMedia.getCatalogVersion(),onlineVersion,null);
+                catalogSynchronizationService.performSynchronization(itemsToSync, syncJobModel, getSyncConfig());
+                LOG.info("Sync media from staged to Online " + stagedMedia.getCode());
+            }*/
 
 
         }

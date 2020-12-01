@@ -9,10 +9,8 @@
 <script src="https://unpkg.com/cloudinary-video-player@1.5.1/dist/cld-video-player.min.js"
     type="text/javascript"></script>
 
-<input id="video_transformationString" type="hidden" value="${transformationString}"/>
-
 <video
-  id="example-player"
+  id="cloudinaryVideoPlayer"
   controls
   muted
   class="cld-video-player cld-video-player-skin-dark"
@@ -24,7 +22,7 @@
 
 <script type="text/javascript">
     var cld = cloudinary.Cloudinary.new({ cloud_name: "${cloudName}", secure: true});
-    var player = cld.videoPlayer('example-player');
+    var player = cld.videoPlayer('cloudinaryVideoPlayer');
 </script>
 
 </body>

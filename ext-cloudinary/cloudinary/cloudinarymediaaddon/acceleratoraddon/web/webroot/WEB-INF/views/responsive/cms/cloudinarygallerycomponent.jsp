@@ -41,7 +41,7 @@
          transformationString = "{'crop' : 'fill'}";
     }
    if(carouselLocation == ""){
-         carouselLocation = 'left';
+         carouselLocation = 'bottom';
     }
     if(carouselOffset == ""){
          carouselOffset = 5;

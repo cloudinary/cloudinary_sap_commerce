@@ -23,12 +23,10 @@
                 <cms:component component="${feature}" element="div" class="yComponentWrapper"/>
             </cms:pageSlot>
         </div>
-        <div>
-             <cms:pageSlot position="CloudinaryVideoName" var="feature" element="div">
-                 <cms:component component="${feature}" element="div"/>
-              </cms:pageSlot>
-        </div>
-    </div>
+     </div>
+    <cms:pageSlot position="CloudinaryVideoName" var="feature" element="div">
+                     <cms:component component="${feature}" element="div"/>
+    </cms:pageSlot>
     <cms:pageSlot position="Section3" var="feature" element="div" class="row no-margin" >
         <cms:component component="${feature}" element="div" class="no-space yComponentWrapper"/>
     </cms:pageSlot>
