@@ -268,5 +268,6 @@
     <extension name='cloudinarymediawebservices' />
     <extension name='cloudinarymediaaddon' />
     <extension name='cloudinarymediafacades' />
+    <extension name="oauth2" />
   </extensions>
 </hybrisconfig>

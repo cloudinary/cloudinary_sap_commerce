@@ -1,6 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
-
 <%@ page isErrorPage="true" trimDirectiveWhitespaces="true" %>
 <%
     if (exception.getClass().getSimpleName().equals("InvalidResourceException")) {
@@ -11,7 +9,7 @@
     }
 %>
 <c:choose>
-    <c:when test="${fn:contains(header.accept, 'application/xml')}">
+    <c:when test="${header.accept=='application/xml'}">
 <% response.setContentType("application/xml"); %>
 <?xml version='1.0' encoding='UTF-8'?>
 <errors>
@@ -22,7 +20,7 @@
 </c:when>
     <c:otherwise><% response.setContentType("application/json"); %>{
    "errors": [ {
-      "type": "<%=exception.getClass().getSimpleName().replace("Exception", "Error")%>"
+      "type": <%=exception.getClass().getSimpleName().replace("Exception", "Error")%>
    } ]
 }
 </c:otherwise>

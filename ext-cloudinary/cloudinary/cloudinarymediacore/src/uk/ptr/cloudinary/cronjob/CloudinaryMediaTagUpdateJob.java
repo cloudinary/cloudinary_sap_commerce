@@ -44,7 +44,7 @@ public class CloudinaryMediaTagUpdateJob extends AbstractJobPerformable<Cloudina
 
         CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-        if (!catalogVersionModels.isEmpty()) {
+        if (cloudinaryConfigModel.getEnableCloudinary() && !catalogVersionModels.isEmpty()) {
             catalogVersionModels.stream().forEach(c -> {
                 List<ProductModel> products = cloudinaryProductDao.findAllProductsForGalleryImagesAndCatalogVersion(c);
                 products.stream().forEach(p -> {
