@@ -10,6 +10,7 @@ import de.hybris.platform.product.daos.ProductDao;
 import de.hybris.platform.servicelayer.model.ModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
 import uk.ptr.cloudinary.dto.BulkUploadRequestData;
@@ -48,7 +49,7 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
     private CatalogSynchronizationService catalogSynchronizationService;
 
     @Override
-    public void bulkUploadAssest(BulkUploadRequestData bulkUploadRequestData) {
+    public void bulkAssetUpload(BulkUploadRequestData bulkUploadRequestData) {
 
         BulkUploadResponseData responseData = new BulkUploadResponseData();
 
@@ -59,22 +60,21 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
         bulkUploadRequestData.getProductMediaAssest().stream().forEach(bulkUpload -> {
             List<ProductModel> productModels = productDao.findProductsByCode(bulkUpload.getProductCode());
 
-            ProductModel stagedProduct =  getStagedProduct(productModels);
+            ProductModel stagedProduct = getStagedProduct(productModels);
 
             if (stagedProduct.getGalleryImages() == null) {
                 MediaModel mediaModel = createMediaContainerAndAssociateWithProduct(stagedProduct, bulkUpload.getMediaContainers());
-                if(mediaModel != null) {
+                if (mediaModel != null) {
                     UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, mediaModel.getCloudinaryPublicId());
                 }
                 catalogVersionModels.add(stagedProduct.getCatalogVersion());
-            }
-            else {
+            } else {
                 List<String> mediaContainerCodes = stagedProduct.getGalleryImages().stream().map(MediaContainerModel::getQualifier).collect(Collectors.toList());
                 List<MediaContainerData> mediaContainersData = bulkUpload.getMediaContainers().stream().collect(Collectors.toList());
 
                 List<MediaContainerModel> mediaContainerModels = new ArrayList<>();
 
-                        mediaContainersData.stream().forEach(md -> {
+                mediaContainersData.stream().forEach(md -> {
                     if (md.getMediaContainerCode() != null && mediaContainerCodes.contains(md.getMediaContainerCode())) {
                         updateMasterMedia(md, stagedProduct.getGalleryImages().get(0));
                         UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, md.getPublicId());
@@ -91,9 +91,8 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
             }
         });
 
-        if(catalogVersionModels != null)
-        {
-            catalogVersionModels.forEach(c ->{
+        if (!CollectionUtils.isEmpty(catalogVersionModels)) {
+            catalogVersionModels.forEach(c -> {
                 CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(c.getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
                 catalogSynchronizationService.synchronizeFullyInBackground(c, onlineVersion);
             });
@@ -104,16 +103,15 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
         try {
             updateTagApiService.updateTagOnAsests(publicId, bulkUpload.getProductCode(), cloudinaryConfigModel.getCloudinaryURL());
         } catch (IOException e) {
-           LOG.error("Error occured while updating tag ", e);
+            LOG.error("Error occured while updating tag ", e);
         }
     }
 
     private ProductModel getStagedProduct(List<ProductModel> productModels) {
-        for (ProductModel productmodel : productModels){
-           if(productmodel.getCatalogVersion().getVersion().equalsIgnoreCase("Staged"))
-           {
-               return productmodel;
-           }
+        for (ProductModel productmodel : productModels) {
+            if (productmodel.getCatalogVersion().getVersion().equalsIgnoreCase("Staged")) {
+                return productmodel;
+            }
         }
         return null;
     }
@@ -121,15 +119,15 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
     private void updateMasterMedia(MediaContainerData data, MediaContainerModel mediaContainerModel) {
 
         Boolean updatedMedia = false;
-
-        for (MediaModel m : mediaContainerModel.getMedias()) {
-            if (m.getMediaFormat() == null) {
-                updateMasterMedia(data, m);
-                updatedMedia = true;
-                break;
+        if (mediaContainerModel != null) {
+            for (MediaModel m : mediaContainerModel.getMedias()) {
+                if (m.getMediaFormat() == null) {
+                    updateMasterMedia(data, m);
+                    updatedMedia = true;
+                    break;
+                }
             }
         }
-
         if (!updatedMedia) {
             MediaModel mediaModel = createMasterMedia(data);
 

@@ -28,7 +28,7 @@ public class BulkUploadAssetController {
     @ResponseBody
     public ResponseEntity<String> uploadAssets(@RequestBody final BulkUploadRequestData resquestBody) {
 
-       bulkUploadApiService.bulkUploadAssest(resquestBody);
+       bulkUploadApiService.bulkAssetUpload(resquestBody);
        return new ResponseEntity<>("Uploaded Assets", HttpStatus.OK);
     }
 
