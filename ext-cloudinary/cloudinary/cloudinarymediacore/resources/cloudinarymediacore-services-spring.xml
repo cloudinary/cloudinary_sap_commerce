@@ -90,4 +90,6 @@
 
 	<bean id="updateTagApiService" class="uk.ptr.cloudinary.service.impl.DefaultUpdateTagApiService"/>
 
+	<bean id="bulkUploadApiService" class="uk.ptr.cloudinary.service.impl.DefaultBulkUploadApiService"/>
+
 </beans>

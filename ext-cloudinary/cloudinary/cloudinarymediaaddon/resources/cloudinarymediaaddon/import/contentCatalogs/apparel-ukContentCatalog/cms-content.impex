@@ -27,3 +27,17 @@ INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;c
 
 INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='LandingPage2Template'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
                                     ;;cloudinaryVideo-LandingPage2;CloudinaryVideoName;;CloudinaryVideoSlot;true
+
+INSERT_UPDATE ContentSlotName; name[unique = true]    ; template(uid, $contentCV)[unique = true][default = 'LandingPage2Template']; validComponentTypes(code); compTypeGroup(code)
+                             ; CloudinaryVideoName              ;                                                                           ;                          ;
+
+INSERT_UPDATE ComponentTypeGroups2ComponentType;source(code)[unique=true];target(code)[unique=true]
+                                               ;wide;CloudinaryGalleryComponent
+                                               ;wide;CloudinaryVideoComponent
+                                               ;narrow;CloudinaryVideoComponent
+                                               ;logo;CloudinaryVideoComponent
+                                               ;headerlinks;CloudinaryVideoComponent
+                                               ;searchbox;CloudinaryVideoComponent
+                                               ;minicart;CloudinaryVideoComponent
+                                               ;navigation;CloudinaryVideoComponent
+                                               ;footer;CloudinaryVideoComponent
