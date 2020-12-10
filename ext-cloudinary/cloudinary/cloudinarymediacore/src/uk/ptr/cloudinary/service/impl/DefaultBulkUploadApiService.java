@@ -14,7 +14,6 @@ import org.springframework.util.CollectionUtils;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
 import uk.ptr.cloudinary.dto.BulkUploadRequestData;
-import uk.ptr.cloudinary.dto.BulkUploadResponseData;
 import uk.ptr.cloudinary.dto.CloudinaryProductAssestData;
 import uk.ptr.cloudinary.dto.MediaContainerData;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
@@ -50,8 +49,6 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
 
     @Override
     public void bulkAssetUpload(BulkUploadRequestData bulkUploadRequestData) {
-
-        BulkUploadResponseData responseData = new BulkUploadResponseData();
 
         Set<CatalogVersionModel> catalogVersionModels = new HashSet<>();
 

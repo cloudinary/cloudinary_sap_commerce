@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uk.ptr.cloudinary.dto.BulkUploadRequestData;
-import uk.ptr.cloudinary.dto.BulkUploadResponseData;
 import uk.ptr.cloudinary.service.BulkUploadApiService;
 
 import javax.annotation.Resource;
