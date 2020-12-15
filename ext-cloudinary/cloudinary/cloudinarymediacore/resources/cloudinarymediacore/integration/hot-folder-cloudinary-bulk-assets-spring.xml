@@ -41,17 +41,17 @@
 
 	<bean id="batchCloudinaryMediaConverterMapping"
 		  class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
-		  p:mapping="mediaC"
+		  p:mapping="media"
 		  p:converter-ref="batchCloudinaryMediaConverter"/>
 
 	<bean id="batchCloudinaryMediaContainerConverterMapping"
 		  class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
-		  p:mapping="mediaC"
+		  p:mapping="media"
 		  p:converter-ref="batchCloudinaryMediaContainerConverter"/>
 
 	<bean id="batchCloudinaryMediaProductConverterMapping"
 		  class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
-		  p:mapping="mediaC"
+		  p:mapping="media"
 		  p:converter-ref="batchCloudinaryMediaProductConverter"/>
 
 	<!-- Converters -->
@@ -113,5 +113,5 @@
 		<property name="cleanupHelper" ref="cleanupHelper" />
 	</bean>
 
-	
+
 </beans>
