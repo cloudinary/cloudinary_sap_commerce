@@ -13,7 +13,7 @@
 
     <import resource="cloudinarymediacore-services-spring.xml" />
     <import resource="cloudinarymediacore-dao-spring.xml" />
-    <import resource="classpath:/cloudinarymediacore/integration/hot-folder-cloudinary-bulk-assets-spring.xml"/>
+    <import resource="classpath:/cloudinarymediacore/integration/hot-folder-cloudinary-spring.xml"/>
 
     <bean id="cloudinarymediacoreSystemSetup" class="uk.ptr.cloudinary.setup.CloudinarymediacoreSystemSetup"
           parent="abstractCoreSystemSetup">

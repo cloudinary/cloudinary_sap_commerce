@@ -81,20 +81,21 @@ public abstract class AbstractCloudinaryImpexRunnerTask extends AbstractImpexRun
 
     private void triggerUpdateTagJob() {
 
-        Collection<CatalogVersionModel> catalogVersionModels = catalogVersionDao.findCatalogVersions("apparelContentCatalog", CloudinarymediacoreConstants.VERSION_ONLINE);
+        Collection<CatalogVersionModel> catalogVersionModels = catalogVersionDao.findAllCatalogVersions();
 
         List<CatalogVersionModel> onlineCatalogs = new ArrayList<>();
 
         for (CatalogVersionModel c : catalogVersionModels) {
             if (c.getVersion().equalsIgnoreCase(CloudinarymediacoreConstants.VERSION_ONLINE)) {
                 onlineCatalogs.add(c);
-            }
+             }
         }
 
         CloudinaryMediaTagUpdateJobModel cloudinaryMediaTagUpdateJobModel = modelService.create(CloudinaryMediaTagUpdateJobModel.class);
         cloudinaryMediaTagUpdateJobModel.setCode(UUID.randomUUID().toString());
         cloudinaryMediaTagUpdateJobModel.setActive(Boolean.TRUE);
-        cloudinaryMediaTagUpdateJobModel.setJob(cronJobService.getJob("cloudinaryMediaTagUpdateJob"));
+        cloudinaryMediaTagUpdateJobModel.setJob(cronJobService.getJob(CloudinarymediacoreConstants.CLOUDINARYMEDIATAGUPDATEJOB));
+
         cloudinaryMediaTagUpdateJobModel.setCatalogVersion(onlineCatalogs);
         modelService.save(cloudinaryMediaTagUpdateJobModel);
 
@@ -102,6 +103,7 @@ public abstract class AbstractCloudinaryImpexRunnerTask extends AbstractImpexRun
     }
 
 }
+
 
 
 

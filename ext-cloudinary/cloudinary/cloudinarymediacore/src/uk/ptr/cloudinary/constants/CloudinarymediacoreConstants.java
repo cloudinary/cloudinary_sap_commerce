@@ -57,6 +57,8 @@ public final class CloudinarymediacoreConstants extends GeneratedCloudinarymedia
 	public static final String IMAGE = "image";
 	public static final String VIDEO = "video";
 
+	public static final String CLOUDINARYMEDIATAGUPDATEJOB = "cloudinaryMediaTagUpdateJob";
+
 
 
 }
