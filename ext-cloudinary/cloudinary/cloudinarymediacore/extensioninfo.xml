@@ -13,6 +13,7 @@
 
         <requires-extension name="commerceservices"/>
         <requires-extension name="mediaconversion"/>
+        <requires-extension name="acceleratorservices"/>
 
         <coremodule generated="true" manager="uk.ptr.cloudinary.jalo.CloudinarymediacoreManager" packageroot="uk.ptr.cloudinary"/>
         
