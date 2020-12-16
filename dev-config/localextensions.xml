@@ -259,5 +259,12 @@
     <extension name='xyformsservices' />
     <extension name='xyformsstorefrontcommons' />
     <extension name='xyformsweb' />
+    <extension name='cloudinarymediacore' />
+    <extension name='cloudinarymediabackoffice' />
+    <extension name='cloudinarymediasmartedit' />
+    <extension name='cloudinarymediawebservices' />
+    <extension name='cloudinarymediaaddon' />
+    <extension name='cloudinarymediafacades' />
+    <extension name="oauth2" />
   </extensions>
 </hybrisconfig>

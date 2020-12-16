@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	                       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Validators -->
+	<bean id="minimalAddressValidator" class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyOrTooLongValidator">
+					<property name="fieldPath" value="firstName"/>
+					<property name="maxLength" value="255"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyOrTooLongValidator">
+					<property name="fieldPath" value="lastName"/>
+					<property name="maxLength" value="255"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyOrTooLongValidator">
+					<property name="fieldPath" value="line1"/>
+					<property name="maxLength" value="255"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyOrTooLongValidator">
+					<property name="fieldPath" value="town"/>
+					<property name="maxLength" value="255"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyOrTooLongValidator">
+					<property name="fieldPath" value="postalCode"/>
+					<property name="maxLength" value="10"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="commonAddressValidator" class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list>
+				<ref bean="minimalAddressValidator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="japaneseAddressValidator" class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list>
+				<ref bean="minimalAddressValidator"/>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyOrTooLongValidator">
+					<property name="fieldPath" value="line2"/>
+					<property name="maxLength" value="255"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyOrTooLongValidator">
+					<property name="fieldPath" value="region.isocode"/>
+					<property name="maxLength" value="7"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="chineseAddressValidator" class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list>
+				<ref bean="commonAddressValidator"/>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyOrTooLongValidator">
+					<property name="fieldPath" value="region.isocode"/>
+					<property name="maxLength" value="7"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultAddressValidator" alias="addressValidator"/>
+	<bean id="defaultAddressValidator"
+	      class="uk.ptr.cloudinary.validator.CountryAwareAddressValidator">
+		<property name="commonAddressValidator" ref="commonAddressValidator"/>
+		<property name="countrySpecificAddressValidators">
+			<map>
+				<entry key="JP" value-ref="japaneseAddressValidator"/>
+				<entry key="CN" value-ref="chineseAddressValidator"/>
+			</map>
+		</property>
+	</bean>
+
+	<alias name="defaultPaymentAddressValidator" alias="paymentAddressValidator"/>
+	<bean id="defaultPaymentAddressValidator"
+	      class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="billingAddress.firstName"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="billingAddress.lastName"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="billingAddress.line1"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="billingAddress.town"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyOrTooLongValidator">
+					<property name="fieldPath" value="billingAddress.postalCode"/>
+					<property name="maxLength" value="10"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyOrTooLongValidator">
+					<property name="fieldPath" value="billingAddress.country.isocode"/>
+					<property name="maxLength" value="2"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultDeliveryAddressValidator" alias="deliveryAddressValidator"/>
+	<bean id="defaultDeliveryAddressValidator"
+	      class="uk.ptr.cloudinary.validator.DeliveryAddressValidator">
+	</bean>
+
+	<alias name="defaultCartVoucherValidator" alias="cartVoucherValidator"/>
+	<bean id="defaultCartVoucherValidator"
+		  class="uk.ptr.cloudinary.validator.CartVoucherValidator">
+		<constructor-arg ref="voucherFacade" />
+	</bean>
+
+	<alias name="defaultPlaceOrderCartValidator" alias="placeOrderCartValidator"/>
+	<bean id="defaultPlaceOrderCartValidator"
+	      class="uk.ptr.cloudinary.validator.PlaceOrderCartValidator">
+	</bean>
+
+	<bean id="pointOfServiceValidator"
+	      class="uk.ptr.cloudinary.validator.PointOfServiceValidator">
+		<property name="pointOfServiceService" ref="pointOfServiceService"/>
+	</bean>
+
+	<alias name="defaultReviewDTOValidator" alias="reviewDTOValidator"/>
+	<bean id="defaultReviewDTOValidator" class="uk.ptr.cloudinary.validator.ReviewDTOValidator"/>
+
+	<alias name="defaultOrderEntryCreateValidator" alias="orderEntryCreateValidator"/>
+	<bean id="defaultOrderEntryCreateValidator"
+	      class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="product.code"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="quantity"/>
+				</bean>
+				<ref bean="quantityGreaterThanZeroValidator"/>
+				<ref bean="pointOfServiceInOrderEntryValidator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pointOfServiceInOrderEntryValidator"
+	      class="uk.ptr.cloudinary.validator.PointOfServiceValidator">
+		<property name="pointOfServiceService" ref="pointOfServiceService"/>
+		<property name="fieldPath" value="deliveryPointOfService.name"/>
+	</bean>
+
+	<bean id="quantityGreaterThanZeroValidator"
+	      class="de.hybris.platform.webservicescommons.validators.FieldGreaterThanZeroValidator">
+		<property name="fieldPath" value="quantity"/>
+	</bean>
+
+	<alias name="defaultOrderEntryReplaceValidator" alias="orderEntryReplaceValidator"/>
+	<bean id="defaultOrderEntryReplaceValidator"
+	      class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="quantity"/>
+				</bean>
+				<ref bean="quantityGreaterThanZeroValidator"/>
+				<ref bean="pointOfServiceInOrderEntryValidator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultOrderEntryUpdateValidator" alias="orderEntryUpdateValidator"/>
+	<bean id="defaultOrderEntryUpdateValidator"
+	      class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list>
+				<ref bean="quantityGreaterThanZeroValidator"/>
+				<ref bean="pointOfServiceInOrderEntryValidator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultAddressDTOValidator" alias="addressDTOValidator"/>
+	<bean id="defaultAddressDTOValidator"
+	      class="uk.ptr.cloudinary.validator.CountryAwareAddressDTOValidator">
+		<property name="commonAddressValidator" ref="commonAddressValidator"/>
+		<property name="countrySpecificAddressValidators">
+			<map>
+				<entry key="JP" value-ref="japaneseAddressValidator"/>
+				<entry key="CN" value-ref="chineseAddressValidator"/>
+			</map>
+		</property>
+	</bean>
+
+	<alias name="defaultPaymentDetailsDTOValidator" alias="paymentDetailsDTOValidator"/>
+	<bean id="defaultPaymentDetailsDTOValidator"
+	      class="uk.ptr.cloudinary.validator.PaymentDetailsDTOValidator">
+		<property name="paymentAddressValidator" ref="paymentAddressValidator"/>
+	</bean>
+
+	<alias name="defaultGreaterThanZeroValidator" alias="greaterThanZeroValidator"/>
+	<bean id="defaultGreaterThanZeroValidator"
+	      class="de.hybris.platform.webservicescommons.validators.FieldGreaterThanZeroValidator"/>
+
+	<alias name="defaultPutUserDTOValidator" alias="putUserDTOValidator"/>
+	<bean id="defaultPutUserDTOValidator" class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="firstName"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="lastName"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultPrincipalListDTOValidator" alias="principalListDTOValidator"/>
+	<bean id="defaultPrincipalListDTOValidator"
+	      class="uk.ptr.cloudinary.validator.PrincipalListDTOValidator">
+		<property name="canBeEmpty" value="false"/>
+		<property name="userMatchingService" ref="userMatchingService"/>
+	</bean>
+
+	<alias name="defaultUserGroupDTOValidator" alias="userGroupDTOValidator"/>
+	<bean id="defaultUserGroupDTOValidator"
+	      class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="uid"/>
+				</bean>
+				<bean class="uk.ptr.cloudinary.validator.PrincipalListDTOValidator">
+					<property name="fieldPath" value="members"/>
+					<property name="userMatchingService" ref="userMatchingService"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+	<alias alias="guestConvertingDTOValidator" name="defaultGuestConvertingDTOValidator"/>
+	<bean id="defaultGuestConvertingDTOValidator" parent="passwordStrengthValidator"
+		  class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list merge="true">
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldEmptyValidator">
+					<property name="fieldPath" value="uid"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldEmptyValidator">
+					<property name="fieldPath" value="titleCode"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldEmptyValidator">
+					<property name="fieldPath" value="firstName"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldEmptyValidator">
+					<property name="fieldPath" value="lastName"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+	<alias alias="userSignUpDTOValidator" name="defaultUserSignUpDTOValidator"/>
+	<bean id="defaultUserSignUpDTOValidator" parent="passwordStrengthValidator"
+	      class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list merge="true">
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="uid"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="firstName"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="lastName"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="password"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.EmailValidator">
+					<property name="fieldPath" value="uid"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="passwordStrengthValidator"
+		  class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+	<property name="validators">
+	<list>
+		<bean class="de.hybris.platform.webservicescommons.validators.RegexpValidator">
+			<property name="errorMessageID" value="field.password.notallowed.chars" />
+			<property name="fieldPath" value="password" />
+			<property name="regularExpression" value= "^.*[a-zA-Z0-9!@#$%^*()_\-+{};:.,]$" />
+		</bean>
+		<bean class="de.hybris.platform.webservicescommons.validators.RegexpValidator">
+			<property name="errorMessageID" value="field.password.min.one.number" />
+			<property name="fieldPath" value="password" />
+			<property name="regularExpression" value= "(?=(?:.*?[0-9]){1}).*" />
+		</bean>
+		<bean class="de.hybris.platform.webservicescommons.validators.RegexpValidator">
+			<property name="errorMessageID" value="field.password.min.one.uppercase" />
+			<property name="fieldPath" value="password" />
+			<property name="regularExpression" value= "(?=(?:.*?[A-Z]){1}).*" />
+		</bean>
+		<bean class="de.hybris.platform.webservicescommons.validators.RegexpValidator">
+			<property name="errorMessageID" value="field.password.min.one.special.char" />
+			<property name="fieldPath" value="password" />
+			<property name="regularExpression" value= "(?=(?:.*?[!@#$%^*()_\-+{};:.,]){1}).*" />
+		</bean>
+		<bean class="de.hybris.platform.webservicescommons.validators.RegexpValidator">
+			<property name="errorMessageID" value="field.password.min.six.characters" />
+			<property name="fieldPath" value="password" />
+			<property name="regularExpression" value= "^.{6,}$" />
+		</bean>
+			</list>
+	</property>
+	</bean>
+
+	<alias name="defaultOrderStatusValueValidator" alias="orderStatusValueValidator"/>
+	<bean id="defaultOrderStatusValueValidator"
+	      class="de.hybris.platform.webservicescommons.validators.EnumValueValidator">
+	      <constructor-arg name="enumClass" value="OrderStatus" />
+		<property name="enumerationService" ref="enumerationService"/>
+	</bean>
+
+	<!-- Beans for user matching in commerce web services -->
+	<alias name="defaultWsPrincipalListDTOValidator" alias="wsPrincipalListDTOValidator" />
+	<bean id="defaultWsPrincipalListDTOValidator" parent="defaultPrincipalListDTOValidator" >
+		<property name="canBeEmpty" value="false" />
+		<property name="userMatchingService" ref="wsUserMatchingService" />
+	</bean >
+
+	<alias name="defaultWsUserGroupDTOValidator" alias="wsUserGroupDTOValidator" />
+	<bean id="defaultWsUserGroupDTOValidator"
+	      class="de.hybris.platform.webservicescommons.validators.CompositeValidator" >
+		<property name="validators" >
+			<list >
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator" >
+					<property name="fieldPath" value="uid" />
+				</bean >
+				<bean class="uk.ptr.cloudinary.validator.PrincipalListDTOValidator" >
+					<property name="fieldPath" value="members" />
+					<property name="userMatchingService" ref="wsUserMatchingService" />
+				</bean >
+			</list >
+		</property >
+	</bean >
+
+	<alias name="defaultReturnRequestEntryInputListDTOValidator" alias="returnRequestEntryInputListDTOValidator"/>
+	<bean id="defaultReturnRequestEntryInputListDTOValidator"
+		  class="uk.ptr.cloudinary.validator.ReturnRequestEntryInputListDTOValidator"/>
+
+	<alias name="defaultCancellationRequestEntryInputListDTOValidator" alias="cancellationRequestEntryInputListDTOValidator"/>
+	<bean id="defaultCancellationRequestEntryInputListDTOValidator"
+		  class="uk.ptr.cloudinary.validator.CancellationRequestEntryInputListDTOValidator"/>
+
+</beans>

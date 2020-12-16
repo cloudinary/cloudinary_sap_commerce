@@ -5,5 +5,5 @@ import uk.ptr.cloudinary.dto.BulkUploadRequestData;
 
 public interface BulkUploadApiService {
 
-    public void bulkAssetUpload(BulkUploadRequestData bulkUploadRequestData);
+    public void bulkAssetUpload(BulkUploadRequestData bulkUploadRequestData, String baseSiteId);
 }

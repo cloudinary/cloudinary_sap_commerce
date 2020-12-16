@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/cache
+     	http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan
+            base-package="uk.ptr.cloudinary.v2, uk.ptr.cloudinary.auth, uk.ptr.cloudinary.context, uk.ptr.cloudinary.conv, uk.ptr.cloudinary.errors, uk.ptr.cloudinary.exceptions, uk.ptr.cloudinary.filter, uk.ptr.cloudinary.formatters, uk.ptr.cloudinary.oauth2, uk.ptr.cloudinary.resolver, uk.ptr.cloudinary.util.ws, uk.ptr.cloudinary.validator, uk.ptr.cloudinary.xstream, de.hybris.platform.webservicescommons.mapping, de.hybris.platform.webservicescommons.swagger"
+            scope-resolver="de.hybris.platform.spring.IgnoreTenantScopeMetadataResolver"/>
+
+    <cache:annotation-driven cache-manager="compositeWsCacheManager" key-generator="commerceCacheKeyGenerator"/>
+
+    <mvc:interceptors>
+        <bean class="de.hybris.platform.webservicescommons.interceptors.CacheControlHandlerInterceptor"/>
+    </mvc:interceptors>
+
+    <security:global-method-security order="-2147483648" secured-annotations="enabled" pre-post-annotations="enabled" proxy-target-class="true"/>
+    <mvc:resources mapping="**/swagger-ui.html" location="classpath:/META-INF/resources/"/>
+    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+
+    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="cwsSearchQueryCodec"
+          class="uk.ptr.cloudinary.util.ws.impl.DefaultSearchQueryCodec"/>
+
+    <bean id="addressDataErrorsPopulator"
+          class="uk.ptr.cloudinary.populator.AddressDataErrorsPopulator">
+        <constructor-arg>
+            <map>
+                <entry key="addressline1" value="line1"/>
+                <entry key="addressline2" value="line2"/>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <!-- Pointcut definition with annotation-->
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="siteChannelRestrictionPoint"
+                      expression="@annotation(de.hybris.platform.commercewebservicescommons.annotation.SiteChannelRestriction)"/>
+        <aop:aspect ref="siteChannelRestrictionAspect">
+            <aop:around pointcut-ref="siteChannelRestrictionPoint" method="validateSiteChannel"/>
+        </aop:aspect>
+    </aop:config>
+</beans>

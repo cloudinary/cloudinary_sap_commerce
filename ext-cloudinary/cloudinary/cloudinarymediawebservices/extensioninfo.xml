@@ -2,31 +2,38 @@
 <!--
  Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
 --><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
-           
+        	
     
-    <extension abstractclassprefix="Generated" classprefix="Cloudinarymediawebservices" managername="CloudinarymediawebservicesManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="cloudinarymediawebservices" usemaven="false">
-                               
-      
+    <extension abstractclassprefix="Generated" classprefix="Ycommercewebservices" name="cloudinarymediawebservices" usemaven="false">
+                		
         
+        <requires-extension name="commercefacades"/>
+                		
+        
+        <requires-extension name="commercewebservicescommons"/>
+                		
+        
+        <requires-extension name="ordermanagementfacades"/>
+
         <requires-extension name="webservicescommons"/>
 
         <requires-extension name="cloudinarymediacore"/>
 
         <requires-extension name="oauth2"/>
-
-        <coremodule generated="true" manager="uk.ptr.cloudinary.jalo.CloudinarymediawebservicesManager" packageroot="uk.ptr.cloudinary"/>
-                      
+                		
+        
+        <coremodule generated="true" manager="de.hybris.platform.jalo.extension.GenericManager" packageroot="uk.ptr.cloudinary"/>
+                		
         
         <webmodule jspcompile="false" webroot="/cloudinarymediawebservices"/>
-                					
-		
+                		
         
-        	
-
-   
+        		
+        
+        <meta key="modulegen-name" value="commercewebservices"/>
+                	
     
     </extension>
-              
-
+        
 
 </extensioninfo>

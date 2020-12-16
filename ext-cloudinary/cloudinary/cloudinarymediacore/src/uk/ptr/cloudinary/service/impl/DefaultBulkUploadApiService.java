@@ -1,13 +1,20 @@
 package uk.ptr.cloudinary.service.impl;
 
+import de.hybris.platform.acceleratorservices.cartfileupload.data.SavedCartFileUploadReportData;
+import de.hybris.platform.basecommerce.model.site.BaseSiteModel;
 import de.hybris.platform.catalog.CatalogVersionService;
 import de.hybris.platform.catalog.model.CatalogVersionModel;
 import de.hybris.platform.catalog.synchronization.CatalogSynchronizationService;
+import de.hybris.platform.commerceservices.impersonation.ImpersonationContext;
+import de.hybris.platform.commerceservices.impersonation.ImpersonationService;
 import de.hybris.platform.core.model.media.MediaContainerModel;
 import de.hybris.platform.core.model.media.MediaModel;
+import de.hybris.platform.core.model.order.CartModel;
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.product.daos.ProductDao;
 import de.hybris.platform.servicelayer.model.ModelService;
+import de.hybris.platform.servicelayer.user.UserService;
+import de.hybris.platform.site.BaseSiteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -47,17 +54,35 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
     @Resource
     private CatalogSynchronizationService catalogSynchronizationService;
 
+    @Resource
+    private BaseSiteService baseSiteService;
+
+    @Resource
+    private UserService userService;
+
+    @Resource
+    private ImpersonationService impersonationService;
+
     @Override
-    public void bulkAssetUpload(BulkUploadRequestData bulkUploadRequestData) {
+    public void bulkAssetUpload(BulkUploadRequestData bulkUploadRequestData,String baseSiteId) {
 
         Set<CatalogVersionModel> catalogVersionModels = new HashSet<>();
 
         CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
         bulkUploadRequestData.getProductMediaAssest().stream().forEach(bulkUpload -> {
-            List<ProductModel> productModels = productDao.findProductsByCode(bulkUpload.getProductCode());
 
-            ProductModel stagedProduct = getStagedProduct(productModels);
+            List<ProductModel> productModels = impersonationService
+                    .executeInContext(getImpersonationContext(baseSiteId), new ImpersonationService.Executor<List<ProductModel>, ImpersonationService.Nothing>()
+                    {
+                        @Override
+                        public List<ProductModel> execute() {
+                            return productDao.findProductsByCode(bulkUpload.getProductCode());
+                        }
+                    });
+
+
+            ProductModel stagedProduct = getStagedProduct(productModels, baseSiteId);
 
             if (stagedProduct.getGalleryImages() == null) {
                 MediaModel mediaModel = createMediaContainerAndAssociateWithProduct(stagedProduct, bulkUpload.getMediaContainers());
@@ -104,10 +129,19 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
         }
     }
 
-    private ProductModel getStagedProduct(List<ProductModel> productModels) {
+    private ProductModel getStagedProduct(List<ProductModel> productModels,String baseSiteId) {
         for (ProductModel productmodel : productModels) {
-            if (productmodel.getCatalogVersion().getVersion().equalsIgnoreCase("Staged")) {
-                return productmodel;
+            CatalogVersionModel stagedVersion = catalogVersionService.getCatalogVersion(productmodel.getCatalogVersion().getCatalog().getId(), CloudinarymediacoreConstants.VERSION_STAGED);
+            List<ProductModel> stagedProducts = impersonationService
+                    .executeInContext(getImpersonationContext(baseSiteId), new ImpersonationService.Executor<List<ProductModel>, ImpersonationService.Nothing>()
+                    {
+                        @Override
+                        public List<ProductModel> execute() {
+                            return productDao.findProductsByCode(stagedVersion,productmodel.getCode());
+                        }
+                    });
+            if(org.apache.commons.collections.CollectionUtils.isNotEmpty(stagedProducts)) {
+                return stagedProducts.get(0);
             }
         }
         return null;
@@ -190,5 +224,18 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
         modelService.save(media);
 
         return media;
+    }
+
+    private ImpersonationContext getImpersonationContext(String baseSiteId)
+    {
+        final ImpersonationContext context = new ImpersonationContext();
+        context.setUser(userService.getAdminUser());
+        context.setSite(getBaseSite(baseSiteId));
+        return context;
+    }
+
+    private BaseSiteModel getBaseSite(String baseSiteId)
+    {
+        return baseSiteService.getBaseSiteForUID(baseSiteId);
     }
 }
