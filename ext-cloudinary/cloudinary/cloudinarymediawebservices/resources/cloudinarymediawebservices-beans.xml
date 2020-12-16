@@ -125,4 +125,20 @@
 		<property name="integerMap" type="java.util.Map&lt;String,Integer>"/>
 	</bean>
 
+	<bean class="uk.ptr.cloudinary.dto.CloudinaryConfigurationWsDTO">
+		<description>Cloudinary Configuration</description>
+
+		<property name="cloudName" type="String"/>
+		<property name="apiKey" type="String"/>
+		<property name="environment" type="String"/>
+		<property name="cloudinaryCarouselHeight" type="int"/>
+		<property name="cloudinaryCarouselWidth" type="int"/>
+		<property name="transformations" type="String"/>
+		<property name="cloudinaryCarouselLocation" type="String"/>
+		<property name="cloudinaryCarouselOffset" type="int"/>
+		<property name="cloudinaryZoomType" type="String"/>
+		<property name="cloudinaryZoomTrigger" type="String"/>
+		<property name="isCloudinaryGalleryEnabled" type="boolean"/>
+	</bean>
+
 </beans>

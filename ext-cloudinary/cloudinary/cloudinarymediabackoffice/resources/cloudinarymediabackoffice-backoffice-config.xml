@@ -69,7 +69,7 @@
 			<editorArea:editorArea>
 				<editorArea:tab name="hmc.tab.cloudinaryconfig" merge-mode="append">
 					<editorArea:section name="cloudinaryconfig.section.common.attributes">
-						<editorArea:attribute qualifier="cloudinaryURL"/>
+						<editorArea:attribute qualifier="cloudinaryURL" />
 						<editorArea:attribute qualifier="cloudinaryFolderPath"/>
 						<editorArea:attribute qualifier="cloudinaryImageFormat"/>
 						<editorArea:attribute qualifier="cloudinaryQuality"/>
@@ -136,7 +136,7 @@
 				</wz:navigation>
 			</wz:step>
 
-			<wz:step id="step4" label="media.content.label" sublabel="media.content.sublabel" merge-mode="replace">
+			<wz:step id="step4" label="media.content.label" sublabel="cloudinarymedia.content.sublabel" merge-mode="replace">
 				<wz:content id="step4.content">
 					<wz:custom-view lang="zul" src="widgets/cloudinaryuploadpreview.zul" />
 				</wz:content>
@@ -193,6 +193,9 @@
 		    <editorArea:attribute qualifier="cloudinaryType" readonly="true"/>
 		    <editorArea:attribute qualifier="cloudinaryPublicId" readonly="true"/>
 			<editorArea:attribute qualifier="cloudinaryTransformation" readonly="true"/>
+			<editorArea:attribute qualifier="isCloudinaryOverride" readonly="true"/>
+			<editorArea:attribute qualifier="cloudinaryMediaFormat" readonly="true"/>
+			<editorArea:attribute qualifier="cloudinaryVersion" readonly="true"/>
 		</editorArea:section>
 	</editorArea:tab>
 	</editorArea:editorArea>

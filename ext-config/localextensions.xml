@@ -2,7 +2,7 @@
   <extensions>
     <path dir='${HYBRIS_BIN_DIR}' autoload='false' />
     <extension name='spartacussampledataaddon' />
-    <extension name='yb2bacceleratorstorefront' />
+    <!--<extension name='yb2bacceleratorstorefront' />-->
     <extension name='adaptivesearch' />
     <extension name='adaptivesearchbackoffice' />
     <extension name='adaptivesearchfacades' />
