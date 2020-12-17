@@ -23,15 +23,16 @@ public final class CloudinarymediacoreConstants extends GeneratedCloudinarymedia
 	public static final String CONNECTED = "Connected to cloudinary ";
 	public static final String ENABLE_CLOUDINARY = "Enable Cloudinary ";
 	public static final String DATE_FORMAT = "dd-MM-yyyy";
-	public static final String STORAGE_USUAGE = "<b> | Storage Usage : </b>";
-	public static final String BANDWIDTH_USUAGE ="<b> | Bandwidth Usage : </b>";
-	public static final String TRANSFORMATION_USUAGE ="<b> | Transformation Usage : </b>";
+	public static final String STORAGE_USUAGE = "<b> , Storage Usage : </b>";
+	public static final String BANDWIDTH_USUAGE ="<b> , Bandwidth Usage : </b>";
+	public static final String TRANSFORMATION_USUAGE ="<b> , Transformation Usage : </b>";
 	public static final String INVALID_URL ="Invalid URL : ";
 	public static final String KB = "<b> KB </b>";
 	public static final String MB = "<b> MB </b>";
 	public static final String GB = "<b> GB </b>";
+	public static final String CREDITS = "<b> Credits</b>";
 	public static final String PERCENTAGE = "<b>%</b>";
-	public static final String TOTAL_STORAGE_LIMIT = "<b> | Total Storage Limit : </b>";
+	public static final String TOTAL_STORAGE_LIMIT = "<b> | Credits : </b>";
 
 	public static final String PUBLIC_ID = "public_id";
 	public static final String FOLDER = "folder";

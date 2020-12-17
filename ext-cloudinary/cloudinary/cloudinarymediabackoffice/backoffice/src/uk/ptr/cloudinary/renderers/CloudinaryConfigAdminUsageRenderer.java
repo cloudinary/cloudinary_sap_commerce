@@ -21,6 +21,8 @@ import uk.ptr.cloudinary.service.AdminApiService;
 import org.zkoss.zul.Messagebox;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -189,25 +191,27 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
     }
 
     private String setUsageResponseData(Div newValueContainer, Label label, Html html, Hbox boxHeader, ApiResponse response) {
-        Map<String, Integer> storageUsage = new HashMap<>();
+        Map<String, Integer> storageUsages = new HashMap<>();
         Map<String, Integer> bandwidthUsages = new HashMap<>();
         Map<String, Integer> transformationUsages = new HashMap<>();
         Map<String, Double> limit = new HashMap<>();
 
-        storageUsage = (Map<String, Integer>) response.get("storage");
+        storageUsages = (Map<String, Integer>) response.get("storage");
         bandwidthUsages = (Map<String, Integer>) response.get("bandwidth");
         transformationUsages = (Map<String, Integer>) response.get("transformations");
         limit = (Map<String, Double>) response.get("credits");
 
-        Integer storageUsageMB = storageUsage.get("usage")/(1024*1024);
-        Integer banditUsagesKB = bandwidthUsages.get("usage")/1024;
+
+
+        String storageUsage = getByteConversion(storageUsages.get("usage"));
+        String bandwidthUsage = getByteConversion(bandwidthUsages.get("usage"));
 
         label.setValue(CloudinarymediacoreConstants.CONNECTED);
         label.setSclass("yw-labelstyle-z-label");
         boxHeader.appendChild(label);
 
         StringBuilder usagesData = new StringBuilder();
-        usagesData.append(response.get("plan")).append(CloudinarymediacoreConstants.TOTAL_STORAGE_LIMIT).append(limit.get("limit")).append(CloudinarymediacoreConstants.GB).append(CloudinarymediacoreConstants.STORAGE_USUAGE).append(storageUsageMB).append( CloudinarymediacoreConstants.MB).append(storageUsage.get("credits_usage")).append(CloudinarymediacoreConstants.PERCENTAGE).append(CloudinarymediacoreConstants.BANDWIDTH_USUAGE).append(banditUsagesKB).append(CloudinarymediacoreConstants.KB).append(bandwidthUsages.get("credits_usage")).append(CloudinarymediacoreConstants.PERCENTAGE).append(CloudinarymediacoreConstants.TRANSFORMATION_USUAGE).append(transformationUsages.get("usage")).append(" ").append(transformationUsages.get("credits_usage")).append(CloudinarymediacoreConstants.PERCENTAGE);
+        usagesData.append(response.get("plan")).append(CloudinarymediacoreConstants.TOTAL_STORAGE_LIMIT).append(limit.get("limit")).append(" (").append(limit.get("used_percent")).append(CloudinarymediacoreConstants.PERCENTAGE).append(")").append(CloudinarymediacoreConstants.STORAGE_USUAGE).append(storageUsage).append(" (").append(storageUsages.get("credits_usage")).append(CloudinarymediacoreConstants.CREDITS).append(")").append(CloudinarymediacoreConstants.BANDWIDTH_USUAGE).append(bandwidthUsage).append(" (").append(bandwidthUsages.get("credits_usage")).append(CloudinarymediacoreConstants.CREDITS).append(")").append(CloudinarymediacoreConstants.TRANSFORMATION_USUAGE).append(transformationUsages.get("usage")).append(" (").append(transformationUsages.get("credits_usage")).append(CloudinarymediacoreConstants.CREDITS).append(")");
 
         html.setContent(usagesData.toString());
         html.setSclass("yw-editorarea-z-html");
@@ -215,6 +219,33 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         newValueContainer.appendChild(boxHeader);
         newValueContainer.appendChild(html);
         return Boolean.TRUE.toString();
+    }
+
+    private String getByteConversion(Integer bytes){
+        BigDecimal usage = BigDecimal.valueOf(bytes);
+        BigDecimal kilobyte = BigDecimal.valueOf(1024);
+        BigDecimal megabyte = kilobyte.multiply(kilobyte);
+        BigDecimal gigabyte = megabyte.multiply(kilobyte);
+        BigDecimal terabyte = gigabyte.multiply(kilobyte);
+
+        if ((usage.compareTo(BigDecimal.ZERO) != -1) && usage.compareTo(kilobyte) == -1) {
+            return usage.setScale(2, RoundingMode.FLOOR) + " B";
+
+        } else if ((usage.compareTo(kilobyte) != -1) && usage.compareTo(megabyte) == -1) {
+            return usage.divide(kilobyte).setScale(2, RoundingMode.FLOOR) + " KB";
+
+        } else if (usage.compareTo(megabyte) != -1 && usage.compareTo(gigabyte) == -1) {
+            return usage.divide(megabyte).setScale(2, RoundingMode.FLOOR) + " MB";
+
+        } else if (usage.compareTo(gigabyte) != -1 && usage.compareTo(terabyte) == -1) {
+            return usage.divide(gigabyte).setScale(2, RoundingMode.FLOOR) + " GB";
+
+        } else if (usage.compareTo(terabyte) != -1) {
+            return usage.divide(terabyte).setScale(2, RoundingMode.FLOOR) + " TB";
+
+        } else {
+            return usage.setScale(2, RoundingMode.FLOOR) + " Bytes";
+        }
     }
 
 }
