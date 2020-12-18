@@ -13,6 +13,7 @@ import de.hybris.platform.servicelayer.cronjob.AbstractJobPerformable;
 import de.hybris.platform.servicelayer.cronjob.PerformResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 import uk.ptr.cloudinary.constants.GeneratedCloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
 import uk.ptr.cloudinary.dao.CloudinaryProductDao;
@@ -47,40 +48,37 @@ public class CloudinaryMediaTagUpdateJob extends AbstractJobPerformable<Cloudina
         if (cloudinaryConfigModel.getEnableCloudinary() && !catalogVersionModels.isEmpty()) {
             catalogVersionModels.stream().forEach(c -> {
                 List<ProductModel> products = cloudinaryProductDao.findAllProductsForGalleryImagesAndCatalogVersion(c);
-                products.stream().forEach(p -> {
-                    for (MediaContainerModel mediaContainerModel : p.getGalleryImages()) {
-                        MediaModel masterImage = getMasterImage(mediaContainerModel);
-                        try {
-                            if (masterImage != null) {
-                                updateTagApiService.updateTagOnAsests(masterImage.getCloudinaryPublicId(), p.getCode(), cloudinaryConfigModel.getCloudinaryURL());
+                if (!CollectionUtils.isEmpty(products)) {
+                    products.stream().forEach(p -> {
+                        for (MediaContainerModel mediaContainerModel : p.getGalleryImages()) {
+                            MediaModel masterImage = getMasterImage(mediaContainerModel);
+                            try {
+                                if (masterImage != null) {
+                                    updateTagApiService.updateTagOnAsests(masterImage.getCloudinaryPublicId(), p.getCode(), cloudinaryConfigModel.getCloudinaryURL());
+                                }
+                            } catch (IllegalArgumentException illegalException) {
+                                LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);
+                            } catch (Exception e) {
+                                LOG.error("Exception occurred calling Upload  API " + e.getMessage(), e);
                             }
-                        } catch (IllegalArgumentException illegalException) {
-                            LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);
-                        } catch (Exception e) {
-                            LOG.error("Exception occurred calling Upload  API " + e.getMessage(), e);
                         }
-                    }
-                });
+                    });
+                }
             });
         }
         return new PerformResult(CronJobResult.SUCCESS, CronJobStatus.FINISHED);
     }
 
     private MediaModel getMasterImage(MediaContainerModel mediaContainerModel) {
-        //int imageSize = 0;
+
         MediaModel masterMedia = null;
         Collection<MediaModel> medias = mediaContainerModel.getMedias();
         for (MediaModel mediaModel1 : medias) {
             if (mediaModel1.getMediaFormat() == null && mediaModel1.getCloudinaryURL() != null) {
                 masterMedia = mediaModel1;
             }
-            /*String s[] = mediaModel1.getMediaFormat().getTransformation().split(",");
-            int temp = Integer.valueOf(s[0].replace("w_", "")) * Integer.valueOf(s[1].replace("h_", ""));
-            if (imageSize < temp) {
-                imageSize = temp;
-                masterMedia = mediaModel1;
-            }*/
         }
         return masterMedia;
     }
 }
+
