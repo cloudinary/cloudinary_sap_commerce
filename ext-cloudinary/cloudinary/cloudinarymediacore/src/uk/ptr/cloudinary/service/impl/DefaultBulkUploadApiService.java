@@ -84,7 +84,7 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
 
             ProductModel stagedProduct = getStagedProduct(productModels, baseSiteId);
 
-            if (stagedProduct.getGalleryImages() == null) {
+            if (stagedProduct != null && stagedProduct.getGalleryImages() == null) {
                 MediaModel mediaModel = createMediaContainerAndAssociateWithProduct(stagedProduct, bulkUpload.getMediaContainers());
                 if (mediaModel != null) {
                     UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, mediaModel.getCloudinaryPublicId());
@@ -98,11 +98,12 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
 
                 mediaContainersData.stream().forEach(md -> {
                     if (md.getMediaContainerCode() != null && mediaContainerCodes.contains(md.getMediaContainerCode())) {
-                        updateMasterMedia(md, stagedProduct.getGalleryImages().get(0));
+                        updateMasterMedia(md, stagedProduct);
+                        mediaContainerModels.add(stagedProduct.getGalleryImages().get(0));
                         UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, md.getPublicId());
                         catalogVersionModels.add(stagedProduct.getCatalogVersion());
                     } else {
-                        MediaContainerModel mediaContainer = createMediaContainer(md);
+                        MediaContainerModel mediaContainer = createMediaContainer(md, stagedProduct);
                         mediaContainerModels.add(mediaContainer);
                         UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, md.getPublicId());
                         catalogVersionModels.add(stagedProduct.getCatalogVersion());
@@ -147,9 +148,10 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
         return null;
     }
 
-    private void updateMasterMedia(MediaContainerData data, MediaContainerModel mediaContainerModel) {
+    private void updateMasterMedia(MediaContainerData data, ProductModel product) {
 
         Boolean updatedMedia = false;
+        MediaContainerModel mediaContainerModel = product.getGalleryImages().get(0);
         if (mediaContainerModel != null) {
             for (MediaModel m : mediaContainerModel.getMedias()) {
                 if (m.getMediaFormat() == null) {
@@ -160,7 +162,7 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
             }
         }
         if (!updatedMedia) {
-            MediaModel mediaModel = createMasterMedia(data);
+            MediaModel mediaModel = createMasterMedia(data, product);
 
             mediaContainerModel.setMedias(Collections.singletonList(mediaModel));
             modelService.save(mediaContainerModel);
@@ -168,12 +170,13 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
 
     }
 
-    private MediaContainerModel createMediaContainer(MediaContainerData md) {
+    private MediaContainerModel createMediaContainer(MediaContainerData md, ProductModel product) {
 
-        MediaModel mediaModel = createMasterMedia(md);
+        MediaModel mediaModel = createMasterMedia(md, product);
 
         MediaContainerModel mediaContainerModel = this.modelService.create(MediaContainerModel.class);
         mediaContainerModel.setQualifier(UUID.randomUUID().toString());
+        mediaContainerModel.setCatalogVersion(product.getCatalogVersion());
         mediaContainerModel.setMedias(Collections.singletonList(mediaModel));
 
         modelService.save(mediaContainerModel);
@@ -187,7 +190,7 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
         List<MediaContainerModel> list = new ArrayList<>();
         for (MediaContainerData data : mediaContainers) {
 
-            mediaModel = createMasterMedia(data);
+            mediaModel = createMasterMedia(data, stagedProduct);
 
             MediaContainerModel mediaContainerModel = this.modelService.create(MediaContainerModel.class);
             mediaContainerModel.setQualifier(UUID.randomUUID().toString());
@@ -205,10 +208,10 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
         return mediaModel;
     }
 
-    private MediaModel createMasterMedia(MediaContainerData data) {
+    private MediaModel createMasterMedia(MediaContainerData data, ProductModel product) {
         MediaModel mediaModel = this.modelService.create(MediaModel.class);
         mediaModel.setCode(UUID.randomUUID().toString());
-
+        mediaModel.setCatalogVersion(product.getCatalogVersion());
         updateMasterMedia(data, mediaModel);
 
         return mediaModel;
@@ -239,3 +242,4 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
         return baseSiteService.getBaseSiteForUID(baseSiteId);
     }
 }
+
