@@ -25,35 +25,7 @@
 	<context type="Media" component="advanced-search" merge-by="type" parent="AbstractMedia">
 		<advanced-search:advanced-search xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch">
 			<advanced-search:field-list>
-				<advanced-search:field name="code" selected="true" operator="contains"/>
-				<advanced-search:field name="mime" selected="true" operator="startsWith"/>
-				<advanced-search:field name="folder" selected="true" operator="equals"/>
-				<advanced-search:field name="catalogVersion" selected="true" operator="equals"/>
 				<advanced-search:field name="cloudinaryUrl" selected="true" operator="contains"/>
-				<advanced-search:field name="altText"/>
-				<advanced-search:field name="description"/>
-				<advanced-search:field name="mediaContainer"/>
-				<advanced-search:field name="mediaFormat"/>
-				<advanced-search:field name="removable"/>
-				<advanced-search:field name="supercategories"/>
-				<advanced-search:field name="comments"/>
-				<advanced-search:field name="creationtime">
-					<advanced-search:editor-parameter>
-						<advanced-search:name>equalsComparesExactDate</advanced-search:name>
-						<advanced-search:value>true</advanced-search:value>
-					</advanced-search:editor-parameter>
-				</advanced-search:field>
-				<advanced-search:field name="dataPK"/>
-				<advanced-search:field name="modifiedtime">
-					<advanced-search:editor-parameter>
-						<advanced-search:name>equalsComparesExactDate</advanced-search:name>
-						<advanced-search:value>true</advanced-search:value>
-					</advanced-search:editor-parameter>
-				</advanced-search:field>
-				<advanced-search:field name="owner"/>
-				<advanced-search:field name="pk" editor="com.hybris.cockpitng.editor.defaultlong"/>
-				<advanced-search:field name="realFileName"/>
-				<advanced-search:field name="size"/>
 			</advanced-search:field-list>
 		</advanced-search:advanced-search>
 	</context>
