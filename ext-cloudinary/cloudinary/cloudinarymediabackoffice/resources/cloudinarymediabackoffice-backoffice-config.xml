@@ -9,6 +9,7 @@
 		xmlns:hybris="http://www.hybris.com/cockpit/config/hybris"
 		xmlns:ea="http://www.hybris.com/cockpitng/component/editorArea"
 		xmlns:y="http://www.hybris.com/cockpit/config/hybris"
+		xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch"
 		xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree">
 
 	<!-- cloudinarymediabackoffice UI configuration should be provided here -->
@@ -19,6 +20,14 @@
 				<y:label>'Cloudinary'+' '+ 'Configuration'</y:label>
 			</y:labels>
 		</y:base>
+	</context>
+
+	<context type="Media" component="advanced-search" merge-by="type" parent="AbstractMedia">
+		<advanced-search:advanced-search xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch">
+			<advanced-search:field-list>
+				<advanced-search:field name="cloudinaryUrl" selected="true" operator="contains"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
 	</context>
 
 	<!--Explorer tree -->
