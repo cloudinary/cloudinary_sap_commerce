@@ -137,7 +137,6 @@ public class CloudinaryProductMediaContentUpdateRenderer extends AbstractEditorA
                 masterImage.setCloudinaryVersion(version.toString());
                 masterImage.setCloudinaryMediaFormat(responseData.getFormat());
                 modelService.save(masterImage);
-                modelService.refresh(masterImage);
                 mediaContainerModel.setMedias(Collections.singletonList(masterImage));
                 modelService.save(mediaContainerModel);
                 productModel.setGalleryImages(Collections.singletonList(mediaContainerModel));
@@ -201,9 +200,9 @@ public class CloudinaryProductMediaContentUpdateRenderer extends AbstractEditorA
 
         MediaModel masterMedia = null;
         Collection<MediaModel> medias = mediaContainerModel.getMedias();
-        for (MediaModel mediaModel1 : medias) {
-            if (mediaModel1.getMediaFormat() == null && mediaModel1.getCloudinaryURL() != null) {
-                masterMedia = mediaModel1;
+        for (MediaModel mediaModel : medias) {
+            if (mediaModel.getMediaFormat() == null && mediaModel.getCloudinaryURL() != null) {
+                masterMedia = mediaModel;
             }
         }
         return masterMedia;
