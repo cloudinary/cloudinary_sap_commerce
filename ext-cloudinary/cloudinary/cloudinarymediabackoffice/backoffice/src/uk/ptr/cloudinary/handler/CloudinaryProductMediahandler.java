@@ -186,14 +186,12 @@ public class CloudinaryProductMediahandler extends ComposedFlowActionHandler {
         mediaModel.setCloudinaryVersion(version.toString());
         mediaModel.setCloudinaryMediaFormat(responseData.getFormat());
 
-        modelService.save(mediaModel);
-
         MediaContainerModel mediaContainerModel = this.modelService.create(MediaContainerModel.class);
         mediaContainerModel.setQualifier(UUID.randomUUID().toString());
         mediaContainerModel.setCatalogVersion(productModel.getCatalogVersion());
         mediaContainerModel.setMedias(Collections.singletonList(mediaModel));
 
-        modelService.save(mediaContainerModel);
+        modelService.saveAll(mediaModel,mediaContainerModel);
 
         updateTagOnProduct(cloudinaryUrl, productModel.getCode(), mediaModel.getCloudinaryPublicId());
         return mediaContainerModel;
