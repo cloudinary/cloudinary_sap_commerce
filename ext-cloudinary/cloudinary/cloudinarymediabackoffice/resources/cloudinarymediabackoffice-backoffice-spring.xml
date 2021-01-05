@@ -27,4 +27,13 @@
 	<bean id="defaultCloudinaryMediaContentUpdateRenderer"
 		  class="uk.ptr.cloudinary.editor.CloudinaryMediaContentUpdateRenderer"  parent="abstractEditorAreaComponentRenderer">
 	</bean>
+
+	<alias name="defaultCloudinaryProductMediahandler" alias="productMediaComposedFlowActionHandler"/>
+	<bean id="defaultCloudinaryProductMediahandler" class="uk.ptr.cloudinary.handler.CloudinaryProductMediahandler" parent="defaultProductMediaComposedFlowActionHandler"/>
+
+	<alias name="defaultCloudinaryProductMediaContentUpdateRenderer" alias="cloudinaryProductMediaContentUpdateRenderer"/>
+	<bean id="defaultCloudinaryProductMediaContentUpdateRenderer"
+		  class="uk.ptr.cloudinary.editor.CloudinaryProductMediaContentUpdateRenderer"  parent="abstractEditorAreaComponentRenderer">
+	</bean>
+
 </beans>

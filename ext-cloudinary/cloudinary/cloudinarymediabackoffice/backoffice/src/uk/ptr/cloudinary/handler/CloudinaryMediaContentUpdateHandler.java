@@ -18,7 +18,6 @@ import de.hybris.platform.servicelayer.model.ModelService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
 import org.zkoss.zul.Textbox;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
@@ -30,10 +29,14 @@ import javax.annotation.Resource;
 import java.util.Map;
 
 
-public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandler
-{
+public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(CloudinaryMediaContentUpdateHandler.class);
+
+    public static final String MEDIA_CONTENT_PROPERTY = "mediaContentProperty";
+    public static final String MEDIA_PROPERTY = "mediaProperty";
+    public static final String CLOUDINARY_MEDIA = "media";
+
 
     @Resource
     private MediaService mediaService;
@@ -52,10 +55,10 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
     @Override
     public void perform(CustomType customType, FlowActionHandlerAdapter adapter, Map<String, String> map) {
 
-        CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
         MediaModel mediaToUpdate = this.getMediaToUpdate(adapter, map);
+        CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-        if(cloudinaryConfigModel != null && cloudinaryConfigModel.getEnableCloudinary()) {
+        if (map.containsKey(CLOUDINARY_MEDIA) && cloudinaryConfigModel != null && cloudinaryConfigModel.getEnableCloudinary()) {
             UploadApiResponseData responseData = new UploadApiResponseData();
             final Textbox textField = (Textbox) adapter.getWidgetInstanceManager().getWidgetslot().getFellow(CloudinarymediacoreConstants.TEXT_FIELD);
             try {
@@ -64,9 +67,12 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
                 LOG.error("Json parsing error save media", e);
             }
             tryToSave(adapter, map, responseData, mediaToUpdate, cloudinaryConfigModel.getCloudinaryCname());
+            saveMediaObject(adapter, map, mediaToUpdate);
+            adapter.done();
+        } else {
+            super.perform(customType, adapter, map);
         }
-        saveMediaObject(adapter, map, mediaToUpdate);
-        adapter.done();
+
     }
 
     private void tryToSave(FlowActionHandlerAdapter adapter, Map<String, String> map, UploadApiResponseData responseData, MediaModel mediaToUpdate, String cloudinaryCname) {
@@ -107,22 +113,20 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
     }
 
     private UploadApiResponseData getUploadApiResponseData(Textbox textField) throws JsonProcessingException {
-    try {
-        if (StringUtils.isNotEmpty(textField.getValue())) {
-            final ObjectMapper mapper = new ObjectMapper();
-            Map<String, Object> response = mapper.readValue(textField.getValue(), new TypeReference<Map<String, Object>>() {
-            });
-            return mapper.convertValue(response, UploadApiResponseData.class);
+        try {
+            if (StringUtils.isNotEmpty(textField.getValue())) {
+                final ObjectMapper mapper = new ObjectMapper();
+                Map<String, Object> response = mapper.readValue(textField.getValue(), new TypeReference<Map<String, Object>>() {
+                });
+                return mapper.convertValue(response, UploadApiResponseData.class);
+            }
+        } catch (JsonProcessingException e) {
+            LOG.error("Json parsing error save media", e);
         }
-    }
-    catch (JsonProcessingException e) {
-        LOG.error("Json parsing error save media", e);
-    }
         return null;
     }
 
-    protected  void saveMediaObject(FlowActionHandlerAdapter adapter, Map<String, String> map, MediaModel mediaToUpdate)
-    {
+    protected void saveMediaObject(FlowActionHandlerAdapter adapter, Map<String, String> map, MediaModel mediaToUpdate) {
         try {
             boolean update = !this.modelService.isNew(mediaToUpdate);
             this.objectFacade.save(mediaToUpdate);
@@ -137,7 +141,7 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
     @Override
     protected void rollback(FlowActionHandlerAdapter adapter, Map<String, String> params, MediaModel mediaToUpdate) {
         try {
-            this.setMediaToUpdate(adapter, params, (MediaModel)this.modelService.clone(mediaToUpdate));
+            this.setMediaToUpdate(adapter, params, (MediaModel) this.modelService.clone(mediaToUpdate));
             this.objectFacade.delete(mediaToUpdate);
         } catch (ObjectDeletionException var5) {
             LOG.trace("Cannot remove or clone media", var5);
@@ -152,59 +156,25 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
 
     @Override
     protected MediaModel getMediaToUpdate(FlowActionHandlerAdapter adapter, Map<String, String> params) {
-        String mediaProperty = (String)params.get(MEDIA_PROPERTY);
+        String mediaProperty = (String) params.get(MEDIA_PROPERTY);
         if (StringUtils.isNotEmpty(mediaProperty)) {
-            return (MediaModel)adapter.getWidgetInstanceManager().getModel().getValue(mediaProperty, MediaModel.class);
+            return (MediaModel) adapter.getWidgetInstanceManager().getModel().getValue(mediaProperty, MediaModel.class);
         } else {
             LOG.warn("Missing {} param which specifies media to update", "media");
             return null;
         }
     }
 
+
+
     @Override
     protected void setMediaToUpdate(FlowActionHandlerAdapter adapter, Map<String, String> params, MediaModel mediaModel) {
-        String mediaProperty = (String)params.get(MEDIA_PROPERTY);
+        String mediaProperty = (String) params.get(MEDIA_PROPERTY);
         if (StringUtils.isNotEmpty(mediaProperty)) {
             adapter.getWidgetInstanceManager().getModel().setValue(mediaProperty, mediaModel);
         } else {
             LOG.warn("Missing {} param which specifies media to update", "mediaProperty");
         }
 
-    }
-
-    public MediaService getMediaService() {
-        return this.mediaService;
-    }
-
-    @Required
-    public void setMediaService(MediaService mediaService) {
-        this.mediaService = mediaService;
-    }
-
-    public ObjectFacade getObjectFacade() {
-        return this.objectFacade;
-    }
-
-    @Required
-    public void setObjectFacade(ObjectFacade objectFacade) {
-        this.objectFacade = objectFacade;
-    }
-
-    public NotificationService getNotificationService() {
-        return this.notificationService;
-    }
-
-    @Required
-    public void setNotificationService(NotificationService notificationService) {
-        this.notificationService = notificationService;
-    }
-
-    public ModelService getModelService() {
-        return this.modelService;
-    }
-
-    @Required
-    public void setModelService(ModelService modelService) {
-        this.modelService = modelService;
     }
 }
