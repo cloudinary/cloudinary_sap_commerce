@@ -41,29 +41,6 @@
 
     <alias name="defaulCloudinaryConfigFacade" alias="cloudinaryConfigFacade"/>
     <bean id="defaulCloudinaryConfigFacade" class="uk.ptr.cloudinary.facades.impl.DefaulCloudinaryConfigFacade"/>
-
-    <alias name="defaultProductConfiguredPopulator" alias="productConfiguredPopulator"/>
-    <bean id="defaultProductConfiguredPopulator" class="de.hybris.platform.commercefacades.converter.impl.DefaultConfigurablePopulator">
-        <property name="populators">
-            <map key-type="de.hybris.platform.commercefacades.product.ProductOption">
-                <entry key="BASIC" value-ref="productBasicPopulatorList"/>
-                <entry key="PRICE" value-ref="productPricePopulatorList"/>
-                <entry key="PRICE_RANGE" value-ref="productPriceRangePopulator"/>
-                <entry key="GALLERY" value-ref="productGalleryPopulatorList"/>
-                <entry key="SUMMARY" value-ref="productSummaryPopulatorList"/>
-                <entry key="DESCRIPTION" value-ref="productDescriptionPopulatorList"/>
-                <entry key="CATEGORIES" value-ref="productCategoriesPopulatorList"/>
-                <entry key="PROMOTIONS" value-ref="productPromotionsPopulatorList"/>
-                <entry key="STOCK" value-ref="productStockPopulatorList"/>
-                <entry key="REVIEW" value-ref="productReviewPopulatorList"/>
-                <entry key="CLASSIFICATION" value-ref="productClassificationPopulatorList"/>
-                <entry key="VARIANT_FULL" value-ref="productVariantFullPopulatorList"/>
-                <entry key="REFERENCES" value-ref="productReferencesPopulator"/>
-                <entry key="DELIVERY_MODE_AVAILABILITY" value-ref="productDeliveryModeAvailabilityPopulator"/>
-                <entry key="CLOUDINARY" value-ref="cloudinaryProductImagesPopulator"/>
-            </map>
-        </property>
-    </bean>
-
+    
 
 </beans>
