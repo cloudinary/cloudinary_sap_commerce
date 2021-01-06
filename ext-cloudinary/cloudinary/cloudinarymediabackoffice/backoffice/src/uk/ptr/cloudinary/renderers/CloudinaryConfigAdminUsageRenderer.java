@@ -191,20 +191,20 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
     }
 
     private String setUsageResponseData(Div newValueContainer, Label label, Html html, Hbox boxHeader, ApiResponse response) {
-        Map<String, Integer> storageUsages = new HashMap<>();
-        Map<String, Integer> bandwidthUsages = new HashMap<>();
-        Map<String, Integer> transformationUsages = new HashMap<>();
+        Map<String, Object> storageUsages = new HashMap<>();
+        Map<String, Object> bandwidthUsages = new HashMap<>();
+        Map<String, Object> transformationUsages = new HashMap<>();
         Map<String, Double> limit = new HashMap<>();
 
-        storageUsages = (Map<String, Integer>) response.get("storage");
-        bandwidthUsages = (Map<String, Integer>) response.get("bandwidth");
-        transformationUsages = (Map<String, Integer>) response.get("transformations");
+        storageUsages = (Map<String, Object>) response.get("storage");
+        bandwidthUsages = (Map<String, Object>) response.get("bandwidth");
+        transformationUsages = (Map<String, Object>) response.get("transformations");
         limit = (Map<String, Double>) response.get("credits");
 
 
 
-        String storageUsage = getByteConversion(storageUsages.get("usage"));
-        String bandwidthUsage = getByteConversion(bandwidthUsages.get("usage"));
+        String storageUsage = getByteConversion(Long.valueOf(storageUsages.get("usage").toString()));
+        String bandwidthUsage = getByteConversion(Long.valueOf(bandwidthUsages.get("usage").toString()));
 
         label.setValue(CloudinarymediacoreConstants.CONNECTED);
         label.setSclass("yw-labelstyle-z-label");
@@ -221,7 +221,7 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         return Boolean.TRUE.toString();
     }
 
-    private String getByteConversion(Integer bytes){
+    private String getByteConversion(Long bytes){
         BigDecimal usage = BigDecimal.valueOf(bytes);
         BigDecimal kilobyte = BigDecimal.valueOf(1024);
         BigDecimal megabyte = kilobyte.multiply(kilobyte);
