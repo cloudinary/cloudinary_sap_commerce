@@ -9,8 +9,9 @@ package uk.ptr.cloudinary.constants;
 public final class CloudinarymediacoreConstants extends GeneratedCloudinarymediacoreConstants
 {
 	public static final String EXTENSIONNAME = "cloudinarymediacore";
+    public static final String VERSION = "Version";
 
-	private CloudinarymediacoreConstants()
+    private CloudinarymediacoreConstants()
 	{
 		//empty to avoid instantiating this constant class
 	}

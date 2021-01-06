@@ -7,6 +7,7 @@ import com.hybris.cockpitng.engine.WidgetInstanceManager;
 import com.hybris.cockpitng.util.MessageboxUtils;
 import com.hybris.cockpitng.util.UITools;
 import com.hybris.cockpitng.widgets.editorarea.renderer.impl.AbstractEditorAreaComponentRenderer;
+import de.hybris.platform.servicelayer.config.ConfigurationService;
 import de.hybris.platform.servicelayer.model.ModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,12 +30,16 @@ import java.util.Map;
 public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaComponentRenderer<AbstractSection, CloudinaryConfigModel> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CloudinaryConfigAdminUsageRenderer.class);
+    private static final String CLOUDINARY_VERSION = "cloudinary.version";
 
     @Resource
     private AdminApiService adminApiService;
 
     @Resource
     private ModelService modelService;
+
+    @Resource
+    private ConfigurationService configurationService;
 
 
     @Override
@@ -46,6 +51,16 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         final Html nextHtml = new Html();
         final Html html = new Html();
         Hbox boxHeader = new Hbox();
+        Div cloudinaryVersionDiv = new Div();
+
+        Label cloudinaryVersion = new Label(CloudinarymediacoreConstants.VERSION);
+        Label cloudinaryVersionValue = new Label();
+        cloudinaryVersionValue.setValue(" :  " + configurationService.getConfiguration().getString(CLOUDINARY_VERSION));
+
+        UITools.modifySClass(cloudinaryVersion, "yw-labelstyle-z-label", true);
+
+        cloudinaryVersionDiv.appendChild(cloudinaryVersion);
+        cloudinaryVersionDiv.appendChild(cloudinaryVersionValue);
 
         Label enableCloudinaryFieldName = new Label(CloudinarymediacoreConstants.ENABLE_CLOUDINARY);
         Label cloudinaryConnectionLabel = new Label();
@@ -56,6 +71,8 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
 
         Radio falseCheck = new Radio();
         falseCheck.setLabel("False");
+
+        usageResponseDiv.appendChild(cloudinaryVersionDiv);
 
         setStyleAndContent(component, cloudinaryConfigModel, usageResponseDiv, enableCloudinaryRadioDiv, radioDiv, nextHtml, enableCloudinaryFieldName, cloudinaryConnectionLabel, connectionErrorMessage, trueCheck, falseCheck);
 
