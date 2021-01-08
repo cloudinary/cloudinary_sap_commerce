@@ -30,7 +30,6 @@ public class DefaultAnalyticsApiService implements AnalyticsApiService {
         headers.set(USER_AGENT, configurationService.getConfiguration().getString(CLOUDINARY_USER_AGENT));
 
         HttpEntity<String> entity = new HttpEntity<String>(headers);
-        System.out.println(restTemplate.exchange(configurationService.getConfiguration().getString(ACTIVATED_URL), HttpMethod.GET, entity, String.class));
         return restTemplate.exchange(configurationService.getConfiguration().getString(ACTIVATED_URL), HttpMethod.GET, entity, String.class);
     }
 
