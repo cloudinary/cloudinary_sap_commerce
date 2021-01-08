@@ -92,4 +92,6 @@
 
 	<bean id="bulkUploadApiService" class="uk.ptr.cloudinary.service.impl.DefaultBulkUploadApiService"/>
 
+	<bean id="analyticsApiService" class="uk.ptr.cloudinary.service.impl.DefaultAnalyticsApiService"/>
+
 </beans>

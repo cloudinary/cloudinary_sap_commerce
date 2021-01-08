@@ -20,6 +20,7 @@ import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 import uk.ptr.cloudinary.service.AdminApiService;
 import org.zkoss.zul.Messagebox;
+import uk.ptr.cloudinary.service.AnalyticsApiService;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -40,6 +41,9 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
 
     @Resource
     private ConfigurationService configurationService;
+
+    @Resource
+    private AnalyticsApiService analyticsApiService;
 
 
     @Override
@@ -102,6 +106,9 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
                             cloudinaryConfigModel.setEnableCloudinary(true);
                             connectionErrorMessage.setValue("");
                             modelService.save(cloudinaryConfigModel);
+
+                            LOG.info("Calling analaytic API for activating cloudinary connection");
+                            LOG.info(String.valueOf(analyticsApiService.activateCloudinaryConnectionWithSAP()));
                         } else {
                             falseCheck.setChecked(Boolean.TRUE);
                             trueCheck.setChecked(Boolean.FALSE);
@@ -110,6 +117,8 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
                             boxHeader.appendChild(cloudinaryConnectionLabel);
                             connectionErrorMessage.setValue(response);
                         }
+
+
                     }else{
                         trueCheck.setChecked(Boolean.FALSE);
                     }
@@ -135,6 +144,10 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
 
                         cloudinaryConfigModel.setEnableCloudinary(false);
                         modelService.save(cloudinaryConfigModel);
+
+                        LOG.info("Calling analaytic API for deactivating cloudinary connection");
+                        LOG.info(String.valueOf(analyticsApiService.deactivateCloudinaryConnectionWithSAP()));
+
                     }else{
                         falseCheck.setChecked(Boolean.FALSE);
                     }
