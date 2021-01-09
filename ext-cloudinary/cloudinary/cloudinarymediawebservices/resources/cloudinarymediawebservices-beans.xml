@@ -139,6 +139,10 @@
 		<property name="cloudinaryZoomType" type="String"/>
 		<property name="cloudinaryZoomTrigger" type="String"/>
 		<property name="isCloudinaryGalleryEnabled" type="boolean"/>
+		<property name="isResponsiveEnabled" type="boolean"/>
+		<property name="cloudinaryImageWidthLimitMax" type="int"/>
+		<property name="cloudinaryImageWidthLimitMin" type="int"/>
+		<property name="cloudinaryByteStep" type="int"/>
 	</bean>
 
 </beans>

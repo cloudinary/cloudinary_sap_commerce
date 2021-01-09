@@ -31,16 +31,45 @@
     <bean id="defaultCloudinaryProductImagesPopulator" parent="baseProductImagePopulator"
             class="uk.ptr.cloudinary.facades.populator.DefaultCloudinaryProductImagesPopulator"/>
 
-    <bean parent="configurablePopulatorModification">
+    <!-- <bean parent="configurablePopulatorModification">
         <property name="target" ref="productVariantConfiguredPopulator" />
         <property name="keyType" value="de.hybris.platform.commercefacades.product.ProductOption" />
         <property name="key" value="CLOUDINARY" />
         <property name="add" ref="cloudinaryProductImagesPopulator" />
-    </bean>
+    </bean> -->
 
 
     <alias name="defaulCloudinaryConfigFacade" alias="cloudinaryConfigFacade"/>
     <bean id="defaulCloudinaryConfigFacade" class="uk.ptr.cloudinary.facades.impl.DefaulCloudinaryConfigFacade"/>
-    
+
+
+    <alias name="defaultCloudinaryProductFacade" alias="productFacade"/>
+    <bean id="defaultCloudinaryProductFacade"
+          class="uk.ptr.cloudinary.facades.impl.DefaultCloudinaryProductFacade"
+          parent="defaultProductFacade">
+    </bean>
+
+    <alias name="defaultProductVariantFacade" alias="productVariantFacade"/>
+    <bean id="defaultProductVariantFacade"
+          class="de.hybris.platform.commercefacades.product.impl.DefaultProductVariantFacade"
+          parent="defaultCloudinaryProductFacade">
+        <property name="productConfiguredPopulator" ref="productVariantConfiguredPopulator"/>
+        <property name="productConfigurationConverter" ref="orderEntryProductInfoConverter"/>
+    </bean>
+
+    <alias name="defaultCloudinaryProductImagesConverter" alias="cloudinaryProductImagesConverter"/>
+    <bean id="defaultCloudinaryProductImagesConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+        <property name="populators">
+            <list>
+                <ref bean="cloudinaryProductImagesPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="cloudinaryResponsiveImagePopulator" alias="responsiveImagePopulator"/>
+    <bean id="cloudinaryResponsiveImagePopulator" class="uk.ptr.cloudinary.facades.populator.CloudinaryResponsiveImagePopulator">
+        <property name="responsiveImageFormats" ref="responsiveImageFormats"/>
+    </bean>
 
 </beans>
