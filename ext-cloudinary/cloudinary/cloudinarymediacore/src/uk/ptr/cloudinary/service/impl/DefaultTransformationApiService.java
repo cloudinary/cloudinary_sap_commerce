@@ -129,12 +129,18 @@ public class DefaultTransformationApiService implements TransformationApiService
                         transformationURL.append(imageData.getCloudinaryType());
                         transformationURL.append(CloudinarymediacoreConstants.SLASH);
 
-                        if (org.apache.commons.lang.StringUtils.isNotBlank(imageData.getCloudinaryTransformation())) {
-                            transformationURL.append(imageData.getCloudinaryTransformation());
+                        if(BooleanUtils.isTrue(cloudinaryConfigModel.getCloudinaryResponsive())) {
+                            transformationURL.append("w_auto");
+                        }else {
+                            if (org.apache.commons.lang.StringUtils.isNotBlank(imageData.getCloudinaryTransformation())) {
+                                transformationURL.append(imageData.getCloudinaryTransformation());
+                            }
                         }
 
+
                         if (org.apache.commons.lang.StringUtils.isNotBlank(cloudinaryConfigModel.getCloudinaryQuality())) {
-                            if (org.apache.commons.lang.StringUtils.isNotBlank(imageData.getCloudinaryTransformation())) {
+                            if (org.apache.commons.lang.StringUtils.isNotBlank(imageData.getCloudinaryTransformation()) || BooleanUtils.isTrue(cloudinaryConfigModel.getCloudinaryResponsive()))
+                            {
                                 transformationURL.append(",");
                             }
                             transformationURL.append(cloudinaryConfigModel.getCloudinaryQuality());

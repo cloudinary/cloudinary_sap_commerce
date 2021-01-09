@@ -4,9 +4,13 @@ import de.hybris.platform.commercefacades.product.converters.populator.ImagePopu
 import de.hybris.platform.commercefacades.product.data.ImageData;
 import de.hybris.platform.converters.Populator;
 import de.hybris.platform.core.model.media.MediaModel;
+import org.apache.commons.lang.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
+import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
+import uk.ptr.cloudinary.facades.CloudinaryConfigFacade;
+import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 import uk.ptr.cloudinary.service.SyncMediaCloudinaryStrategy;
 
 import javax.annotation.Resource;
@@ -17,6 +21,9 @@ public class DefaultCloudinaryImagePopulator extends ImagePopulator implements P
 
     @Resource
     private SyncMediaCloudinaryStrategy syncMediaCloudinaryStrategy;
+
+    @Resource
+    private CloudinaryConfigFacade cloudinaryConfigFacade;
 
     @Override
     public void populate(final MediaModel source, final ImageData target) {
@@ -52,8 +59,69 @@ public class DefaultCloudinaryImagePopulator extends ImagePopulator implements P
             if(source.getCloudinaryType()!=null){
                 target.setCloudinaryType(source.getCloudinaryType());
             }
+
+            if(source.getCloudinaryURL()!=null){
+                target.setCloudinaryURL(source.getCloudinaryURL());
+            }
+
             if(source.getCloudinaryMediaFormat()!=null){
                 target.setCloudinaryMediaFormat(source.getCloudinaryMediaFormat());
+            }
+
+            if(source.getMediaFormat()==null){
+                CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigFacade.getCloudinaryConfig();
+
+                if(BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfigModel.getCloudinaryResponsive())) {
+
+                    StringBuilder transformationURL = new StringBuilder();
+
+                    if (cloudinaryConfigModel != null) {
+                        if (com.cloudinary.utils.StringUtils.isNotBlank(cloudinaryConfigModel.getCloudinaryCname())) {
+                            transformationURL.append(cloudinaryConfigModel.getCloudinaryCname());
+                        } else {
+                            transformationURL.append(CloudinarymediacoreConstants.CLOUDINARY_DOMAIN_URL);
+                        }
+                        transformationURL.append(CloudinarymediacoreConstants.SLASH);
+
+                        String cloudinaryConnectionURL = cloudinaryConfigModel.getCloudinaryURL();
+                        int cloudNameIndex = cloudinaryConnectionURL.indexOf(CloudinarymediacoreConstants.AT);
+
+                        //Extract and set cloudname
+                        transformationURL.append(cloudinaryConnectionURL.substring(cloudNameIndex + 1, cloudinaryConnectionURL.length()));
+                        transformationURL.append(CloudinarymediacoreConstants.SLASH);
+                    }
+
+                    transformationURL.append(source.getCloudinaryResourceType());
+                    transformationURL.append(CloudinarymediacoreConstants.SLASH);
+                    transformationURL.append(source.getCloudinaryType());
+                    transformationURL.append(CloudinarymediacoreConstants.SLASH);
+
+                    if (org.apache.commons.lang.StringUtils.isNotBlank(source.getCloudinaryTransformation())) {
+                        transformationURL.append(source.getCloudinaryTransformation());
+                    }
+
+                    if (org.apache.commons.lang.StringUtils.isNotBlank(cloudinaryConfigModel.getCloudinaryQuality())) {
+                        if (org.apache.commons.lang.StringUtils.isNotBlank(source.getCloudinaryTransformation())) {
+                            transformationURL.append(",");
+                        }
+                        transformationURL.append(cloudinaryConfigModel.getCloudinaryQuality());
+                    } else {
+                        if (org.apache.commons.lang.StringUtils.isNotBlank(source.getCloudinaryTransformation())) {
+                            transformationURL.append(",");
+                        }
+                        transformationURL.append("w_auto");
+                    }
+
+                    transformationURL.append(CloudinarymediacoreConstants.SLASH);
+                    transformationURL.append(source.getCloudinaryVersion());
+                    transformationURL.append(CloudinarymediacoreConstants.SLASH);
+                    transformationURL.append(source.getCloudinaryPublicId());
+                    transformationURL.append(CloudinarymediacoreConstants.DOT);
+                    transformationURL.append(source.getCloudinaryMediaFormat());
+
+                    target.setUrl(transformationURL.toString());
+                }
+
             }
             if(source.getCloudinaryTransformation()!=null){
                 target.setCloudinaryTransformation(source.getCloudinaryTransformation());
@@ -63,8 +131,6 @@ public class DefaultCloudinaryImagePopulator extends ImagePopulator implements P
                 target.setCloudinaryOverride(source.getIsCloudinaryOverride());
             }
 
-            if(source.getCloudinaryURL()!=null){
-                target.setCloudinaryURL(source.getCloudinaryURL());
-            }
+
     }
 }

@@ -6,6 +6,7 @@ import de.hybris.platform.webservicescommons.cache.CacheControl;
 import de.hybris.platform.webservicescommons.cache.CacheControlDirective;
 import de.hybris.platform.webservicescommons.swagger.ApiFieldsParam;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang.BooleanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +59,10 @@ public class CloudinaryConfigurationController {
         cloudinaryConfigurationWsDTO.setCloudinaryZoomType(cloudinaryConfig.getCloudinaryZoomType());
         cloudinaryConfigurationWsDTO.setTransformations(cloudinaryConfig.getTransformations());
         cloudinaryConfigurationWsDTO.setEnvironment(configurationService.getConfiguration().getString("environment", "dev"));
+        cloudinaryConfigurationWsDTO.setIsResponsiveEnabled(BooleanUtils.isTrue(cloudinaryConfig.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfig.getCloudinaryResponsive()));
+        cloudinaryConfigurationWsDTO.setCloudinaryImageWidthLimitMin(cloudinaryConfig.getCloudinaryImageWidthLimitMin());
+        cloudinaryConfigurationWsDTO.setCloudinaryImageWidthLimitMax(cloudinaryConfig.getCloudinaryImageWidthLimitMax());
+        cloudinaryConfigurationWsDTO.setCloudinaryByteStep(cloudinaryConfig.getCloudinaryByteStep());
         return cloudinaryConfigurationWsDTO;
     }
 

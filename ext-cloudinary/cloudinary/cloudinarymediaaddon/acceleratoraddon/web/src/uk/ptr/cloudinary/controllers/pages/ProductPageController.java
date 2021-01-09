@@ -73,7 +73,7 @@ public class ProductPageController extends AbstractPageController
 	@Resource(name = "productDataUrlResolver")
 	private UrlResolver<ProductData> productDataUrlResolver;
 
-	@Resource(name = "productVariantFacade")
+	@Resource(name = "productFacade")
 	private ProductFacade productFacade;
 
 	@Resource(name = "productService")
@@ -104,7 +104,7 @@ public class ProductPageController extends AbstractPageController
 	{
 		final String productCode = decodeWithScheme(encodedProductCode, UTF_8);
 		final List<ProductOption> extraOptions = Arrays.asList(ProductOption.VARIANT_MATRIX_BASE, ProductOption.VARIANT_MATRIX_URL,
-				ProductOption.VARIANT_MATRIX_MEDIA, ProductOption.CLOUDINARY);
+				ProductOption.VARIANT_MATRIX_MEDIA);
 
 		final ProductData productData = productFacade.getProductForCodeAndOptions(productCode, extraOptions);
 
@@ -171,7 +171,7 @@ public class ProductPageController extends AbstractPageController
 	{
 		final String productCode = decodeWithScheme(encodedProductCode, UTF_8);
 		final ProductData productData = productFacade.getProductForCodeAndOptions(productCode,
-				Arrays.asList(ProductOption.GALLERY, ProductOption.CLOUDINARY));
+				Arrays.asList(ProductOption.GALLERY));
 		final List<Map<String, ImageData>> images = getGalleryImages(productData);
 		populateProductData(productData, model);
 		if (galleryPosition != null)
@@ -201,7 +201,7 @@ public class ProductPageController extends AbstractPageController
 		final ProductData productData = productFacade.getProductForCodeAndOptions(productCode,
 				Arrays.asList(ProductOption.BASIC, ProductOption.PRICE, ProductOption.SUMMARY, ProductOption.DESCRIPTION,
 						ProductOption.CATEGORIES, ProductOption.PROMOTIONS, ProductOption.STOCK, ProductOption.REVIEW,
-						ProductOption.VARIANT_FULL, ProductOption.DELIVERY_MODE_AVAILABILITY, ProductOption.CLOUDINARY));
+						ProductOption.VARIANT_FULL, ProductOption.DELIVERY_MODE_AVAILABILITY));
 
 		sortVariantOptionData(productData);
 		populateProductData(productData, model);
@@ -407,7 +407,7 @@ public class ProductPageController extends AbstractPageController
 				ProductOption.URL, ProductOption.PRICE, ProductOption.SUMMARY, ProductOption.DESCRIPTION, ProductOption.GALLERY,
 				ProductOption.CATEGORIES, ProductOption.REVIEW, ProductOption.PROMOTIONS, ProductOption.CLASSIFICATION,
 				ProductOption.VARIANT_FULL, ProductOption.STOCK, ProductOption.VOLUME_PRICES, ProductOption.PRICE_RANGE,
-				ProductOption.DELIVERY_MODE_AVAILABILITY, ProductOption.CLOUDINARY));
+				ProductOption.DELIVERY_MODE_AVAILABILITY));
 
 		options.addAll(extraOptions);
 

@@ -4,6 +4,7 @@
 <%@ taglib prefix="ycommerce" uri="http://hybris.com/tld/ycommercetags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="cloudinaryproduct" tagdir="/WEB-INF/tags/addons/cloudinarymediaaddon/responsive/product"%>
 
 <div class="product-details page-title">
 	<ycommerce:testId code="productDetails_productNamePrice_label_${product.code}">
@@ -20,7 +21,7 @@
                      </cms:pageSlot>
           	    </c:when>
           	    <c:otherwise>
-          	       <product:productImagePanel galleryImages="${galleryImages}" />
+          	       <cloudinaryproduct:productImagePanel galleryImages="${galleryImages}" />
           	    </c:otherwise>
           	  </c:choose>
     	</div>
