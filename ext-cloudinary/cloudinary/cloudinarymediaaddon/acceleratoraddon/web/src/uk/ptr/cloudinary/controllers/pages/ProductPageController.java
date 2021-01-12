@@ -129,6 +129,7 @@ public class ProductPageController extends AbstractPageController
 			}
 
 			model.addAttribute("isProductGalleryEnabled", Boolean.TRUE);
+			model.addAttribute("sapCCProductCode", "sap_sku_"+ productCode);
 			model.addAttribute("cloudinaryConfig", cloudinaryConfigModel);
 
 		}

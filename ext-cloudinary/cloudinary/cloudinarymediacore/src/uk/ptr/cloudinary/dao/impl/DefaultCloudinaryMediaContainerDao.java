@@ -47,4 +47,18 @@ public class DefaultCloudinaryMediaContainerDao extends DefaultMediaContainerDao
 
         return searchResult.getResult();
     }
+
+    @Override
+    public List<MediaContainerModel> findMediaContainersNotSyncWithCloudinary(CatalogVersionModel catalogVersion) {
+        final String query = "SELECT {mc:pk}  FROM { "
+                + MediaModel._TYPECODE + " AS m JOIN " + MediaContainerModel._TYPECODE + " AS mc ON {m:mediaContainer} = {mc:pk}}  where {mc:catalogVersion} = ?catalogVersion AND {m:mediaFormat} IS NULL AND {m:cloudinaryURL} IS NULL";
+
+        final FlexibleSearchQuery searchQuery = new FlexibleSearchQuery(query);;
+        searchQuery.setResultClassList(Collections.singletonList(MediaContainerModel.class));
+        searchQuery.addQueryParameter("catalogVersion", catalogVersion);
+
+        final SearchResult searchResult = flexibleSearchService.search(searchQuery);
+
+        return searchResult.getResult();
+    }
 }
