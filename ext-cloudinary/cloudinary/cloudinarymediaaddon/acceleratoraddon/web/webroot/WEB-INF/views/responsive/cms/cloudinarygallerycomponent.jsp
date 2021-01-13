@@ -5,7 +5,7 @@
 <spring:htmlEscape defaultHtmlEscape="true" />
 
 <input id="cloud_name" type="hidden" value="${cloudName}"/>
-<input id="product_code" type="hidden" value="${productCode}"/>
+<input id="product_code" type="hidden" value="${sapCCProductCode}"/>
 <input id="image_height" type="hidden" value="${cloudinaryConfig.cloudinaryCarouselHeight}"/>
 <input id="image_width" type="hidden" value="${cloudinaryConfig.cloudinaryCarouselWidth}"/>
 <input id="image_transformation" type="hidden" value="${cloudinaryConfig.transformations}"/>

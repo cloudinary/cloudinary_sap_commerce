@@ -16,6 +16,7 @@ public class DefaultUpdateTagApiService implements UpdateTagApiService {
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultUpdateTagApiService.class);
 
+    private static final String SAP_SKU = "sap_sku_";
     @Override
     public void updateTagOnAsests(String publicId, String productCode, String cloudinaryURL) throws IOException {
         try {
@@ -23,7 +24,7 @@ public class DefaultUpdateTagApiService implements UpdateTagApiService {
 
             String[] publicIds = {publicId};
 
-            Map result = cloudinary.uploader().addTag(productCode, publicIds, ObjectUtils.emptyMap());
+            Map result = cloudinary.uploader().addTag((SAP_SKU + productCode), publicIds, ObjectUtils.emptyMap());
         }
         catch (IllegalArgumentException illegalException) {
             LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);

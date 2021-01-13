@@ -67,7 +67,7 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
                     catalogVersions.stream().filter(catalogVersion -> catalogVersion.getVersion().equalsIgnoreCase("Staged")).forEach(catalogVersion -> {
                         try {
 
-                            List<MediaContainerModel> mediaContainerModels = cloudinaryMediaContainerDao.findMediaContainerByCatalogVersion(catalogVersion);
+                            List<MediaContainerModel> mediaContainerModels = cloudinaryMediaContainerDao.findMediaContainersNotSyncWithCloudinary(catalogVersion);
                             if (!CollectionUtils.isEmpty(mediaContainerModels)) {
                                 mediaContainerModels.forEach(mediaContainer -> {
                                     updateMedia(cloudinaryConfigModel, mediaContainer);
@@ -100,7 +100,10 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
 
     private void updateMedia(CloudinaryConfigModel cloudinaryConfigModel, MediaContainerModel mediaContainer) {
         MediaModel mediaModel = getLargestImage(mediaContainer);
-        if (mediaModel.getMediaFormat() != null) {
+        if (mediaModel.getMediaFormat() == null && mediaModel.getCloudinaryURL() == null) {
+            uploadMediaToCloudinary(cloudinaryConfigModel, mediaModel);
+        }
+        else if(mediaModel.getMediaFormat() != null) {
             MediaModel masterMedia = createMasterMedia(mediaModel);
             uploadMediaToCloudinary(cloudinaryConfigModel, masterMedia);
         }
