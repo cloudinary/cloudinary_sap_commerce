@@ -32,8 +32,8 @@
 
     <!--Explorer tree -->
 
-    <context component="explorer-tree" module="cloudinarymediabackoffice">
-        <explorer-tree:explorer-tree>
+    <context component="explorer-tree" merge-by="principal" principal="backofficeadministratorrole">
+        <explorer-tree:explorer-tree  xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree">
             <explorer-tree:navigation-node id="hmc_treenode_cloudinary">
                 <explorer-tree:type-node code="CloudinaryConfig" id="hmc_typenode_cloudinaryconfig"/>
             </explorer-tree:navigation-node>
@@ -74,7 +74,7 @@
         </wz:flow>
     </context>
 
-    <context component="editor-area" merge-mode="append" merge-by="type" type="CloudinaryConfig">
+    <context component="editor-area" merge-mode="append" merge-by="type" type="CloudinaryConfig" principal="backofficeadministratorrole">
         <editorArea:editorArea>
             <editorArea:tab name="hmc.tab.cloudinaryconfig" merge-mode="append">
                 <editorArea:section name="cloudinaryconfig.section.common.attributes">
