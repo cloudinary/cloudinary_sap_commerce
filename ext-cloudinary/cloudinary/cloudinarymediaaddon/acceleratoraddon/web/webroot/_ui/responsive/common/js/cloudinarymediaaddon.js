@@ -1,5 +1,4 @@
 
-//include('https://unpkg.com/cloudinary-core@latest/cloudinary-core-shrinkwrap.min.js');
 var url = "https://unpkg.com/cloudinary-core@latest/cloudinary-core-shrinkwrap.min.js";
     var pgw_script_tag = document.createElement('script');
       pgw_script_tag.src = url
@@ -79,10 +78,14 @@ var url = "https://unpkg.com/cloudinary-core@latest/cloudinary-core-shrinkwrap.m
 
           var data = SampleDataAccess.GetCloudinaryConfiguration().done(function (data) {
           var cl = cloudinary.Cloudinary.new({cloud_name: cloudName});
-                      // replace 'demo' with your cloud name in the line above
-                      //my_breakpoints = function (width){  // width - the current width of the containing element
-                      //      return 50 * Math.ceil(width / 50);
-                      //    }
+
+                      var currentClass = $('img').attr('class');
+                      var updatedClass = 'cld-responsive ';
+                      if(currentClass!=null){
+                      updatedClass = updatedClass + currentClass;
+                      }
+                      $('img').addClass(updatedClass);
+
                       var my_breakpoints = [];
                       if(cloudinaryImageWidthLimitMin!=null && cloudinaryImageWidthLimitMax!=null){
                       var breakpoint = cloudinaryImageWidthLimitMin;
@@ -95,13 +98,6 @@ var url = "https://unpkg.com/cloudinary-core@latest/cloudinary-core-shrinkwrap.m
                       //my_breakpoints = [50, 90, 130, 170, 200, 300, 450, 550, 700, 850, 2000];
                       cl.config({breakpoints:my_breakpoints, responsive_use_breakpoints:"true"});
                       cl.responsive();
-
-                      //$(document).onload(function(){
-                      var currentClass = $('img').attr('class');
-
-                      var updatedClass = 'cld-responsive ' + currentClass;
-                      $('img').addClass(updatedClass);
-                      //});
           });
 
 
