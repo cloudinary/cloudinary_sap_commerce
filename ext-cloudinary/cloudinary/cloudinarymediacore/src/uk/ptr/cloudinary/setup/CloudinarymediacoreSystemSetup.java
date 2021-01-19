@@ -34,6 +34,7 @@ public class CloudinarymediacoreSystemSetup extends AbstractSystemSetup
 		cloudinarymediacoreService.createLogo(PLATFORM_LOGO_CODE);
 		importImpexFile(context, "/cloudinarymediacore/impex/cloudinaryconfig.impex", true);
 		importImpexFile(context, "/cloudinarymediacore/impex/cloudinarysynccronjob.impex", true);
+		importImpexFile(context, "/cloudinarymediacore/impex/cloudinarybackoffice-users.impex", true);
 
 	}
 
