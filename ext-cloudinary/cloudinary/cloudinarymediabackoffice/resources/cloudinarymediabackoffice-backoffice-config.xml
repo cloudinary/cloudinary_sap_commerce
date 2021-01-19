@@ -40,6 +40,37 @@
         </explorer-tree:explorer-tree>
     </context>
 
+    <context merge-by="principal" component="explorer-tree" principal="warehouseadministratorrole,admin,backofficeadministratorrole">
+        <n:explorer-tree xmlns:n="http://www.hybris.com/cockpitng/config/explorertree">
+            <n:navigation-node id="warehousing.treenode.order.management">
+                <n:type-node id="warehousing.typenode.atp.formulas" code="AtpFormula"/>
+                <n:type-node id="warehousing.typenode.sourcing.configuration" code="SourcingConfig"/>
+                <n:type-node id="warehousing.typenode.atp.restockconfig" code="RestockConfig"/>
+            </n:navigation-node>
+            <n:navigation-node id="hmc.group.basecommerce">
+                <n:type-node id="warehousing.typenode.asns" code="AdvancedShippingNotice" />
+            </n:navigation-node>
+        </n:explorer-tree>
+    </context>
+
+    <context component="explorer-tree" parent="auto" merge-by="principal" principal="admin,backofficeadministratorrole">
+        <explorer-tree:explorer-tree xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree">
+            <explorer-tree:navigation-node id="hmc.entitlements">
+                <explorer-tree:type-node code="Entitlement" id="Entitlement" />
+                <explorer-tree:type-node code="ProductEntitlement" id="ProductEntitlement" />
+            </explorer-tree:navigation-node>
+        </explorer-tree:explorer-tree>
+    </context>
+
+    <context component="explorer-tree" parent="auto" merge-by="principal" principal="admin,backofficeadministratorrole">
+        <explorer-tree:explorer-tree xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree">
+            <explorer-tree:navigation-node id="hmc.yforms">
+                <explorer-tree:type-node code="YFormDefinition" id="YFormDefinition" />
+                <explorer-tree:type-node code="YFormData" id="YFormData" />
+            </explorer-tree:navigation-node>
+        </explorer-tree:explorer-tree>
+    </context>
+
     <context type="CloudinaryConfig" parent="GenericItem" component="create-wizard" merge-by="type">
         <wz:flow id="ItemWizard" title="create.title(ctx.TYPE_CODE)">
             <wz:prepare id="itemPrepare">
@@ -74,7 +105,7 @@
         </wz:flow>
     </context>
 
-    <context component="editor-area" merge-mode="append" merge-by="type" type="CloudinaryConfig" principal="backofficeadministratorrole">
+    <context component="editor-area" merge-mode="append" merge-by="type" type="CloudinaryConfig">
         <editorArea:editorArea>
             <editorArea:tab name="hmc.tab.cloudinaryconfig" merge-mode="append">
                 <editorArea:section name="cloudinaryconfig.section.common.attributes">
