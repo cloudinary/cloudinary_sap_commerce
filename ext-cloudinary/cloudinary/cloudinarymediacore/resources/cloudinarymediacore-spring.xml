@@ -45,4 +45,14 @@
           parent="abstractJobPerformable"/>
 
     <bean id="cloudinaryProductDao" class="uk.ptr.cloudinary.dao.impl.DefaultCloudinaryProductDao"/>
+
+    <bean id="cloudinaryProductValidateInterceptor"
+          class="uk.ptr.cloudinary.interceptors.CloudinaryProductValidateInterceptor" />
+
+    <bean id="cloudinaryProductValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="cloudinaryProductValidateInterceptor"/>
+        <property name="typeCode" value="Product"/>
+    </bean>
+
 </beans>
