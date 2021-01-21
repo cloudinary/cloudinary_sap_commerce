@@ -375,15 +375,47 @@
         </wz:flow>
     </context>
 
-	<context merge-by="type" type="Product" component="editor-area">
+    <context merge-by="type" parent="GenericItem" type="Product" component="editor-area" merge-mode="append">
 		<editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
-			<editorArea:tab name="hmc.tab.product.cloudinary.media">
+            <editorArea:tab name="hmc.tab.product.cloudinary.media">
 				<editorArea:customSection name="hmc.section.media.content"
 										  spring-bean="cloudinaryProductMediaContentUpdateRenderer"/>
                 <editorArea:section name="hmc.cloudinary.response.properties">
                 <editorArea:attribute qualifier="galleryImages"/>
                 </editorArea:section>
 			</editorArea:tab>
+            <editorArea:tab name="hmc.tab.product.multimedia" position="18">
+                <editorArea:section name="hmc.section.product.pictures">
+                    <editorArea:attribute qualifier="picture"/>
+                    <editorArea:attribute qualifier="thumbnail"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.product.additionalmedias">
+                    <editorArea:attribute qualifier="data_sheet"/>
+                    <editorArea:attribute qualifier="detail"/>
+                    <editorArea:attribute qualifier="logo"/>
+                    <editorArea:attribute qualifier="normal"/>
+                    <editorArea:attribute qualifier="others"/>
+                    <editorArea:attribute qualifier="thumbnails"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinarymedias">
+                    <editorArea:attribute qualifier="cloudinaryImageTransformation"/>
+                    <editorArea:attribute qualifier="cloudinaryVideoTransformation"/>
+                    <editorArea:attribute qualifier="isCloudinaryOverride"/>
+                </editorArea:section>
+            </editorArea:tab>
 		</editorArea:editorArea>
 	</context>
+
+    <context merge-by="type" parent="GenericItem" type="Category" component="editor-area">
+        <editorArea:editorArea name="">
+            <editorArea:tab name="hmc.multimedia">
+                <editorArea:section name="hmc.section.cloudinarymedias">
+                    <editorArea:attribute qualifier="cloudinaryImageTransformation"/>
+                    <editorArea:attribute qualifier="cloudinaryVideoTransformation"/>
+                    <editorArea:attribute qualifier="isCloudinaryOverride"/>
+                </editorArea:section>
+            </editorArea:tab>
+        </editorArea:editorArea>
+    </context>
+
 </config>
