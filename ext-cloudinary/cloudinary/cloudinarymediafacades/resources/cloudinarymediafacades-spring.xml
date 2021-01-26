@@ -72,4 +72,7 @@
         <property name="responsiveImageFormats" ref="responsiveImageFormats"/>
     </bean>
 
+    <alias name="defaultCloudinaryProductPrimaryImagePopulator" alias="productPrimaryImagePopulator"/>
+    <bean id="defaultCloudinaryProductPrimaryImagePopulator" parent="baseProductImagePopulator" class="uk.ptr.cloudinary.facades.populator.CloudinaryProductPrimaryImagePopulator"/>
+
 </beans>

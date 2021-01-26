@@ -1,0 +1,46 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+$contentCatalog=powertoolsContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+
+
+INSERT_UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];name;frontendTemplateName;restrictedPageTypes(code);active[default=true]
+                          ;;ProductDetailsPageTemplate;Product Details Page Template;addon:/cloudinarymediab2baddon/pages/product/productLayout1Page;ProductPage
+                          ;;LandingPage2Template;Landing Page 2 Template;addon:/cloudinarymediab2baddon/pages/layout/landingLayout2Page;CategoryPage,ContentPage
+
+INSERT_UPDATE CloudinaryGalleryComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;
+                                           ;;CloudinaryGalleryComponent;Cloudinary Gallery Component;CloudinaryGalleryComponent;;;
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+                         ;;CloudinaryGallerySlot;Cloudinary Gallery Component Slot;true;CloudinaryGalleryComponent
+
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='ProductDetailsPageTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+                                    ;;cloudinaryGallery-ProductDetails;CloudinaryGalleryName;;CloudinaryGallerySlot;true
+
+INSERT_UPDATE CloudinaryVideoComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;cloudinaryVideo
+                                        ;;CloudinaryVideoComponent;Cloudinary Video Component;CloudinaryVideoComponent;;;
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+                         ;;CloudinaryVideoSlot;Cloudinary Video Component Slot;true;CloudinaryVideoComponent
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='LandingPage2Template'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+                                    ;;cloudinaryVideo-LandingPage2;CloudinaryVideoName;;CloudinaryVideoSlot;true
+
+INSERT_UPDATE ContentSlotName; name[unique = true]    ; template(uid, $contentCV)[unique = true][default = 'LandingPage2Template']; validComponentTypes(code); compTypeGroup(code)
+                             ; CloudinaryVideoName              ;                                                                           ;                          ;
+
+INSERT_UPDATE ComponentTypeGroups2ComponentType;source(code)[unique=true];target(code)[unique=true]
+                                               ;wide;CloudinaryGalleryComponent
+                                               ;wide;CloudinaryVideoComponent
+                                               ;narrow;CloudinaryVideoComponent
+                                               ;logo;CloudinaryVideoComponent
+                                               ;headerlinks;CloudinaryVideoComponent
+                                               ;searchbox;CloudinaryVideoComponent
+                                               ;minicart;CloudinaryVideoComponent
+                                               ;navigation;CloudinaryVideoComponent
+                                               ;footer;CloudinaryVideoComponent
+
+INSERT_UPDATE JspIncludeComponent;uid[unique=true];page;$contentCV[unique=true]
+                                 ;CartComponent;/WEB-INF/views/addons/cloudinarymediab2baddon/responsive/pages/cart/cartDisplay.jsp
