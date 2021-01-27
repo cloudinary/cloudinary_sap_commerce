@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="product" tagdir="/WEB-INF/tags/responsive/product" %>
-<%@ taglib prefix="cloudinaryproduct" tagdir="/WEB-INF/tags/addons/cloudinarymediaaddon/responsive/product"%>
+<%@ taglib prefix="cloudinaryproduct" tagdir="/WEB-INF/tags/addons/cloudinarymediab2baddon/responsive/product"%>
 
 <spring:htmlEscape defaultHtmlEscape="true" />
 
