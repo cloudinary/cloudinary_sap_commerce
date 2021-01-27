@@ -36,4 +36,22 @@
 		  class="uk.ptr.cloudinary.editor.CloudinaryProductMediaContentUpdateRenderer"  parent="abstractEditorAreaComponentRenderer">
 	</bean>
 
+	<alias name="defaultCloudinaryConfigTransformationTextRenderer" alias="cloudinaryConfigTransformationTextRenderer"/>
+	<bean id="defaultCloudinaryConfigTransformationTextRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigTransformationTextRenderer"
+		  parent="abstractEditorAreaComponentRenderer">
+	</bean>
+
+	<alias name="defaultCloudinaryConfigProductGalleryTextRenderer" alias="cloudinaryConfigProductGalleryTextRenderer"/>
+	<bean id="defaultCloudinaryConfigProductGalleryTextRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigProductGalleryTextRenderer"
+		  parent="abstractEditorAreaComponentRenderer">
+	</bean>
+
+	<alias name="defaultCloudinaryConfigProductGallerySettingsTextRenderer" alias="cloudinaryConfigProductGallerySettingsTextRenderer"/>
+	<bean id="defaultCloudinaryConfigProductGallerySettingsTextRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigProductGallerySettingsTextRenderer"
+		  parent="abstractEditorAreaComponentRenderer">
+	</bean>
+
 </beans>
