@@ -83,6 +83,7 @@ myCropWidget = cloudinary.createMediaLibrary({
        insertHandler: function (data) {
          data.assets.forEach(asset => {
          zk.Widget.$("$txtBxId").setValue(JSON.stringify(asset));
+         zk.Widget.$("$mediaName").setValue(asset.public_id+"."+asset.format);
          zk.Widget.$('$eventBtn').fire('onClick');
          })
        }

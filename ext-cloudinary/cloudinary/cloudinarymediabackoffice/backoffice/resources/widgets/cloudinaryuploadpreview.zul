@@ -10,22 +10,32 @@
     <vlayout style="overflow: auto" height="100%" id="demoEditor">
         <hbox align="center">
             <div>
-                <label value="Upload Assets from Cloudinary Widget" style="font-weight: bold;"/>
+                <label value="Select Assets from Cloudinary" style="font-weight: bold;"/>
                 <textbox id="txtBxId" value="" visible="false">
                 </textbox>
             </div>
         </hbox>
         <hbox></hbox>
+        <hbox>
+            <div>
+                <label id="mediaName" value="" visible="true" style="font-weight: bold; color: grey; ">
+                </label>
+            </div>
+        </hbox>
         <hbox></hbox>
         <hbox align="center">
             <div>
-                <button id="upload_widget" w:onClick="uploadImage()">Upload assets</button>
+                <button id="upload_widget" w:onClick="uploadImage()">Select Assets</button>
                 <button label="Done Upload" id="eventBtn" visible="false">
                     <attribute w:name="onClick" name="">
                         var txtBx = zk.$('$txtBxId');
                         var textValue = zk.$('$txtBxId').getValue();
                         txtBx.setValue(textValue);
                         txtBx.fireOnChange(); /*optional*/
+
+                        var labBx = zk.$('$mediaName');
+                        var labValue = zk.$('$mediaName').getValue();
+                        labBx.setValue(labValue);
 
                     </attribute>
                 </button>
