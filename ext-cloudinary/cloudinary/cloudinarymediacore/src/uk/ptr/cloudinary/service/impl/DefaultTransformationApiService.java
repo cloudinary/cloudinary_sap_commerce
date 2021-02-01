@@ -137,15 +137,11 @@ public class DefaultTransformationApiService implements TransformationApiService
                             }
                         }
 
-
-                        if (org.apache.commons.lang.StringUtils.isNotBlank(cloudinaryConfigModel.getCloudinaryQuality())) {
                             if (org.apache.commons.lang.StringUtils.isNotBlank(imageData.getCloudinaryTransformation()) || BooleanUtils.isTrue(cloudinaryConfigModel.getCloudinaryResponsive()))
                             {
                                 transformationURL.append(",");
                             }
                             transformationURL.append(cloudinaryConfigModel.getCloudinaryQuality());
-                        }
-
 
                         if (!imageData.isCloudinaryOverride()) {
                             boolean isProductOverride = BooleanUtils.isTrue(product.getIsCloudinaryOverride());

@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd ">
 
-    <window id="myWin" title="Select Assets from Cloudinary" border="normal" width="30%" closable="true" position="center">
+    <window id="myWin" title="Select Asset from Cloudinary" border="normal" width="30%" closable="true" position="center">
         <html>
             <script src="/backoffice/widgetClasspathResource/widgets/js/all.js"/>
             <script src="/backoffice/widgetClasspathResource/widgets/js/cloudinaryupload.js"/>
@@ -27,7 +27,7 @@
             <hbox></hbox>
             <hbox align="center">
                 <div>
-                    <button id="upload_widget" w:onClick="uploadImage()">Select Assets</button>
+                    <button id="upload_widget" w:onClick="uploadImage()">Select Asset</button>
                     <button id="done" label="Done" onClick="myWin.onClose();" style = "background-color: #088ADE"/>
                     <button label="Done Upload" id="eventBtn" visible="false">
                         <attribute w:name="onClick" name="">

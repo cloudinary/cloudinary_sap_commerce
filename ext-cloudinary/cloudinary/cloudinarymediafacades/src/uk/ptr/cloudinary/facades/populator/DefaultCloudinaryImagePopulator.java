@@ -100,17 +100,10 @@ public class DefaultCloudinaryImagePopulator extends ImagePopulator implements P
                         transformationURL.append(source.getCloudinaryTransformation());
                     }
 
-                    if (org.apache.commons.lang.StringUtils.isNotBlank(cloudinaryConfigModel.getCloudinaryQuality())) {
-                        if (org.apache.commons.lang.StringUtils.isNotBlank(source.getCloudinaryTransformation())) {
+                    if (org.apache.commons.lang.StringUtils.isNotBlank(source.getCloudinaryTransformation())) {
                             transformationURL.append(",");
                         }
-                        transformationURL.append(cloudinaryConfigModel.getCloudinaryQuality());
-                    } else {
-                        if (org.apache.commons.lang.StringUtils.isNotBlank(source.getCloudinaryTransformation())) {
-                            transformationURL.append(",");
-                        }
-                        transformationURL.append("w_auto");
-                    }
+                    transformationURL.append(cloudinaryConfigModel.getCloudinaryQuality());
 
                     transformationURL.append(CloudinarymediacoreConstants.SLASH);
                     transformationURL.append(source.getCloudinaryVersion());

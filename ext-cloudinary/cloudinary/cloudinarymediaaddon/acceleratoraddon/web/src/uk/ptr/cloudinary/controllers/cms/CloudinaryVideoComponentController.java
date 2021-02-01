@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.hybris.platform.addonsupport.controllers.cms.AbstractCMSAddOnComponentController;
 import de.hybris.platform.core.model.components.CloudinaryVideoComponentModel;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +44,7 @@ public class CloudinaryVideoComponentController extends
         catch (JSONException e){
             LOG.error("Exception occurred while formatting transformation value ", e);
         }
-        if(cloudinaryConfigModel.getEnableCloudinary())
+        if(BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary()))
         {
             String cloudName[]= cloudinaryConfigModel.getCloudinaryURL().split("@");
             model.addAttribute("cloudName", cloudName[1]);

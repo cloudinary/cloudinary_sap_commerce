@@ -10,7 +10,7 @@
     <vlayout style="overflow: auto" height="100%" id="demoEditor">
         <hbox align="center">
             <div>
-                <label value="Select Assets from Cloudinary" style="font-weight: bold;"/>
+                <label value="Select Asset from Cloudinary" style="font-weight: bold;"/>
                 <textbox id="txtBxId" value="" visible="false">
                 </textbox>
             </div>
@@ -25,7 +25,7 @@
         <hbox></hbox>
         <hbox align="center">
             <div>
-                <button id="upload_widget" w:onClick="uploadImage()">Select Assets</button>
+                <button id="upload_widget" w:onClick="uploadImage()">Select Asset</button>
                 <button label="Done Upload" id="eventBtn" visible="false">
                     <attribute w:name="onClick" name="">
                         var txtBx = zk.$('$txtBxId');

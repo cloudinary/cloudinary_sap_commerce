@@ -19,6 +19,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +55,7 @@ public class CloudinaryDeleteAction implements CockpitAction<Object, Object>
         try {
             CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-            if(cloudinaryConfigModel != null && cloudinaryConfigModel.getEnableCloudinary()){
+            if(cloudinaryConfigModel != null && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary())){
             for(Object ctxObject:ctxObjects){
                     if(ctxObject instanceof MediaModel){
                         MediaModel mediaModel = (MediaModel)ctxObject;
