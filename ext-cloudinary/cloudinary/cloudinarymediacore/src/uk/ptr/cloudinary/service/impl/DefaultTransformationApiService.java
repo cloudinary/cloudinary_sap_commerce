@@ -216,8 +216,7 @@ public class DefaultTransformationApiService implements TransformationApiService
                         transformationURL.append(imageData.getCloudinaryPublicId());
                         transformationURL.append(CloudinarymediacoreConstants.DOT);
                         transformationURL.append(imageData.getCloudinaryMediaFormat());
-
-                        System.out.println("At end " + transformationURL);
+                        
                         imageData.setUrl(transformationURL.toString());
                     }
                 }
