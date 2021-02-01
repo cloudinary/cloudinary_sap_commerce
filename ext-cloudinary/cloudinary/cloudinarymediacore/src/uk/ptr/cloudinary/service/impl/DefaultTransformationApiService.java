@@ -131,17 +131,24 @@ public class DefaultTransformationApiService implements TransformationApiService
 
                         if(BooleanUtils.isTrue(cloudinaryConfigModel.getCloudinaryResponsive())) {
                             transformationURL.append("w_auto");
+                            transformationURL.append(",");
                         }else {
                             if (org.apache.commons.lang.StringUtils.isNotBlank(imageData.getCloudinaryTransformation())) {
                                 transformationURL.append(imageData.getCloudinaryTransformation());
+                                transformationURL.append(",");
                             }
                         }
 
-                            if (org.apache.commons.lang.StringUtils.isNotBlank(imageData.getCloudinaryTransformation()) || BooleanUtils.isTrue(cloudinaryConfigModel.getCloudinaryResponsive()))
-                            {
-                                transformationURL.append(",");
-                            }
-                            transformationURL.append(cloudinaryConfigModel.getCloudinaryQuality());
+                        if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
+                            transformationURL.append("q_"+String.valueOf(cloudinaryConfigModel.getCloudinaryQuality()).toLowerCase());
+                            transformationURL.append(",");
+                            transformationURL.append("f_" +String.valueOf(cloudinaryConfigModel.getCloudinaryImageFormat()).toLowerCase());
+                        }
+                        else if(CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())){
+                            transformationURL.append("q_" + String.valueOf(cloudinaryConfigModel.getCloudinaryVideoQuality()).toLowerCase());
+                            transformationURL.append(",");
+                            transformationURL.append("f_" + String.valueOf(cloudinaryConfigModel.getCloudinaryVideoFormat()).toLowerCase());
+                        }
 
                         if (!imageData.isCloudinaryOverride()) {
                             boolean isProductOverride = BooleanUtils.isTrue(product.getIsCloudinaryOverride());
@@ -202,7 +209,6 @@ public class DefaultTransformationApiService implements TransformationApiService
                                 }
 
                             }
-
                         }
                         transformationURL.append(CloudinarymediacoreConstants.SLASH);
                         transformationURL.append(imageData.getCloudinaryVersion());
@@ -211,6 +217,7 @@ public class DefaultTransformationApiService implements TransformationApiService
                         transformationURL.append(CloudinarymediacoreConstants.DOT);
                         transformationURL.append(imageData.getCloudinaryMediaFormat());
 
+                        System.out.println("At end " + transformationURL);
                         imageData.setUrl(transformationURL.toString());
                     }
                 }
