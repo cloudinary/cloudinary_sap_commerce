@@ -5,6 +5,13 @@
 
 <items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 			xsi:noNamespaceSchemaLocation="items.xsd">
+
+	<enumtypes>
+		<enumtype code="CloudinaryMediaType" autocreate="true" generate="true">
+			<value code="AUTO"/>
+		</enumtype>
+	</enumtypes>
+
 	<relations>
 		<relation generate="true" localized="false" code="ConversionGroupToMediaFormatRel" autocreate="true">
 			<deployment table="mediacontenttypeformats" typecode="10112"/>
@@ -56,6 +63,7 @@
 		</relation>
 	</relations>
 
+
 	<itemtypes>
 
 		<itemtype code="CloudinaryConfig" jaloclass="uk.ptr.cloudinary.jalo.CloudinaryConfig"
@@ -78,18 +86,20 @@
 					<modifiers read="true" write="true" search="true" optional="false" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="cloudinaryImageFormat" type="java.lang.String">
+				<attribute qualifier="cloudinaryImageFormat" type="CloudinaryMediaType">
 					<description>Cloudinary Image Format </description>
-					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryMediaType","AUTO")</defaultvalue>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="cloudinaryQuality" type="java.lang.String">
+				<attribute qualifier="cloudinaryQuality" type="CloudinaryMediaType">
 					<description>Cloudinary Quality</description>
-					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryMediaType","AUTO")</defaultvalue>
 					<persistence type="property" />
 				</attribute>
 				<attribute qualifier="cloudinaryResponsive" type="java.lang.Boolean">
-					<defaultvalue></defaultvalue>
+					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
 					<description>Enable Cloudinary Responsive Breakpoint</description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
@@ -180,7 +190,51 @@
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-
+				<attribute qualifier="enableOptimizeImage" type="java.lang.Boolean">
+					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
+					<description> Enable Optimize Images </description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="enableOptimizeVideo" type="java.lang.Boolean">
+					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
+					<description> Enable Optimize Images </description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryVideoFormat" type="CloudinaryMediaType">
+					<description>Cloudinary Video Format </description>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryMediaType","AUTO")</defaultvalue>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryVideoQuality" type="CloudinaryMediaType">
+					<description>Cloudinary VideoQuality</description>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryMediaType","AUTO")</defaultvalue>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryGalleryConfigJsonString" type="java.lang.String">
+					<description>Cloudinary Gallery Config Json String</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property">
+						<columntype database="oracle">
+							<value>CLOB</value>
+						</columntype>
+						<columntype database="sap">
+							<value>NCLOB</value>
+						</columntype>
+						<columntype database="mysql">
+							<value>TEXT</value>
+						</columntype>
+						<columntype database="sqlserver">
+							<value>TEXT</value>
+						</columntype>
+						<columntype>
+							<value>HYBRIS.LONG_STRING</value>
+						</columntype>
+					</persistence>
+				</attribute>
 			</attributes>
 
 		</itemtype>

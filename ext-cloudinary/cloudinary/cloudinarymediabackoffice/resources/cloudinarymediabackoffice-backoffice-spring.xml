@@ -48,6 +48,11 @@
 		  parent="abstractEditorAreaComponentRenderer">
 	</bean>
 
+	<alias name="defaultCloudinaryConfigProductGalleryTextWizardRenderer" alias="cloudinaryConfigProductGalleryTextWizardRenderer"/>
+	<bean id="defaultCloudinaryConfigProductGalleryTextWizardRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigProductGalleryTextWizardRenderer">
+	</bean>
+
 	<alias name="defaultCloudinaryConfigProductGallerySettingsTextRenderer" alias="cloudinaryConfigProductGallerySettingsTextRenderer"/>
 	<bean id="defaultCloudinaryConfigProductGallerySettingsTextRenderer"
 		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigProductGallerySettingsTextRenderer"

@@ -38,7 +38,7 @@ public class CloudinaryProductValidateInterceptor implements ValidateInterceptor
 
         CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-        if (model instanceof ProductModel && ctx.isModified(model, ProductModel.GALLERYIMAGES)) {
+        if (model instanceof ProductModel && !ctx.isNew(model) && ctx.isModified(model, ProductModel.GALLERYIMAGES)) {
             model.getGalleryImages().stream().forEach(mc -> {
                 MediaModel masterImage = getMasterImage(mc);
                 if (masterImage != null) {

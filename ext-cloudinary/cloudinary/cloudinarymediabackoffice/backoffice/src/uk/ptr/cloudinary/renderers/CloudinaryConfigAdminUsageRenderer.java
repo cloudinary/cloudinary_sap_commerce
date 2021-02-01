@@ -9,6 +9,7 @@ import com.hybris.cockpitng.util.UITools;
 import com.hybris.cockpitng.widgets.editorarea.renderer.impl.AbstractEditorAreaComponentRenderer;
 import de.hybris.platform.servicelayer.config.ConfigurationService;
 import de.hybris.platform.servicelayer.model.ModelService;
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.resource.Labels;
@@ -80,7 +81,7 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
 
         setStyleAndContent(component, cloudinaryConfigModel, usageResponseDiv, enableCloudinaryRadioDiv, radioDiv, nextHtml, enableCloudinaryFieldName, cloudinaryConnectionLabel, connectionErrorMessage, trueCheck, falseCheck);
 
-        if (cloudinaryConfigModel.getEnableCloudinary()) {
+        if (BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary())) {
             try {
                 setConnectionDetailsOnDiv(cloudinaryConfigModel, usageResponseDiv, cloudinaryConnectionLabel, html, boxHeader);
             } catch (IllegalArgumentException illegalException) {
@@ -175,7 +176,7 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
 
         enableCloudinaryRadioDiv.appendChild(enableCloudinaryFieldName);
 
-        if (cloudinaryConfigModel.getEnableCloudinary()) {
+        if (BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary())) {
             trueCheck.setChecked(Boolean.TRUE);
             falseCheck.setChecked(Boolean.FALSE);
         } else {

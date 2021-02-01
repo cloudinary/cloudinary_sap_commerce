@@ -30,6 +30,7 @@ import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
 import de.hybris.platform.util.Config;
 import de.hybris.platform.yacceleratorstorefront.controllers.ControllerConstants;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.http.MediaType;
@@ -121,7 +122,7 @@ public class ProductPageController extends AbstractPageController
 
 		CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigFacade.getCloudinaryConfig();
 
-		if(cloudinaryConfigModel.getEnableCloudinary() && cloudinaryConfigModel.getEnableCloudinaryGalleryWidget())
+		if(BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinaryGalleryWidget()))
 		{
 			if(cloudinaryConfigModel.getCloudinaryURL()!= null){
 				String cloudName[]= cloudinaryConfigModel.getCloudinaryURL().split("@");

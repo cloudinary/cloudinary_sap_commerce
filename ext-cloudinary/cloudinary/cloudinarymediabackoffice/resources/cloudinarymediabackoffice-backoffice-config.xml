@@ -95,26 +95,42 @@
             </wz:step>
             <wz:step id="step2" label="create.cloudinaryconfig.global.configuration" merge-mode="replace">
                 <wz:info id="step2.intro" position="top" label="create.cloudinary.transformation.intro" />
-                <wz:content id="step2.content" >
+                <wz:content id="step2.content1">
+                    <wz:custom-view lang="zul" src="widgets/imageglobalsettingtext.zul"/>
                     <wz:property-list root="newCloudinaryConfig">
-                        <wz:property qualifier="cloudinaryImageFormat" type="java.lang.String"/>
-                        <wz:property qualifier="cloudinaryQuality" type="java.lang.String"/>
+                        <wz:property qualifier="enableOptimizeImage"/>
                     </wz:property-list>
-                </wz:content>
-                <wz:content id="step2.content">
+                    <wz:custom-view lang="zul" src="widgets/imageadvancesettingtext.zul"/>
                     <wz:property-list root="newCloudinaryConfig">
-                        <wz:property qualifier="cloudinaryResponsive" type="java.lang.Boolean"/>
-                        <wz:property qualifier="cloudinaryByteStep" type="java.lang.Integer"/>
-                        <wz:property qualifier="cloudinaryMaxBreakPoints" type="java.lang.Integer" />
-                        <wz:property qualifier="cloudinaryImageWidthLimitMin" type="java.lang.Integer"/>
-                        <wz:property qualifier="cloudinaryImageWidthLimitMax" type="java.lang.Integer"/>
+                        <wz:property qualifier="cloudinaryImageFormat"/>
+                        <wz:property qualifier="cloudinaryQuality"/>
                     </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/responsivebreakpointtext.zul"/>
                     <wz:property-list root="newCloudinaryConfig">
-                        <wz:property qualifier="cloudinaryGlobalImageTransformation" type="java.lang.String"/>
+                        <wz:property qualifier="cloudinaryResponsive"/>
+                        <wz:property qualifier="cloudinaryByteStep"/>
+                        <wz:property qualifier="cloudinaryMaxBreakPoints"/>
+                        <wz:property qualifier="cloudinaryImageWidthLimitMin"/>
+                        <wz:property qualifier="cloudinaryImageWidthLimitMax"/>
                     </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/imagetransformationtext.zul"/>
                     <wz:property-list root="newCloudinaryConfig">
-                        <wz:property qualifier="cloudinaryGlobalVideoTransformation" type="java.lang.String"/>
+                        <wz:property qualifier="cloudinaryGlobalImageTransformation"/>
                     </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/videoglobalsettingtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="enableOptimizeVideo"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/videoadvancesettingtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryVideoFormat"/>
+                        <wz:property qualifier="cloudinaryVideoQuality"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/videotransformationtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryGlobalVideoTransformation"/>
+                    </wz:property-list>
+
                 </wz:content>
                 <wz:navigation id="step2.navigation">
                     <wz:cancel/>
@@ -125,9 +141,16 @@
                 </wz:navigation>
             </wz:step>
             <wz:step id="step3" label="create.cloudinaryconfig.product.gallery" merge-mode="replace">
+                <wz:info id="step3.intro" position="top" label="create.cloudinary.product.gallery.intro" />
                 <wz:content id="step3.content">
                     <wz:property-list root="newCloudinaryConfig">
-                        <wz:property qualifier="enableCloudinaryGalleryWidget" type="java.lang.Boolean"/>
+                        <wz:property qualifier="enableCloudinaryGalleryWidget"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul">
+                        <wz:renderer spring-bean="cloudinaryConfigProductGalleryTextWizardRenderer"></wz:renderer>
+                    </wz:custom-view>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryGalleryConfigJsonString"/>
                     </wz:property-list>
                 </wz:content>
                 <wz:navigation id="step3.navigation">
@@ -154,17 +177,29 @@
             <editorArea:tab name="hmc.tab.globaltransformation" merge-mode="append">
                 <editorArea:customSection name="hmc.section.cloudinary.transformation"
                                           spring-bean="cloudinaryConfigTransformationTextRenderer"/>
-                <editorArea:section name="hmc.section.cloudinary.image.advanced" columns="2">
+                <editorArea:section name="hmc.section.cloudinary.image.optimize">
+                    <editorArea:attribute qualifier="enableOptimizeImage"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.image.advanced.optimization">
                     <editorArea:attribute qualifier="cloudinaryImageFormat"/>
                     <editorArea:attribute qualifier="cloudinaryQuality"/>
-                    <editorArea:attribute qualifier="cloudinaryResponsive"/>
-                    <editorArea:attribute qualifier="cloudinaryMaxBreakPoints"/>
-                    <editorArea:attribute qualifier="cloudinaryByteStep"/>
-                    <editorArea:attribute qualifier="cloudinaryImageWidthLimitMax"/>
-                    <editorArea:attribute qualifier="cloudinaryImageWidthLimitMin"/>
                 </editorArea:section>
+                    <editorArea:section name="hmc.section.cloudinary.image.responsive.breakpoints">
+                        <editorArea:attribute qualifier="cloudinaryResponsive"/>
+                        <editorArea:attribute qualifier="cloudinaryMaxBreakPoints"/>
+                        <editorArea:attribute qualifier="cloudinaryByteStep"/>
+                        <editorArea:attribute qualifier="cloudinaryImageWidthLimitMax"/>
+                        <editorArea:attribute qualifier="cloudinaryImageWidthLimitMin"/>
+                    </editorArea:section>
                 <editorArea:section name="hmc.section.cloudinary.image.transformation">
                     <editorArea:attribute qualifier="cloudinaryGlobalImageTransformation"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.video.optimize">
+                    <editorArea:attribute qualifier="enableOptimizeVideo"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.video.advance">
+                    <editorArea:attribute qualifier="cloudinaryVideoFormat"/>
+                    <editorArea:attribute qualifier="cloudinaryVideoQuality"/>
                 </editorArea:section>
                 <editorArea:section name="hmc.section.cloudinary.video.transformation">
                     <editorArea:attribute qualifier="cloudinaryGlobalVideoTransformation"/>
@@ -177,8 +212,12 @@
                 <editorArea:section name="hmc.section.cloudinary.productgallery.settings" >
                     <editorArea:attribute qualifier="enableCloudinaryGalleryWidget" />
                 </editorArea:section>
-                <editorArea:customSection name="hmc.section.cloudinary.productgallery.settings"
-                                          spring-bean="cloudinaryConfigProductGallerySettingsTextRenderer"/>
+                <editorArea:section name="" >
+                <editorArea:customPanel name="" spring-bean="cloudinaryConfigProductGallerySettingsTextRenderer"/>
+                </editorArea:section>
+                <editorArea:section name="" >
+                    <editorArea:attribute qualifier="cloudinaryGalleryConfigJsonString" editor=""/>
+                </editorArea:section>
             </editorArea:tab>
         </editorArea:editorArea>
     </context>
@@ -431,13 +470,6 @@
 
     <context merge-by="type" parent="GenericItem" type="Product" component="editor-area" merge-mode="append">
 		<editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
-            <editorArea:tab name="hmc.tab.product.cloudinary.media">
-				<editorArea:customSection name="hmc.section.media.content"
-										  spring-bean="cloudinaryProductMediaContentUpdateRenderer"/>
-                <editorArea:section name="hmc.cloudinary.response.properties">
-                <editorArea:attribute qualifier="galleryImages"/>
-                </editorArea:section>
-			</editorArea:tab>
             <editorArea:tab name="hmc.tab.product.multimedia" position="18">
                 <editorArea:section name="hmc.section.product.pictures">
                     <editorArea:attribute qualifier="picture"/>
@@ -450,6 +482,11 @@
                     <editorArea:attribute qualifier="normal"/>
                     <editorArea:attribute qualifier="others"/>
                     <editorArea:attribute qualifier="thumbnails"/>
+                </editorArea:section>
+                <editorArea:customSection name="hmc.section.media.content"
+                                          spring-bean="cloudinaryProductMediaContentUpdateRenderer"/>
+                <editorArea:section name="hmc.cloudinary.response.properties">
+                    <editorArea:attribute qualifier="galleryImages"/>
                 </editorArea:section>
                 <editorArea:section name="hmc.section.cloudinarymedias">
                     <editorArea:attribute qualifier="cloudinaryImageTransformation"/>

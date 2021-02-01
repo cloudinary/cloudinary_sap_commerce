@@ -1,5 +1,6 @@
 package uk.ptr.cloudinary.renderers;
 
+import com.hybris.cockpitng.core.config.impl.jaxb.editorarea.AbstractPanel;
 import com.hybris.cockpitng.core.config.impl.jaxb.editorarea.AbstractSection;
 import com.hybris.cockpitng.dataaccess.facades.type.DataType;
 import com.hybris.cockpitng.engine.WidgetInstanceManager;
@@ -15,7 +16,7 @@ import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 
 import javax.annotation.Resource;
 
-public class CloudinaryConfigProductGallerySettingsTextRenderer extends AbstractEditorAreaComponentRenderer<AbstractSection, CloudinaryConfigModel> {
+public class CloudinaryConfigProductGallerySettingsTextRenderer extends AbstractEditorAreaComponentRenderer<AbstractPanel, CloudinaryConfigModel> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CloudinaryConfigProductGallerySettingsTextRenderer.class);
 
@@ -23,9 +24,12 @@ public class CloudinaryConfigProductGallerySettingsTextRenderer extends Abstract
     private ConfigurationService configurationService;
 
 
+    private String getLabel(String key) {
+        return Labels.getLabel(key);
+    }
 
     @Override
-    public void render(Component component, AbstractSection abstractSectionConfiguration, CloudinaryConfigModel cloudinaryConfigModel, DataType dataType, WidgetInstanceManager widgetInstanceManager) {
+    public void render(Component component, AbstractPanel abstractPanel, CloudinaryConfigModel cloudinaryConfigModel, DataType dataType, WidgetInstanceManager widgetInstanceManager) {
 
         Div usageResponseDiv = new Div();
         final Html html = new Html();
@@ -34,12 +38,6 @@ public class CloudinaryConfigProductGallerySettingsTextRenderer extends Abstract
 
         usageResponseDiv.appendChild(html);
         usageResponseDiv.setParent(component);
-
     }
-
-    private String getLabel(String key) {
-        return Labels.getLabel(key);
-    }
-
 }
 
