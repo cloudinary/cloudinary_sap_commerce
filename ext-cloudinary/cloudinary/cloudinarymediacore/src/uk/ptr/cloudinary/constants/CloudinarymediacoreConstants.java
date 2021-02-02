@@ -61,6 +61,6 @@ public final class CloudinarymediacoreConstants extends GeneratedCloudinarymedia
 
 	public static final String CLOUDINARYMEDIATAGUPDATEJOB = "cloudinaryMediaTagUpdateJob";
 
-
+	public static final String SAP_SKU = "sap_sku_";
 
 }

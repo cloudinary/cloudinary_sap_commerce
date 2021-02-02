@@ -94,4 +94,6 @@
 
 	<bean id="analyticsApiService" class="uk.ptr.cloudinary.service.impl.DefaultAnalyticsApiService"/>
 
+	<bean id="removeTagApiService" class="uk.ptr.cloudinary.service.impl.DefaultRemoveTagApiService"/>
+
 </beans>
