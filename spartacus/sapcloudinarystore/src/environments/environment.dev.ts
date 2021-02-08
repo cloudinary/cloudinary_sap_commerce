@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  occBaseUrl: "https://35.176.18.155:9002",
+  occBaseUrl: "https://35.177.239.28:9002",
   production: false
 };
 
