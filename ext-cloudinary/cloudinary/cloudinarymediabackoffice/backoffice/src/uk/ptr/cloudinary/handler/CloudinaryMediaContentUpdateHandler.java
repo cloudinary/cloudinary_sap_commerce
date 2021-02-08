@@ -15,6 +15,7 @@ import de.hybris.platform.core.model.media.MediaModel;
 import de.hybris.platform.servicelayer.exceptions.ModelSavingException;
 import de.hybris.platform.servicelayer.media.MediaService;
 import de.hybris.platform.servicelayer.model.ModelService;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +59,7 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
         MediaModel mediaToUpdate = this.getMediaToUpdate(adapter, map);
         CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-        if (map.containsKey(CLOUDINARY_MEDIA) && cloudinaryConfigModel != null && cloudinaryConfigModel.getEnableCloudinary()) {
+        if (map.containsKey(CLOUDINARY_MEDIA) && cloudinaryConfigModel != null && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary())) {
             UploadApiResponseData responseData = new UploadApiResponseData();
             final Textbox textField = (Textbox) adapter.getWidgetInstanceManager().getWidgetslot().getFellow(CloudinarymediacoreConstants.TEXT_FIELD);
             try {

@@ -1,0 +1,91 @@
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<properties xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:oxf="http://www.orbeon.com/oxf/processors">
+
+
+    <!-- the following line adds a wizard-like look and feel to forms (only if the application name is INSA) -->
+    <!-- property as="xs:string"  name="oxf.fr.detail.view.appearance.INSA.*"                       value="wizard"/ -->
+
+    <!-- the following line define the buttons that are going to be rendered as part of the form -->
+    <!-- only if the application name is INSA -->
+    <!-- property as="xs:string"  name="oxf.fr.detail.buttons.INSA.*"                               value="refresh save-final wizard-prev wizard-next"/ -->
+
+    <!-- the following line defines the date format used by default -->
+    <!-- it can be also defined at the application/form level -->
+    <!-- [M]/[D]/[Y]  or [D]/[M]/[Y] or [D].[M].[Y]-->
+    <property as="xs:string"  name="oxf.xforms.format.input.date"                    value="[D].[M].[Y]"/>
+
+    <!-- the following URL is translated at installation time -->
+    <property as="xs:anyURI"  name="oxf.fr.persistence.hybris.uri"                   value="https://localhost:9002/xyformsweb/fr/service/hybris"/>
+    <property as="xs:boolean" name="oxf.fr.persistence.hybris.versioning"            value="true"/>
+
+    <!-- the following URL is translated at installation time -->
+    <property as="xs:anyURI"  name="oxf.fr.persistence.hybris-nv.uri"                value="https://localhost:9002/xyformsweb/fr/service/hybris"/>
+    <property as="xs:boolean" name="oxf.fr.persistence.hybris-nv.versioning"         value="false"/>
+
+    <!-- all forms created by orbeon:builder are stored in hybris -->
+    <property as="xs:string" name="oxf.fr.persistence.provider.orbeon.builder.data"  value="hybris"/>
+
+    <!-- orbeon:builder is read from local installation -->
+    <property as="xs:string" name="oxf.fr.persistence.provider.orbeon.builder.form"  value="resource"/>
+
+    <!-- all forms and data created for orbeon:library are read and stored in hybris -->
+    <property as="xs:string" name="oxf.fr.persistence.provider.orbeon.library.data"  value="hybris"/>
+    <property as="xs:string" name="oxf.fr.persistence.provider.orbeon.library.form"  value="hybris"/>
+
+    <!-- forms and data for every appication group are stored in hybris -->
+    <property as="xs:string" name="oxf.fr.persistence.provider.*.*.form"             value="hybris"/>
+    <property as="xs:string" name="oxf.fr.persistence.provider.*.*.data"             value="hybris"/>
+
+    <!-- support for autosave -->
+    <property as="xs:boolean" name="oxf.fr.persistence.hybris.autosave"              value="true"/>
+    <property as="xs:boolean" name="oxf.fr.support-autosave"                         value="true"/>
+    <property as="xs:integer" name="oxf.fr.detail.autosave-delay.*.*"                value="0"/>
+    
+    <!-- to support autosave, a user authentication method has to be defined... -->
+    <property as="xs:string"  name="oxf.fr.authentication.method"                    value="header"/>
+    <property as="xs:string"  name="oxf.fr.authentication.header.username"           value="hybris-Username"/>
+    <property as="xs:string"  name="oxf.fr.authentication.header.group"              value="hybris-Group"/>
+    <property as="xs:string"  name="oxf.fr.authentication.header.roles"              value="hybris-Roles"/>
+    
+    <!-- we set the following persistence apis as inactive for search -->
+    <property as="xs:boolean" name="oxf.fr.persistence.exist.active"                 value="false"/>
+    <property as="xs:boolean" name="oxf.fr.persistence.resource.active"              value="false"/>
+
+    <!-- Default error dialog is not shown, instead a javascript function will process error messages -->
+    <!-- property as="xs:boolean" name="oxf.xforms.show-error-dialog"                    value="false" / -->
+
+    <!-- The following properties are used when dealing with SSL on the Persistence API side -->
+    <property as="xs:anyURI"  name="oxf.http.ssl.keystore.uri" value="file:/Users/raghavendravenugopal/Documents/projects/cloudinarysapintegration/CXCOM200500P_4-70004955/hybris/bin/platform/tomcat/lib/keystore"/>
+    <property as="xs:string" name="oxf.http.ssl.keystore.password" value="123456"/>
+    <property as="xs:string" name="oxf.http.ssl.hostname-verifier" value="allow-all"/>
+
+    <property as="xs:string" name="oxf.http.forward-headers" value="Authorization hybris-Proxy-2ab9d56d-ff28-4a1c-903b-7d6a58a92f25"/>
+
+    <!-- This is only meant for backoffice extension -->
+    <property as="xs:string"  name="oxf.xforms.login-page-detection-regexp"          value="login_btn"/>
+
+    <!-- general CSS for every form -->
+    <property as="xs:string" name="oxf.fr.css.custom.uri.*.*"                        value="/forms/style.css"/>
+
+    <!-- whether sections are allowed to collapse -->
+    <property as="xs:boolean" name="oxf.fr.detail.ajax.section.collapse.*.*"         value="true"/>
+
+    <!-- whether sections are animated -->
+    <property as="xs:boolean" name="oxf.fr.detail.ajax.section.animate.*.*"          value="true"/>
+
+    <!--  minimize and combine css files -->
+    <property as="xs:boolean" name="oxf.xforms.minimal-resources"                    value="true"/>
+    <property as="xs:boolean" name="oxf.xforms.combine-resources"                    value="true"/>
+
+    <!-- We modify the autosave process, so forms supporting autosave do not complain having an unsaved document -->
+    <!-- this should be removed once orbeon 4.7 has been released -->
+    <property as="xs:string"  name="oxf.fr.detail.process.autosave.*.*">
+        save(draft = "true")
+        then xf:dispatch("custom-clean-data")
+    </property>
+    <property  as="xs:anyURI"  name="oxf.fr.detail.model.custom.*.*"                 value="oxf:/config/custom-clear-data.xml"/>
+
+</properties>

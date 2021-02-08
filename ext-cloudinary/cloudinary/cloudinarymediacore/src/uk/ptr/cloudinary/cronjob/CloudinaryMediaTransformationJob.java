@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -63,7 +64,7 @@ public class CloudinaryMediaTransformationJob extends AbstractJobPerformable<Clo
           if (CollectionUtils.isEmpty(catalogVersions)) {
               CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-              if (!ObjectUtils.isEmpty(cloudinaryConfigModel) && cloudinaryConfigModel.getEnableCloudinary()) {
+              if (!ObjectUtils.isEmpty(cloudinaryConfigModel) && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary())) {
                   catalogVersions.stream().filter(catalogVersion -> catalogVersion.getVersion().equalsIgnoreCase("Staged")).forEach(stagedVersion -> {
 
                       List<MediaContainerModel> mediaContainerModels = cloudinaryMediaContainerDao.findMediaContainerByCatalogVersion(stagedVersion);

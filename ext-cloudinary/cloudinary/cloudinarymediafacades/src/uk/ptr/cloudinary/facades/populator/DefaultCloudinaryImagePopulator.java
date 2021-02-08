@@ -96,20 +96,25 @@ public class DefaultCloudinaryImagePopulator extends ImagePopulator implements P
                     transformationURL.append(source.getCloudinaryType());
                     transformationURL.append(CloudinarymediacoreConstants.SLASH);
 
-                    if (org.apache.commons.lang.StringUtils.isNotBlank(source.getCloudinaryTransformation())) {
-                        transformationURL.append(source.getCloudinaryTransformation());
+                    if(BooleanUtils.isTrue(cloudinaryConfigModel.getCloudinaryResponsive())) {
+                        transformationURL.append("w_auto");
+                        transformationURL.append(",");
+                    }else {
+                        if (org.apache.commons.lang.StringUtils.isNotBlank(source.getCloudinaryTransformation())) {
+                            transformationURL.append(source.getCloudinaryTransformation());
+                            transformationURL.append(",");
+                        }
                     }
 
-                    if (org.apache.commons.lang.StringUtils.isNotBlank(cloudinaryConfigModel.getCloudinaryQuality())) {
-                        if (org.apache.commons.lang.StringUtils.isNotBlank(source.getCloudinaryTransformation())) {
-                            transformationURL.append(",");
-                        }
-                        transformationURL.append(cloudinaryConfigModel.getCloudinaryQuality());
-                    } else {
-                        if (org.apache.commons.lang.StringUtils.isNotBlank(source.getCloudinaryTransformation())) {
-                            transformationURL.append(",");
-                        }
-                        transformationURL.append("w_auto");
+                    if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(source.getCloudinaryResourceType())) {
+                        transformationURL.append("q_"+String.valueOf(cloudinaryConfigModel.getCloudinaryQuality()).toLowerCase());
+                        transformationURL.append(",");
+                        transformationURL.append("f_" +String.valueOf(cloudinaryConfigModel.getCloudinaryImageFormat()).toLowerCase());
+                    }
+                    else if(CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(source.getCloudinaryResourceType())){
+                        transformationURL.append("q_" + String.valueOf(cloudinaryConfigModel.getCloudinaryVideoQuality()).toLowerCase());
+                        transformationURL.append(",");
+                        transformationURL.append("f_" + String.valueOf(cloudinaryConfigModel.getCloudinaryVideoFormat()).toLowerCase());
                     }
 
                     transformationURL.append(CloudinarymediacoreConstants.SLASH);

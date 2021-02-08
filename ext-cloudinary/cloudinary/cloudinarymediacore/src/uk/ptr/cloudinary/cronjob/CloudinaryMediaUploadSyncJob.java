@@ -15,6 +15,7 @@ import de.hybris.platform.mediaconversion.model.ConversionGroupModel;
 import de.hybris.platform.mediaconversion.model.ConversionMediaFormatModel;
 import de.hybris.platform.servicelayer.cronjob.AbstractJobPerformable;
 import de.hybris.platform.servicelayer.cronjob.PerformResult;
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,7 +64,7 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
             if (!CollectionUtils.isEmpty(catalogVersions)) {
                 CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-                if (!ObjectUtils.isEmpty(cloudinaryConfigModel) && cloudinaryConfigModel.getEnableCloudinary()) {
+                if (!ObjectUtils.isEmpty(cloudinaryConfigModel) && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary())) {
                     catalogVersions.stream().filter(catalogVersion -> catalogVersion.getVersion().equalsIgnoreCase("Staged")).forEach(catalogVersion -> {
                         try {
 

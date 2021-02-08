@@ -2,7 +2,7 @@
 <!--
  Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
 -->
-<project name="cloudinarymediasmartedit" default="all">
+<project name="smarteditaddon" default="all">
 	<property file="platformhome.properties" />
 
 	<!-- next line is only for eclipse to get rid of warnings -->

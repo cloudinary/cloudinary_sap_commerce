@@ -11,6 +11,7 @@ import de.hybris.platform.core.model.media.MediaContainerModel;
 import de.hybris.platform.core.model.media.MediaModel;
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.servicelayer.model.ModelService;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,11 +62,11 @@ public class CloudinaryProductMediaContentUpdateRenderer extends AbstractEditorA
 
         CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-        if (cloudinaryConfigModel != null && cloudinaryConfigModel.getEnableCloudinary()) {
+        if (cloudinaryConfigModel != null && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary())) {
             Textbox textbox = new Textbox();
             textbox.setVisible(false);
             Div uploadButtonDiv = new Div();
-            final Button button = new Button("Upload Assets");
+            final Button button = new Button("Select Asset");
 
             uploadButtonDiv.appendChild(button);
 

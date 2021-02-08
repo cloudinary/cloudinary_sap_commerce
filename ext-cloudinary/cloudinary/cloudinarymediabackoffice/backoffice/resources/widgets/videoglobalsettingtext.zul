@@ -1,0 +1,14 @@
+<zk xmlns:w="http://www.zkoss.org/2005/zk/client"
+    xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd ">
+
+
+    <hbox>
+    <div>
+        <label value="Video - Global Settings" style="font-weight: bold;"/>
+    </div>
+</hbox>
+<hbox></hbox>
+<div></div>
+</zk>

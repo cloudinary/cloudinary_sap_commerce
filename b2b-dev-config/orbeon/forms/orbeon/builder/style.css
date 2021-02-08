@@ -1,0 +1,58 @@
+/* Put here Styles that will afect orbeon:* form */
+
+.orbeon .navbar-fixed-top, .orbeon .navbar-fixed-bottom
+{
+  display: none;
+}
+
+.orbeon .fr-view  .fb-main .navbar .icon-wrench
+{
+  display: none
+}
+
+
+.orbeon .fr-view .fb-publish-dialog .fb-publish-message
+{
+  display: none;
+}
+
+.orbeon .fr-view  .fb-main
+{
+  top: 5px;
+}
+
+.orbeon .fr-view  .fb-toolbox
+{
+  top: 5px;
+}
+
+.orbeon .navbar .navbar-inner .container img
+{
+   display: none;
+}
+
+.orbeon .navbar.navbar-inverse .fr-language-choice, .orbeon .navbar.navbar-inverse .fr-noscript-choice, .orbeon .navbar.navbar-inverse .fr-goto-content
+{
+   display: none
+}
+
+.orbeon .container, .orbeon .span12, .orbeon form
+{
+   width: 97%
+}
+
+.orbeon .orbeon-portlet-div .xforms-disable-hint-as-tooltip .xforms-disable-alert-as-tooltip
+{
+   width: 97%
+}
+
+.orbeon-portlet-body
+{
+   width: 97%
+}
+
+.orbeon .row
+{
+   margin-left: 0px;
+}
+
