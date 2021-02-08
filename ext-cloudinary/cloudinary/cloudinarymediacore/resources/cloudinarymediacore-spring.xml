@@ -55,4 +55,48 @@
         <property name="typeCode" value="Product"/>
     </bean>
 
+     <bean id="cloudinaryProductRemoveInterceptor"
+          class="uk.ptr.cloudinary.interceptors.CloudinaryProductRemoveInterceptor" />
+
+    <bean id="cloudinaryProductRemoveInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="cloudinaryProductRemoveInterceptor"/>
+        <property name="typeCode" value="Product"/>
+    </bean>
+
+    <bean id="cloudinaryMediaRemoveInterceptor"
+          class="uk.ptr.cloudinary.interceptors.CloudinaryMediaRemoveInterceptor" />
+
+        <bean id="cloudinaryMediaRemoveInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="cloudinaryMediaRemoveInterceptor"/>
+        <property name="typeCode" value="Media"/>
+    </bean>
+
+    <bean id="cloudinaryMediaContainerRemoveInterceptor"
+          class="uk.ptr.cloudinary.interceptors.CloudinaryMediaContainerRemoveInterceptor" />
+
+    <bean id="cloudinaryMediaContainerRemoveInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="cloudinaryMediaContainerRemoveInterceptor"/>
+        <property name="typeCode" value="MediaContainer"/>
+    </bean>
+
+    <bean id="cloudinaryMediaContainerValidateInterceptor"
+          class="uk.ptr.cloudinary.interceptors.CloudinaryMediaContainerValidateInterceptor" />
+
+    <bean id="cloudinaryMediaContainerValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="cloudinaryMediaContainerValidateInterceptor"/>
+        <property name="typeCode" value="MediaContainer"/>
+    </bean>
+
+    <bean id="cloudinaryMediaValidateInterceptor"
+          class="uk.ptr.cloudinary.interceptors.CloudinaryMediaValidateInterceptor" />
+
+    <bean id="cloudinaryMediaValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="cloudinaryMediaValidateInterceptor"/>
+        <property name="typeCode" value="Media"/>
+    </bean>
 </beans>

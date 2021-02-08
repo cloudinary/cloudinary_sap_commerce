@@ -19,7 +19,6 @@ import de.hybris.platform.servicelayer.model.ModelService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
 import org.zkoss.zul.Textbox;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
@@ -30,7 +29,6 @@ import uk.ptr.cloudinary.util.CloudinaryConfigUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
@@ -81,15 +79,15 @@ public class CloudinaryProductMediahandler extends ComposedFlowActionHandler {
         String updatedUrl = "";
         try {
             boolean update = !this.modelService.isNew(productModel);
-            this.objectFacade.save(productModel);
             if (responseData != null) {
                 if (StringUtils.isNotEmpty(cloudinaryConfigModel.getCloudinaryCname())) {
                     updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cloudinaryConfigModel.getCloudinaryCname());
                 }
                 MediaContainerModel mediaContainerModel = createMasterMedia(productModel, updatedUrl, responseData, cloudinaryConfigModel.getCloudinaryURL());
                 productModel.setGalleryImages(Collections.singletonList(mediaContainerModel));
-                this.objectFacade.save(productModel);
+
             }
+            this.objectFacade.save(productModel);
             this.notifyAboutSuccess(productModel);
         } catch (RuntimeException | ObjectSavingException var6) {
             LOG.error("Cannot save media", var6);
@@ -158,18 +156,6 @@ public class CloudinaryProductMediahandler extends ComposedFlowActionHandler {
 
     protected void notifyAboutSuccess(ProductModel model) {
         this.notificationService.notifyUser("notification-area", "CreateObject", NotificationEvent.Level.SUCCESS, new Object[]{model});
-    }
-
-    private MediaModel getMasterImage(MediaContainerModel mediaContainerModel) {
-
-        MediaModel masterMedia = null;
-        Collection<MediaModel> medias = mediaContainerModel.getMedias();
-        for (MediaModel mediaModel1 : medias) {
-            if (mediaModel1.getMediaFormat() == null && mediaModel1.getCloudinaryURL() != null) {
-                masterMedia = mediaModel1;
-            }
-        }
-        return masterMedia;
     }
 
     private MediaContainerModel createMasterMedia(ProductModel productModel, String updatedUrl, UploadApiResponseData responseData, String cloudinaryUrl) {

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.service.RemoveTagApiService;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public class DefaultRemoveTagApiService implements RemoveTagApiService {
@@ -18,16 +19,13 @@ public class DefaultRemoveTagApiService implements RemoveTagApiService {
 
         try {
             Cloudinary cloudinary = new Cloudinary(cloudinaryURL);
-
-            String[] publicIds = {publicId};
-
-            Map result = cloudinary.uploader().removeTag((CloudinarymediacoreConstants.SAP_SKU + productCode), publicIds, ObjectUtils.emptyMap());
+            Map result = cloudinary.uploader().removeTag((CloudinarymediacoreConstants.SAP_SKU + productCode), new String[]{publicId} , ObjectUtils.emptyMap());
         }
         catch (IllegalArgumentException illegalException) {
             LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);
         }
         catch (Exception e) {
-            LOG.error("Exception occurred calling Remove Tag  API " + e.getMessage() , e);
+            LOG.error("Exception occurred calling Remove Tag  API for Media  : " + publicId , e);
         }
 
     }

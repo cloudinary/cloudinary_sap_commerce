@@ -1,8 +1,10 @@
 package uk.ptr.cloudinary.editor;
 
 import de.hybris.platform.core.model.media.MediaModel;
+import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.servicelayer.model.ModelService;
 
+import java.io.IOException;
 import java.util.Map;
 import javax.annotation.Resource;
 
@@ -28,8 +30,11 @@ import com.hybris.cockpitng.widgets.editorarea.renderer.impl.AbstractEditorAreaC
 
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
+import uk.ptr.cloudinary.dao.CloudinaryProductDao;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 import uk.ptr.cloudinary.response.UploadApiResponseData;
+import uk.ptr.cloudinary.service.RemoveTagApiService;
+import uk.ptr.cloudinary.service.UpdateTagApiService;
 import uk.ptr.cloudinary.util.CloudinaryConfigUtils;
 
 
@@ -47,58 +52,67 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
     @Resource
     private CloudinaryConfigDao cloudinaryConfigDao;
 
+    @Resource
+    private RemoveTagApiService removeTagApiService;
+
+    @Resource
+    private CloudinaryProductDao cloudinaryProductDao;
+
+    @Resource
+    private UpdateTagApiService updateTagApiService;
+
     @Override
     public void render(Component component, AbstractSection abstractSection, MediaModel mediaModel, DataType dataType, WidgetInstanceManager widgetInstanceManager) {
 
         CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-        if(cloudinaryConfigModel != null && cloudinaryConfigModel.getEnableCloudinary()) {
+        if (cloudinaryConfigModel != null && cloudinaryConfigModel.getEnableCloudinary()) {
             Textbox textbox = new Textbox();
             textbox.setVisible(false);
             Div uploadButtonDiv = new Div();
-            final Button button = new Button("Upload Assets");
+            final Button button = new Button("Select Assets");
 
             uploadButtonDiv.appendChild(button);
 
             button.addEventListener(Events.ON_CLICK, (event) -> {
-                onClickbutton(component, textbox, mediaModel, cloudinaryConfigModel.getCloudinaryCname());
+                onClickbutton(component, textbox, mediaModel, cloudinaryConfigModel);
             });
             component.appendChild(uploadButtonDiv);
             component.appendChild(textbox);
         }
     }
 
-    public void onClickbutton(Component parent, Textbox textbox, MediaModel mediaModel, String cName){
+    public void onClickbutton(Component parent, Textbox textbox, MediaModel mediaModel, CloudinaryConfigModel cloudinaryConfigModel) {
         Window dialogWin = (Window) Executions.createComponents("widgets/cloudinaryuploadedit.zul", parent, null);
         binder = new AnnotateDataBinder(dialogWin);
         binder.loadAll();
         dialogWin.doModal();
 
-        Button done = (Button)dialogWin.getFellow("done");
+        Button done = (Button) dialogWin.getFellow("done");
         done.addEventListener(Events.ON_CLICK, event -> {
             Textbox tx = (Textbox) dialogWin.getFellow(CloudinarymediacoreConstants.TEXT_FIELD);
-            textbox.setValue(tx!= null ? tx.getValue() : "");
-            populateMediaValues(textbox, mediaModel, cName);
+            textbox.setValue(tx != null ? tx.getValue() : "");
+            populateMediaValues(textbox, mediaModel, cloudinaryConfigModel);
         });
 
         dialogWin.addEventListener(Events.ON_CLOSE, event -> {
             Textbox tx = (Textbox) dialogWin.getFellow(CloudinarymediacoreConstants.TEXT_FIELD);
-            textbox.setValue(tx!= null ? tx.getValue() : "");
-            populateMediaValues(textbox, mediaModel, cName);
+            textbox.setValue(tx != null ? tx.getValue() : "");
+            populateMediaValues(textbox, mediaModel, cloudinaryConfigModel);
         });
     }
 
-    private void populateMediaValues(final Textbox textbox, final MediaModel mediaModel, final String cName)
-    {
+    private void populateMediaValues(final Textbox textbox, final MediaModel mediaModel, final CloudinaryConfigModel cloudinaryConfigModel) {
         try {
             UploadApiResponseData responseData = getUploadApiResponseData(textbox);
-            if(responseData != null) {
-                if (StringUtils.isNotEmpty(cName))
-                {   String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cName);
-                mediaModel.setURL(updatedUrl);
-                mediaModel.setCloudinaryURL(updatedUrl);
-            }
-                else {
+            if (responseData != null) {
+                ProductModel productModel = cloudinaryProductDao.getProductForMediaContainer(mediaModel.getMediaContainer().getPk().toString(), mediaModel.getCatalogVersion());
+                if (StringUtils.isNotEmpty(cloudinaryConfigModel.getCloudinaryCname())) {
+                    removeTagApiService.removeTagFromAsset(mediaModel.getCloudinaryPublicId(), productModel.getCode(), cloudinaryConfigModel.getCloudinaryURL());
+                    String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cloudinaryConfigModel.getCloudinaryCname());
+                    mediaModel.setURL(updatedUrl);
+                    mediaModel.setCloudinaryURL(updatedUrl);
+                } else {
                     mediaModel.setURL(responseData.getSecure_url());
                     mediaModel.setCloudinaryURL(responseData.getSecure_url());
                 }
@@ -111,12 +125,20 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
                 mediaModel.setCloudinaryMediaFormat(responseData.getFormat());
                 modelService.save(mediaModel);
                 modelService.refresh(mediaModel);
+                updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(),productModel.getCode(), mediaModel.getCloudinaryPublicId());
             }
         } catch (JsonProcessingException e) {
             LOG.error("Json parsing error save media", e);
-        }
-        catch (RuntimeException runtimeException) {
+        } catch (RuntimeException runtimeException) {
             LOG.error("Cannot save media", runtimeException);
+        }
+    }
+
+    private void updateTagOnProduct(String cloudinaryUrl, String productCode, String publicId) {
+        try {
+            updateTagApiService.updateTagOnAsests(publicId, productCode, cloudinaryUrl);
+        } catch (IOException e) {
+            LOG.error("Error occured while updating tag ", e);
         }
     }
 
@@ -128,8 +150,7 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
                 });
                 return mapper.convertValue(response, UploadApiResponseData.class);
             }
-        }
-        catch (JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
             LOG.error("Json parsing error save media", e);
         }
         return null;

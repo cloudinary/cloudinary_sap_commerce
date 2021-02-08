@@ -23,21 +23,18 @@ import org.zkoss.zul.Button;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
+import uk.ptr.cloudinary.CloudinaryMasterMediaUtil;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
-import uk.ptr.cloudinary.dto.CloudinaryProductAssestData;
-import uk.ptr.cloudinary.dto.MediaContainerData;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 import uk.ptr.cloudinary.response.UploadApiResponseData;
+import uk.ptr.cloudinary.service.RemoveTagApiService;
 import uk.ptr.cloudinary.service.UpdateTagApiService;
 import uk.ptr.cloudinary.util.CloudinaryConfigUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class CloudinaryProductMediaContentUpdateRenderer extends AbstractEditorAreaComponentRenderer<AbstractSection, ProductModel> {
 
@@ -55,6 +52,9 @@ public class CloudinaryProductMediaContentUpdateRenderer extends AbstractEditorA
 
     @Resource
     private UpdateTagApiService updateTagApiService;
+
+    @Resource
+    private RemoveTagApiService removeTagApiService;
 
     @Override
     public void render(Component component, AbstractSection abstractSection, ProductModel productModel, DataType dataType, WidgetInstanceManager widgetInstanceManager) {
@@ -123,36 +123,22 @@ public class CloudinaryProductMediaContentUpdateRenderer extends AbstractEditorA
 
     private void updateCloudinaryMediaOnProduct(ProductModel productModel, CloudinaryConfigModel cloudinaryConfigModel, String updatedUrl, UploadApiResponseData responseData) {
 
-        MediaContainerModel mediaContainerModel =productModel.getGalleryImages().get(0);
-        MediaModel masterImage = getMasterImage(mediaContainerModel);
-        try {
-            if (masterImage != null) {
-                masterImage.setCloudinaryURL(StringUtils.isNotEmpty(updatedUrl) ? updatedUrl : responseData.getSecure_url());
-                masterImage.setURL(StringUtils.isNotEmpty(updatedUrl) ? updatedUrl : responseData.getSecure_url());
-                masterImage.setCloudinaryPublicId(responseData.getPublic_id());
-                masterImage.setCloudinaryResourceType(responseData.getResource_type());
-                masterImage.setCloudinaryType(responseData.getType());
-                StringBuilder version = new StringBuilder();
-                version.append(VERSION).append(responseData.getVersion());
-                masterImage.setCloudinaryVersion(version.toString());
-                masterImage.setCloudinaryMediaFormat(responseData.getFormat());
-                modelService.save(masterImage);
-                mediaContainerModel.setMedias(Collections.singletonList(masterImage));
-                modelService.save(mediaContainerModel);
-                productModel.setGalleryImages(Collections.singletonList(mediaContainerModel));
-                modelService.save(productModel);
-                updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(), productModel.getCode(), masterImage.getCloudinaryPublicId());
-            } else {
-                MediaContainerModel mediaContainer = createMasterMedia(productModel, updatedUrl, responseData, cloudinaryConfigModel.getCloudinaryURL());
-                productModel.setGalleryImages(Collections.singletonList(mediaContainer));
-                modelService.save(productModel);
+        List<MediaContainerModel> mediaContainerModelList = productModel.getGalleryImages();
+        mediaContainerModelList.stream().forEach(mc -> {
+            MediaModel masterImage = CloudinaryMasterMediaUtil.getMasterImage(mc);
+            try {
+                if (masterImage != null) {
+                    removeTagApiService.removeTagFromAsset(masterImage.getCloudinaryPublicId(), productModel.getCode(), cloudinaryConfigModel.getCloudinaryURL());
+                }
+            } catch (IllegalArgumentException illegalException) {
+                LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);
+            } catch (Exception e) {
+                LOG.error("Exception occurred calling Upload  API " + e.getMessage(), e);
             }
-
-        } catch (IllegalArgumentException illegalException) {
-            LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);
-        } catch (Exception e) {
-            LOG.error("Exception occurred calling Upload  API " + e.getMessage(), e);
-        }
+        });
+        MediaContainerModel mediaContainer = createMasterMedia(productModel, updatedUrl, responseData, cloudinaryConfigModel.getCloudinaryURL());
+        productModel.setGalleryImages(Collections.singletonList(mediaContainer));
+        modelService.save(productModel);
     }
 
     private MediaContainerModel createMasterMedia(ProductModel productModel, String updatedUrl, UploadApiResponseData responseData, String cloudinaryUrl) {
@@ -196,17 +182,6 @@ public class CloudinaryProductMediaContentUpdateRenderer extends AbstractEditorA
         return null;
     }
 
-    private MediaModel getMasterImage(MediaContainerModel mediaContainerModel) {
-
-        MediaModel masterMedia = null;
-        Collection<MediaModel> medias = mediaContainerModel.getMedias();
-        for (MediaModel mediaModel : medias) {
-            if (mediaModel.getMediaFormat() == null && mediaModel.getCloudinaryURL() != null) {
-                masterMedia = mediaModel;
-            }
-        }
-        return masterMedia;
-    }
 
     private void updateTagOnProduct(String cloudinaryUrl, String productCode, String publicId) {
         try {

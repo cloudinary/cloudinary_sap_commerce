@@ -14,6 +14,7 @@ import de.hybris.platform.servicelayer.cronjob.PerformResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
+import uk.ptr.cloudinary.CloudinaryMasterMediaUtil;
 import uk.ptr.cloudinary.constants.GeneratedCloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
 import uk.ptr.cloudinary.dao.CloudinaryProductDao;
@@ -51,7 +52,7 @@ public class CloudinaryMediaTagUpdateJob extends AbstractJobPerformable<Cloudina
                 if (!CollectionUtils.isEmpty(products)) {
                     products.stream().forEach(p -> {
                         for (MediaContainerModel mediaContainerModel : p.getGalleryImages()) {
-                            MediaModel masterImage = getMasterImage(mediaContainerModel);
+                            MediaModel masterImage = CloudinaryMasterMediaUtil.getMasterImage(mediaContainerModel);
                             try {
                                 if (masterImage != null) {
                                     updateTagApiService.updateTagOnAsests(masterImage.getCloudinaryPublicId(), p.getCode(), cloudinaryConfigModel.getCloudinaryURL());
@@ -69,16 +70,5 @@ public class CloudinaryMediaTagUpdateJob extends AbstractJobPerformable<Cloudina
         return new PerformResult(CronJobResult.SUCCESS, CronJobStatus.FINISHED);
     }
 
-    private MediaModel getMasterImage(MediaContainerModel mediaContainerModel) {
-
-        MediaModel masterMedia = null;
-        Collection<MediaModel> medias = mediaContainerModel.getMedias();
-        for (MediaModel mediaModel1 : medias) {
-            if (mediaModel1.getMediaFormat() == null && mediaModel1.getCloudinaryURL() != null) {
-                masterMedia = mediaModel1;
-            }
-        }
-        return masterMedia;
-    }
 }
 
