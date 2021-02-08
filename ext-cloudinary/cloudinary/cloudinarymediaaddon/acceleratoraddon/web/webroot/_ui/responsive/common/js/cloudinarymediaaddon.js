@@ -26,7 +26,7 @@ var url = "https://unpkg.com/cloudinary-core@latest/cloudinary-core-shrinkwrap.m
               .done(function () {
                   return $.ajax({
                       method:      "get",
-                      url:         '/cloudinarymediawebservices/apparel-uk/cloudinary/configuration',
+                      url:         '/rest/v2/apparel-uk/cloudinary/configuration',
                       contentType: "application/json; charset=utf-8",
                       headers:     { 'Authorization': 'Bearer ' + appAuthToken }
                   })

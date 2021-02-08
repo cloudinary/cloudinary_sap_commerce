@@ -1,0 +1,41 @@
+#%RAML 0.8
+---
+title: OCC
+baseUri: http://api-example.hybris.com/rest/v2/{baseSiteId}
+version: v2
+baseUriParameters:
+  baseSiteId:
+    description: Id of the base site.
+mediaType: application/json
+securitySchemes:
+    - OAuth2:
+        description: |
+            OCC supports OAuth 2.0 for authenticating all API requests.
+        type: OAuth 2.0
+        describedBy:
+            headers:
+                Authorization:
+                    description: |
+                       Used to send a valid OAuth 2 access token. Do not use.
+                       with the "access_token" query string parameter.
+                    type: string
+            queryParameters:
+                access_token:
+                    description: |
+                       Used to send a valid OAuth 2 access token. Do not use together with.
+                       the "Authorization" header
+                    type: string
+            responses:
+                401:
+                    description: |
+                        Bad or expired token. This can happen if the user or OCC
+                        revoked or expired an access token. To fix, you should re-
+                        authenticate the user.
+                403:
+                    description: |
+                        Bad OAuth request (wrong consumer key, bad nonce, expired
+                        timestamp...). Unfortunately, re-authenticating the user won't help here.
+        settings:
+          authorizationUri: http://api-example.hybris.com/rest/authorizationserver/authorize
+          accessTokenUri: http://api-example.hybris.com/rest/authorizationserver/token
+          authorizationGrants: [ code, token ]

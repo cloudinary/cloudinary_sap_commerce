@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.6.4.201503051146-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[2.2.4.RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -9,11 +9,7 @@
 	<configs>
 		<config>resources/cloudinarymediawebservices-spring.xml</config>
 		<config>web/webroot/WEB-INF/cloudinarymediawebservices-web-spring.xml</config>
-		<config>web/webroot/WEB-INF/config/security-spring.xml</config>
-		<config>web/webroot/WEB-INF/config/error-config-spring.xml</config>
 	</configs>
-	<autoconfigs>
-	</autoconfigs>
 	<configSets>
 	</configSets>
 </beansProjectDescription>

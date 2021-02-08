@@ -3,33 +3,49 @@
  Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
 -->
 <web-app id="cloudinarymediawebservices" version="3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
-         metadata-complete="true">
-  <absolute-ordering />
-  
+		 xmlns="http://java.sun.com/xml/ns/javaee"
+		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+		 metadata-complete="true">
+	<absolute-ordering/>
+
 	<display-name>cloudinarymediawebservices</display-name>
-	
-	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
-	
-	<login-config>
-		<auth-method>BASIC</auth-method>
-	</login-config>
+
+	<!-- spring based filter chain -->
+	<filter>
+		<description>
+			Spring configured chain of spring filter beans
+		</description>
+		<filter-name>commerceWebServicesFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<!-- provides support for ETag and If-None-Match, shallow -->
+	<filter>
+		<filter-name>ETagFilter</filter-name>
+		<filter-class>org.springframework.web.filter.ShallowEtagHeaderFilter</filter-class>
+	</filter>
+
+	<!--	<filter>
+			<filter-name>clientCredentialsTokenEndpointFilter</filter-name>
+			<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		</filter>-->
 
 	<filter>
-   		<filter-name>XSSFilter</filter-name>
+		<filter-name>httpPutFormFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>hiddenHttpMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>XSSFilter</filter-name>
 		<filter-class>de.hybris.platform.servicelayer.web.XSSFilter</filter-class>
 	</filter>
-	
-	<filter-mapping>
-		<filter-name>XSSFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
 	<filter>
-   	<filter-name>characterEncodingFilter</filter-name>
+		<filter-name>characterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
@@ -40,45 +56,108 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
-	
-	
-	<!-- SessionHidingRequestFilter prevents creating Http session.
-		 If you want to track user session :
-		  - comment or remove SessionHidingRequestFilter
-		  - uncomment sessionFilter in cloudinarymediawebservices-web-spring.xml
-		  - comment or remove restSessionFilter in cloudinarymediawebservices-web-spring.xml
-	-->
+
+	<!-- This filter was created only because of compatibility reason to redirect /rest/oauth/token -> /authorizationserver/oauth/token.
+	Turn it on only if you need it.
 	<filter>
-		<filter-name>SessionHidingRequestFilter</filter-name>
-		<filter-class>de.hybris.platform.webservicescommons.filter.SessionHidingFilter</filter-class>
+		<filter-name>oauthRedirectionFilter</filter-name>
+		<filter-class>uk.ptr.cloudinary.request.redirection.OAuthRedirectionFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
-		<filter-name>SessionHidingRequestFilter</filter-name>
+		<filter-name>oauthRedirectionFilter</filter-name>
+		<url-pattern>/oauth/*</url-pattern>
+	</filter-mapping>
+	-->
+	
+	<filter-mapping>
+		<filter-name>XSSFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-<!--
-	Enabling Spring managed Delegating Filter Proxy for hybris Filter Stack.
--->
-	<filter>
-		<filter-name>cloudinarymediawebservicesPlatformFilterChain</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	
 	<filter-mapping>
 		<filter-name>characterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
+	<!--	<filter-mapping>
+			<filter-name>clientCredentialsTokenEndpointFilter</filter-name>
+			<url-pattern>/*</url-pattern>
+		</filter-mapping>-->
+
+	<!--<filter-mapping>-->
+		<!--<filter-name>SessionHidingRequestFilter</filter-name>-->
+		<!--<url-pattern>/oauth/token</url-pattern>-->
+	<!--</filter-mapping>-->
+
 	<filter-mapping>
-		<filter-name>cloudinarymediawebservicesPlatformFilterChain</filter-name>
+		<filter-name>ETagFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>	
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>commerceWebServicesFilterChain</filter-name>
+		<servlet-name>springmvc</servlet-name>
+	</filter-mapping>
+
+	<!-- <v1-api> -->
+	<!-- Uncomment to make v1 version available -->
+	<!--
+	<filter>
+		<description>
+			Spring configured chain of spring filter beans
+		</description>
+		<filter-name>commerceWebServicesFilterChainV1</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>commerceWebServicesFilterChainV1</filter-name>
+		<servlet-name>springmvc-v1</servlet-name>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>httpPutFormFilter</filter-name>
+		<servlet-name>springmvc-v1</servlet-name>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>springmvc-v1</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextClass</param-name>
+			<param-value>
+				org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				uk.ptr.cloudinary.v1.config.WebConfig
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>springmvc-v1</servlet-name>
+		<url-pattern>/v1/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>springmvc-v1</servlet-name>
+		<url-pattern>/v1/medias/*</url-pattern>
+	</servlet-mapping>
+	-->
+	<!-- END Uncomment to make v1 version available -->
+	<!-- </v1-api> -->
 
 	<servlet>
 		<servlet-name>springmvc</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>WEB-INF/config/common/springmvc-servlet.xml</param-value>
+		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
@@ -86,21 +165,82 @@
 		<servlet-name>springmvc</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	
-<!--
-	Enabling a Spring web application context with 'session' and 'request' scope.
-	- The 'contextConfigLocation' param specifies where your configuration files are located.
-	- The HybrisContextLoaderListener extends the usual SpringContextLoaderListener (which loads
-	  the context from specified location) by adding the global application context of
-	  the platform as parent context. 
-	- The RequestContextListener is needed for exposing the 'request' scope to the context.
-	  Furthermore it is needed when overriding the 'jalosession' bean for your web application.
- -->
+
+	<!-- Uncomment to make v2 available -->
+	<filter>
+		<description>
+			Spring configured chain of spring filter beans
+		</description>
+		<filter-name>commerceWebServicesFilterChainV2</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>httpPutFormFilter</filter-name>
+		<servlet-name>springmvc-v2</servlet-name>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>hiddenHttpMethodFilter</filter-name>
+		<servlet-name>springmvc-v2</servlet-name>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>SessionHidingRequestFilter</filter-name>
+		<filter-class>de.hybris.platform.webservicescommons.filter.SessionHidingFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>SessionHidingRequestFilter</filter-name>
+		<url-pattern>/v2/*</url-pattern>
+	</filter-mapping>
+
+
+	<filter-mapping>
+		<filter-name>commerceWebServicesFilterChainV2</filter-name>
+		<servlet-name>springmvc-v2</servlet-name>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>springmvc-v2</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextClass</param-name>
+			<param-value>
+				org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				uk.ptr.cloudinary.v2.config.WebConfig
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>springmvc-v2</servlet-name>
+		<url-pattern>/v2/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>springmvc-v2</servlet-name>
+		<url-pattern>/v2/medias/*</url-pattern>
+	</servlet-mapping>
+	<!-- v2 comment end -->
+
+	<!-- Enabling a Spring web application context with 'session' and 'request' scope. - The 'contextConfigLocation' param specifies where
+		your configuration files <location>/servletRequestBindingException.jsp</location>are located. - The HybrisContextLoaderListener extends the usual SpringContextLoaderListener (which loads
+		the context from specified location) by adding the global application context of the platform as parent context. With having the global
+		context set as parent you can access or override beans of the global context and get the 'tenant' scope. - The RequestContextListener
+		is needed for exposing the 'request' scope to the context. Furthermore it is needed when overriding the 'jalosession' bean for your
+		web application. -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>WEB-INF/cloudinarymediawebservices-web-spring.xml</param-value>
 	</context-param>
-
+	
 	<context-param>
 		<param-name>contextInitializerClasses</param-name>
 		<param-value>de.hybris.platform.webservicescommons.initializer.HybrisPropertiesWebApplicationContextInitializer</param-value>
@@ -109,11 +249,15 @@
 	<listener>
 		<listener-class>de.hybris.platform.spring.HybrisContextLoaderListener</listener-class>
 	</listener>
-	
+
 	<listener>
-    	<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
-		
+
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
 	<error-page>
 		<location>/unknownError.jsp</location>
 	</error-page>
@@ -122,16 +266,16 @@
 		<location>/unknownError.jsp</location>
 	</error-page>
 	<error-page>
-		<error-code>404</error-code>
-		<location>/error404.jsp</location>
-	</error-page>
-	<error-page>
 		<exception-type>java.lang.Throwable</exception-type>
 		<location>/unknownError.jsp</location>
+	</error-page>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error404.jsp</location>
 	</error-page>
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
 		<location>/exception.jsp</location>
 	</error-page>
-	
-</web-app> 
+</web-app>

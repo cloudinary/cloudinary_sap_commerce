@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="commerceWebServicesFilterChainV1" class="de.hybris.platform.servicelayer.web.PlatformFilterChain">
+		<constructor-arg>
+			<ref bean="commerceWebServicesFilterChainListV1" />
+		</constructor-arg>
+	</bean>
+
+	<alias name="defaultCommerceWebServicesFilterChainListV1" alias="commerceWebServicesFilterChainListV1" />
+	<util:list id="defaultCommerceWebServicesFilterChainListV1">
+		<!-- generic platform filters -->
+		<ref bean="log4jFilter" />
+		<ref bean="tenantActivationFilter" />
+		<ref bean="sessionFilter" />
+
+		<!-- occ v1 WebAppMediaFilter -->
+        <ref bean="polyglotPersistenceCallbackFilter"/>
+		<ref bean="commerceWebServicesV1WebAppMediaFilter" />
+
+		<!-- commerceWebservices filters -->
+        <ref bean="commerceWebServicesBaseSiteFilterV1" />
+		<ref bean="commerceWebServicesEurope1AttributesFilterV1" />
+		<ref bean="commerceWebServicesSessionCurrencyFilterV1" />
+		<ref bean="commerceWebServicesSessionLanguageFilterV1" />
+		<ref bean="baseSiteCheckFilterV1" />
+
+		<!-- Security -->
+		<ref bean="springSecurityFilterChain" />
+
+		<!-- commerceWebservices consent filter for V1-->
+		<ref bean="commerceWebServicesConsentFilterV1"/>
+
+		<!-- guest role filter for V1-->
+		<ref bean="guestRoleFilterV1" />
+		
+	</util:list>
+
+	<bean id="commerceWebServicesBaseSiteFilterV1" class="uk.ptr.cloudinary.filter.BaseSiteFilter">
+		<property name="contextInformationLoader" ref="wsContextInformationLoaderV1" />
+	</bean>
+
+	<bean id="commerceWebServicesEurope1AttributesFilterV1" class="uk.ptr.cloudinary.filter.Europe1AttributesFilter">
+		<property name="baseStoreService" ref="baseStoreService" />
+		<property name="sessionService" ref="sessionService" />
+	</bean>
+
+	<bean id="commerceWebServicesSessionCurrencyFilterV1" class="uk.ptr.cloudinary.filter.SessionCurrencyFilter">
+		<property name="contextInformationLoader" ref="wsContextInformationLoaderV1" />
+	</bean>
+
+	<bean id="commerceWebServicesSessionLanguageFilterV1" class="uk.ptr.cloudinary.filter.SessionLanguageFilter">
+		<property name="contextInformationLoader" ref="wsContextInformationLoaderV1" />
+	</bean>
+
+	<alias alias="baseSiteCheckFilterV1" name="defaultBaseSiteCheckFilterV1" />
+	<bean id="defaultBaseSiteCheckFilterV1" class="uk.ptr.cloudinary.filter.BaseSiteCheckFilter">
+		<property name="baseSiteService" ref="baseSiteService" />
+		<property name="cartService" ref="cartService" />
+	</bean>
+
+	<bean id="commerceWebServicesConsentFilterV1" class="uk.ptr.cloudinary.filter.ConsentFilter">
+		<property name="userFacade" ref="userFacade"/>
+		<property name="baseSiteService" ref="baseSiteService"/>
+		<property name="anonymousConsentFacade" ref="anonymousConsentFacade"/>
+		<property name="customerConsentDataStrategy" ref="customerConsentDataStrategy"/>
+	</bean>
+
+	<bean id="guestRoleFilterV1" class="uk.ptr.cloudinary.auth.GuestRoleFilter">
+		<property name="authenticationEventPublisher">
+			<bean class="org.springframework.security.authentication.DefaultAuthenticationEventPublisher" />
+		</property>
+		<property name="userService" ref="userService" />
+		<property name="cartService" ref="cartService" />
+		<property name="guestRole" value="ROLE_GUEST" />
+	</bean>
+
+	<bean id="commerceWebServicesV1WebAppMediaFilter" class="de.hybris.platform.servicelayer.web.WebAppMediaFilter">
+		<property name="mediaPermissionService" ref="mediaPermissionService"/>
+		<property name="modelService" ref="modelService"/>
+		<property name="userService" ref="userService"/>
+		<property name="mediaService" ref="mediaService"/>
+	</bean>
+
+	<alias name="defaultWsContextInformationLoaderV1" alias="wsContextInformationLoaderV1" />
+	<bean id="defaultWsContextInformationLoaderV1" class="uk.ptr.cloudinary.context.impl.DefaultContextInformationLoader">
+		<property name="baseSiteService" ref="baseSiteService" />
+		<property name="activateBaseSiteInSessionStrategy" ref="activateBaseSiteInSessionStrategy" />
+		<property name="configurationService" ref="configurationService" />
+		<property name="baseSiteResourceExceptions" ref="baseFilterResourceExceptionsV1" />
+		<property name="baseStoreService" ref="baseStoreService" />
+		<property name="commonI18NService" ref="commonI18NService" />
+		<property name="commerceCommonI18NService" ref="commerceCommonI18NService" />
+		<property name="calculationService" ref="calculationService" />
+		<property name="cartService" ref="cartService" />
+	</bean>
+
+	<util:set id="baseFilterResourceExceptionsV1">
+		<value>logoutsuccessful</value>
+		<value>oauth</value>
+		<value>customers/current/logout</value>
+		<value>swagger</value>
+		<value>api-docs</value>
+		<value>webjars</value>
+	</util:set>
+
+</beans>
