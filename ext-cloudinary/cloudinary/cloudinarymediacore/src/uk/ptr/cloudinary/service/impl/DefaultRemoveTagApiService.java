@@ -25,7 +25,7 @@ public class DefaultRemoveTagApiService implements RemoveTagApiService {
             LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);
         }
         catch (Exception e) {
-            LOG.error("Exception occurred calling Remove Tag  API for Media  : " + publicId , e);
+            LOG.error("Exception occurred calling Remove Tag  API for MediaMedia Id  : " + publicId + "productCode : " + productCode , e);
         }
 
     }

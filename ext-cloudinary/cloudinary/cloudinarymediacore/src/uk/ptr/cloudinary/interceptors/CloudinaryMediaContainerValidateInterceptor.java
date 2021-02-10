@@ -61,7 +61,7 @@ public class CloudinaryMediaContainerValidateInterceptor implements ValidateInte
             if (oldMasterMedia != null && newMasterMedia != null ) {
                 if (!oldMasterMedia.getCloudinaryPublicId().equalsIgnoreCase(newMasterMedia.getCloudinaryPublicId())) {
                     removeTagApiService.removeTagFromAsset(oldMasterMedia.getCloudinaryPublicId(), product.getCode(), cloudinaryConfigModel.getCloudinaryURL());
-                    updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(), product.getCode(), newMasterMedia.getCloudinaryPublicId());
+                    updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(), product.getCode(), newMasterMedia);
                 }
             }
         }
@@ -76,11 +76,11 @@ public class CloudinaryMediaContainerValidateInterceptor implements ValidateInte
         return null;
     }
 
-    private void updateTagOnProduct(String cloudinaryUrl, String productCode, String publicId) {
+    private void updateTagOnProduct(String cloudinaryUrl, String productCode, MediaModel mediaModel) {
         try {
-            updateTagApiService.updateTagOnAsests(publicId, productCode, cloudinaryUrl);
+            updateTagApiService.updateTagOnAsests(mediaModel.getCloudinaryPublicId(), productCode, cloudinaryUrl);
         } catch (IOException e) {
-            LOG.error("Error occured while updating tag ", e);
+            LOG.error("Error occured while updating tag for Media code  : " + mediaModel.getCode()  + "Asset public id" + mediaModel.getCloudinaryPublicId() + "productCode : " + productCode , e);
         }
     }
 

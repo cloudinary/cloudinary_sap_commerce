@@ -65,7 +65,7 @@ public class CloudinaryMediaValidateInterceptor implements ValidateInterceptor<M
         try {
             updateTagApiService.updateTagOnAsests(publicId, productCode, cloudinaryUrl);
         } catch (IOException e) {
-            LOG.error("Error occured while updating tag ", e);
+            LOG.error("Error occured while updating tag for Media Asset public id :" + publicId + "productCode : " + productCode , e);
         }
     }
 }

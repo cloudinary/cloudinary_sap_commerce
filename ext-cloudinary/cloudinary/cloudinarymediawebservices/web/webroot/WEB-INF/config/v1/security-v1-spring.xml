@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<!-- Swagger resources -->
+	<security:http pattern="/v1/#{configurationService.configuration.getProperty('springfox.documentation.swagger.v2.path')}" security="none"/>
+	<security:http pattern="/v1/*swagger*/**" security="none"/>
+
+	<!-- Commerce Webservices V1-->
+	<http pattern="/v1/**" entry-point-ref="oauthAuthenticationEntryPointV1" access-decision-manager-ref="webSecurityAccessDecisionManager"
+		xmlns="http://www.springframework.org/schema/security" use-expressions="false">
+
+		<anonymous username="anonymous" granted-authority="ROLE_ANONYMOUS" />
+		<session-management session-authentication-strategy-ref="fixation" />
+
+		<intercept-url pattern="/**/cart/promotion/**" access="CLIENT_TRUSTED_CLIENT" requires-channel="https" />
+		<intercept-url pattern="/**" requires-channel="https"/>
+		
+		<port-mappings>
+			<port-mapping http="#{configurationService.configuration.getProperty('tomcat.http.port')}" 
+						  https="#{configurationService.configuration.getProperty('tomcat.ssl.port')}" />
+			<port-mapping http="#{configurationService.configuration.getProperty('embeddedserver.http.port')}" 
+						  https="#{configurationService.configuration.getProperty('embeddedserver.ssl.port')}" />			
+		</port-mappings>
+
+		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+		<custom-filter ref="hybrisUserFilter" after="LAST" />
+		<access-denied-handler ref="oauthAccessDeniedHandlerV1" />
+		
+		<headers>
+			<content-type-options />
+			<hsts include-subdomains="true" max-age-seconds="16070400" />
+			<xss-protection />
+			<security:frame-options disabled="true"/>
+		</headers>	
+		<security:csrf disabled="true"/>	
+	</http>
+
+	<bean id="oauthAuthenticationEntryPointV1" parent="oauthAuthenticationEntryPoint">
+		<property name="exceptionRenderer" ref="oAuth2ExceptionRendererV1" />
+	</bean>
+
+	<bean id="oauthAccessDeniedHandlerV1" parent="oauthAccessDeniedHandler">
+		<property name="exceptionRenderer" ref="oAuth2ExceptionRendererV1" />
+	</bean>
+
+	<bean id="oAuth2ExceptionRendererV1" parent="oAuth2ExceptionRenderer">
+		<property name="messageConverters" ref="messageConvertersV1" />
+	</bean>
+</beans>

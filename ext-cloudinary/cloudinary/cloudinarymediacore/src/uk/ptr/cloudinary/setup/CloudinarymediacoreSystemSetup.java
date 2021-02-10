@@ -38,6 +38,16 @@ public class CloudinarymediacoreSystemSetup extends AbstractSystemSetup
 
 	}
 
+	@SystemSetup(process = SystemSetup.Process.UPDATE, type = SystemSetup.Type.ESSENTIAL)
+	public void createEssentialDataForUpdate(final SystemSetupContext context)
+	{
+		cloudinarymediacoreService.createLogo(PLATFORM_LOGO_CODE);
+		importImpexFile(context, "/cloudinarymediacore/impex/cloudinaryconfig.impex", true);
+		importImpexFile(context, "/cloudinarymediacore/impex/cloudinarysynccronjob.impex", true);
+		importImpexFile(context, "/cloudinarymediacore/impex/cloudinarybackoffice-users.impex", true);
+
+	}
+
 	private InputStream getImageStream()
 	{
 		return CloudinarymediacoreSystemSetup.class.getResourceAsStream("/cloudinarymediacore/sap-hybris-platform.png");

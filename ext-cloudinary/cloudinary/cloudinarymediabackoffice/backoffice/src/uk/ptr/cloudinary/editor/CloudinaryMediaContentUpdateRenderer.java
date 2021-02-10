@@ -125,7 +125,7 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
                 mediaModel.setCloudinaryMediaFormat(responseData.getFormat());
                 modelService.save(mediaModel);
                 modelService.refresh(mediaModel);
-                updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(),productModel.getCode(), mediaModel.getCloudinaryPublicId());
+                updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(),productModel.getCode(), mediaModel);
             }
         } catch (JsonProcessingException e) {
             LOG.error("Json parsing error save media", e);
@@ -134,11 +134,11 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
         }
     }
 
-    private void updateTagOnProduct(String cloudinaryUrl, String productCode, String publicId) {
+    private void updateTagOnProduct(String cloudinaryUrl, String productCode, MediaModel mediaModel) {
         try {
-            updateTagApiService.updateTagOnAsests(publicId, productCode, cloudinaryUrl);
+            updateTagApiService.updateTagOnAsests(mediaModel.getCloudinaryPublicId(), productCode, cloudinaryUrl);
         } catch (IOException e) {
-            LOG.error("Error occured while updating tag ", e);
+            LOG.error("Error occured while updating tag for Media code  : " + mediaModel.getCode()  + "Asset public id" + mediaModel.getCloudinaryPublicId() + "productCode : " + productCode , e);
         }
     }
 

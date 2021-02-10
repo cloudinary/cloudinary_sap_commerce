@@ -165,7 +165,7 @@ public class CloudinaryProductMediaContentUpdateRenderer extends AbstractEditorA
 
         modelService.save(mediaContainerModel);
 
-        updateTagOnProduct(cloudinaryUrl, productModel.getCode(), mediaModel.getCloudinaryPublicId());
+        updateTagOnProduct(cloudinaryUrl, productModel.getCode(), mediaModel);
         return mediaContainerModel;
     }
 
@@ -184,11 +184,11 @@ public class CloudinaryProductMediaContentUpdateRenderer extends AbstractEditorA
     }
 
 
-    private void updateTagOnProduct(String cloudinaryUrl, String productCode, String publicId) {
+    private void updateTagOnProduct(String cloudinaryUrl, String productCode, MediaModel mediaModel) {
         try {
-            updateTagApiService.updateTagOnAsests(publicId, productCode, cloudinaryUrl);
+            updateTagApiService.updateTagOnAsests(mediaModel.getCloudinaryPublicId(), productCode, cloudinaryUrl);
         } catch (IOException e) {
-            LOG.error("Error occured while updating tag ", e);
+            LOG.error("Error occured while updating tag for Media code  : " + mediaModel.getCode()  + "Asset public id" + mediaModel.getCloudinaryPublicId() + "productCode : " + productCode , e);
         }
     }
 }

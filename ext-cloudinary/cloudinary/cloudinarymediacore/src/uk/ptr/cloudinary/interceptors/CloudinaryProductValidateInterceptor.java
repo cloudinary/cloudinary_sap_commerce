@@ -67,7 +67,7 @@ public class CloudinaryProductValidateInterceptor implements ValidateInterceptor
                 currentValue.stream().forEach(mc -> {
                     MediaModel masterImage = CloudinaryMasterMediaUtil.getMasterImage(mc);
                     if (masterImage != null) {
-                        updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(), model.getCode(), masterImage.getCloudinaryPublicId());
+                        updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(), model.getCode(), masterImage);
                     }
                 });
             }
@@ -94,7 +94,7 @@ public class CloudinaryProductValidateInterceptor implements ValidateInterceptor
                     addedMediaContainer.stream().forEach(mc -> {
                         MediaModel masterImage = CloudinaryMasterMediaUtil.getMasterImage(mc);
                         if (masterImage != null) {
-                            updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(), model.getCode(), masterImage.getCloudinaryPublicId());
+                            updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(), model.getCode(), masterImage);
                         }
                     });
                 }
@@ -103,11 +103,11 @@ public class CloudinaryProductValidateInterceptor implements ValidateInterceptor
         }
     }
 
-    private void updateTagOnProduct(String cloudinaryUrl, String productCode, String publicId) {
+    private void updateTagOnProduct(String cloudinaryUrl, String productCode, MediaModel mediaModel) {
         try {
-            updateTagApiService.updateTagOnAsests(publicId, productCode, cloudinaryUrl);
+            updateTagApiService.updateTagOnAsests(mediaModel.getCloudinaryPublicId(), productCode, cloudinaryUrl);
         } catch (IOException e) {
-            LOG.error("Error occured while updating tag ", e);
+            LOG.error("Error occured while updating tag for Media code  : " + mediaModel.getCode()  + "Asset public id" + mediaModel.getCloudinaryPublicId() + "productCode : " + productCode , e);
         }
     }
 
