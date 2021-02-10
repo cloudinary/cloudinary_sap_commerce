@@ -71,6 +71,20 @@
         </explorer-tree:explorer-tree>
     </context>
 
+    <context merge-by="type" type="CloudinaryConfig" component="listview">
+        <list-view:list-view xmlns:list-view="http://www.hybris.com/cockpitng/component/listView">
+            <list-view:column qualifier="cloudinaryByteStep"/>
+            <list-view:column qualifier="cloudinaryFolderPath"/>
+            <list-view:column qualifier="enableOptimizeImage"/>
+            <list-view:column qualifier="cloudinaryImageFormat"/>
+            <list-view:column qualifier="cloudinaryQuality"/>
+            <list-view:column qualifier="cloudinaryResponsive"/>
+            <list-view:column qualifier="cloudinaryMaxBreakPoints"/>
+            <list-view:column qualifier="cloudinaryImageWidthLimitMin"/>
+            <list-view:column qualifier="cloudinaryImageWidthLimitMax"/>
+        </list-view:list-view>
+    </context>
+
     <context type="CloudinaryConfig" parent="GenericItem" component="create-wizard" merge-by="type" merge-mode="replace">
         <wz:flow id="ItemWizard" title="create.title(ctx.TYPE_CODE)">
             <wz:prepare id="itemPrepare">
@@ -81,7 +95,6 @@
                 <wz:content id="step1.content">
                     <wz:property-list root="newCloudinaryConfig">
                         <wz:property qualifier="cloudinaryURL" type="java.lang.String" />
-                        <wz:property qualifier="cloudinaryCname" type="java.lang.String"/>
                         <wz:property qualifier="cloudinaryFolderPath" type="java.lang.String"/>
                     </wz:property-list>
                 </wz:content>
@@ -171,7 +184,6 @@
                 <editorArea:section name="hmc.section.cloudinary.syncsettings">
                     <editorArea:attribute qualifier="cloudinaryURL"/>
                     <editorArea:attribute qualifier="cloudinaryFolderPath"/>
-                    <editorArea:attribute qualifier="cloudinaryCname"/>
                 </editorArea:section>
             </editorArea:tab>
             <editorArea:tab name="hmc.tab.globaltransformation" merge-mode="append">
@@ -202,8 +214,10 @@
                     <editorArea:attribute qualifier="cloudinaryVideoQuality"/>
                 </editorArea:section>
                 <editorArea:section name="hmc.section.cloudinary.video.transformation">
+                    <editorArea:attribute qualifier="cloudinaryWidth"/>
+                    <editorArea:attribute qualifier="cloudinaryHeight"/>
                     <editorArea:attribute qualifier="cloudinaryGlobalVideoTransformation"/>
-                </editorArea:section>
+                 </editorArea:section>
 
             </editorArea:tab>
             <editorArea:tab name="hmc.tab.productgallery" merge-mode="append">
@@ -218,6 +232,9 @@
                 <editorArea:section name="" >
                     <editorArea:attribute qualifier="cloudinaryGalleryConfigJsonString" editor=""/>
                 </editorArea:section>
+            </editorArea:tab>
+            <editorArea:tab name="hmc.administration" position="99" merge-mode="append">
+                <editorArea:customSection name="hmc.unbound" merge-mode="remove"/>
             </editorArea:tab>
         </editorArea:editorArea>
     </context>

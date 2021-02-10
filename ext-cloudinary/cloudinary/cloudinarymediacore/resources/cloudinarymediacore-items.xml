@@ -7,8 +7,44 @@
 			xsi:noNamespaceSchemaLocation="items.xsd">
 
 	<enumtypes>
-		<enumtype code="CloudinaryMediaType" autocreate="true" generate="true">
-			<value code="AUTO"/>
+		<enumtype code="CloudinaryMediaFormat" autocreate="true" generate="true">
+			<value code="f_auto"/>
+			<value code="f_png"/>
+			<value code="f_jpg"/>
+			<value code="f_gif"/>
+			<value code="f_webp"/>
+			<value code="Original"/>
+		</enumtype>
+		<enumtype code="CloudinaryMediaQuality" autocreate="true" generate="true">
+			<value code="q_auto"/>
+			<value code="q_auto_best"/>
+			<value code="q_auto_good"/>
+			<value code="q_auto_eco"/>
+			<value code="q_auto_low"/>
+			<value code="q_100"/>
+			<value code="q_80"/>
+			<value code="q_60"/>
+			<value code="q_40"/>
+			<value code="q_20"/>
+			<value code="Original"/>
+		</enumtype>
+		<enumtype code="CloudinaryVideoQuality" autocreate="true" generate="true">
+			<value code="q_auto"/>
+			<value code="q_auto_best"/>
+			<value code="q_auto_good"/>
+			<value code="q_auto_eco"/>
+			<value code="q_auto_low"/>
+			<value code="q_100"/>
+			<value code="q_80"/>
+			<value code="q_60"/>
+			<value code="q_40"/>
+			<value code="q_20"/>
+			<value code="Original"/>
+		</enumtype>
+		<enumtype code="CloudinaryVideoFormat" autocreate="true" generate="true">
+			<value code="f_auto"/>
+			<value code="f_mp4"/>
+			<value code="Original"/>
 		</enumtype>
 	</enumtypes>
 
@@ -86,16 +122,16 @@
 					<modifiers read="true" write="true" search="true" optional="false" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="cloudinaryImageFormat" type="CloudinaryMediaType">
+				<attribute qualifier="cloudinaryImageFormat" type="CloudinaryMediaFormat">
 					<description>Cloudinary Image Format </description>
 					<modifiers read="true" write="true" search="true" optional="false"/>
-					<defaultvalue>em().getEnumerationValue("CloudinaryMediaType","AUTO")</defaultvalue>
+					<defaultvalue>em().getEnumerationValue("CloudinaryMediaFormat","f_auto")</defaultvalue>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="cloudinaryQuality" type="CloudinaryMediaType">
+				<attribute qualifier="cloudinaryQuality" type="CloudinaryMediaQuality">
 					<description>Cloudinary Quality</description>
 					<modifiers read="true" write="true" search="true" optional="false"/>
-					<defaultvalue>em().getEnumerationValue("CloudinaryMediaType","AUTO")</defaultvalue>
+					<defaultvalue>em().getEnumerationValue("CloudinaryMediaQuality","q_auto")</defaultvalue>
 					<persistence type="property" />
 				</attribute>
 				<attribute qualifier="cloudinaryResponsive" type="java.lang.Boolean">
@@ -145,41 +181,6 @@
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="cloudinaryCarouselWidth" type="java.lang.Integer">
-					<description>Cloudinary Carousel Width</description>
-					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
-					<persistence type="property" />
-				</attribute>
-				<attribute qualifier="cloudinaryCarouselHeight" type="java.lang.Integer">
-					<description>Cloudinary Carousel Height</description>
-					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
-					<persistence type="property" />
-				</attribute>
-				<attribute qualifier="transformations" type="java.lang.String">
-					<description>Product Gallery Transformation</description>
-					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
-					<persistence type="property" />
-				</attribute>
-				<attribute qualifier="cloudinaryCarouselLocation" type="java.lang.String">
-					<description>Cloudinary Carousel Location</description>
-					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
-					<persistence type="property" />
-				</attribute>
-				<attribute qualifier="cloudinaryCarouselOffset" type="java.lang.Integer">
-					<description>Cloudinary Carousel Offset</description>
-					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
-					<persistence type="property" />
-				</attribute>
-				<attribute qualifier="cloudinaryZoomType" type="java.lang.String">
-					<description>Cloudinary ZoomType</description>
-					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
-					<persistence type="property" />
-				</attribute>
-				<attribute qualifier="cloudinaryZoomTrigger" type="java.lang.String">
-					<description>Cloudinary Zoom Trigger</description>
-					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
-					<persistence type="property" />
-				</attribute>
 				<attribute qualifier="cloudinaryWidth" type="java.lang.Integer">
 					<description>Cloudinary Video Width</description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
@@ -202,16 +203,16 @@
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="cloudinaryVideoFormat" type="CloudinaryMediaType">
+				<attribute qualifier="cloudinaryVideoFormat" type="CloudinaryVideoFormat">
 					<description>Cloudinary Video Format </description>
 					<modifiers read="true" write="true" search="true" optional="false"/>
-					<defaultvalue>em().getEnumerationValue("CloudinaryMediaType","AUTO")</defaultvalue>
+					<defaultvalue>em().getEnumerationValue("CloudinaryVideoFormat","f_auto")</defaultvalue>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="cloudinaryVideoQuality" type="CloudinaryMediaType">
+				<attribute qualifier="cloudinaryVideoQuality" type="CloudinaryVideoQuality">
 					<description>Cloudinary VideoQuality</description>
 					<modifiers read="true" write="true" search="true" optional="false"/>
-					<defaultvalue>em().getEnumerationValue("CloudinaryMediaType","AUTO")</defaultvalue>
+					<defaultvalue>em().getEnumerationValue("CloudinaryVideoQuality","q_auto")</defaultvalue>
 					<persistence type="property" />
 				</attribute>
 				<attribute qualifier="cloudinaryGalleryConfigJsonString" type="java.lang.String">
