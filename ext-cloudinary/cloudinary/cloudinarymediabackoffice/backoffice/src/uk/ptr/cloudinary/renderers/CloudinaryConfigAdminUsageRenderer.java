@@ -32,7 +32,7 @@ import java.util.Map;
 public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaComponentRenderer<AbstractSection, CloudinaryConfigModel> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CloudinaryConfigAdminUsageRenderer.class);
-    private static final String CLOUDINARY_VERSION = "cloudinary.version";
+    private static final String CLOUDINARY_VERSION = "v1.0.1";
 
     @Resource
     private AdminApiService adminApiService;
@@ -60,7 +60,7 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
 
         Label cloudinaryVersion = new Label(CloudinarymediacoreConstants.VERSION);
         Label cloudinaryVersionValue = new Label();
-        cloudinaryVersionValue.setValue(" :  " + configurationService.getConfiguration().getString(CLOUDINARY_VERSION));
+        cloudinaryVersionValue.setValue(" :  " + CLOUDINARY_VERSION);
 
         UITools.modifySClass(cloudinaryVersion, "yw-labelstyle-z-label", true);
 
