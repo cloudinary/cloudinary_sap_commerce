@@ -17,7 +17,7 @@ INSERT_UPDATE CloudinaryMediaTransformationJob; code[unique=true];job(code);sing
                                               ;cloudinaryMediaTransformationCronjob;cloudinaryMediaTransformationJob;false;en;
 
 INSERT_UPDATE Trigger;cronJob(code)[unique=true];second;minute;hour;day;month;year;relative;active;maxAcceptableDelay
-                     ;cloudinaryMediaTransformationCronjob;0;0;0;-1;-1;-1;false;true;-1
+                     ;cloudinaryMediaTransformationCronjob;0;30;0;-1;-1;-1;false;true;-1
 
 
 INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
