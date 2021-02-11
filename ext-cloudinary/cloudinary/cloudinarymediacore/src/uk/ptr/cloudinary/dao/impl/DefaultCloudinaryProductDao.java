@@ -47,7 +47,7 @@ public class DefaultCloudinaryProductDao implements CloudinaryProductDao {
 
         final SearchResult searchResult = flexibleSearchService.search(searchQuery);
 
-        if(searchResult.getResult() != null)
+        if(searchResult.getResult() != null  && searchResult.getResult().size() >0 )
         {
             ProductModel productModel =  (ProductModel) searchResult.getResult().get(0);
             return productModel;

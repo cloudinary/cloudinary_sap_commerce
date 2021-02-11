@@ -58,9 +58,16 @@ public class CloudinaryMediaContainerValidateInterceptor implements ValidateInte
 
             MediaModel newMasterMedia = !CollectionUtils.isEmpty(currentValue) ? getMasterMedia(currentValue) : null;
 
-            if (oldMasterMedia != null && newMasterMedia != null ) {
-                if (!oldMasterMedia.getCloudinaryPublicId().equalsIgnoreCase(newMasterMedia.getCloudinaryPublicId())) {
+            if (product != null) {
+                if (oldMasterMedia != null && newMasterMedia != null && !oldMasterMedia.getCloudinaryPublicId().equalsIgnoreCase(newMasterMedia.getCloudinaryPublicId())) {
                     removeTagApiService.removeTagFromAsset(oldMasterMedia.getCloudinaryPublicId(), product.getCode(), cloudinaryConfigModel.getCloudinaryURL());
+                    updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(), product.getCode(), newMasterMedia);
+                }
+                else if(newMasterMedia == null && oldMasterMedia != null)
+                {
+                    removeTagApiService.removeTagFromAsset(oldMasterMedia.getCloudinaryPublicId(), product.getCode(), cloudinaryConfigModel.getCloudinaryURL());
+                }
+                else if(oldMasterMedia == null && newMasterMedia != null){
                     updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(), product.getCode(), newMasterMedia);
                 }
             }

@@ -36,7 +36,7 @@ public class CloudinaryMediaRemoveInterceptor implements RemoveInterceptor<Media
     @Override
     public void onRemove(MediaModel mediaModel, InterceptorContext interceptorContext) throws InterceptorException {
 
-        if (mediaModel.getMediaFormat() == null && mediaModel.getCloudinaryURL() != null) {
+        if (mediaModel.getMediaContainer()!= null && mediaModel.getMediaFormat() == null && mediaModel.getCloudinaryURL() != null) {
             ProductModel product = cloudinaryProductDao.getProductForMediaContainer(mediaModel.getMediaContainer().getPk().toString(), mediaModel.getCatalogVersion());
             if (!ObjectUtils.isEmpty(product)) {
                 CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();

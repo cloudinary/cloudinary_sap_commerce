@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ObjectUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Events;
@@ -106,9 +107,14 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
         try {
             UploadApiResponseData responseData = getUploadApiResponseData(textbox);
             if (responseData != null) {
-                ProductModel productModel = cloudinaryProductDao.getProductForMediaContainer(mediaModel.getMediaContainer().getPk().toString(), mediaModel.getCatalogVersion());
+                ProductModel productModel = null;
+                if (mediaModel.getMediaContainer() != null) {
+                    productModel = cloudinaryProductDao.getProductForMediaContainer(mediaModel.getMediaContainer().getPk().toString(), mediaModel.getCatalogVersion());
+                }
                 if (StringUtils.isNotEmpty(cloudinaryConfigModel.getCloudinaryCname())) {
-                    removeTagApiService.removeTagFromAsset(mediaModel.getCloudinaryPublicId(), productModel.getCode(), cloudinaryConfigModel.getCloudinaryURL());
+                    if (productModel != null) {
+                        removeTagApiService.removeTagFromAsset(mediaModel.getCloudinaryPublicId(), productModel.getCode(), cloudinaryConfigModel.getCloudinaryURL());
+                    }
                     String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cloudinaryConfigModel.getCloudinaryCname());
                     mediaModel.setURL(updatedUrl);
                     mediaModel.setCloudinaryURL(updatedUrl);
@@ -125,7 +131,9 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
                 mediaModel.setCloudinaryMediaFormat(responseData.getFormat());
                 modelService.save(mediaModel);
                 modelService.refresh(mediaModel);
-                updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(),productModel.getCode(), mediaModel);
+                if (productModel != null) {
+                    updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(), productModel.getCode(), mediaModel);
+                }
             }
         } catch (JsonProcessingException e) {
             LOG.error("Json parsing error save media", e);
@@ -138,7 +146,7 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
         try {
             updateTagApiService.updateTagOnAsests(mediaModel.getCloudinaryPublicId(), productCode, cloudinaryUrl);
         } catch (IOException e) {
-            LOG.error("Error occured while updating tag for Media code  : " + mediaModel.getCode()  + "Asset public id" + mediaModel.getCloudinaryPublicId() + "productCode : " + productCode , e);
+            LOG.error("Error occured while updating tag for Media code  : " + mediaModel.getCode() + "Asset public id" + mediaModel.getCloudinaryPublicId() + "productCode : " + productCode, e);
         }
     }
 
