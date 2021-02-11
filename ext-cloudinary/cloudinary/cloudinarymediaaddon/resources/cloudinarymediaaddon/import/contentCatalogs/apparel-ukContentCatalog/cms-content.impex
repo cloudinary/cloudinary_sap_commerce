@@ -22,9 +22,6 @@ INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];po
 INSERT_UPDATE CloudinaryVideoComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;cloudinaryVideo
                                         ;;CloudinaryVideoComponent;Cloudinary Video Component;CloudinaryVideoComponent;;;
 
-INSERT_UPDATE ContentSlotName; name[unique = true]    ; template(uid, $contentCV)[unique = true][default = 'LandingPage2Template']; validComponentTypes(code); compTypeGroup(code)
-                             ; CloudinaryVideoName              ;                                                                           ;                          ;
-
 INSERT_UPDATE ComponentTypeGroups2ComponentType;source(code)[unique=true];target(code)[unique=true]
                                                ;wide;CloudinaryGalleryComponent
                                                ;wide;CloudinaryVideoComponent
