@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
+import uk.ptr.cloudinary.CloudinaryMasterMediaUtil;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
 import uk.ptr.cloudinary.dao.CloudinaryMediaContainerDao;
@@ -87,23 +88,11 @@ public class CloudinaryMediaTransformationJob extends AbstractJobPerformable<Clo
         }
 
     private void updateMedia(MediaContainerModel mediaContainer) {
-        MediaModel mediaModel = getMasterImage(mediaContainer);
+        MediaModel mediaModel = CloudinaryMasterMediaUtil.getMasterImage(mediaContainer);
         if(mediaModel != null && mediaContainer.getConversionGroup()!=null)
         {
             mediaConversionService.convertMedias(mediaContainer);
         }
-    }
-
-    private MediaModel getMasterImage(MediaContainerModel mediaContainerModel){
-
-        Collection<MediaModel> medias  = mediaContainerModel.getMedias();
-        for (MediaModel media : medias) {
-            if(media.getMediaFormat() == null && media.getCloudinaryURL()!=null)
-            {
-                return media;
-            }
-        }
-        return null;
     }
 
     @Override

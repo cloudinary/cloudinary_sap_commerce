@@ -2,36 +2,31 @@ package uk.ptr.cloudinary.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import de.hybris.platform.core.model.media.MediaModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
-import uk.ptr.cloudinary.service.UpdateTagApiService;
+import uk.ptr.cloudinary.service.RemoveTagApiService;
 
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Map;
 
-public class DefaultUpdateTagApiService implements UpdateTagApiService {
+public class DefaultRemoveTagApiService implements RemoveTagApiService {
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultUpdateTagApiService.class);
 
     @Override
-    public void updateTagOnAsests(String publicId, String productCode, String cloudinaryURL) throws IOException {
+    public void removeTagFromAsset(String publicId, String productCode, String cloudinaryURL) {
+
         try {
             Cloudinary cloudinary = new Cloudinary(cloudinaryURL);
-
-            String[] publicIds = {publicId};
-
-            Map result = cloudinary.uploader().addTag((CloudinarymediacoreConstants.SAP_SKU + productCode), publicIds, ObjectUtils.emptyMap());
+            Map result = cloudinary.uploader().removeTag((CloudinarymediacoreConstants.SAP_SKU + productCode), new String[]{publicId} , ObjectUtils.emptyMap());
         }
         catch (IllegalArgumentException illegalException) {
             LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);
         }
         catch (Exception e) {
-            LOG.error("Exception occurred calling Upload  API " + e.getMessage() , e);
+            LOG.error("Exception occurred calling Remove Tag  API for MediaMedia Id  : " + publicId + "productCode : " + productCode , e);
         }
-    }
 
+    }
 }

@@ -80,7 +80,6 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
 
         try {
             boolean update = !this.modelService.isNew(mediaToUpdate);
-            this.objectFacade.save(mediaToUpdate);
             if (responseData == null) {
                 if (update) {
                     this.mediaService.removeDataFromMedia(mediaToUpdate);
@@ -101,9 +100,8 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
                 version.append("v").append(responseData.getVersion());
                 mediaToUpdate.setCloudinaryVersion(version.toString());
                 mediaToUpdate.setCloudinaryMediaFormat(responseData.getFormat());
-
-                this.objectFacade.save(mediaToUpdate);
             }
+            this.objectFacade.save(mediaToUpdate);
             this.notifyAboutSuccess(mediaToUpdate);
         } catch (RuntimeException | ObjectSavingException var6) {
             LOG.error("Cannot save media", var6);

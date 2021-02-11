@@ -20,7 +20,6 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
 import org.zkoss.zul.Textbox;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
@@ -31,7 +30,6 @@ import uk.ptr.cloudinary.util.CloudinaryConfigUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
@@ -82,15 +80,15 @@ public class CloudinaryProductMediahandler extends ComposedFlowActionHandler {
         String updatedUrl = "";
         try {
             boolean update = !this.modelService.isNew(productModel);
-            this.objectFacade.save(productModel);
             if (responseData != null) {
                 if (StringUtils.isNotEmpty(cloudinaryConfigModel.getCloudinaryCname())) {
                     updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cloudinaryConfigModel.getCloudinaryCname());
                 }
                 MediaContainerModel mediaContainerModel = createMasterMedia(productModel, updatedUrl, responseData, cloudinaryConfigModel.getCloudinaryURL());
                 productModel.setGalleryImages(Collections.singletonList(mediaContainerModel));
-                this.objectFacade.save(productModel);
+
             }
+            this.objectFacade.save(productModel);
             this.notifyAboutSuccess(productModel);
         } catch (RuntimeException | ObjectSavingException var6) {
             LOG.error("Cannot save media", var6);
@@ -161,18 +159,6 @@ public class CloudinaryProductMediahandler extends ComposedFlowActionHandler {
         this.notificationService.notifyUser("notification-area", "CreateObject", NotificationEvent.Level.SUCCESS, new Object[]{model});
     }
 
-    private MediaModel getMasterImage(MediaContainerModel mediaContainerModel) {
-
-        MediaModel masterMedia = null;
-        Collection<MediaModel> medias = mediaContainerModel.getMedias();
-        for (MediaModel mediaModel1 : medias) {
-            if (mediaModel1.getMediaFormat() == null && mediaModel1.getCloudinaryURL() != null) {
-                masterMedia = mediaModel1;
-            }
-        }
-        return masterMedia;
-    }
-
     private MediaContainerModel createMasterMedia(ProductModel productModel, String updatedUrl, UploadApiResponseData responseData, String cloudinaryUrl) {
         MediaModel mediaModel = this.modelService.create(MediaModel.class);
         mediaModel.setCloudinaryURL(StringUtils.isNotEmpty(updatedUrl) ? updatedUrl : responseData.getSecure_url());
@@ -194,15 +180,15 @@ public class CloudinaryProductMediahandler extends ComposedFlowActionHandler {
 
         modelService.saveAll(mediaModel,mediaContainerModel);
 
-        updateTagOnProduct(cloudinaryUrl, productModel.getCode(), mediaModel.getCloudinaryPublicId());
+        updateTagOnProduct(cloudinaryUrl, productModel.getCode(), mediaModel);
         return mediaContainerModel;
     }
 
-    private void updateTagOnProduct(String cloudinaryUrl, String productCode, String publicId) {
+    private void updateTagOnProduct(String cloudinaryUrl, String productCode, MediaModel mediaModel) {
         try {
-            updateTagApiService.updateTagOnAsests(publicId, productCode, cloudinaryUrl);
+            updateTagApiService.updateTagOnAsests(mediaModel.getCloudinaryPublicId(), productCode, cloudinaryUrl);
         } catch (IOException e) {
-            LOG.error("Error occured while updating tag ", e);
+            LOG.error("Error occured while updating tag for Media code  : " + mediaModel.getCode()  + "Asset public id" + mediaModel.getCloudinaryPublicId() + "productCode : " + productCode , e);
         }
     }
 }

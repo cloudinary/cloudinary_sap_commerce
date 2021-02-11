@@ -5,7 +5,6 @@ import de.hybris.platform.catalog.model.CatalogVersionModel;
 import de.hybris.platform.catalog.model.SyncItemJobModel;
 import de.hybris.platform.catalog.synchronization.CatalogSynchronizationService;
 import de.hybris.platform.catalog.synchronization.SyncConfig;
-import de.hybris.platform.core.PK;
 import de.hybris.platform.core.model.ItemModel;
 import de.hybris.platform.core.model.media.MediaContainerModel;
 import de.hybris.platform.core.model.media.MediaFormatModel;
@@ -80,7 +79,7 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
                 }
                 else if (stagedMedia.getMediaFormat() != null)
                 {
-                    MediaModel largestMedia = getMasterImage(stagedMedia);
+                    MediaModel largestMedia = getlargestImage(stagedMedia);
                     LOG.info(largestMedia.getCode() + "  " + largestMedia.getMediaFormat());
                     if (largestMedia.getMediaFormat() != null && largestMedia.getCloudinaryURL() == null)
                     {
@@ -207,7 +206,7 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
         return mediaService.getMedia(onlineCatalogVersion, mediaModel.getCode());
     }
 
-    private MediaModel getMasterImage(MediaModel mediaModel) {
+    private MediaModel getlargestImage(MediaModel mediaModel) {
         int imageSize = 0;
         MediaModel masterMedia = null;
         Collection<MediaModel> medias = mediaModel.getMediaContainer().getMedias();
