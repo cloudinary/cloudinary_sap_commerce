@@ -16,7 +16,7 @@ import { CloudinaryClientTokenInterceptor } from './cms-components/product/inter
 import {VariantStyleSelectorModule} from './cms-components/product/product-variants/variant-style-selector/variant-style-selector.module';
 import {ProductVariantsModule} from './cms-components/product/product-variants/product-variants.module'
 import {VariantStyleIconsModule} from './cms-components/product/product-variants/variant-style-icons/variant-style-icons.module'
-import {ProductListModule} from './cms-components/product/product-list/product-list.module'
+//import {ProductListModule} from './cms-components/product/product-list/product-list.module'
 import {environment} from '../environments/environment'
 
 @NgModule({
