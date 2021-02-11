@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
@@ -82,14 +83,15 @@ public class DefaultCloudinaryMediaConversionService extends DefaultMediaConvers
                 return ConversionStatus.CONVERTED;
             } else {
                 int totalSize = todo.size();
-                Iterator var5 = this.getConvertedMedias(model).iterator();
+                Collection<MediaModel> medias = this.getConvertedMedias(model);
 
-                while(var5.hasNext()) {
-                    MediaModel media = (MediaModel)var5.next();
-                    if (media.getMediaFormat() == null) {
-                        LOG.warn("MediaFormat not set on media '" + media + "' in media container '" + model + "'.");
-                    } else {
-                        todo.remove(media.getMediaFormat());
+                if(CollectionUtils.isNotEmpty(medias)) {
+                    for (MediaModel media:medias) {
+                        if (media.getMediaFormat() == null) {
+                            LOG.warn("MediaFormat not set on media '" + media + "' in media container '" + model + "'.");
+                        } else {
+                            todo.remove(media.getMediaFormat());
+                        }
                     }
                 }
 
@@ -101,15 +103,15 @@ public class DefaultCloudinaryMediaConversionService extends DefaultMediaConvers
     @Override
     public void convertMedias(MediaContainerModel container) {
         ServicesUtil.validateParameterNotNull(container, "Container must not be null.");
-        Iterator var3 = ((Collection)(container.getConversionGroup() == null ? this.getAllMediaFormats() : container.getConversionGroup().getSupportedMediaFormats())).iterator();
+        Collection<MediaFormatModel> mediaFormats = ((Collection)(container.getConversionGroup() == null ? this.getAllMediaFormats() : container.getConversionGroup().getSupportedMediaFormats()));
 
-        while(var3.hasNext()) {
-            MediaFormatModel format = (MediaFormatModel)var3.next();
-
-            try {
-                this.getOrConvert(container, format);
-            } catch (ModelNotFoundException var5) {
-                LOG.error("Failed to convert media to format '" + format + "'.", var5);
+        if(CollectionUtils.isNotEmpty(mediaFormats)) {
+            for (MediaFormatModel format : mediaFormats) {
+                try {
+                    this.getOrConvert(container, format);
+                } catch (ModelNotFoundException var5) {
+                    LOG.error("Failed to convert media to format '" + format + "'.", var5);
+                }
             }
         }
 

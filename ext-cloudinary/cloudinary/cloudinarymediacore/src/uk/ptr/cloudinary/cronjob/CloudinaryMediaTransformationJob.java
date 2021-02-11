@@ -7,34 +7,24 @@ import de.hybris.platform.core.model.media.MediaContainerModel;
 import de.hybris.platform.core.model.media.MediaFormatModel;
 import de.hybris.platform.core.model.media.MediaModel;
 import de.hybris.platform.core.model.model.CloudinaryMediaTransformationJobModel;
-import de.hybris.platform.core.model.model.CloudinaryMediaUploadSyncJobModel;
 import de.hybris.platform.cronjob.enums.CronJobResult;
 import de.hybris.platform.cronjob.enums.CronJobStatus;
 import de.hybris.platform.mediaconversion.MediaConversionService;
 import de.hybris.platform.mediaconversion.model.ConversionGroupModel;
 import de.hybris.platform.servicelayer.cronjob.AbstractJobPerformable;
 import de.hybris.platform.servicelayer.cronjob.PerformResult;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-import javax.annotation.Resource;
-
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
-
-import uk.ptr.cloudinary.CloudinaryMasterMediaUtil;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
 import uk.ptr.cloudinary.dao.CloudinaryMediaContainerDao;
-import uk.ptr.cloudinary.dao.CloudinaryMediaDao;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
-import uk.ptr.cloudinary.service.UploadApiService;
+
+import javax.annotation.Resource;
+import java.util.*;
 
 
 public class CloudinaryMediaTransformationJob extends AbstractJobPerformable<CloudinaryMediaTransformationJobModel> {
@@ -61,14 +51,14 @@ public class CloudinaryMediaTransformationJob extends AbstractJobPerformable<Clo
 
      Collection<CatalogVersionModel> catalogVersions = cloudinaryMediaTransformationJobModel.getCatalogVersions();
       try {
-          if (CollectionUtils.isEmpty(catalogVersions)) {
+          if (CollectionUtils.isNotEmpty(catalogVersions)) {
               CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
               if (!ObjectUtils.isEmpty(cloudinaryConfigModel) && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary())) {
                   catalogVersions.stream().filter(catalogVersion -> catalogVersion.getVersion().equalsIgnoreCase("Staged")).forEach(stagedVersion -> {
 
                       List<MediaContainerModel> mediaContainerModels = cloudinaryMediaContainerDao.findMediaContainerByCatalogVersion(stagedVersion);
-                      if (!CollectionUtils.isEmpty(mediaContainerModels)) {
+                      if (CollectionUtils.isNotEmpty(mediaContainerModels)) {
                           mediaContainerModels.forEach(mediaContainer -> {
                               updateMedia(mediaContainer);
                           });
@@ -88,11 +78,45 @@ public class CloudinaryMediaTransformationJob extends AbstractJobPerformable<Clo
         }
 
     private void updateMedia(MediaContainerModel mediaContainer) {
-        MediaModel mediaModel = CloudinaryMasterMediaUtil.getMasterImage(mediaContainer);
-        if(mediaModel != null && mediaContainer.getConversionGroup()!=null)
+        MediaModel mediaModel = getMasterImage(mediaContainer);
+
+        if(mediaModel != null)
         {
+            Set<MediaFormatModel> mediaFormats = new HashSet<>();
+            for (MediaModel medias : mediaContainer.getMedias()) {
+                if (medias.getMediaFormat() != null)
+                    mediaFormats.add(medias.getMediaFormat());
+            }
+
+            ConversionGroupModel conversionGroupModel;
+            if (mediaContainer.getConversionGroup() == null) {
+                conversionGroupModel = this.modelService.create(ConversionGroupModel.class);
+                conversionGroupModel.setCode(UUID.randomUUID().toString());
+            } else {
+                conversionGroupModel = mediaContainer.getConversionGroup();
+                mediaFormats.addAll(conversionGroupModel.getSupportedFormats());
+            }
+
+            conversionGroupModel.setSupportedMediaFormats(mediaFormats);
+            modelService.save(conversionGroupModel);
+            mediaContainer.setConversionGroup(conversionGroupModel);
+
+            modelService.save(mediaContainer);
+
             mediaConversionService.convertMedias(mediaContainer);
         }
+    }
+
+    private MediaModel getMasterImage(MediaContainerModel mediaContainerModel){
+
+        Collection<MediaModel> medias  = mediaContainerModel.getMedias();
+        for (MediaModel media : medias) {
+            if(media.getMediaFormat() == null && media.getCloudinaryURL()!=null)
+            {
+                return media;
+            }
+        }
+        return null;
     }
 
     @Override
