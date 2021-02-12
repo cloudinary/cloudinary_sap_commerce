@@ -140,14 +140,22 @@ public class DefaultTransformationApiService implements TransformationApiService
                         }
 
                         if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
-                            transformationURL.append("q_"+String.valueOf(cloudinaryConfigModel.getCloudinaryQuality()).toLowerCase());
+                            String mediaQuality = cloudinaryConfigModel.getCloudinaryQuality().getCode();
+                            if(mediaQuality.contains("auto_")){
+                                mediaQuality = mediaQuality.replace("auto_", "auto:");
+                            }
+                            transformationURL.append(mediaQuality);
                             transformationURL.append(",");
-                            transformationURL.append("f_" +String.valueOf(cloudinaryConfigModel.getCloudinaryImageFormat()).toLowerCase());
+                            transformationURL.append(cloudinaryConfigModel.getCloudinaryImageFormat().getCode());
                         }
                         else if(CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())){
-                            transformationURL.append("q_" + String.valueOf(cloudinaryConfigModel.getCloudinaryVideoQuality()).toLowerCase());
+                            String videoQuality = cloudinaryConfigModel.getCloudinaryVideoQuality().getCode();
+                            if(videoQuality.contains("auto_")){
+                                videoQuality = videoQuality.replace("auto_", "auto:");
+                            }
+                            transformationURL.append(videoQuality);
                             transformationURL.append(",");
-                            transformationURL.append("f_" + String.valueOf(cloudinaryConfigModel.getCloudinaryVideoFormat()).toLowerCase());
+                            transformationURL.append(cloudinaryConfigModel.getCloudinaryVideoFormat().getCode());
                         }
 
                         if (!imageData.isCloudinaryOverride()) {
