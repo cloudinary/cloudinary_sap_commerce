@@ -17,7 +17,7 @@ public class CloudinaryConfigProductGalleryTextWizardRenderer extends DefaultCus
 
         Div usageResponseDiv = new Div();
         final Html html = new Html();
-        html.setContent("Enter the configuration JSON to be used by the gallery.<br/> For a quick and easy start, use the <a href=''>Product Gallery Editor</a>. Configure the widget as needed and copy the generated JSON to this field.<br/>eg.,{\"aspectRatio\":\"3:4\",\"transformation\":{\"crop\":\"fill\"}}<br/>Note that the \"cloudName\", \"container\", and \"mediaAssets\" parameters set in the editor are not required and will be added/overwritten by the integration.<br/>Additional parameters are available and not offered by the editor. See <a href=''>Product Gallery API reference</a> for the full list of parameters.<br/>");
+        html.setContent("Enter the configuration JSON to be used by the gallery.<br/> For a quick and easy start, use the <a href='https://demo.cloudinary.com/product-gallery/editor?code=configjson'>Product Gallery Editor</a>. Configure the widget as needed and copy the generated JSON to this field.<br/>eg.,{\"aspectRatio\":\"3:4\",\"transformation\":{\"crop\":\"fill\"}}<br/>Note that the \"cloudName\", \"container\", and \"mediaAssets\" parameters set in the editor are not required and will be added/overwritten by the integration.<br/>Additional parameters are available and not offered by the editor. See <a href='https://cloudinary.com/documentation/product_gallery_reference'>Product Gallery API reference</a> for the full list of parameters.<br/>");
         usageResponseDiv.appendChild(html);
         usageResponseDiv.setParent(component);
 

@@ -42,7 +42,7 @@ public class CloudinaryConfigTransformationTextRenderer extends AbstractEditorAr
         Div usageResponseDiv = new Div();
         final Html html = new Html();
         html.setSclass("yw-editorarea-z-html");
-        html.setContent("Cloudinary allows you to easily transform your images on-the-fly to any required format, style and dimension, and also optimizes<br/> images for minimal file size alongside high visual quality for an improved user experience and minimal bandwidth. You can do all of<br/> this by implementing dynamic image transformation and delivery URLs.<a href=''>See Examples</a>.");
+        html.setContent("Cloudinary allows you to easily transform your images on-the-fly to any required format, style and dimension, and also optimizes<br/> images for minimal file size alongside high visual quality for an improved user experience and minimal bandwidth. You can do all of<br/> this by implementing dynamic image transformation and delivery URLs. <a href='https://cloudinary.com/documentation/transformation_reference'>See Examples</a>.");
 
         usageResponseDiv.appendChild(html);
         usageResponseDiv.setParent(component);
