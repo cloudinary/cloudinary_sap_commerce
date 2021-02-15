@@ -34,6 +34,18 @@
 	<int:service-activator input-channel="batchFilesCloudinaryProc" output-channel="batchFilesHeaderInit" ref="apparelHeaderSetupTask"
 		method="execute" />
 
+	<!-- 3) transform csv to impex file -->
+	<int:service-activator input-channel="batchFilesHeader" output-channel="batchFilesTran" ref="batchTransformerTask"
+						   method="execute" />
+	<bean id="batchTransformerTask"
+		  class="uk.ptr.cloudinary.tasks.CloudinaryImpexTransformerTask"
+		  init-method="initConvertersMap">
+		<property name="fieldSeparator" value="," />
+		<property name="encoding" value="UTF-8" />
+		<property name="linesToSkip" value="0"/>
+		<property name="cleanupHelper" ref="cleanupHelper" />
+	</bean>
+
 	<bean id="batchCloudinaryMediaConverterMapping"
 		  class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
 		  p:mapping="cloudinaryMedia"
@@ -88,7 +100,7 @@
 
 	<int:service-activator input-channel="batchFilesTran" output-channel="batchFilesImp" ref="batchRunnerTask"
 						   method="execute" />
-	<bean id="batchRunnerTask" class="uk.ptr.cloudinary.tasks.AbstractCloudinaryImpexRunnerTask">
+	<bean id="batchRunnerTask" class="de.hybris.platform.acceleratorservices.dataimport.batch.task.AbstractImpexRunnerTask">
 		<property name="sessionService" ref="sessionService" />
 		<property name="importService" ref="importService" />
 		<lookup-method name="getImportConfig" bean="importConfig" />
