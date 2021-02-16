@@ -227,7 +227,7 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
     private void uploadMediaToCloudinary(CloudinaryConfigModel cloudinaryConfigModel, MediaModel media) {
         if (media.getCloudinaryURL() == null) {
             try {
-                uploadApiService.uploadAsset(cloudinaryConfigModel, media, "newAssets");
+                uploadApiService.uploadAsset(cloudinaryConfigModel, media, "");
                 LOG.info("Uplaoded Media " + media.getCode() + "cloudinaryUrl  " + media.getCloudinaryURL());
 
             } catch (IllegalArgumentException illegalException) {

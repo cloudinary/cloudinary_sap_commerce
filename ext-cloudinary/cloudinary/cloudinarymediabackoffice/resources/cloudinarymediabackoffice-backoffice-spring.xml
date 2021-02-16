@@ -59,4 +59,8 @@
 		  parent="abstractEditorAreaComponentRenderer">
 	</bean>
 
+	<alias name="attributeDescriptionIconRenderer" alias="attributeDescriptionIconRenderer"/>
+	<bean id="attributeDescriptionIconRenderer"
+	class="uk.ptr.cloudinary.renderers.DefaultCloudinaryAttributeDescriptionIconRenderer"/>
+
 </beans>
