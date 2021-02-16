@@ -9,13 +9,16 @@ import de.hybris.platform.core.model.media.MediaModel;
 import de.hybris.platform.core.model.model.CloudinaryMediaUploadSyncJobModel;
 import de.hybris.platform.cronjob.enums.CronJobResult;
 import de.hybris.platform.cronjob.enums.CronJobStatus;
+import de.hybris.platform.cronjob.model.CronJobModel;
 import de.hybris.platform.mediaconversion.MediaConversionService;
 import de.hybris.platform.mediaconversion.model.ConversionGroupModel;
+import de.hybris.platform.mediaconversion.model.ConversionMediaFormatModel;
 import de.hybris.platform.servicelayer.cronjob.AbstractJobPerformable;
 import de.hybris.platform.servicelayer.cronjob.PerformResult;
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
@@ -73,6 +76,11 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
                             }
 
                             List<MediaModel> medias = cloudinaryMediaDao.findMediaForEmptyCloudinaryUrlAndMediaContainer(catalogVersion);
+                            if (!CollectionUtils.isEmpty(medias)) {
+                                medias.stream().filter(media -> media.getCloudinaryURL() == null).forEach(media -> {
+                                    uploadMediaToCloudinary(cloudinaryConfigModel, media);
+                                });
+                            }
 
                             CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(catalogVersion.getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
                             catalogSynchronizationService.synchronizeFullyInBackground(catalogVersion, onlineVersion);
@@ -93,8 +101,12 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
 
     private void updateMedia(CloudinaryConfigModel cloudinaryConfigModel, MediaContainerModel mediaContainer) {
         MediaModel mediaModel = getLargestImage(mediaContainer);
-       if(mediaModel.getMediaFormat() != null) {
+        if (mediaModel.getMediaFormat() == null && mediaModel.getCloudinaryURL() == null) {
+            uploadMediaToCloudinary(cloudinaryConfigModel, mediaModel);
+        }
+        else if(mediaModel.getMediaFormat() != null) {
             MediaModel masterMedia = createMasterMedia(mediaModel);
+            uploadMediaToCloudinary(cloudinaryConfigModel, masterMedia);
         }
         List<MediaFormatModel> mediaFormats = new ArrayList<>();
         for (MediaModel medias : mediaContainer.getMedias()) {
@@ -133,9 +145,11 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
 
         conversionGroupModel.setSupportedMediaFormats(mediaFormatModel);
         modelService.save(conversionGroupModel);
+        //modelService.refresh(conversionGroupModel);
         mediaContainerModel.setConversionGroup(conversionGroupModel);
 
         modelService.save(mediaContainerModel);
+        //modelService.refresh(mediaContainerModel);
 
         mediaConversionService.convertMedias(mediaContainerModel);
     }
@@ -164,6 +178,21 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
             }
         }
         return masterMedia;
+    }
+
+    private void uploadMediaToCloudinary(CloudinaryConfigModel cloudinaryConfigModel, MediaModel media) {
+        if (media.getCloudinaryURL() == null) {
+            try {
+                LOG.info("Uplaoding Media " + media.getCode() + "Url  " + media.getURL());
+                uploadApiService.uploadAsset(cloudinaryConfigModel, media, "");
+                LOG.info("Uplaoded Media " + media.getCode() + "cloudinaryUrl  " + media.getCloudinaryURL());
+
+            } catch (IllegalArgumentException illegalException) {
+                LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);
+            } catch (Exception e) {
+                LOG.error("Exception occurred calling Upload  API " + e.getMessage(), e);
+            }
+        }
     }
 
     @Override
