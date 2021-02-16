@@ -500,8 +500,6 @@
                     <editorArea:attribute qualifier="others"/>
                     <editorArea:attribute qualifier="thumbnails"/>
                 </editorArea:section>
-                <editorArea:customSection name="hmc.section.media.content"
-                                          spring-bean="cloudinaryProductMediaContentUpdateRenderer"/>
                 <editorArea:section name="hmc.section.cloudinarymedias">
                     <editorArea:attribute qualifier="cloudinaryImageTransformation"/>
                     <editorArea:attribute qualifier="cloudinaryVideoTransformation"/>

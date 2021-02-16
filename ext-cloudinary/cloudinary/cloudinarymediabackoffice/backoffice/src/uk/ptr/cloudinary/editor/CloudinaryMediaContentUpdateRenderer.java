@@ -112,9 +112,6 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
                     productModel = cloudinaryProductDao.getProductForMediaContainer(mediaModel.getMediaContainer().getPk().toString(), mediaModel.getCatalogVersion());
                 }
                 if (StringUtils.isNotEmpty(cloudinaryConfigModel.getCloudinaryCname())) {
-                    if (productModel != null) {
-                        removeTagApiService.removeTagFromAsset(mediaModel.getCloudinaryPublicId(), productModel.getCode(), cloudinaryConfigModel.getCloudinaryURL());
-                    }
                     String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cloudinaryConfigModel.getCloudinaryCname());
                     mediaModel.setURL(updatedUrl);
                     mediaModel.setCloudinaryURL(updatedUrl);
@@ -131,7 +128,7 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
                 mediaModel.setCloudinaryMediaFormat(responseData.getFormat());
                 modelService.save(mediaModel);
                 modelService.refresh(mediaModel);
-                if (productModel != null) {
+                if (productModel != null && mediaModel.getMediaFormat() == null && mediaModel.getCloudinaryURL()!= null) {
                     updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(), productModel.getCode(), mediaModel);
                 }
             }

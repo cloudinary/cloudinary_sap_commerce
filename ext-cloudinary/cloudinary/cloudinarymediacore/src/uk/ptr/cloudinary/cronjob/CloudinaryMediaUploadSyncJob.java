@@ -184,7 +184,7 @@ public class CloudinaryMediaUploadSyncJob extends AbstractJobPerformable<Cloudin
         if (media.getCloudinaryURL() == null) {
             try {
                 LOG.info("Uplaoding Media " + media.getCode() + "Url  " + media.getURL());
-                uploadApiService.uploadAsset(cloudinaryConfigModel, media, "newAssets");
+                uploadApiService.uploadAsset(cloudinaryConfigModel, media, "");
                 LOG.info("Uplaoded Media " + media.getCode() + "cloudinaryUrl  " + media.getCloudinaryURL());
 
             } catch (IllegalArgumentException illegalException) {
