@@ -73,28 +73,22 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
             if(stagedMedia != null)
             {
                 List<ItemModel> itemsToSync = new ArrayList<>();
-                if (stagedMedia.getMediaContainer() == null)
-                {
-                    uploadMediaToCloudinary(cloudinaryConfigModel, stagedMedia);
-                }
-                else if (stagedMedia.getMediaFormat() != null)
+
+                if (stagedMedia.getMediaFormat() != null)
                 {
                     MediaModel largestMedia = getlargestImage(stagedMedia);
                     LOG.info(largestMedia.getCode() + "  " + largestMedia.getMediaFormat());
                     if (largestMedia.getMediaFormat() != null && largestMedia.getCloudinaryURL() == null)
                     {
-
                         MediaModel masterMedia = createMasterMedia(largestMedia);
 
                         LOG.info("Uploading stage master media to cloudinary " + masterMedia.getCode());
-                        uploadMediaToCloudinary(cloudinaryConfigModel, masterMedia);
                         itemsToSync.add(masterMedia);
                     }
 
                     LOG.info("Updating media " + stagedMedia.getCode());
                     stagedMedia = updateOnDemandMedia(stagedMedia);
                     itemsToSync.add(stagedMedia);
-
                 }
 
                 //cloudinaryTaskService.createMediaSyncTask(itemsToSync);
@@ -222,20 +216,6 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
             }
         }
         return masterMedia;
-    }
-
-    private void uploadMediaToCloudinary(CloudinaryConfigModel cloudinaryConfigModel, MediaModel media) {
-        if (media.getCloudinaryURL() == null) {
-            try {
-                uploadApiService.uploadAsset(cloudinaryConfigModel, media, "newAssets");
-                LOG.info("Uplaoded Media " + media.getCode() + "cloudinaryUrl  " + media.getCloudinaryURL());
-
-            } catch (IllegalArgumentException illegalException) {
-                LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);
-            } catch (Exception e) {
-                LOG.error("Exception occurred calling Upload  API " + e.getMessage(), e);
-            }
-        }
     }
 
 }

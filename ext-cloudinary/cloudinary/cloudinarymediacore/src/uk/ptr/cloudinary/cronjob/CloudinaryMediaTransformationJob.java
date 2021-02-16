@@ -63,7 +63,6 @@ public class CloudinaryMediaTransformationJob extends AbstractJobPerformable<Clo
                               updateMedia(mediaContainer);
                           });
                       }
-
                       CatalogVersionModel onlineVersion = catalogVersionService.getCatalogVersion(stagedVersion.getCatalog().getId(), CloudinarymediacoreConstants.VERSION_ONLINE);
                       catalogSynchronizationService.synchronizeFullyInBackground(stagedVersion,onlineVersion);
                   });
