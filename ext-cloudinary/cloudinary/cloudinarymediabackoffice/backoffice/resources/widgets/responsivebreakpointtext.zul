@@ -5,7 +5,7 @@
 
     <hbox>
         <div>
-            <label value="Image Breakpoints" style="font-weight: bold;"/>
+            <label value="Image - Breakpoints" style="font-weight: bold;"/>
         </div>
     </hbox>
     <hbox></hbox>

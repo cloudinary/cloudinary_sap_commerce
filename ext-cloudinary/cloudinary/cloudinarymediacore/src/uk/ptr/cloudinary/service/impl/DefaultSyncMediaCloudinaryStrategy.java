@@ -80,7 +80,7 @@ public class DefaultSyncMediaCloudinaryStrategy implements SyncMediaCloudinarySt
                 else if (stagedMedia.getMediaFormat() != null)
                 {
                     MediaModel largestMedia = getlargestImage(stagedMedia);
-                    LOG.info(largestMedia.getCode() + "  " + largestMedia.getMediaFormat());
+                    LOG.info("Master Media code " + largestMedia.getCode());
                     if (largestMedia.getMediaFormat() != null && largestMedia.getCloudinaryURL() == null)
                     {
 
