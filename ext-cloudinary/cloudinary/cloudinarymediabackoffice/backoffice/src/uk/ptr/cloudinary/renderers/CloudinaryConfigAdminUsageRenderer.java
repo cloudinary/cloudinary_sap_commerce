@@ -32,7 +32,7 @@ import java.util.Map;
 public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaComponentRenderer<AbstractSection, CloudinaryConfigModel> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CloudinaryConfigAdminUsageRenderer.class);
-    private static final String CLOUDINARY_VERSION = "v1.0.1";
+    private static final String CLOUDINARY_VERSION = "v1.0.2";
 
     @Resource
     private AdminApiService adminApiService;
