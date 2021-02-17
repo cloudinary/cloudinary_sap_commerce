@@ -1,5 +1,7 @@
 package uk.ptr.cloudinary.service.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
 import de.hybris.platform.catalog.model.classification.ClassificationClassModel;
 import de.hybris.platform.category.model.CategoryModel;
 import de.hybris.platform.commercefacades.product.data.ImageData;
@@ -10,13 +12,17 @@ import de.hybris.platform.core.model.product.ProductModel;
 import java.util.Collection;
 import javax.annotation.Resource;
 
+import de.hybris.platform.servicelayer.model.ModelService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.BooleanUtils;
 
-import com.cloudinary.utils.StringUtils;
-
+import org.apache.commons.lang3.StringUtils;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
+import uk.ptr.cloudinary.enums.CloudinaryMediaFormat;
+import uk.ptr.cloudinary.enums.CloudinaryMediaQuality;
+import uk.ptr.cloudinary.enums.CloudinaryVideoFormat;
+import uk.ptr.cloudinary.enums.CloudinaryVideoQuality;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 import uk.ptr.cloudinary.service.TransformationApiService;
 
@@ -27,64 +33,103 @@ public class DefaultTransformationApiService implements TransformationApiService
     @Resource
     private CloudinaryConfigDao cloudinaryConfigDao;
 
+    @Resource
+    private ModelService modelService;
+
     @Override
-    public String createTransformation(final MediaModel masterMedia, final MediaFormatModel format)
+    public String createTransformation(final MediaModel media, final MediaFormatModel format)
     {
-        StringBuilder transformationURL = new StringBuilder();
+            //GET CLOUDINARY CONFIG
+            CloudinaryConfigModel cloudinaryConfig = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-        //GET CLOUDINARY CONFIG
-        CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
+            if(cloudinaryConfig!=null && cloudinaryConfig.getCloudinaryURL()!=null) {
+                if (media.getCloudinaryPublicId() != null && media.getCloudinaryResourceType() != null && media.getCloudinaryType() != null) {
+                    Cloudinary cloudinary = new Cloudinary(cloudinaryConfig.getCloudinaryURL());
 
-        if(cloudinaryConfigModel!=null){
-            if(StringUtils.isNotBlank(cloudinaryConfigModel.getCloudinaryCname())){
-                transformationURL.append(cloudinaryConfigModel.getCloudinaryCname());
-            }else{
-                transformationURL.append(CloudinarymediacoreConstants.CLOUDINARY_DOMAIN_URL);
+                    StringBuilder transformation = new StringBuilder();
+                    StringBuilder mediaurl = new StringBuilder();
+                    if(format!=null){
+                        Transformation globalTransformation = new Transformation();
+
+                        if(BooleanUtils.isTrue(cloudinaryConfig.getCloudinaryResponsive())) {
+                            transformation.append("w_auto");
+                            transformation.append(",");
+                        }
+
+                        if(CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(media.getCloudinaryResourceType())){
+                            String imageQuality = BooleanUtils.isTrue(cloudinaryConfig.getEnableOptimizeImage())? CloudinaryMediaQuality.Q_AUTO.getCode():cloudinaryConfig.getCloudinaryQuality().getCode();
+
+                            if(imageQuality.contains("auto_")){
+                                imageQuality = imageQuality.replace("auto_", "auto:");
+                            }
+
+                            transformation.append(imageQuality);
+                            transformation.append(",");
+                            String imageFormat = BooleanUtils.isTrue(cloudinaryConfig.getEnableOptimizeImage())? CloudinaryMediaFormat.F_AUTO.getCode() :cloudinaryConfig.getCloudinaryImageFormat().getCode();
+                            transformation.append(imageFormat);
+
+
+                            if(cloudinaryConfig.getCloudinaryGlobalImageTransformation()!=null) {
+                                transformation.append(",");
+                                transformation.append(cloudinaryConfig.getCloudinaryGlobalImageTransformation());
+                            }
+
+                        }else if(CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(media.getCloudinaryResourceType())){
+                            String videoQuality = BooleanUtils.isTrue(cloudinaryConfig.getEnableOptimizeVideo())? CloudinaryVideoQuality.Q_AUTO.getCode() :cloudinaryConfig.getCloudinaryVideoQuality().getCode();
+                            if(videoQuality.contains("auto_")){
+                                videoQuality = videoQuality.replace("auto_", "auto:");
+                            }
+                            transformation.append(videoQuality);
+                            transformation.append(",");
+                            String videoFormat = BooleanUtils.isTrue(cloudinaryConfig.getEnableOptimizeVideo())? CloudinaryVideoFormat.F_AUTO.getCode() :cloudinaryConfig.getCloudinaryVideoFormat().getCode();
+                            transformation.append(videoFormat);
+
+                            if(cloudinaryConfig.getCloudinaryGlobalVideoTransformation()!=null) {
+                                transformation.append(",");
+                                transformation.append(cloudinaryConfig.getCloudinaryGlobalVideoTransformation());
+                            }
+                        }
+
+                        if(StringUtils.isNotBlank(transformation.toString())){
+                            globalTransformation = globalTransformation.rawTransformation(transformation.toString());
+                            if(format.getTransformation()!=null){
+                                globalTransformation = globalTransformation.chain().rawTransformation(format.getTransformation());
+                            }
+                        }
+
+                        mediaurl.append(cloudinary.url().transformation(globalTransformation).publicId(media.getCloudinaryPublicId()).secure(Boolean.TRUE).generate());
+
+                    }else{
+                        mediaurl.append(cloudinary.url().publicId(media.getCloudinaryPublicId()).secure(Boolean.TRUE).generate());
+                    }
+                    mediaurl.append(CloudinarymediacoreConstants.DOT);
+                    mediaurl.append(media.getCloudinaryMediaFormat());
+                    media.setURL(mediaurl.toString());
+                    modelService.save(media);
+                    return mediaurl.toString();
+                }
             }
-            transformationURL.append(CloudinarymediacoreConstants.SLASH);
-
-            String cloudinaryConnectionURL = cloudinaryConfigModel.getCloudinaryURL();
-            int cloudNameIndex = cloudinaryConnectionURL.indexOf(CloudinarymediacoreConstants.AT);
-
-            //Extract and set cloudname
-            transformationURL.append(cloudinaryConnectionURL.substring(cloudNameIndex+1,cloudinaryConnectionURL.length()));
-            transformationURL.append(CloudinarymediacoreConstants.SLASH);
-        }
-
-        transformationURL.append(masterMedia.getCloudinaryResourceType());
-        transformationURL.append(CloudinarymediacoreConstants.SLASH);
-        transformationURL.append(masterMedia.getCloudinaryType());
-        transformationURL.append(CloudinarymediacoreConstants.SLASH);
-        transformationURL.append(format.getTransformation());
-        transformationURL.append(CloudinarymediacoreConstants.SLASH);
-        transformationURL.append(masterMedia.getCloudinaryVersion());
-        transformationURL.append(CloudinarymediacoreConstants.SLASH);
-        transformationURL.append(masterMedia.getCloudinaryPublicId());
-        transformationURL.append(CloudinarymediacoreConstants.DOT);
-        transformationURL.append(masterMedia.getCloudinaryMediaFormat());
-
-        return transformationURL.toString();
+            return null;
     }
 
     @Override
     public Collection<ImageData> createTransformation(final ProductModel product, final Collection<ImageData> imageDatas)
     {
-        CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
+        CloudinaryConfigModel cloudinaryConfig = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-        if(cloudinaryConfigModel!=null && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary()))
+        if(cloudinaryConfig!=null && BooleanUtils.isTrue(cloudinaryConfig.getEnableCloudinary()))
         {
             StringBuilder categoryImageTransformation = new StringBuilder();
             StringBuilder categoryVideoTransformation = new StringBuilder();
 
-            String globalImageTransformation = cloudinaryConfigModel.getCloudinaryGlobalImageTransformation();
-            String globalVideoTransformation = cloudinaryConfigModel.getCloudinaryGlobalVideoTransformation();
+            String globalImageTransformation = cloudinaryConfig.getCloudinaryGlobalImageTransformation();
+            String globalVideoTransformation = cloudinaryConfig.getCloudinaryGlobalVideoTransformation();
 
             Collection<CategoryModel> categories = product.getSupercategories();
             boolean isCategoryOverride = false;
 
             if (CollectionUtils.isNotEmpty(categories))
             {
-
                 isCategoryOverride = categories.stream().anyMatch(category -> BooleanUtils.isTrue(category.getIsCloudinaryOverride()));
                 for (final CategoryModel category : categories)
                 {
@@ -100,132 +145,125 @@ public class DefaultTransformationApiService implements TransformationApiService
                         }
                     }
                 }
-
             }
             if (CollectionUtils.isNotEmpty(imageDatas)) {
                 for (ImageData imageData : imageDatas) {
                     if (imageData.getCloudinaryURL() != null) {
 
-                        StringBuilder transformationURL = new StringBuilder();
+                        //StringBuilder transformationURL = new StringBuilder();
+                        if(cloudinaryConfig!=null && cloudinaryConfig.getCloudinaryURL()!=null) {
+                            if (imageData.getCloudinaryPublicId() != null && imageData.getCloudinaryResourceType() != null && imageData.getCloudinaryType() != null) {
+                                Cloudinary cloudinary = new Cloudinary(cloudinaryConfig.getCloudinaryURL());
 
-                        if (cloudinaryConfigModel != null) {
-                            if (com.cloudinary.utils.StringUtils.isNotBlank(cloudinaryConfigModel.getCloudinaryCname())) {
-                                transformationURL.append(cloudinaryConfigModel.getCloudinaryCname());
-                            } else {
-                                transformationURL.append(CloudinarymediacoreConstants.CLOUDINARY_DOMAIN_URL);
-                            }
-                            transformationURL.append(CloudinarymediacoreConstants.SLASH);
+                                StringBuilder globalTransformation = new StringBuilder();
+                                StringBuilder mediaurl = new StringBuilder();
 
-                            String cloudinaryConnectionURL = cloudinaryConfigModel.getCloudinaryURL();
-                            int cloudNameIndex = cloudinaryConnectionURL.indexOf(CloudinarymediacoreConstants.AT);
+                                    Transformation transformation = new Transformation();
 
-                            //Extract and set cloudname
-                            transformationURL.append(cloudinaryConnectionURL.substring(cloudNameIndex + 1, cloudinaryConnectionURL.length()));
-                            transformationURL.append(CloudinarymediacoreConstants.SLASH);
-                        }
-
-                        transformationURL.append(imageData.getCloudinaryResourceType());
-                        transformationURL.append(CloudinarymediacoreConstants.SLASH);
-                        transformationURL.append(imageData.getCloudinaryType());
-                        transformationURL.append(CloudinarymediacoreConstants.SLASH);
-
-                        if(BooleanUtils.isTrue(cloudinaryConfigModel.getCloudinaryResponsive())) {
-                            transformationURL.append("w_auto");
-                            transformationURL.append(",");
-                        }else {
-                            if (org.apache.commons.lang.StringUtils.isNotBlank(imageData.getCloudinaryTransformation())) {
-                                transformationURL.append(imageData.getCloudinaryTransformation());
-                                transformationURL.append(",");
-                            }
-                        }
-
-                        if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
-                            String mediaQuality = cloudinaryConfigModel.getCloudinaryQuality().getCode();
-                            if(mediaQuality.contains("auto_")){
-                                mediaQuality = mediaQuality.replace("auto_", "auto:");
-                            }
-                            transformationURL.append(mediaQuality);
-                            transformationURL.append(",");
-                            transformationURL.append(cloudinaryConfigModel.getCloudinaryImageFormat().getCode());
-                        }
-                        else if(CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())){
-                            String videoQuality = cloudinaryConfigModel.getCloudinaryVideoQuality().getCode();
-                            if(videoQuality.contains("auto_")){
-                                videoQuality = videoQuality.replace("auto_", "auto:");
-                            }
-                            transformationURL.append(videoQuality);
-                            transformationURL.append(",");
-                            transformationURL.append(cloudinaryConfigModel.getCloudinaryVideoFormat().getCode());
-                        }
-
-                        if (!imageData.isCloudinaryOverride()) {
-                            boolean isProductOverride = BooleanUtils.isTrue(product.getIsCloudinaryOverride());
-
-                            if (isProductOverride) {
-                                if (org.apache.commons.lang.StringUtils.isNotBlank(product.getCloudinaryImageTransformation()) || org.apache.commons.lang.StringUtils.isNotBlank(product.getCloudinaryVideoTransformation())) {
-                                    transformationURL.append(CloudinarymediacoreConstants.SLASH);
-                                    if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
-                                        transformationURL.append(product.getCloudinaryImageTransformation());
-                                    } else if (CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
-                                        transformationURL.append(product.getCloudinaryVideoTransformation());
+                                    if(BooleanUtils.isTrue(cloudinaryConfig.getCloudinaryResponsive())) {
+                                        globalTransformation.append("w_auto");
+                                        globalTransformation.append(",");
+                                    }else {
+                                        if (org.apache.commons.lang.StringUtils.isNotBlank(imageData.getCloudinaryTransformation())) {
+                                            globalTransformation.append(imageData.getCloudinaryTransformation());
+                                            globalTransformation.append(",");
+                                        }
                                     }
+
+                                    if(CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())){
+                                        String imageQuality = BooleanUtils.isTrue(cloudinaryConfig.getEnableOptimizeImage())? CloudinaryMediaQuality.Q_AUTO.getCode():cloudinaryConfig.getCloudinaryQuality().getCode();
+
+                                        if(imageQuality.contains("auto_")){
+                                            imageQuality = imageQuality.replace("auto_", "auto:");
+                                        }
+                                        globalTransformation.append(imageQuality);
+                                        globalTransformation.append(",");
+                                        String imageFormat = BooleanUtils.isTrue(cloudinaryConfig.getEnableOptimizeImage())? CloudinaryMediaFormat.F_AUTO.getCode() :cloudinaryConfig.getCloudinaryImageFormat().getCode();
+                                        globalTransformation.append(imageFormat);
+
+
+                                    }else if(CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())){
+                                        String videoQuality = BooleanUtils.isTrue(cloudinaryConfig.getEnableOptimizeVideo())? CloudinaryVideoQuality.Q_AUTO.getCode() :cloudinaryConfig.getCloudinaryVideoQuality().getCode();
+                                        if(videoQuality.contains("auto_")){
+                                            videoQuality = videoQuality.replace("auto_", "auto:");
+                                        }
+                                        globalTransformation.append(videoQuality);
+                                        globalTransformation.append(",");
+                                        String videoFormat = BooleanUtils.isTrue(cloudinaryConfig.getEnableOptimizeVideo())? CloudinaryVideoFormat.F_AUTO.getCode() :cloudinaryConfig.getCloudinaryVideoFormat().getCode();
+                                        globalTransformation.append(videoFormat);
+
+                                    }
+
+                                if(org.apache.commons.lang3.StringUtils.isNotBlank(globalTransformation.toString())){
+                                    transformation = transformation.rawTransformation(globalTransformation.toString());
+
                                 }
 
-                            } else if (!isProductOverride) {
-                                if (isCategoryOverride) {
-                                    if (org.apache.commons.lang.StringUtils.isNotBlank(categoryImageTransformation.toString()) || org.apache.commons.lang.StringUtils.isNotBlank(categoryVideoTransformation.toString())) {
-                                        if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
-                                            transformationURL.append(categoryImageTransformation);
-                                        } else if (CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
-                                            transformationURL.append(categoryVideoTransformation);
+                                if (!imageData.isCloudinaryOverride()) {
+                                    boolean isProductOverride = BooleanUtils.isTrue(product.getIsCloudinaryOverride());
+                                    if (isProductOverride) {
+                                        if (org.apache.commons.lang.StringUtils.isNotBlank(product.getCloudinaryImageTransformation()) || org.apache.commons.lang.StringUtils.isNotBlank(product.getCloudinaryVideoTransformation())) {
+                                            if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
+                                                transformation = transformation.chain().rawTransformation(product.getCloudinaryImageTransformation());
+
+                                            } else if (CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
+                                                transformation = transformation.chain().rawTransformation(product.getCloudinaryVideoTransformation());
+                                            }
                                         }
-                                    }
-                                    if (org.apache.commons.lang.StringUtils.isNotBlank(product.getCloudinaryImageTransformation()) || org.apache.commons.lang.StringUtils.isNotBlank(product.getCloudinaryVideoTransformation())) {
-                                        transformationURL.append(CloudinarymediacoreConstants.SLASH);
-                                        if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
-                                            transformationURL.append(product.getCloudinaryImageTransformation());
-                                        } else if (CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
-                                            transformationURL.append(product.getCloudinaryVideoTransformation());
+
+                                    }else if (!isProductOverride) {
+                                        if (isCategoryOverride) {
+                                            if (org.apache.commons.lang.StringUtils.isNotBlank(categoryImageTransformation.toString()) || org.apache.commons.lang.StringUtils.isNotBlank(categoryVideoTransformation.toString())) {
+                                                if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
+                                                    transformation = transformation.chain().rawTransformation(categoryImageTransformation.toString());
+                                                } else if (CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
+                                                    transformation = transformation.chain().rawTransformation(categoryVideoTransformation.toString());
+                                                }
+                                            }
+                                            if (org.apache.commons.lang.StringUtils.isNotBlank(product.getCloudinaryImageTransformation()) || org.apache.commons.lang.StringUtils.isNotBlank(product.getCloudinaryVideoTransformation())) {
+                                                if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
+                                                    transformation = transformation.chain().rawTransformation(product.getCloudinaryImageTransformation());
+                                                } else if (CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
+                                                    transformation = transformation.chain().rawTransformation(product.getCloudinaryVideoTransformation());
+                                                }
+                                            }
+
+                                        } else if (!isCategoryOverride) {
+                                            if (org.apache.commons.lang.StringUtils.isNotBlank(globalImageTransformation) || org.apache.commons.lang.StringUtils.isNotBlank(globalVideoTransformation)) {
+                                                if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
+
+                                                    transformation = transformation.chain().rawTransformation(globalImageTransformation);
+                                                } else if (CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
+                                                    transformation = transformation.chain().rawTransformation(globalVideoTransformation);
+                                                }
+                                            }
+
+                                            if (org.apache.commons.lang.StringUtils.isNotBlank(categoryImageTransformation.toString()) || org.apache.commons.lang.StringUtils.isNotBlank(categoryVideoTransformation.toString())) {
+                                                if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
+                                                    transformation = transformation.chain().rawTransformation(categoryImageTransformation.toString());
+                                                } else if (CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
+                                                    transformation = transformation.chain().rawTransformation(categoryVideoTransformation.toString());
+                                                }
+                                            }
+                                            if (org.apache.commons.lang.StringUtils.isNotBlank(product.getCloudinaryImageTransformation()) || org.apache.commons.lang.StringUtils.isNotBlank(product.getCloudinaryVideoTransformation())) {
+                                                if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
+                                                    transformation = transformation.chain().rawTransformation(product.getCloudinaryImageTransformation());
+                                                } else if (CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
+                                                    transformation = transformation.chain().rawTransformation(product.getCloudinaryImageTransformation());
+                                                }
+                                            }
                                         }
                                     }
 
-                                } else if (!isCategoryOverride) {
-                                    if (org.apache.commons.lang.StringUtils.isNotBlank(globalImageTransformation) || org.apache.commons.lang.StringUtils.isNotBlank(globalVideoTransformation)) {
-                                        transformationURL.append(CloudinarymediacoreConstants.SLASH);
-                                        if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
-                                            transformationURL.append(globalImageTransformation);
-                                        } else if (CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
-                                            transformationURL.append(globalVideoTransformation);
-                                        }
-                                    }
-
-                                    if (org.apache.commons.lang.StringUtils.isNotBlank(categoryImageTransformation.toString()) || org.apache.commons.lang.StringUtils.isNotBlank(categoryVideoTransformation.toString())) {
-                                        if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
-                                            transformationURL.append(categoryImageTransformation);
-                                        } else if (CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
-                                            transformationURL.append(categoryVideoTransformation);
-                                        }
-                                    }
-                                    if (org.apache.commons.lang.StringUtils.isNotBlank(product.getCloudinaryImageTransformation()) || org.apache.commons.lang.StringUtils.isNotBlank(product.getCloudinaryVideoTransformation())) {
-                                        transformationURL.append(CloudinarymediacoreConstants.SLASH);
-                                        if (CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
-                                            transformationURL.append(product.getCloudinaryImageTransformation());
-                                        } else if (CloudinarymediacoreConstants.VIDEO.equalsIgnoreCase(imageData.getCloudinaryResourceType())) {
-                                            transformationURL.append(product.getCloudinaryVideoTransformation());
-                                        }
-                                    }
                                 }
+
+                                mediaurl.append(cloudinary.url().transformation(transformation).secure(Boolean.TRUE).publicId(imageData.getCloudinaryPublicId()).generate());
+                                mediaurl.append(CloudinarymediacoreConstants.DOT);
+                                mediaurl.append(imageData.getCloudinaryMediaFormat());
+                                imageData.setUrl(mediaurl.toString());
 
                             }
                         }
-                        transformationURL.append(CloudinarymediacoreConstants.SLASH);
-                        transformationURL.append(imageData.getCloudinaryVersion());
-                        transformationURL.append(CloudinarymediacoreConstants.SLASH);
-                        transformationURL.append(imageData.getCloudinaryPublicId());
-                        transformationURL.append(CloudinarymediacoreConstants.DOT);
-                        transformationURL.append(imageData.getCloudinaryMediaFormat());
-                        
-                        imageData.setUrl(transformationURL.toString());
                     }
                 }
             }

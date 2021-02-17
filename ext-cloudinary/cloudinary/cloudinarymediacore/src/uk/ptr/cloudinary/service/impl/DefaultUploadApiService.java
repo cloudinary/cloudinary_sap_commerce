@@ -69,7 +69,7 @@ public class DefaultUploadApiService implements UploadApiService
 
             String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cloudinaryConfigModel.getCloudinaryCname());
             mediaModel.setURL(updatedUrl);
-            mediaModel.setCloudinaryURL(updatedUrl);
+            //mediaModel.setCloudinaryURL(updatedUrl);
             mediaModel.setCloudinaryPublicId(responseData.getPublic_id());
             mediaModel.setCloudinaryResourceType(responseData.getResource_type());
             mediaModel.setCloudinaryType(responseData.getType());

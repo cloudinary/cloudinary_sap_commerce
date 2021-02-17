@@ -47,7 +47,7 @@ public class CloudinaryMediaValidateInterceptor implements ValidateInterceptor<M
         if(model instanceof MediaModel && !ctx.isNew(model) && ctx.isModified(model, MediaModel.CLOUDINARYPUBLICID)) {
             final ItemModelContextImpl itemModelCtx = (ItemModelContextImpl) model.getItemModelContext();
 
-            if (model.getMediaContainer()!= null && model.getMediaFormat() == null && model.getCloudinaryURL() != null) {
+            if (model.getMediaContainer()!= null && model.getMediaFormat() == null && model.getCloudinaryPublicId() != null) {
                 final String oldValue = (String) itemModelCtx.getValueHistory().getOriginalValue(MediaModel.CLOUDINARYPUBLICID);
                 final String currentValue = model.getCloudinaryPublicId();
 

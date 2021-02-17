@@ -144,7 +144,7 @@ public class CloudinaryProductMediaContentUpdateRenderer extends AbstractEditorA
 
     private MediaContainerModel createMasterMedia(ProductModel productModel, String updatedUrl, UploadApiResponseData responseData, String cloudinaryUrl) {
         MediaModel mediaModel = this.modelService.create(MediaModel.class);
-        mediaModel.setCloudinaryURL(updatedUrl != null ? updatedUrl : responseData.getSecure_url());
+        //mediaModel.setCloudinaryURL(updatedUrl != null ? updatedUrl : responseData.getSecure_url());
         mediaModel.setURL(updatedUrl != null ? updatedUrl : responseData.getSecure_url());
         mediaModel.setCode(UUID.randomUUID().toString());
         mediaModel.setCatalogVersion(productModel.getCatalogVersion());

@@ -44,7 +44,7 @@ public class DefaultCloudinaryMediaConversionServiceDao implements CloudinaryMed
 	public MediaModel retrieveMaster(MediaContainerModel model) {
 		Map<String, Object> params = new TreeMap();
 		params.put("container", model);
-		FlexibleSearchQuery query = new FlexibleSearchQuery("SELECT {m.pk} FROM {Media as m} WHERE {m.mediaContainer} = ?container AND {m.original} IS NULL AND {m.originalDataPK} IS NULL AND {m.cloudinaryURL} IS NOT NULL", params);
+		FlexibleSearchQuery query = new FlexibleSearchQuery("SELECT {m.pk} FROM {Media as m} WHERE {m.mediaContainer} = ?container AND {m.original} IS NULL AND {m.originalDataPK} IS NULL AND {m.cloudinaryPublicId} IS NOT NULL", params);
 		return (MediaModel)this.getFlexibleSearchService().searchUnique(query);
 	}
 

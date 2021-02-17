@@ -114,10 +114,10 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
                 if (StringUtils.isNotEmpty(cloudinaryConfigModel.getCloudinaryCname())) {
                     String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cloudinaryConfigModel.getCloudinaryCname());
                     mediaModel.setURL(updatedUrl);
-                    mediaModel.setCloudinaryURL(updatedUrl);
+                    //mediaModel.setCloudinaryURL(updatedUrl);
                 } else {
                     mediaModel.setURL(responseData.getSecure_url());
-                    mediaModel.setCloudinaryURL(responseData.getSecure_url());
+                    //mediaModel.setCloudinaryURL(responseData.getSecure_url());
                 }
                 mediaModel.setCloudinaryPublicId(responseData.getPublic_id());
                 mediaModel.setCloudinaryResourceType(responseData.getResource_type());

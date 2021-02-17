@@ -8,6 +8,16 @@ public class MediaContainerData {
     private String resourceType;
     private String cloudinaryType;
 
+    public String getCloudinaryMediaFormat() {
+        return cloudinaryMediaFormat;
+    }
+
+    public void setCloudinaryMediaFormat(String cloudinaryMediaFormat) {
+        this.cloudinaryMediaFormat = cloudinaryMediaFormat;
+    }
+
+    private String cloudinaryMediaFormat;
+
     public String getMediaContainerCode() {
         return mediaContainerCode;
     }

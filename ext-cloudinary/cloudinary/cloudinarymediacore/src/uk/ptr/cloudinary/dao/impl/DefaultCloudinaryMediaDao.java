@@ -22,7 +22,7 @@ public class DefaultCloudinaryMediaDao extends DefaultMediaDao implements Cloudi
     public List<MediaModel> findMediaByCloudinaryUrl() {
 
         final String query = "SELECT {" + MediaModel._TYPECODE + ":pk}  FROM { "
-                + MediaModel._TYPECODE + " }  where {" +MediaModel._TYPECODE + ":cloudinaryURL} IS NULL" ;
+                + MediaModel._TYPECODE + " }  where {" +MediaModel._TYPECODE + ":cloudinaryPublicId} IS NULL" ;
 
         final FlexibleSearchQuery searchQuery = new FlexibleSearchQuery(query);;
         searchQuery.setResultClassList(Collections.singletonList(MediaModel.class));
@@ -36,7 +36,7 @@ public class DefaultCloudinaryMediaDao extends DefaultMediaDao implements Cloudi
     public List<MediaModel> findMediaForEmptyCloudinaryUrlAndMediaContainer(final CatalogVersionModel catalogVersion) {
 
         final String query = "SELECT {" + MediaModel._TYPECODE + ":pk}  FROM { "
-                + MediaModel._TYPECODE + " }  where {" + MediaModel.CLOUDINARYURL + "} IS NULL AND {" + MediaModel.MEDIACONTAINER + "} IS NULL AND {"
+                + MediaModel._TYPECODE + " }  where {" + MediaModel.CLOUDINARYPUBLICID + "} IS NULL AND {" + MediaModel.MEDIACONTAINER + "} IS NULL AND {"
                 + MediaModel.CATALOGVERSION + "} = ?catalogVersion";
 
         final FlexibleSearchQuery searchQuery = new FlexibleSearchQuery(query);;
@@ -52,7 +52,7 @@ public class DefaultCloudinaryMediaDao extends DefaultMediaDao implements Cloudi
     public List<MediaModel> findMediaByCatalogVersionAndCloudinaryUrl(final CatalogVersionModel catalogVersion) {
 
         final String query = "SELECT {" + MediaModel._TYPECODE + ":pk}  FROM { "
-                + MediaModel._TYPECODE + " }  where {" + MediaModel.CLOUDINARYURL + "} IS NULL AND {"
+                + MediaModel._TYPECODE + " }  where {" + MediaModel.CLOUDINARYPUBLICID + "} IS NULL AND {"
                 + MediaModel.CATALOGVERSION + "} = ?catalogVersion ";
 
         final FlexibleSearchQuery searchQuery = new FlexibleSearchQuery(query);;

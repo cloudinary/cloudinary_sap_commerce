@@ -161,7 +161,7 @@ public class CloudinaryProductMediahandler extends ComposedFlowActionHandler {
 
     private MediaContainerModel createMasterMedia(ProductModel productModel, String updatedUrl, UploadApiResponseData responseData, String cloudinaryUrl) {
         MediaModel mediaModel = this.modelService.create(MediaModel.class);
-        mediaModel.setCloudinaryURL(StringUtils.isNotEmpty(updatedUrl) ? updatedUrl : responseData.getSecure_url());
+        //mediaModel.setCloudinaryURL(StringUtils.isNotEmpty(updatedUrl) ? updatedUrl : responseData.getSecure_url());
         mediaModel.setURL(StringUtils.isNotEmpty(updatedUrl) ? updatedUrl : responseData.getSecure_url());
         mediaModel.setCode(UUID.randomUUID().toString());
         mediaModel.setCatalogVersion(productModel.getCatalogVersion());
