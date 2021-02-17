@@ -1,6 +1,7 @@
 package uk.ptr.cloudinary.v2.controller;
 
 
+import com.cloudinary.Cloudinary;
 import de.hybris.platform.servicelayer.config.ConfigurationService;
 import de.hybris.platform.webservicescommons.cache.CacheControl;
 import de.hybris.platform.webservicescommons.cache.CacheControlDirective;
@@ -37,13 +38,9 @@ public class CloudinaryConfigurationController {
         CloudinaryConfigurationWsDTO cloudinaryConfigurationWsDTO = new CloudinaryConfigurationWsDTO();
         cloudinaryConfigurationWsDTO.setIsCloudinaryGalleryEnabled(cloudinaryConfig.getEnableCloudinaryGalleryWidget());
         if(cloudinaryConfig.getCloudinaryURL()!= null) {
-            String cloudName[] = cloudinaryConfig.getCloudinaryURL().split("@");
-            cloudinaryConfigurationWsDTO.setCloudName(cloudName[1]);
-            String cloudinaryUrl[] = cloudinaryConfig.getCloudinaryURL().split(":");
-            if(cloudinaryUrl!=null){
-                String apikey[] = cloudinaryUrl[1].split("//");
-                cloudinaryConfigurationWsDTO.setApiKey(apikey[1]);
-            }
+            Cloudinary cloudinary = new Cloudinary(cloudinaryConfig.getCloudinaryURL());
+            cloudinaryConfigurationWsDTO.setCloudName(cloudinary.config.cloudName);
+            cloudinaryConfigurationWsDTO.setApiKey(cloudinary.config.apiKey);
         }
         cloudinaryConfigurationWsDTO.setEnvironment(configurationService.getConfiguration().getString("environment", "dev"));
         cloudinaryConfigurationWsDTO.setIsResponsiveEnabled(BooleanUtils.isTrue(cloudinaryConfig.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfig.getCloudinaryResponsive()));

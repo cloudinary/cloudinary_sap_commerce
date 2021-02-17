@@ -3,6 +3,7 @@
  */
 package uk.ptr.cloudinary.controllers.pages;
 
+import com.cloudinary.Cloudinary;
 import com.google.common.collect.Maps;
 import de.hybris.platform.acceleratorfacades.futurestock.FutureStockFacade;
 import de.hybris.platform.acceleratorservices.controllers.page.PageType;
@@ -125,8 +126,8 @@ public class ProductPageController extends AbstractPageController
 		if(BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinaryGalleryWidget()))
 		{
 			if(cloudinaryConfigModel.getCloudinaryURL()!= null){
-				String cloudName[]= cloudinaryConfigModel.getCloudinaryURL().split("@");
-				model.addAttribute("cloudName", cloudName[1]);
+				Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
+				model.addAttribute("cloudName", cloudinary.config.cloudName);
 			}
 
 			model.addAttribute("isProductGalleryEnabled", Boolean.TRUE);

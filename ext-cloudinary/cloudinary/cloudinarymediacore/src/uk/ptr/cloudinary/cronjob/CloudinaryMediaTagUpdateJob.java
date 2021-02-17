@@ -70,5 +70,10 @@ public class CloudinaryMediaTagUpdateJob extends AbstractJobPerformable<Cloudina
         return new PerformResult(CronJobResult.SUCCESS, CronJobStatus.FINISHED);
     }
 
+    @Override
+    public boolean isAbortable() {
+        return true;
+    }
+
 }
 

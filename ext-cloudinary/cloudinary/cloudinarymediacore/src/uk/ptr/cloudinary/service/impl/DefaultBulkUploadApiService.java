@@ -1,6 +1,5 @@
 package uk.ptr.cloudinary.service.impl;
 
-import de.hybris.platform.acceleratorservices.cartfileupload.data.SavedCartFileUploadReportData;
 import de.hybris.platform.basecommerce.model.site.BaseSiteModel;
 import de.hybris.platform.catalog.CatalogVersionService;
 import de.hybris.platform.catalog.model.CatalogVersionModel;
@@ -9,7 +8,6 @@ import de.hybris.platform.commerceservices.impersonation.ImpersonationContext;
 import de.hybris.platform.commerceservices.impersonation.ImpersonationService;
 import de.hybris.platform.core.model.media.MediaContainerModel;
 import de.hybris.platform.core.model.media.MediaModel;
-import de.hybris.platform.core.model.order.CartModel;
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.product.daos.ProductDao;
 import de.hybris.platform.servicelayer.model.ModelService;
@@ -84,7 +82,7 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
 
             ProductModel stagedProduct = getStagedProduct(productModels, baseSiteId);
 
-            if (stagedProduct != null && stagedProduct.getGalleryImages() == null) {
+            if (stagedProduct != null && org.apache.commons.collections.CollectionUtils.isEmpty(stagedProduct.getGalleryImages())) {
                 MediaModel mediaModel = createMediaContainerAndAssociateWithProduct(stagedProduct, bulkUpload.getMediaContainers());
                 if (mediaModel != null) {
                     UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, mediaModel.getCloudinaryPublicId());
@@ -94,7 +92,7 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
                 List<String> mediaContainerCodes = stagedProduct.getGalleryImages().stream().map(MediaContainerModel::getQualifier).collect(Collectors.toList());
                 List<MediaContainerData> mediaContainersData = bulkUpload.getMediaContainers().stream().collect(Collectors.toList());
 
-                List<MediaContainerModel> mediaContainerModels = new ArrayList<>();
+                Set<MediaContainerModel> mediaContainerModels = new HashSet<>();
 
                 mediaContainersData.stream().forEach(md -> {
                     if (md.getMediaContainerCode() != null && mediaContainerCodes.contains(md.getMediaContainerCode())) {
@@ -109,7 +107,11 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
                         catalogVersionModels.add(stagedProduct.getCatalogVersion());
                     }
                 });
-                stagedProduct.setGalleryImages(mediaContainerModels);
+
+                if(org.apache.commons.collections.CollectionUtils.isNotEmpty(stagedProduct.getGalleryImages())) {
+                    mediaContainerModels.addAll(stagedProduct.getGalleryImages());
+                }
+                stagedProduct.setGalleryImages(new ArrayList<>(mediaContainerModels));
                 modelService.save(stagedProduct);
             }
         });
@@ -126,7 +128,7 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
         try {
             updateTagApiService.updateTagOnAsests(publicId, bulkUpload.getProductCode(), cloudinaryConfigModel.getCloudinaryURL());
         } catch (IOException e) {
-            LOG.error("Error occured while updating tag ", e);
+            LOG.error("Error occured during bulk upload while updating tag for product code["+bulkUpload.getProductCode()+"] and public id["+publicId+"]", e);
         }
     }
 
@@ -221,11 +223,8 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
         media.setCloudinaryType(data.getCloudinaryType());
         media.setCloudinaryResourceType(data.getResourceType());
         media.setCloudinaryPublicId(data.getPublicId());
-        media.setURL(data.getUrl());
-        media.setCloudinaryURL(data.getUrl());
-
+        media.setCloudinaryMediaFormat(data.getCloudinaryMediaFormat());
         modelService.save(media);
-
         return media;
     }
 

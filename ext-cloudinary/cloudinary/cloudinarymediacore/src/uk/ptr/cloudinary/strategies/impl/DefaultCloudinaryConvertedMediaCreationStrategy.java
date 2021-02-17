@@ -55,7 +55,7 @@ public class DefaultCloudinaryConvertedMediaCreationStrategy implements Cloudina
 
 		String transformationUrl = getTransformationApiService().createTransformation(parent,format);
 		media.setURL(transformationUrl);
-		media.setCloudinaryURL(transformationUrl);
+		//media.setCloudinaryURL(transformationUrl);
 		media.setOriginal(parent);
 		media.setOriginalDataPK(parent.getDataPK());
 		media.setCloudinaryTransformation(format.getTransformation());

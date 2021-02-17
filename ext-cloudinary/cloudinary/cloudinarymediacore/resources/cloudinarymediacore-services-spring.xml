@@ -88,6 +88,8 @@
 
 	<bean id="cloudinaryEnabledAttributeHandler" class="uk.ptr.cloudinary.handlers.CloudinaryEnabledAttributeHandler" />
 
+	<bean id="cloudinaryUrlAttributeHandler" class="uk.ptr.cloudinary.handlers.CloudinaryUrlAttributeHandler" />
+
 	<bean id="updateTagApiService" class="uk.ptr.cloudinary.service.impl.DefaultUpdateTagApiService"/>
 
 	<bean id="bulkUploadApiService" class="uk.ptr.cloudinary.service.impl.DefaultBulkUploadApiService"/>

@@ -350,7 +350,7 @@
                     <editorArea:attribute qualifier="cloudinaryType" readonly="true"/>
                     <editorArea:attribute qualifier="cloudinaryPublicId" readonly="true"/>
                     <editorArea:attribute qualifier="cloudinaryTransformation" readonly="true"/>
-                    <editorArea:attribute qualifier="isCloudinaryOverride" readonly="true"/>
+                    <editorArea:attribute qualifier="isCloudinaryOverride" />
                     <editorArea:attribute qualifier="cloudinaryMediaFormat" readonly="true"/>
                     <editorArea:attribute qualifier="cloudinaryVersion" readonly="true"/>
                 </editorArea:section>

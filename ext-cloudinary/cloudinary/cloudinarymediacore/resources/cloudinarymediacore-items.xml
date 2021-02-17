@@ -7,7 +7,7 @@
 			xsi:noNamespaceSchemaLocation="items.xsd">
 
 	<enumtypes>
-		<enumtype code="CloudinaryMediaFormat" autocreate="true" generate="true">
+		<enumtype code="CloudinaryMediaFormat" autocreate="true" generate="true" dynamic="true">
 			<value code="f_auto"/>
 			<value code="f_png"/>
 			<value code="f_jpg"/>
@@ -15,7 +15,7 @@
 			<value code="f_webp"/>
 			<value code="Original"/>
 		</enumtype>
-		<enumtype code="CloudinaryMediaQuality" autocreate="true" generate="true">
+		<enumtype code="CloudinaryMediaQuality" autocreate="true" generate="true" dynamic="true">
 			<value code="q_auto"/>
 			<value code="q_auto_best"/>
 			<value code="q_auto_good"/>
@@ -28,7 +28,7 @@
 			<value code="q_20"/>
 			<value code="Original"/>
 		</enumtype>
-		<enumtype code="CloudinaryVideoQuality" autocreate="true" generate="true">
+		<enumtype code="CloudinaryVideoQuality" autocreate="true" generate="true" dynamic="true">
 			<value code="q_auto"/>
 			<value code="q_auto_best"/>
 			<value code="q_auto_good"/>
@@ -41,7 +41,7 @@
 			<value code="q_20"/>
 			<value code="Original"/>
 		</enumtype>
-		<enumtype code="CloudinaryVideoFormat" autocreate="true" generate="true">
+		<enumtype code="CloudinaryVideoFormat" autocreate="true" generate="true" dynamic="true">
 			<value code="f_auto"/>
 			<value code="f_mp4"/>
 			<value code="Original"/>
@@ -243,8 +243,8 @@
 		<itemtype code="Media" autocreate="false" generate="false">
 			<attributes>
 				<attribute qualifier="cloudinaryURL" type="java.lang.String">
-					<modifiers read="true" write="true" search="true"  />
-					<persistence type="property"/>
+					<modifiers read="true" write="false" />
+					<persistence type="dynamic" attributeHandler="cloudinaryUrlAttributeHandler" />
 				</attribute>
 				<attribute qualifier="cloudinaryResourceType" type="java.lang.String">
 					<modifiers read="true" write="true" search="true"  />

@@ -1,6 +1,7 @@
 
 package uk.ptr.cloudinary.interceptors.beforeview;
 
+import com.cloudinary.Cloudinary;
 import de.hybris.platform.acceleratorstorefrontcommons.interceptors.BeforeViewHandler;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.log4j.Logger;
@@ -30,8 +31,9 @@ public class CloudinaryBeforeViewHandler implements BeforeViewHandler
 		CloudinaryConfigModel cloudinaryConfig = cloudinaryConfigFacade.getCloudinaryConfig();
 
 		if(BooleanUtils.isTrue(cloudinaryConfig.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfig.getCloudinaryResponsive()) && cloudinaryConfig.getCloudinaryURL()!= null) {
-			String cloudName[] = cloudinaryConfig.getCloudinaryURL().split("@");
-			modelAndView.addObject("cloudName", cloudName[1]);
+
+			Cloudinary cloudinary = new Cloudinary(cloudinaryConfig.getCloudinaryURL());
+			modelAndView.addObject("cloudName", cloudinary.config.cloudName);
 			modelAndView.addObject("max", cloudinaryConfig.getCloudinaryImageWidthLimitMax());
 			modelAndView.addObject("min", cloudinaryConfig.getCloudinaryImageWidthLimitMin());
 			modelAndView.addObject("byteStep", cloudinaryConfig.getCloudinaryByteStep());

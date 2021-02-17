@@ -2,6 +2,7 @@ package uk.ptr.cloudinary.controllers.cms;
 
 import atg.taglib.json.util.JSONException;
 import atg.taglib.json.util.JSONObject;
+import com.cloudinary.Cloudinary;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.hybris.platform.addonsupport.controllers.cms.AbstractCMSAddOnComponentController;
@@ -46,8 +47,10 @@ public class CloudinaryVideoComponentController extends
         }
         if(BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary()))
         {
-            String cloudName[]= cloudinaryConfigModel.getCloudinaryURL().split("@");
-            model.addAttribute("cloudName", cloudName[1]);
+            if(cloudinaryConfigModel.getCloudinaryURL()!= null){
+                Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
+                model.addAttribute("cloudName", cloudinary.config.cloudName);
+            }
             model.addAttribute("cloudinaryConfig", cloudinaryConfigModel);
         }
         model.addAttribute("componentVideo", component.getCloudinaryVideo());
