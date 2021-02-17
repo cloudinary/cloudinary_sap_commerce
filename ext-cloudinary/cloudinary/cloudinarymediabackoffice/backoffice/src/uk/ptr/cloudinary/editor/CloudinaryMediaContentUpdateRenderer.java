@@ -71,7 +71,7 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
             Textbox textbox = new Textbox();
             textbox.setVisible(false);
             Div uploadButtonDiv = new Div();
-            final Button button = new Button("Select Assets");
+            final Button button = new Button("Select Asset");
 
             uploadButtonDiv.appendChild(button);
 
