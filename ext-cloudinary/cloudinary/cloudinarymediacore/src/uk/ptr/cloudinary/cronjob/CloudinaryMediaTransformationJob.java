@@ -93,7 +93,7 @@ public class CloudinaryMediaTransformationJob extends AbstractJobPerformable<Clo
                 conversionGroupModel.setCode(UUID.randomUUID().toString());
             } else {
                 conversionGroupModel = mediaContainer.getConversionGroup();
-                mediaFormats.addAll(conversionGroupModel.getSupportedFormats());
+                mediaFormats.addAll(conversionGroupModel.getSupportedMediaFormats());
             }
 
             conversionGroupModel.setSupportedMediaFormats(mediaFormats);
@@ -102,7 +102,9 @@ public class CloudinaryMediaTransformationJob extends AbstractJobPerformable<Clo
 
             modelService.save(mediaContainer);
 
+
             mediaConversionService.convertMedias(mediaContainer);
+
         }
     }
 

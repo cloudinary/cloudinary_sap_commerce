@@ -25,7 +25,7 @@ public class DefaultCloudinaryProductDao implements CloudinaryProductDao {
         final String query = "SELECT {" + ProductModel.PK +"}  FROM { "
                 + ProductModel._TYPECODE + " }  where {" + ProductModel.GALLERYIMAGES + "} IS NOT NULL AND {"
                 + ProductModel.CATALOGVERSION + "} = ?catalogVersion";
-        final FlexibleSearchQuery searchQuery = new FlexibleSearchQuery(query);;
+        final FlexibleSearchQuery searchQuery = new FlexibleSearchQuery(query);
         searchQuery.setResultClassList(Collections.singletonList(MediaModel.class));
         searchQuery.addQueryParameter("catalogVersion", catalogVersion);
 

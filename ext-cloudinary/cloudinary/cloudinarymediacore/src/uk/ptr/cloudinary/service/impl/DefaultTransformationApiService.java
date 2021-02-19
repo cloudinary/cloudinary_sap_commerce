@@ -48,14 +48,15 @@ public class DefaultTransformationApiService implements TransformationApiService
 
                     StringBuilder transformation = new StringBuilder();
                     StringBuilder mediaurl = new StringBuilder();
+
+
+
                     if(format!=null){
                         Transformation globalTransformation = new Transformation();
-
                         if(BooleanUtils.isTrue(cloudinaryConfig.getCloudinaryResponsive())) {
                             transformation.append("w_auto");
                             transformation.append(",");
                         }
-
                         if(CloudinarymediacoreConstants.IMAGE.equalsIgnoreCase(media.getCloudinaryResourceType())){
                             String imageQuality = BooleanUtils.isTrue(cloudinaryConfig.getEnableOptimizeImage())? CloudinaryMediaQuality.Q_AUTO.getCode():cloudinaryConfig.getCloudinaryQuality().getCode();
 
@@ -100,7 +101,10 @@ public class DefaultTransformationApiService implements TransformationApiService
                         mediaurl.append(cloudinary.url().transformation(globalTransformation).publicId(media.getCloudinaryPublicId()).secure(Boolean.TRUE).generate());
 
                     }else{
-                        mediaurl.append(cloudinary.url().publicId(media.getCloudinaryPublicId()).secure(Boolean.TRUE).generate());
+                        if(BooleanUtils.isTrue(cloudinaryConfig.getCloudinaryResponsive())) {
+                            transformation.append("w_auto");
+                        }
+                        mediaurl.append(cloudinary.url().transformation(new Transformation().rawTransformation(transformation.toString())).publicId(media.getCloudinaryPublicId()).secure(Boolean.TRUE).generate());
                     }
                     mediaurl.append(CloudinarymediacoreConstants.DOT);
                     mediaurl.append(media.getCloudinaryMediaFormat());
