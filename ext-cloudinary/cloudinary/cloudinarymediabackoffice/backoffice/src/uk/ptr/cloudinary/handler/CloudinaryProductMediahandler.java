@@ -186,7 +186,7 @@ public class CloudinaryProductMediahandler extends ComposedFlowActionHandler {
 
     private void updateTagOnProduct(String cloudinaryUrl, String productCode, MediaModel mediaModel) {
         try {
-            updateTagApiService.updateTagOnAsests(mediaModel.getCloudinaryPublicId(), productCode, cloudinaryUrl);
+            updateTagApiService.updateTagOnAsests(mediaModel.getCloudinaryPublicId(), productCode, cloudinaryUrl,mediaModel.getCloudinaryResourceType());
         } catch (IOException e) {
             LOG.error("Error occured while updating tag for Media code  : " + mediaModel.getCode()  + "Asset public id" + mediaModel.getCloudinaryPublicId() + "productCode : " + productCode , e);
         }

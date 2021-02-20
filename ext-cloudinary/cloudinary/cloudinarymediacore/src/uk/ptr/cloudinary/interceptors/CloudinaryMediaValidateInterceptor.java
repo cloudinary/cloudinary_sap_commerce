@@ -57,15 +57,15 @@ public class CloudinaryMediaValidateInterceptor implements ValidateInterceptor<M
                     if (StringUtils.isNotEmpty(oldValue) && !oldValue.equalsIgnoreCase(currentValue)) {
                         removeTagApiService.removeTagFromAsset(oldValue, product.getCode(), cloudinaryConfigModel.getCloudinaryURL());
                     }
-                    updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(), product.getCode(), currentValue);
+                    updateTagOnProduct(cloudinaryConfigModel.getCloudinaryURL(), product.getCode(), currentValue, model.getCloudinaryResourceType());
                 }
             }
         }
         }
 
-    private void updateTagOnProduct(String cloudinaryUrl, String productCode, String publicId) {
+    private void updateTagOnProduct(String cloudinaryUrl, String productCode, String publicId, String cloudinaryResourceType) {
         try {
-            updateTagApiService.updateTagOnAsests(publicId, productCode, cloudinaryUrl);
+            updateTagApiService.updateTagOnAsests(publicId, productCode, cloudinaryUrl, cloudinaryResourceType);
         } catch (IOException e) {
             LOG.error("Error occured while updating tag for Media Asset public id :" + publicId + "productCode : " + productCode , e);
         }

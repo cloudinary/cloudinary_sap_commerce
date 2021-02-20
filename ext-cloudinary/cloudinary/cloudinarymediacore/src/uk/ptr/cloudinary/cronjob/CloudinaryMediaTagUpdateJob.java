@@ -55,7 +55,7 @@ public class CloudinaryMediaTagUpdateJob extends AbstractJobPerformable<Cloudina
                             MediaModel masterImage = CloudinaryMasterMediaUtil.getMasterImage(mediaContainerModel);
                             try {
                                 if (masterImage != null) {
-                                    updateTagApiService.updateTagOnAsests(masterImage.getCloudinaryPublicId(), p.getCode(), cloudinaryConfigModel.getCloudinaryURL());
+                                    updateTagApiService.updateTagOnAsests(masterImage.getCloudinaryPublicId(), p.getCode(), cloudinaryConfigModel.getCloudinaryURL(),masterImage.getCloudinaryResourceType());
                                 }
                             } catch (IllegalArgumentException illegalException) {
                                 LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);

@@ -85,7 +85,7 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
             if (stagedProduct != null && org.apache.commons.collections.CollectionUtils.isEmpty(stagedProduct.getGalleryImages())) {
                 MediaModel mediaModel = createMediaContainerAndAssociateWithProduct(stagedProduct, bulkUpload.getMediaContainers());
                 if (mediaModel != null) {
-                    UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, mediaModel.getCloudinaryPublicId());
+                    UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, mediaModel.getCloudinaryPublicId(),mediaModel.getCloudinaryResourceType());
                 }
                 catalogVersionModels.add(stagedProduct.getCatalogVersion());
             } else {
@@ -98,12 +98,12 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
                     if (md.getMediaContainerCode() != null && mediaContainerCodes.contains(md.getMediaContainerCode())) {
                         updateMasterMedia(md, stagedProduct);
                         mediaContainerModels.add(stagedProduct.getGalleryImages().get(0));
-                        UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, md.getPublicId());
+                        UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, md.getPublicId(),md.getResourceType());
                         catalogVersionModels.add(stagedProduct.getCatalogVersion());
                     } else {
                         MediaContainerModel mediaContainer = createMediaContainer(md, stagedProduct);
                         mediaContainerModels.add(mediaContainer);
-                        UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, md.getPublicId());
+                        UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, md.getPublicId(),md.getResourceType());
                         catalogVersionModels.add(stagedProduct.getCatalogVersion());
                     }
                 });
@@ -124,9 +124,9 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
         }
     }
 
-    private void UpdateTagOnProduct(CloudinaryConfigModel cloudinaryConfigModel, CloudinaryProductAssestData bulkUpload, String publicId) {
+    private void UpdateTagOnProduct(CloudinaryConfigModel cloudinaryConfigModel, CloudinaryProductAssestData bulkUpload, String publicId, String cloudinaryResourceType) {
         try {
-            updateTagApiService.updateTagOnAsests(publicId, bulkUpload.getProductCode(), cloudinaryConfigModel.getCloudinaryURL());
+            updateTagApiService.updateTagOnAsests(publicId, bulkUpload.getProductCode(), cloudinaryConfigModel.getCloudinaryURL(), cloudinaryResourceType);
         } catch (IOException e) {
             LOG.error("Error occured during bulk upload while updating tag for product code["+bulkUpload.getProductCode()+"] and public id["+publicId+"]", e);
         }
