@@ -46,7 +46,7 @@ public class CloudinaryMediaTagUpdateJob extends AbstractJobPerformable<Cloudina
 
         CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-        if (cloudinaryConfigModel.getEnableCloudinary() && !catalogVersionModels.isEmpty()) {
+        if (cloudinaryConfigModel.getEnableCloudinary() && !CollectionUtils.isEmpty(catalogVersionModels)) {
             LOG.debug("**************************************************************************************");
             LOG.debug("***********************Started Cloudinary Media Tag Update Job****************************");
             LOG.debug("**************************************************************************************");
