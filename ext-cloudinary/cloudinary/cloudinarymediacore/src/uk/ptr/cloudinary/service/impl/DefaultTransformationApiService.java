@@ -95,7 +95,7 @@ public class DefaultTransformationApiService implements TransformationApiService
                                 globalTransformation = globalTransformation.chain().rawTransformation(format.getTransformation());
                             }
                         }
-
+                        media.setCloudinaryTransformation(format.getTransformation());
                         mediaurl.append(cloudinary.url().resourceType(media.getCloudinaryResourceType()).transformation(globalTransformation).publicId(media.getCloudinaryPublicId()).secure(Boolean.TRUE).generate());
 
                     }else{
