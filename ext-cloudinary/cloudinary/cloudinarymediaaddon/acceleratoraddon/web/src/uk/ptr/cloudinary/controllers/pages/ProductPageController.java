@@ -426,9 +426,10 @@ public class ProductPageController extends AbstractPageController
 				ProductModel variantProductModel = ((VariantProductModel) productModel).getBaseProduct();
 				if(CollectionUtils.isEmpty(variantProductModel.getGalleryImages()))
 				{
-					ProductModel currentProduct = ((VariantProductModel) productModel).getBaseProduct();
+					ProductModel currentProduct = ((VariantProductModel) variantProductModel).getBaseProduct();
 					model.addAttribute("sapCCProductCode", CloudinarymediacoreConstants.SAP_SKU + currentProduct.getCode());
 				}
+				else
 				model.addAttribute("sapCCProductCode", CloudinarymediacoreConstants.SAP_SKU + variantProductModel.getCode());
 			} else {
 				model.addAttribute("sapCCProductCode", CloudinarymediacoreConstants.SAP_SKU + productModel.getCode());
