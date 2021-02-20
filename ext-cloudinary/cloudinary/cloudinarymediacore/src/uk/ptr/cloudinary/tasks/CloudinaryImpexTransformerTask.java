@@ -64,7 +64,7 @@ public class CloudinaryImpexTransformerTask extends ImpexTransformerTask {
         PrintWriter writer = null;
         PrintWriter errorWriter = null;
         OutputStream impexOutputStream = null;
-        Map<String, String> map = new HashMap<>();
+        Map<String, Map<String, String>> publicIdMap = new HashMap<>();
 
         try		// NOSONAR
         {
@@ -75,7 +75,12 @@ public class CloudinaryImpexTransformerTask extends ImpexTransformerTask {
             while (csvReader.readNextLine())
             {
                 final Map<Integer, String> row = csvReader.getLine();
-                map.put(row.get(3), row.get(7));
+
+                Map<String,String> productCodeMap = new HashMap<String,String>();
+                //Key - product code, Value - Resource type
+                productCodeMap.put(row.get(7),row.get(4));
+                //Key - public id, Value - map of product code,resource type
+                publicIdMap.put(row.get(3), productCodeMap);
                 if (converter.filter(row))
                 {
                     try
@@ -96,19 +101,21 @@ public class CloudinaryImpexTransformerTask extends ImpexTransformerTask {
             IOUtils.closeQuietly(errorWriter);
             IOUtils.closeQuietly(impexOutputStream);
             closeQuietly(csvReader);
-            updateTagOnMedia(map);
+            updateTagOnMedia(publicIdMap);
         }
         return result;
     }
 
-    private void updateTagOnMedia(Map<String, String> map) {
+    private void updateTagOnMedia(Map<String, Map<String, String>> publicIdMap) {
         CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
         try {
-            for (Map.Entry<String, String> entry : map.entrySet()) {
-                updateTagApiService.updateTagOnAsests(entry.getKey(), entry.getValue(), cloudinaryConfigModel.getCloudinaryURL());
+            for (Map.Entry<String, Map<String, String>> entry : publicIdMap.entrySet()) {
+                String productCode = entry.getValue().entrySet().iterator().next().getKey();
+                String resourceType = entry.getValue().entrySet().iterator().next().getValue();
+                updateTagApiService.updateTagOnAsests(entry.getKey(), productCode, cloudinaryConfigModel.getCloudinaryURL(),resourceType);
             }
         } catch (IOException e) {
-            LOG.error("Error occured while updating tag for Media ", e);
+            LOG.error("Error occurred while updating tag for Media ", e);
         }
     }
 }

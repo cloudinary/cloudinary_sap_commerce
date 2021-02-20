@@ -59,7 +59,7 @@ public class CloudinaryMediaTagUpdateJob extends AbstractJobPerformable<Cloudina
                             MediaModel masterImage = CloudinaryMasterMediaUtil.getMasterImage(mediaContainerModel);
                             try {
                                 if (masterImage != null) {
-                                    updateTagApiService.updateTagOnAsests(masterImage.getCloudinaryPublicId(), p.getCode(), cloudinaryConfigModel.getCloudinaryURL());
+                                    updateTagApiService.updateTagOnAsests(masterImage.getCloudinaryPublicId(), p.getCode(), cloudinaryConfigModel.getCloudinaryURL(),masterImage.getCloudinaryResourceType());
                                     LOG.debug("Updated Tag on Media : "+ masterImage.getCode() + " for product code is " + p.getCode() + " and  PublicId is  " + masterImage.getCloudinaryPublicId());
                                 }
                             } catch (IllegalArgumentException illegalException) {
@@ -75,6 +75,7 @@ public class CloudinaryMediaTagUpdateJob extends AbstractJobPerformable<Cloudina
         LOG.debug("**************************************************************************************");
         LOG.debug("***********************Finished Cloudinary Media Tag Update Job***************************");
         LOG.debug("**************************************************************************************");
+
         return new PerformResult(CronJobResult.SUCCESS, CronJobStatus.FINISHED);
     }
 
