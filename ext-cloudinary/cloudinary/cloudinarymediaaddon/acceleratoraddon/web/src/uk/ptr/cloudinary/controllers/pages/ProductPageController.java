@@ -29,6 +29,7 @@ import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.product.ProductService;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
 import de.hybris.platform.util.Config;
+import de.hybris.platform.variants.model.VariantProductModel;
 import de.hybris.platform.yacceleratorstorefront.controllers.ControllerConstants;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.BooleanUtils;
@@ -40,6 +41,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.facades.CloudinaryConfigFacade;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 
@@ -120,21 +122,6 @@ public class ProductPageController extends AbstractPageController
 
 
 		populateProductDetailForDisplay(productCode, model, request, extraOptions);
-
-		CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigFacade.getCloudinaryConfig();
-
-		if(BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinaryGalleryWidget()))
-		{
-			if(cloudinaryConfigModel.getCloudinaryURL()!= null){
-				Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
-				model.addAttribute("cloudName", cloudinary.config.cloudName);
-			}
-
-			model.addAttribute("isProductGalleryEnabled", Boolean.TRUE);
-			model.addAttribute("sapCCProductCode", "sap_sku_"+ productCode);
-			model.addAttribute("cloudinaryConfig", cloudinaryConfigModel);
-
-		}
 
 		model.addAttribute(new ReviewForm());
 		model.addAttribute("pageType", PageType.PRODUCT.name());
@@ -426,6 +413,32 @@ public class ProductPageController extends AbstractPageController
 			model.addAttribute(WebConstants.MULTI_DIMENSIONAL_PRODUCT,
 					Boolean.valueOf(CollectionUtils.isNotEmpty(productData.getVariantMatrix())));
 		}
+
+		CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigFacade.getCloudinaryConfig();
+
+		if (BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinaryGalleryWidget())) {
+			if (cloudinaryConfigModel.getCloudinaryURL() != null) {
+				String cloudName[] = cloudinaryConfigModel.getCloudinaryURL().split("@");
+				model.addAttribute("cloudName", cloudName[1]);
+			}
+
+			if (CollectionUtils.isEmpty(productModel.getGalleryImages()) && productModel instanceof VariantProductModel) {
+				ProductModel variantProductModel = ((VariantProductModel) productModel).getBaseProduct();
+				if(CollectionUtils.isEmpty(variantProductModel.getGalleryImages()))
+				{
+					ProductModel currentProduct = ((VariantProductModel) variantProductModel).getBaseProduct();
+					model.addAttribute("sapCCProductCode", CloudinarymediacoreConstants.SAP_SKU + currentProduct.getCode());
+				}
+				else
+				model.addAttribute("sapCCProductCode", CloudinarymediacoreConstants.SAP_SKU + variantProductModel.getCode());
+			} else {
+				model.addAttribute("sapCCProductCode", CloudinarymediacoreConstants.SAP_SKU + productModel.getCode());
+			}
+			model.addAttribute("isProductGalleryEnabled", Boolean.TRUE);
+			model.addAttribute("cloudinaryConfig", cloudinaryConfigModel);
+
+		}
+
 	}
 
 	protected void populateProductData(final ProductData productData, final Model model)

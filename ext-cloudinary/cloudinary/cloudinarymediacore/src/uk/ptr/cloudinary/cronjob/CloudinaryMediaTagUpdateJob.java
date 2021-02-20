@@ -46,7 +46,11 @@ public class CloudinaryMediaTagUpdateJob extends AbstractJobPerformable<Cloudina
 
         CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-        if (cloudinaryConfigModel.getEnableCloudinary() && !catalogVersionModels.isEmpty()) {
+        if (cloudinaryConfigModel.getEnableCloudinary() && !CollectionUtils.isEmpty(catalogVersionModels)) {
+            LOG.debug("**************************************************************************************");
+            LOG.debug("***********************Started Cloudinary Media Tag Update Job****************************");
+            LOG.debug("**************************************************************************************");
+
             catalogVersionModels.stream().forEach(c -> {
                 List<ProductModel> products = cloudinaryProductDao.findAllProductsForGalleryImagesAndCatalogVersion(c);
                 if (!CollectionUtils.isEmpty(products)) {
@@ -56,17 +60,22 @@ public class CloudinaryMediaTagUpdateJob extends AbstractJobPerformable<Cloudina
                             try {
                                 if (masterImage != null) {
                                     updateTagApiService.updateTagOnAsests(masterImage.getCloudinaryPublicId(), p.getCode(), cloudinaryConfigModel.getCloudinaryURL(),masterImage.getCloudinaryResourceType());
+                                    LOG.debug("Updated Tag on Media : "+ masterImage.getCode() + " for product code is " + p.getCode() + " and  PublicId is  " + masterImage.getCloudinaryPublicId());
                                 }
                             } catch (IllegalArgumentException illegalException) {
                                 LOG.error("Illegal Argument " + illegalException.getMessage(), illegalException);
                             } catch (Exception e) {
-                                LOG.error("Exception occurred calling Upload  API " + e.getMessage(), e);
+                                LOG.error("Exception occurred calling Tag API for Product code :  " +  p.getCode() + " and Media Code is " + masterImage.getCode() + " and PublicId is " + masterImage.getCloudinaryPublicId(), e);
                             }
                         }
                     });
                 }
             });
         }
+        LOG.debug("**************************************************************************************");
+        LOG.debug("***********************Finished Cloudinary Media Tag Update Job***************************");
+        LOG.debug("**************************************************************************************");
+
         return new PerformResult(CronJobResult.SUCCESS, CronJobStatus.FINISHED);
     }
 
