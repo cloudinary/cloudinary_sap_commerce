@@ -9,7 +9,6 @@ import com.hybris.cockpitng.config.jaxb.wizard.CustomType;
 import com.hybris.cockpitng.dataaccess.facades.object.ObjectFacade;
 import com.hybris.cockpitng.dataaccess.facades.object.exceptions.ObjectDeletionException;
 import com.hybris.cockpitng.dataaccess.facades.object.exceptions.ObjectSavingException;
-import com.hybris.cockpitng.editor.defaultfileupload.FileUploadResult;
 import com.hybris.cockpitng.util.notifications.NotificationService;
 import com.hybris.cockpitng.widgets.configurableflow.FlowActionHandlerAdapter;
 import de.hybris.platform.core.model.media.MediaModel;
@@ -56,31 +55,28 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
 
     @Override
     public void perform(CustomType customType, FlowActionHandlerAdapter adapter, Map<String, String> map) {
-        FileUploadResult mediaContent = this.getMediaContent(adapter, map);
-        if(mediaContent!=null) {
-            super.perform(customType, adapter, map);
-        }else {
 
-            MediaModel mediaToUpdate = this.getMediaToUpdate(adapter, map);
-            CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
+        MediaModel mediaToUpdate = this.getMediaToUpdate(adapter, map);
+        CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigDao.getCloudinaryConfigModel();
 
-            if (map.containsKey(CLOUDINARY_MEDIA) && cloudinaryConfigModel != null && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary())) {
-                UploadApiResponseData responseData = new UploadApiResponseData();
-                final Textbox textField = (Textbox) adapter.getWidgetInstanceManager().getWidgetslot().getFellow(CloudinarymediacoreConstants.TEXT_FIELD);
-                try {
-                    responseData = getUploadApiResponseData(textField);
-                } catch (JsonProcessingException e) {
-                    LOG.error("Json parsing error save media", e);
-                }
-                tryToSaveCloudinaryMedia(adapter, map, responseData, mediaToUpdate, cloudinaryConfigModel.getCloudinaryCname());
-                saveMediaObject(adapter, map, mediaToUpdate);
-                adapter.done();
+        if (map.containsKey(CLOUDINARY_MEDIA) && cloudinaryConfigModel != null && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary())) {
+            UploadApiResponseData responseData = new UploadApiResponseData();
+            final Textbox textField = (Textbox) adapter.getWidgetInstanceManager().getWidgetslot().getFellow(CloudinarymediacoreConstants.TEXT_FIELD);
+            try {
+                responseData = getUploadApiResponseData(textField);
+            } catch (JsonProcessingException e) {
+                LOG.error("Json parsing error save media", e);
             }
+            tryToSave(adapter, map, responseData, mediaToUpdate, cloudinaryConfigModel.getCloudinaryCname());
+            saveMediaObject(adapter, map, mediaToUpdate);
+            adapter.done();
+        } else {
+            super.perform(customType, adapter, map);
         }
 
     }
 
-    private void tryToSaveCloudinaryMedia(FlowActionHandlerAdapter adapter, Map<String, String> map, UploadApiResponseData responseData, MediaModel mediaToUpdate, String cloudinaryCname) {
+    private void tryToSave(FlowActionHandlerAdapter adapter, Map<String, String> map, UploadApiResponseData responseData, MediaModel mediaToUpdate, String cloudinaryCname) {
 
         try {
             boolean update = !this.modelService.isNew(mediaToUpdate);
