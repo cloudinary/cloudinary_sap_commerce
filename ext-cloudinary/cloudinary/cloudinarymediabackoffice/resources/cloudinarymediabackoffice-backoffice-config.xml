@@ -309,6 +309,10 @@
                             <wz:name>media</wz:name>
                             <wz:value>create</wz:value>
                         </wz:parameter>
+                        <wz:parameter>
+                            <wz:name>mediaContentProperty</wz:name>
+                            <wz:value>mediaContent</wz:value>
+                        </wz:parameter>
                     </wz:custom>
                 </wz:navigation>
             </wz:step>
