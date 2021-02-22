@@ -78,9 +78,9 @@ public class CloudinaryImpexTransformerTask extends ImpexTransformerTask {
 
                 Map<String,String> productCodeMap = new HashMap<String,String>();
                 //Key - product code, Value - Resource type
-                productCodeMap.put(row.get(7),row.get(4));
+                productCodeMap.put(row.get(6),row.get(3));
                 //Key - public id, Value - map of product code,resource type
-                publicIdMap.put(row.get(3), productCodeMap);
+                publicIdMap.put(row.get(2), productCodeMap);
                 if (converter.filter(row))
                 {
                     try
