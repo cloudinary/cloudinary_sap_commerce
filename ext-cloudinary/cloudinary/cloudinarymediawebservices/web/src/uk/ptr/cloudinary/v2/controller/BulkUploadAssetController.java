@@ -44,7 +44,7 @@ public class BulkUploadAssetController {
         bulkUploadValidator.validate(resquestBody, bindingResult);
         if(bindingResult.hasErrors())
         {
-            return new ResponseEntity<>(bindingResult.getAllErrors().get(0)..getDefaultMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
         }
         else {
             bulkUploadApiService.bulkAssetUpload(resquestBody, baseSiteId);
