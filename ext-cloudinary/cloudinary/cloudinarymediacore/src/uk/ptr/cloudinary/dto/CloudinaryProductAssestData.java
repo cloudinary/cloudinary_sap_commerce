@@ -1,9 +1,12 @@
 package uk.ptr.cloudinary.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class CloudinaryProductAssestData {
 
+    @NotNull
     private String productCode;
     private List<MediaContainerData> mediaContainers;
 
