@@ -10,6 +10,7 @@ import com.hybris.cockpitng.widgets.editorarea.renderer.impl.AbstractEditorAreaC
 import de.hybris.platform.servicelayer.config.ConfigurationService;
 import de.hybris.platform.servicelayer.model.ModelService;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.resource.Labels;
@@ -33,6 +34,14 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
 
     private static final Logger LOG = LoggerFactory.getLogger(CloudinaryConfigAdminUsageRenderer.class);
     private static final String CLOUDINARY_VERSION = "v1.0.2";
+    private static final String N_A = "N/A";
+    private static final String CREDITS_USAGE = "credits_usage";
+    private static final String USAGE = "usage";
+    private static final String USED_PERCENT = "used_percent";
+    private static final String LIMIT = "limit";
+    private static final String PLAN = "plan";
+    private static final String CLOSE_PARANTHESIS = ")";
+    private static final String OPEN_PARANTHESIS = " (";
 
     @Resource
     private AdminApiService adminApiService;
@@ -203,6 +212,7 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
             if(cloudinaryConfigModel != null)
             {
                 response = adminApiService.getCloudinaryPlanInfo(cloudinaryConfigModel.getCloudinaryURL());
+                LOG.debug("Cloudinary Admin API Response ::"+response);
             }
         }
         catch (IllegalArgumentException illegalException) {
@@ -234,15 +244,92 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
 
 
 
-        String storageUsage = getByteConversion(Long.valueOf(storageUsages.get("usage").toString()));
-        String bandwidthUsage = getByteConversion(Long.valueOf(bandwidthUsages.get("usage").toString()));
+        String storageUsage=null;
+        if(storageUsages!=null && storageUsages.get(USAGE)!=null) {
+            try {
+                storageUsage = getByteConversion(Long.valueOf(storageUsages.get(USAGE).toString()));
+            }catch(NumberFormatException nfex){
+                LOG.error("Incorrect storage usage value :"+nfex.getMessage(),nfex);
+            }
+        }
+        String bandwidthUsage=null;
+        if(bandwidthUsages!=null && bandwidthUsages.get(USAGE)!=null) {
+            try {
+                bandwidthUsage = getByteConversion(Long.valueOf(bandwidthUsages.get(USAGE).toString()));
+            }catch(NumberFormatException nfex){
+                LOG.error("Incorrect bandwidth usage value :"+nfex.getMessage(),nfex);
+            }
+        }
 
         label.setValue(CloudinarymediacoreConstants.CONNECTED);
         label.setSclass("yw-labelstyle-z-label");
         boxHeader.appendChild(label);
 
         StringBuilder usagesData = new StringBuilder();
-        usagesData.append(response.get("plan")).append(CloudinarymediacoreConstants.TOTAL_STORAGE_LIMIT).append(limit.get("limit")).append(" (").append(limit.get("used_percent")).append(CloudinarymediacoreConstants.PERCENTAGE).append(")").append(CloudinarymediacoreConstants.STORAGE_USUAGE).append(storageUsage).append(" (").append(storageUsages.get("credits_usage")).append(CloudinarymediacoreConstants.CREDITS).append(")").append(CloudinarymediacoreConstants.BANDWIDTH_USUAGE).append(bandwidthUsage).append(" (").append(bandwidthUsages.get("credits_usage")).append(CloudinarymediacoreConstants.CREDITS).append(")").append(CloudinarymediacoreConstants.TRANSFORMATION_USUAGE).append(transformationUsages.get("usage")).append(" (").append(transformationUsages.get("credits_usage")).append(CloudinarymediacoreConstants.CREDITS).append(")");
+        usagesData.append(response.get(PLAN));
+        usagesData.append(CloudinarymediacoreConstants.TOTAL_STORAGE_LIMIT);
+        if(limit!=null) {
+            usagesData.append(limit.get(LIMIT));
+            usagesData.append(OPEN_PARANTHESIS);
+            if(limit.get(USED_PERCENT)!=null) {
+                usagesData.append(limit.get(USED_PERCENT));
+                usagesData.append(CloudinarymediacoreConstants.PERCENTAGE);
+            }else{
+                usagesData.append(N_A);
+            }
+            usagesData.append(CLOSE_PARANTHESIS);
+        }else{
+            usagesData.append(N_A);
+        }
+
+        usagesData.append(CloudinarymediacoreConstants.STORAGE_USUAGE);
+        if(StringUtils.isNotBlank(storageUsage)) {
+            usagesData.append(storageUsage);
+            usagesData.append(OPEN_PARANTHESIS);
+            if(storageUsages!=null && storageUsages.get(CREDITS_USAGE)!=null) {
+                usagesData.append(storageUsages.get(CREDITS_USAGE));
+                usagesData.append(CloudinarymediacoreConstants.CREDITS);
+            }else{
+                usagesData.append(N_A);
+            }
+            usagesData.append(CLOSE_PARANTHESIS);
+        }else{
+            usagesData.append(N_A);
+        }
+
+        usagesData.append(CloudinarymediacoreConstants.BANDWIDTH_USUAGE);
+        if(StringUtils.isNotBlank(bandwidthUsage)) {
+
+            usagesData.append(bandwidthUsage);
+            usagesData.append(OPEN_PARANTHESIS);
+            if(bandwidthUsages!=null && bandwidthUsages.get(CREDITS_USAGE)!=null) {
+
+                usagesData.append(bandwidthUsages.get(CREDITS_USAGE));
+                usagesData.append(CloudinarymediacoreConstants.CREDITS);
+
+            }else{
+                usagesData.append(N_A);
+            }
+            usagesData.append(CLOSE_PARANTHESIS);
+        }else{
+            usagesData.append(N_A);
+        }
+
+        usagesData.append(CloudinarymediacoreConstants.TRANSFORMATION_USUAGE);
+        if(transformationUsages!=null) {
+
+            usagesData.append(transformationUsages.get(USAGE));
+            usagesData.append(OPEN_PARANTHESIS);
+            if(transformationUsages.get(CREDITS_USAGE)!=null) {
+                usagesData.append(transformationUsages.get(CREDITS_USAGE));
+                usagesData.append(CloudinarymediacoreConstants.CREDITS);
+            }else{
+                usagesData.append(N_A);
+            }
+            usagesData.append(CLOSE_PARANTHESIS);
+        }else{
+            usagesData.append(N_A);
+        }
 
         html.setContent(usagesData.toString());
         html.setSclass("yw-editorarea-z-html");

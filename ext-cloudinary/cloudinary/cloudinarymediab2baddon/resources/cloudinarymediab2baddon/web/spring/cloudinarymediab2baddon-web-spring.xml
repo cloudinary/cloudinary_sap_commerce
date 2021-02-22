@@ -83,4 +83,18 @@
 		<property name="renderer" ref="cloudinarySimpleResponsiveBannerComponentRenderer" />
 	</bean>
 
+	<bean id="cloudinaryProductCarouselComponentRenderer"  class="uk.ptr.cloudinary.renderer.CloudinaryProductCarouselComponentRenderer" parent="addOnJspIncludeCMSComponentRenderer"/>
+
+	<bean id="ProductCarouselComponentMapping" parent="addonCmsComponentRendererMapping" >
+		<property name="typeCode" value="ProductCarouselComponent" />
+		<property name="renderer" ref="cloudinaryProductCarouselComponentRenderer" />
+	</bean>
+
+	<bean id="cloudinaryProductVariantSelectorComponentRenderer"  class="uk.ptr.cloudinary.renderer.CloudinaryProductVariantSelectorComponentRenderer" parent="addOnJspIncludeCMSComponentRenderer"/>
+
+	<bean id="ProductVariantSelectorComponentMapping" parent="addonCmsComponentRendererMapping" >
+		<property name="typeCode" value="ProductVariantSelectorComponent" />
+		<property name="renderer" ref="cloudinaryProductVariantSelectorComponentRenderer" />
+	</bean>
+
 </beans>
