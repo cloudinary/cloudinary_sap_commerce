@@ -1,21 +1,18 @@
 package uk.ptr.cloudinary.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class MediaContainerData {
 
     private String mediaContainerCode;
-    private String url;
+    @NotNull
     private String publicId;
+    @NotNull
     private String resourceType;
+    @NotNull
     private String cloudinaryType;
-
-    public String getCloudinaryMediaFormat() {
-        return cloudinaryMediaFormat;
-    }
-
-    public void setCloudinaryMediaFormat(String cloudinaryMediaFormat) {
-        this.cloudinaryMediaFormat = cloudinaryMediaFormat;
-    }
-
+    @NotNull
     private String cloudinaryMediaFormat;
 
     public String getMediaContainerCode() {
@@ -24,14 +21,6 @@ public class MediaContainerData {
 
     public void setMediaContainerCode(String mediaContainerCode) {
         this.mediaContainerCode = mediaContainerCode;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getPublicId() {
@@ -56,5 +45,13 @@ public class MediaContainerData {
 
     public void setCloudinaryType(String cloudinaryType) {
         this.cloudinaryType = cloudinaryType;
+    }
+
+    public String getCloudinaryMediaFormat() {
+        return cloudinaryMediaFormat;
+    }
+
+    public void setCloudinaryMediaFormat(String cloudinaryMediaFormat) {
+        this.cloudinaryMediaFormat = cloudinaryMediaFormat;
     }
 }

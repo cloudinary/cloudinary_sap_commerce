@@ -62,7 +62,7 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
     private ImpersonationService impersonationService;
 
     @Override
-    public void bulkAssetUpload(BulkUploadRequestData bulkUploadRequestData,String baseSiteId) {
+    public void bulkAssetUpload(BulkUploadRequestData bulkUploadRequestData, String baseSiteId) {
 
         Set<CatalogVersionModel> catalogVersionModels = new HashSet<>();
 
@@ -71,8 +71,7 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
         bulkUploadRequestData.getProductMediaAssest().stream().forEach(bulkUpload -> {
 
             List<ProductModel> productModels = impersonationService
-                    .executeInContext(getImpersonationContext(baseSiteId), new ImpersonationService.Executor<List<ProductModel>, ImpersonationService.Nothing>()
-                    {
+                    .executeInContext(getImpersonationContext(baseSiteId), new ImpersonationService.Executor<List<ProductModel>, ImpersonationService.Nothing>() {
                         @Override
                         public List<ProductModel> execute() {
                             return productDao.findProductsByCode(bulkUpload.getProductCode());
@@ -82,37 +81,40 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
 
             ProductModel stagedProduct = getStagedProduct(productModels, baseSiteId);
 
-            if (stagedProduct != null && org.apache.commons.collections.CollectionUtils.isEmpty(stagedProduct.getGalleryImages())) {
-                MediaModel mediaModel = createMediaContainerAndAssociateWithProduct(stagedProduct, bulkUpload.getMediaContainers());
-                if (mediaModel != null) {
-                    UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, mediaModel.getCloudinaryPublicId(),mediaModel.getCloudinaryResourceType());
-                }
-                catalogVersionModels.add(stagedProduct.getCatalogVersion());
-            } else {
-                List<String> mediaContainerCodes = stagedProduct.getGalleryImages().stream().map(MediaContainerModel::getQualifier).collect(Collectors.toList());
-                List<MediaContainerData> mediaContainersData = bulkUpload.getMediaContainers().stream().collect(Collectors.toList());
-
-                Set<MediaContainerModel> mediaContainerModels = new HashSet<>();
-
-                mediaContainersData.stream().forEach(md -> {
-                    if (md.getMediaContainerCode() != null && mediaContainerCodes.contains(md.getMediaContainerCode())) {
-                        updateMasterMedia(md, stagedProduct);
-                        mediaContainerModels.add(stagedProduct.getGalleryImages().get(0));
-                        UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, md.getPublicId(),md.getResourceType());
-                        catalogVersionModels.add(stagedProduct.getCatalogVersion());
-                    } else {
-                        MediaContainerModel mediaContainer = createMediaContainer(md, stagedProduct);
-                        mediaContainerModels.add(mediaContainer);
-                        UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, md.getPublicId(),md.getResourceType());
-                        catalogVersionModels.add(stagedProduct.getCatalogVersion());
+            if (stagedProduct != null) {
+                if (org.apache.commons.collections.CollectionUtils.isEmpty(stagedProduct.getGalleryImages())) {
+                    MediaModel mediaModel = createMediaContainerAndAssociateWithProduct(stagedProduct, bulkUpload.getMediaContainers());
+                    if (mediaModel != null) {
+                        UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, mediaModel.getCloudinaryPublicId(), mediaModel.getCloudinaryResourceType());
                     }
-                });
+                    catalogVersionModels.add(stagedProduct.getCatalogVersion());
+                } else {
+                    List<String> mediaContainerCodes = stagedProduct.getGalleryImages().stream().map(MediaContainerModel::getQualifier).collect(Collectors.toList());
+                    List<MediaContainerData> mediaContainersData = bulkUpload.getMediaContainers().stream().collect(Collectors.toList());
+                    if (!CollectionUtils.isEmpty(mediaContainersData)) {
+                        Set<MediaContainerModel> mediaContainerModels = new HashSet<>();
 
-                if(org.apache.commons.collections.CollectionUtils.isNotEmpty(stagedProduct.getGalleryImages())) {
-                    mediaContainerModels.addAll(stagedProduct.getGalleryImages());
+                        mediaContainersData.stream().forEach(md -> {
+                            if(md.getMediaContainerCode() != null && mediaContainerCodes.contains(md.getMediaContainerCode())) {
+                                updateMasterMedia(md, stagedProduct);
+                                mediaContainerModels.add(stagedProduct.getGalleryImages().get(0));
+                                UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, md.getPublicId(), md.getResourceType());
+                                catalogVersionModels.add(stagedProduct.getCatalogVersion());
+                            } else {
+                                MediaContainerModel mediaContainer = createMediaContainer(md, stagedProduct);
+                                mediaContainerModels.add(mediaContainer);
+                                UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, md.getPublicId(), md.getResourceType());
+                                catalogVersionModels.add(stagedProduct.getCatalogVersion());
+                            }
+                        });
+
+                        if (org.apache.commons.collections.CollectionUtils.isNotEmpty(stagedProduct.getGalleryImages())) {
+                            mediaContainerModels.addAll(stagedProduct.getGalleryImages());
+                        }
+                        stagedProduct.setGalleryImages(new ArrayList<>(mediaContainerModels));
+                        modelService.save(stagedProduct);
+                    }
                 }
-                stagedProduct.setGalleryImages(new ArrayList<>(mediaContainerModels));
-                modelService.save(stagedProduct);
             }
         });
 
@@ -128,22 +130,21 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
         try {
             updateTagApiService.updateTagOnAsests(publicId, bulkUpload.getProductCode(), cloudinaryConfigModel.getCloudinaryURL(), cloudinaryResourceType);
         } catch (IOException e) {
-            LOG.error("Error occured during bulk upload while updating tag for product code["+bulkUpload.getProductCode()+"] and public id["+publicId+"]", e);
+            LOG.error("Error occured during bulk upload while updating tag for product code[" + bulkUpload.getProductCode() + "] and public id[" + publicId + "]", e);
         }
     }
 
-    private ProductModel getStagedProduct(List<ProductModel> productModels,String baseSiteId) {
+    private ProductModel getStagedProduct(List<ProductModel> productModels, String baseSiteId) {
         for (ProductModel productmodel : productModels) {
             CatalogVersionModel stagedVersion = catalogVersionService.getCatalogVersion(productmodel.getCatalogVersion().getCatalog().getId(), CloudinarymediacoreConstants.VERSION_STAGED);
             List<ProductModel> stagedProducts = impersonationService
-                    .executeInContext(getImpersonationContext(baseSiteId), new ImpersonationService.Executor<List<ProductModel>, ImpersonationService.Nothing>()
-                    {
+                    .executeInContext(getImpersonationContext(baseSiteId), new ImpersonationService.Executor<List<ProductModel>, ImpersonationService.Nothing>() {
                         @Override
                         public List<ProductModel> execute() {
-                            return productDao.findProductsByCode(stagedVersion,productmodel.getCode());
+                            return productDao.findProductsByCode(stagedVersion, productmodel.getCode());
                         }
                     });
-            if(org.apache.commons.collections.CollectionUtils.isNotEmpty(stagedProducts)) {
+            if (org.apache.commons.collections.CollectionUtils.isNotEmpty(stagedProducts)) {
                 return stagedProducts.get(0);
             }
         }
@@ -228,16 +229,14 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
         return media;
     }
 
-    private ImpersonationContext getImpersonationContext(String baseSiteId)
-    {
+    private ImpersonationContext getImpersonationContext(String baseSiteId) {
         final ImpersonationContext context = new ImpersonationContext();
         context.setUser(userService.getAdminUser());
         context.setSite(getBaseSite(baseSiteId));
         return context;
     }
 
-    private BaseSiteModel getBaseSite(String baseSiteId)
-    {
+    private BaseSiteModel getBaseSite(String baseSiteId) {
         return baseSiteService.getBaseSiteForUID(baseSiteId);
     }
 }
