@@ -19,7 +19,7 @@
   var productCode = document.getElementById("product_code").value;
   var spinCode = document.getElementById("spin_code").value;
 
-  var spinURL = "https://res.cloudinary.com/"+cloudName+"/image/list/"+productCode+".json";
+  var spinURL = "https://res.cloudinary.com/"+cloudName+"/image/list/"+spinCode+".json";
 
      var dataObject = {
                           "container": "#my-gallery",
