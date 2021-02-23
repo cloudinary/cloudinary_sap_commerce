@@ -434,6 +434,7 @@ public class ProductPageController extends AbstractPageController
 			} else {
 				model.addAttribute("sapCCProductCode", CloudinarymediacoreConstants.SAP_SKU + productModel.getCode());
 			}
+			model.addAttribute("spinCode", productModel.getCloudinaryImageSpinTag());
 			model.addAttribute("isProductGalleryEnabled", Boolean.TRUE);
 			model.addAttribute("cloudinaryConfig", cloudinaryConfigModel);
 
