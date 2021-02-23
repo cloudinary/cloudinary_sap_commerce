@@ -19,8 +19,6 @@
   var productCode = document.getElementById("product_code").value;
   var spinCode = document.getElementById("spin_code").value;
 
-  var spinURL = "https://res.cloudinary.com/"+cloudName+"/image/list/"+spinCode+".json";
-
      var dataObject = {
                           "container": "#my-gallery",
                               "cloudName": cloudName,
@@ -33,24 +31,27 @@
                               }],
                               ${cloudinaryConfig.cloudinaryGalleryConfigJsonString}
                         };
-    var spinDataObject = {
-                                "container": "#my-gallery",
-                                    "cloudName": cloudName,
-                                    "mediaAssets": [{
-                                        "tag": productCode,
-                                        "mediaType": "image"
-                                    }, {
-                                        "tag": productCode,
-                                        "mediaType": "video"
-                                    }, {
-                                        "tag": spinCode,
-                                        "mediaType": "spin"
-                                    }],
-                                    ${cloudinaryConfig.cloudinaryGalleryConfigJsonString}
-                              };
+     var spinDataObject = {
+                             "container": "#my-gallery",
+                                  "cloudName": cloudName,
+                                  "mediaAssets": [{
+                                      "tag": productCode,
+                                      "mediaType": "image"
+                                  }, {
+                                      "tag": productCode,
+                                      "mediaType": "video"
+                                  }, {
+                                      "tag": spinCode,
+                                      "mediaType": "spin"
+                                  }],
+                                  ${cloudinaryConfig.cloudinaryGalleryConfigJsonString}
+                            };
 
-$(document).ready(function() {
-$.ajax({
+      if(spinCode != "")
+      {
+         var spinURL = "https://res.cloudinary.com/"+cloudName+"/image/list/"+spinCode+".json";
+         $(document).ready(function() {
+         $.ajax({
             type: "GET",
             url: spinURL,
             success: function (data, status, jqXHR) {
@@ -61,8 +62,14 @@ $.ajax({
             const myGallery= cloudinary.galleryWidget(dataObject);
             myGallery.render();
             }
-        });
-});
+         });
+      });
+     }
+     else {
+         const myGallery= cloudinary.galleryWidget(dataObject);
+         myGallery.render();
+     }
+
 </script>
 
 
