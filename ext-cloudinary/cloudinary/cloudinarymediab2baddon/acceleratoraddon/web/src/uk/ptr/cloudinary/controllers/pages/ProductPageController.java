@@ -123,20 +123,6 @@ public class ProductPageController extends AbstractPageController
 
 		populateProductDetailForDisplay(productCode, model, request, extraOptions);
 
-		CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigFacade.getCloudinaryConfig();
-
-		if(cloudinaryConfigModel.getEnableCloudinary() && cloudinaryConfigModel.getEnableCloudinaryGalleryWidget())
-		{
-			if(cloudinaryConfigModel.getCloudinaryURL()!= null){
-				Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
-				model.addAttribute("cloudName", cloudinary.config.cloudName);
-			}
-
-			model.addAttribute("isProductGalleryEnabled", Boolean.TRUE);
-			model.addAttribute("cloudinaryConfig", cloudinaryConfigModel);
-
-		}
-
 		model.addAttribute(new ReviewForm());
 		model.addAttribute("pageType", PageType.PRODUCT.name());
 		model.addAttribute("futureStockEnabled", Boolean.valueOf(Config.getBoolean(FUTURE_STOCK_ENABLED, false)));
@@ -433,8 +419,9 @@ public class ProductPageController extends AbstractPageController
 
 		if (BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinaryGalleryWidget())) {
 			if (cloudinaryConfigModel.getCloudinaryURL() != null) {
-				String cloudName[] = cloudinaryConfigModel.getCloudinaryURL().split("@");
-				model.addAttribute("cloudName", cloudName[1]);
+				Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
+				model.addAttribute("cloudName", cloudinary.config.cloudName);
+				model.addAttribute("cName", cloudinary.config.cname);
 			}
 
 			if (CollectionUtils.isEmpty(productModel.getGalleryImages()) && productModel instanceof VariantProductModel) {
@@ -449,6 +436,7 @@ public class ProductPageController extends AbstractPageController
 			} else {
 				model.addAttribute("sapCCProductCode", CloudinarymediacoreConstants.SAP_SKU + productModel.getCode());
 			}
+			model.addAttribute("spinCode", productModel.getCloudinaryImageSpinTag());
 			model.addAttribute("isProductGalleryEnabled", Boolean.TRUE);
 			model.addAttribute("cloudinaryConfig", cloudinaryConfigModel);
 

@@ -335,6 +335,10 @@
 					<modifiers read="true" write="true" search="true"  />
 					<persistence type="property"/>
 				</attribute>
+				<attribute qualifier="cloudinaryImageSpinTag" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
 			</attributes>
 		</itemtype>
 		</typegroup>
