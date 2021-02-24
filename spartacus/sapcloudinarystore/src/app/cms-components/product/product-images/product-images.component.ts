@@ -27,24 +27,6 @@ export class ProductImagesComponent {
     })
   );
 
-  
-  // private cloudinaryConfig$: Observable<CloudinaryConfig> = this.currentCloudinaryConfigService.list().subscribe(cloudinaryConfig => {
-  //   //console.log(this.cloudinaryConfig$);
-  //   console.log("product code-->"+this.product$.pipe(map((p: Product) => p.code)).subscribe(pcode => {return pcode;}));
-  //   // this.currentProductService.getProduct().subscribe(product => {
-  //   //   this.prodCode = product.code;
-  //   // });
-     
-  //   this.loadGallerySourceCode()
-  //           .then(() => {
-  //               this.renderProductGalleryWidget(cloudinaryConfig,this.prodCode);
-  //       });
-
-  // });
-  
-  //this.currentCloudinaryConfigService.list();
-  //isCloudinaryGalleryEnabled$:Observable<any> = this.currentCloudinaryConfigService.list().pipe(map((config:CloudinaryConfig) => config.isCloudinaryGalleryEnabled));
-
   thumbs$: Observable<any[]> = this.product$.pipe(
     map((p: Product) => this.createThumbs(p))
   );
@@ -54,22 +36,17 @@ export class ProductImagesComponent {
   );
 
   constructor(private currentProductService: CurrentProductService,private currentCloudinaryConfigService: CurrentCloudinaryConfigService) {
-    // this.loadGallerySourceCode()
-    //         .then(() => {
-    //             this.renderProductGalleryWidget();
-    //     });
+    
 
     this.currentCloudinaryConfigService.list().subscribe(cloudinaryConfig => {
-      //console.log(this.cloudinaryConfig$);
-      //console.log("product code-->"+this.currentProductService.getProduct().pipe(map((p: Product) => p.code)).subscribe(pcode => {this.prodCode = pcode;}));
-      // this.currentProductService.getProduct().subscribe(product => {
-      //   this.prodCode = product.code;
-      // });
+      
       this.isCloudinaryGalleryEnabled = cloudinaryConfig.isCloudinaryGalleryEnabled;
+      
       this.loadGallerySourceCode()
               .then(() => {
                   this.renderProductGalleryWidget(cloudinaryConfig,this.prodCode);
           });
+        
   
     });
   }

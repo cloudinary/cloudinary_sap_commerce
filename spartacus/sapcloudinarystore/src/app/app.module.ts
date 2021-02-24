@@ -16,8 +16,9 @@ import { CloudinaryClientTokenInterceptor } from './cms-components/product/inter
 import {VariantStyleSelectorModule} from './cms-components/product/product-variants/variant-style-selector/variant-style-selector.module';
 import {ProductVariantsModule} from './cms-components/product/product-variants/product-variants.module'
 import {VariantStyleIconsModule} from './cms-components/product/product-variants/variant-style-icons/variant-style-icons.module'
-//import {ProductListModule} from './cms-components/product/product-list/product-list.module'
+import {ProductListModule} from './cms-components/product/product-list/product-list.module'
 import {environment} from '../environments/environment'
+import {CloudinaryVideoComponentModule} from './cms-components/cloudinary-video/cloudinary-video.module'
 
 @NgModule({
   declarations: [
@@ -49,12 +50,13 @@ import {environment} from '../environments/environment'
     }),
     //CustomOccModule,
     //CloudinaryConfigOccModule,
-    //ProductListModule,
+    ProductListModule,
     ProductVariantsModule,
     VariantStyleIconsModule,
     VariantStyleSelectorModule,
     ProductImagesModule,
-    HttpClientModule
+    HttpClientModule,
+    CloudinaryVideoComponentModule
   ],
   providers: [
     //{ provide: HTTP_INTERCEPTORS, useClass: CloudinaryClientTokenInterceptor, multi: true }
