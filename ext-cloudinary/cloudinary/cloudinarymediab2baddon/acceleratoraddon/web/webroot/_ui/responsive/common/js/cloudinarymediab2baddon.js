@@ -77,6 +77,7 @@ var url = "https://unpkg.com/cloudinary-core@latest/cloudinary-core-shrinkwrap.m
           return app;
           }();
 
+          $(document).ready(function(){
           var data = SampleDataAccess.GetCloudinaryConfiguration().done(function (data) {
           var cl = cloudinary.Cloudinary.new({cloud_name: cloudName});
                       // replace 'demo' with your cloud name in the line above
@@ -103,6 +104,4 @@ var url = "https://unpkg.com/cloudinary-core@latest/cloudinary-core-shrinkwrap.m
                       cl.config({breakpoints:my_breakpoints, responsive_use_breakpoints:"true"});
                       cl.responsive();
           });
-
-
-
+          });

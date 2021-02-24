@@ -6,7 +6,8 @@
 <spring:htmlEscape defaultHtmlEscape="true" />
 <input id="cloud_name" type="hidden" value="${cloudName}"/>
 <input id="product_code" type="hidden" value="${sapCCProductCode}"/>
-<input id="spin_code" type="hidden" value="${spinCode}"/>§
+<input id="spin_code" type="hidden" value="${spinCode}"/>
+<input id="c_name" type="hidden" value="${cName}"/>
 
 <div class="image-gallery js-gallery">
     <span class="image-gallery__zoom-icon glyphicon glyphicon-resize-full"></span>
@@ -18,58 +19,55 @@
   var cloudName = document.getElementById("cloud_name").value;
   var productCode = document.getElementById("product_code").value;
   var spinCode = document.getElementById("spin_code").value;
+  var cName = document.getElementById("c_name").value;
+  var media_assets = [];
+      media_assets.push({
+            	tag: productCode,
+              mediaType: "image"
+            });
+      media_assets.push({
+                  	tag: productCode,
+                    mediaType: "video"
+                  });
 
-     var dataObject = {
-                          "container": "#my-gallery",
-                              "cloudName": cloudName,
-                              "mediaAssets": [{
-                                  "tag": productCode,
-                                  "mediaType": "image"
-                              }, {
-                                  "tag": productCode,
-                                  "mediaType": "video"
-                              }],
-                              ${cloudinaryConfig.cloudinaryGalleryConfigJsonString}
-                        };
-     var spinDataObject = {
-                             "container": "#my-gallery",
-                                  "cloudName": cloudName,
-                                  "mediaAssets": [{
-                                      "tag": productCode,
-                                      "mediaType": "image"
-                                  }, {
-                                      "tag": productCode,
-                                      "mediaType": "video"
-                                  }, {
-                                      "tag": spinCode,
-                                      "mediaType": "spin"
-                                  }],
-                                  ${cloudinaryConfig.cloudinaryGalleryConfigJsonString}
-                            };
-
-      if(spinCode != "")
+   if(spinCode != "")
       {
          var spinURL = "https://res.cloudinary.com/"+cloudName+"/image/list/"+spinCode+".json";
-         $(document).ready(function() {
-         $.ajax({
-            type: "GET",
-            url: spinURL,
-            success: function (data, status, jqXHR) {
-            const mySpinGallery= cloudinary.galleryWidget(spinDataObject);
-            mySpinGallery.render();
-            },
-            error: function (xhr) {
-            const myGallery= cloudinary.galleryWidget(dataObject);
-            myGallery.render();
-            }
-         });
-      });
-     }
-     else {
+          fetch(spinURL)
+           	.then(function(response) {
+               if(200 == response.status){
+                media_assets.push({
+                                  	tag: spinCode,
+                                    mediaType: "spin"
+                                  });
+               }
+             });
+       }
+         if(cName)
+         {
+           var dataObject = {
+                              "container": "#my-gallery",
+                              "cloudName": cloudName,
+                              "privateCdn": true,
+                              "secureDistribution": "kostadinov-res.cloudinary.com",
+                              "mediaAssets": media_assets,
+                                 ${cloudinaryConfig.cloudinaryGalleryConfigJsonString}
+                             };
+          const myGallery= cloudinary.galleryWidget(dataObject);
+          myGallery.render();
+         }
+        else {
+          var dataObject = {
+                                "container": "#my-gallery",
+                                "cloudName": cloudName,
+                                "mediaAssets": media_assets,
+                                ${cloudinaryConfig.cloudinaryGalleryConfigJsonString}
+                            };
+
          const myGallery= cloudinary.galleryWidget(dataObject);
          myGallery.render();
-     }
-
+         }
 </script>
+
 
 
