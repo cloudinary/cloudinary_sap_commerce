@@ -49,7 +49,7 @@
                               "container": "#my-gallery",
                               "cloudName": cloudName,
                               "privateCdn": true,
-                              "secureDistribution": "kostadinov-res.cloudinary.com",
+                              "secureDistribution": cName,
                               "mediaAssets": media_assets,
                                  ${cloudinaryConfig.cloudinaryGalleryConfigJsonString}
                              };
