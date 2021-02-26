@@ -422,23 +422,10 @@ public class ProductPageController extends AbstractPageController
 				model.addAttribute("cloudName", cloudinary.config.cloudName);
 				model.addAttribute("cName", cloudinary.config.cname);
 			}
-
-			if (CollectionUtils.isEmpty(productModel.getGalleryImages()) && productModel instanceof VariantProductModel) {
-				ProductModel variantProductModel = ((VariantProductModel) productModel).getBaseProduct();
-				if(CollectionUtils.isEmpty(variantProductModel.getGalleryImages()))
-				{
-					ProductModel currentProduct = ((VariantProductModel) variantProductModel).getBaseProduct();
-					model.addAttribute("sapCCProductCode", CloudinarymediacoreConstants.SAP_SKU + currentProduct.getCode());
-				}
-				else
-				model.addAttribute("sapCCProductCode", CloudinarymediacoreConstants.SAP_SKU + variantProductModel.getCode());
-			} else {
-				model.addAttribute("sapCCProductCode", CloudinarymediacoreConstants.SAP_SKU + productModel.getCode());
-			}
-			model.addAttribute("spinCode", productModel.getCloudinaryImageSpinTag());
+			model.addAttribute("spinCode", productData.getSpinSetCode());
 			model.addAttribute("isProductGalleryEnabled", Boolean.TRUE);
 			model.addAttribute("cloudinaryConfig", cloudinaryConfigModel);
-
+			model.addAttribute("sapCCProductCode", productData.getSapCCProductCode());
 		}
 
 	}

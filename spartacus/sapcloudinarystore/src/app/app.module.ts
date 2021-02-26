@@ -19,6 +19,21 @@ import {VariantStyleIconsModule} from './cms-components/product/product-variants
 import {ProductListModule} from './cms-components/product/product-list/product-list.module'
 import {environment} from '../environments/environment'
 import {CloudinaryVideoComponentModule} from './cms-components/cloudinary-video/cloudinary-video.module'
+import { Product } from '@spartacus/core';
+import {ProductOccModule} from './occ/adapters/product/product-occ.module'
+
+declare module '@spartacus/core' {
+  interface Product {
+    sapCCProductCode?: string;
+    spinSetCode?: string;
+  }
+  namespace Occ{
+    interface Product {
+    sapCCProductCode?: string;
+    spinSetCode?: string;
+    }
+  }
+}
 
 @NgModule({
   declarations: [
@@ -50,6 +65,7 @@ import {CloudinaryVideoComponentModule} from './cms-components/cloudinary-video/
     }),
     //CustomOccModule,
     //CloudinaryConfigOccModule,
+    ProductOccModule,
     ProductListModule,
     ProductVariantsModule,
     VariantStyleIconsModule,
