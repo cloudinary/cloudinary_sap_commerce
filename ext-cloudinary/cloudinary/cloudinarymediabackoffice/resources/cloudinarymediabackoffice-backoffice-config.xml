@@ -229,7 +229,7 @@
                 <editorArea:section name="" >
                 <editorArea:customPanel name="" spring-bean="cloudinaryConfigProductGallerySettingsTextRenderer"/>
                 </editorArea:section>
-                <editorArea:section name="" >
+                <editorArea:section name="">
                     <editorArea:attribute qualifier="cloudinaryGalleryConfigJsonString" editor=""/>
                 </editorArea:section>
             </editorArea:tab>
@@ -504,6 +504,9 @@
                     <editorArea:attribute qualifier="cloudinaryImageTransformation"/>
                     <editorArea:attribute qualifier="cloudinaryVideoTransformation"/>
                     <editorArea:attribute qualifier="isCloudinaryOverride"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinarymedia.spinset.tag" description="hmc.section.cloudinarymedia.spinset.tag.decription">
+                    <editorArea:attribute qualifier="cloudinaryImageSpinTag"/>
                 </editorArea:section>
             </editorArea:tab>
 		</editorArea:editorArea>

@@ -30,18 +30,21 @@
                   });
 
    if(spinCode != "")
-      {
-         var spinURL = "https://res.cloudinary.com/"+cloudName+"/image/list/"+spinCode+".json";
-          fetch(spinURL)
-           	.then(function(response) {
-               if(200 == response.status){
-                media_assets.push({
-                                  	tag: spinCode,
-                                    mediaType: "spin"
-                                  });
-               }
-             });
-       }
+         {
+            var spinURL = "https://"+cloudName+"-res.cloudinary.com/image/list/"+spinCode+".json";
+            $(document).ready(function() {
+               $.ajax({
+                  type: "GET",
+                  url: spinURL,
+                  success: function (data, status, jqXHR) {
+                  media_assets.push({
+                                       tag: spinCode,
+                                       mediaType: "spin"
+                                    });
+                   }
+               });
+            });
+          }
          if(cName){
                   var dataObject = {
                                       "container": "#my-gallery",
