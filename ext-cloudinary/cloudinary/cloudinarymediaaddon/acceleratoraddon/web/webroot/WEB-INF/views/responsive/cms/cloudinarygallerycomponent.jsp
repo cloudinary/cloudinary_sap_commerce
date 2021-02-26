@@ -8,6 +8,7 @@
 <input id="product_code" type="hidden" value="${sapCCProductCode}"/>
 <input id="spin_code" type="hidden" value="${spinCode}"/>
 <input id="c_name" type="hidden" value="${cName}"/>
+<input id="cloudinaryGalleryConfigJsonString" type="hidden" value='${cloudinaryConfig.cloudinaryGalleryConfigJsonString}'/>
 
 <div class="image-gallery js-gallery">
     <span class="image-gallery__zoom-icon glyphicon glyphicon-resize-full"></span>
@@ -32,7 +33,13 @@
 
    if(spinCode != "")
       {
-         var spinURL = "https://res.cloudinary.com/"+cloudName+"/image/list/"+spinCode+".json";
+      var spinURL;
+      if(cName){
+        spinURL = "https://"+cName;
+      }else{
+        spinURL = "https://res.cloudinary.com/"+cloudName;
+      }
+          spinURL += "/image/list/"+spinCode+".json";
           fetch(spinURL)
            	.then(function(response) {
                if(200 == response.status){
@@ -43,30 +50,35 @@
                }
              });
        }
-         if(cName)
-         {
-           var dataObject = {
+
+       var jsonConfigString = document.getElementById("cloudinaryGalleryConfigJsonString").value;
+
+       var galleryConfigJson;
+
+       if(jsonConfigString){
+              try{
+              galleryConfigJson = JSON.parse(jsonConfigString);
+              }catch(err){
+              console.log("Incorrect json string");
+              }
+              }
+       var galleryBaseJson = {
                               "container": "#my-gallery",
                               "cloudName": cloudName,
-                              "privateCdn": true,
-                              "secureDistribution": cName,
-                              "mediaAssets": media_assets,
-                                 ${cloudinaryConfig.cloudinaryGalleryConfigJsonString}
-                             };
-          const myGallery= cloudinary.galleryWidget(dataObject);
-          myGallery.render();
-         }
-        else {
-          var dataObject = {
-                                "container": "#my-gallery",
-                                "cloudName": cloudName,
-                                "mediaAssets": media_assets,
-                                ${cloudinaryConfig.cloudinaryGalleryConfigJsonString}
-                            };
 
-         const myGallery= cloudinary.galleryWidget(dataObject);
-         myGallery.render();
-         }
+                              "mediaAssets": media_assets,
+                               ...galleryConfigJson
+                             };
+
+
+                             if(cName){
+                                     galleryBaseJson.privateCdn = true;
+                                     galleryBaseJson.secureDistribution = cName;
+                                   }
+          const myGallery= cloudinary.galleryWidget(galleryBaseJson);
+          myGallery.render();
+
+
 </script>
 
 

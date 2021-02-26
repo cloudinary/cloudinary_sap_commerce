@@ -1392,6 +1392,9 @@ export namespace Occ {
      * @member {boolean} [volumePricesFlag]
      */
     volumePricesFlag?: boolean;
+
+    sapCCProductCode?: string;
+    spinSetCode?: string;
   }
 
   /**

@@ -9,5 +9,6 @@ export interface CloudinaryConfig {
   cloudinaryZoomTrigger?: string;
   cloudinaryZoomType?: string;
   transformations?: string;
+  CName?: string;
 }
 

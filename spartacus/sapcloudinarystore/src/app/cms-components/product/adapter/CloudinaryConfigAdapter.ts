@@ -8,7 +8,7 @@ import {CloudinaryConfig} from '../model'
 })
 export class CloudinaryConfigAdapter implements Adapter<CloudinaryConfig> {
   adapt(item: any): CloudinaryConfig {
-    return new CloudinaryConfig(item.isCloudinaryGalleryEnabled, item.cloudName, item.cloudinaryGalleryConfigJsonString);
+    return new CloudinaryConfig(item.isCloudinaryGalleryEnabled, item.cloudName, item.cloudinaryGalleryConfigJsonString, item.CName);
   }
 }
 
