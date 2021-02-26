@@ -14,6 +14,7 @@ import de.hybris.platform.servicelayer.dto.converter.ConversionException;
 import java.util.Collection;
 import javax.annotation.Resource;
 
+import de.hybris.platform.variants.model.VariantProductModel;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -39,5 +40,24 @@ public class DefaultCloudinaryProductImagesPopulator<SOURCE extends ProductModel
 
 		productData.setImages(transformationApiService.createTransformation(productModel,productData.getImages()));
 
+		StringBuilder sapCCProductCode = new StringBuilder();
+		sapCCProductCode.append(CloudinarymediacoreConstants.SAP_SKU);
+		if (CollectionUtils.isEmpty(productModel.getGalleryImages()) && productModel instanceof VariantProductModel) {
+			ProductModel variantProductModel = ((VariantProductModel) productModel).getBaseProduct();
+
+			if(CollectionUtils.isEmpty(variantProductModel.getGalleryImages()))
+			{
+				ProductModel currentProduct = ((VariantProductModel) variantProductModel).getBaseProduct();
+				sapCCProductCode.append(currentProduct.getCode());
+			}
+			else {
+				sapCCProductCode.append(variantProductModel.getCode());
+			}
+		} else {
+			sapCCProductCode.append(productModel.getCode());
+		}
+
+		productData.setSapCCProductCode(sapCCProductCode.toString());
+		productData.setSpinSetCode(productModel.getCloudinaryImageSpinTag());
 	}
 }

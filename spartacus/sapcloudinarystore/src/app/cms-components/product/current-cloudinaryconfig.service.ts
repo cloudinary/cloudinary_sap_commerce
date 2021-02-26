@@ -12,23 +12,25 @@ import {CloudinaryConfigService} from '../../cloudinaryconfig';
 import {CloudinaryConfig} from './model';
 import {CloudinaryConfigAdapter} from './adapter/CloudinaryConfigAdapter';
 import { HttpClient,HttpHeaders } from "@angular/common/http";
-import { AuthService } from '@spartacus/core';import {
+import { AuthService } from '@spartacus/core';
+import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
+import {OccEndpointsService} from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CurrentCloudinaryConfigService {
-  private baseUrl = "https://localhost:9002/rest/v2/apparel-uk-spa/cloudinary/configuration";
 
   constructor(
     private routingService: RoutingService,
     private cloudinaryConfigService: CloudinaryConfigService,
     private adapter:CloudinaryConfigAdapter,
     private http: HttpClient,
-    private authService:AuthService
+    private authService:AuthService,
+    private occEndpoints: OccEndpointsService
   ) {}
 
   //protected readonly DEFAULT_PRODUCT_SCOPE = ProductScope.DETAILS;
@@ -38,15 +40,9 @@ export class CurrentCloudinaryConfigService {
    *
    * @param scopes
    */
-  // getCloudinaryConfigService(
-  //   scopes?: string
-  // ): Observable<CloudinaryConfig | null> {
-  //   console.log("hello in service");
-  //   return this.cloudinaryConfigService.get(scopes);
-  // }
 
   list(): Observable<CloudinaryConfig> {
-    const url = `${this.baseUrl}`;
+    const url = `${this.occEndpoints.getBaseEndpoint()}/cloudinary/configuration`;
     //token: Observable<any> = this.authService.getClientToken();
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',

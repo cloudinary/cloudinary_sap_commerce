@@ -41,6 +41,7 @@ public class CloudinaryConfigurationController {
             Cloudinary cloudinary = new Cloudinary(cloudinaryConfig.getCloudinaryURL());
             cloudinaryConfigurationWsDTO.setCloudName(cloudinary.config.cloudName);
             cloudinaryConfigurationWsDTO.setApiKey(cloudinary.config.apiKey);
+            cloudinaryConfigurationWsDTO.setCName(cloudinary.config.cname);
         }
         cloudinaryConfigurationWsDTO.setEnvironment(configurationService.getConfiguration().getString("environment", "dev"));
         cloudinaryConfigurationWsDTO.setIsResponsiveEnabled(BooleanUtils.isTrue(cloudinaryConfig.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfig.getCloudinaryResponsive()));

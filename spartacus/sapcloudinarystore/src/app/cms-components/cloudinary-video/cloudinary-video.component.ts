@@ -10,8 +10,8 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CloudinaryVideoComponent implements OnInit {
-  //componentData$: Observable<CloudinaryVideoComponentModel> = this.componentData.data$;
-  // constructor(private componentData: CmsComponentData<CloudinaryVideoComponentModel>) { }
+  componentData$: Observable<any> = this.componentData.data$;
+  constructor(private componentData: CmsComponentData<any>) { }
 
   ngOnInit(): void {
   }

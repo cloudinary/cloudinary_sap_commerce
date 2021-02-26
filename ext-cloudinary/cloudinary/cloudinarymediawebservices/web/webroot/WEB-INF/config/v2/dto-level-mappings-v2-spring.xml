@@ -512,11 +512,11 @@
         <property name="levelMapping">
             <map>
                 <entry key="BASIC"
-                       value="purchasable,stock,name,baseProduct,availableForPickup,code,url,price"/>
+                       value="purchasable,stock,name,baseProduct,availableForPickup,code,url,price,sapCCProductCode,spinSetCode"/>
                 <entry key="DEFAULT"
-                       value="summary,averageRating,purchasable,stock(DEFAULT),description,variantMatrix(DEFAULT),name,baseOptions(DEFAULT),baseProduct,availableForPickup,variantOptions(DEFAULT),code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(BASIC,name),priceRange,multidimensional,configuratorType,configurable,tags"/>
+                       value="summary,averageRating,purchasable,stock(DEFAULT),description,variantMatrix(DEFAULT),name,baseOptions(DEFAULT),baseProduct,availableForPickup,variantOptions(DEFAULT),code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(BASIC,name),priceRange,multidimensional,configuratorType,configurable,tags,sapCCProductCode,spinSetCode"/>
                 <entry key="FULL"
-                       value="summary,productReferences(FULL),classifications(FULL),averageRating,purchasable,volumePrices(FULL),variantType,stock(FULL),description,variantMatrix(FULL),name,baseOptions(FULL),baseProduct,availableForPickup,variantOptions(FULL),reviews(FULL),code,url,price(FULL),numberOfReviews,manufacturer,volumePricesFlag,futureStocks(FULL),images(FULL),categories(FULL),potentialPromotions(FULL),priceRange,multidimensional,configuratorType,configurable,tags"/>
+                       value="summary,productReferences(FULL),classifications(FULL),averageRating,purchasable,volumePrices(FULL),variantType,stock(FULL),description,variantMatrix(FULL),name,baseOptions(FULL),baseProduct,availableForPickup,variantOptions(FULL),reviews(FULL),code,url,price(FULL),numberOfReviews,manufacturer,volumePricesFlag,futureStocks(FULL),images(FULL),categories(FULL),potentialPromotions(FULL),priceRange,multidimensional,configuratorType,configurable,tags,sapCCProductCode,spinSetCode"/>
             </map>
         </property>
     </bean>

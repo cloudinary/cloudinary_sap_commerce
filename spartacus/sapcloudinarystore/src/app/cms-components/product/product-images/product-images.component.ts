@@ -5,6 +5,7 @@ import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 import {CurrentCloudinaryConfigService} from '../current-cloudinaryconfig.service';
 import {CloudinaryConfig} from '../../../model';
+import {Occ} from '../../../occ/occ-models/occ.models';
 
 @Component({
   selector: 'cx-product-images',
@@ -15,6 +16,11 @@ export class ProductImagesComponent {
   private mainMediaContainer = new BehaviorSubject(null);
   private prodCode;
   public isCloudinaryGalleryEnabled;
+  public sapCCProductCode;
+  public CName;
+  public spinSetCode;
+  private sapProdCode = new BehaviorSubject(null);
+  
 
   private product$: Observable<
     Product
@@ -24,6 +30,9 @@ export class ProductImagesComponent {
     tap((p: Product) => {
       this.mainMediaContainer.next(p.images?.PRIMARY ? p.images.PRIMARY : {});
       this.prodCode = p.code;
+      this.sapCCProductCode = p.sapCCProductCode;
+      this.sapProdCode.next(p.sapCCProductCode);
+      this.spinSetCode = p.spinSetCode;
     })
   );
 
@@ -42,13 +51,22 @@ export class ProductImagesComponent {
       
       this.isCloudinaryGalleryEnabled = cloudinaryConfig.isCloudinaryGalleryEnabled;
       
+      //this.CName = cloudinaryConfig.CName;
+      if(this.isCloudinaryGalleryEnabled){
+        this.product$.subscribe(prod => {
       this.loadGallerySourceCode()
               .then(() => {
-                  this.renderProductGalleryWidget(cloudinaryConfig,this.prodCode);
+                  this.renderProductGalleryWidget(cloudinaryConfig,prod.sapCCProductCode,prod.spinSetCode);
           });
-        
+        });
+        }
+      //}); 
   
     });
+  }
+
+  getProductCode():any{
+    return this.product$.subscribe(p => {this.sapCCProductCode = p.sapCCProductCode;return p.sapCCProductCode});
   }
 
   openImage(item: any): void {
@@ -118,29 +136,91 @@ export class ProductImagesComponent {
       });
   }
 
-  renderProductGalleryWidget(cloudinaryConfig,code) {
-    console.log("product-->"+code);
-      const body_tag = document.body;
+   getSpinsetJson(cloudinaryConfig,spinURL,spinsetcode,media_assets){
+    return fetch(spinURL)
+           	.then(function(response) {
+               if(200 == response.status){
+                 console.log("response.status"+response.status);
+                  media_assets.push({
+                    tag: spinsetcode,
+                    mediaType: "spin"
+                  });
+               }
+               return media_assets;
+             }).then(media_assets => {this.appendScriptToDOM(cloudinaryConfig,media_assets);});
+  }
+
+
+
+
+  renderProductGalleryWidget(cloudinaryConfig,prodcode,spinsetcode) {
+    var media_assets = [];
+      media_assets.push({
+            	tag: prodcode,
+              mediaType: "image"
+            });
+      media_assets.push({
+                  	tag: prodcode,
+                    mediaType: "video"
+                  });
+
+      if(spinsetcode!=null)
+      {
+        
+         var spinURL;
+         if(cloudinaryConfig.hasOwnProperty("CName")){
+          spinURL = "https://"+cloudinaryConfig.CName;
+          console.log(cloudinaryConfig);
+         }
+         else{
+          spinURL = "https://res.cloudinary.com/" + cloudinaryConfig.cloudName;
+         }
+         spinURL = spinURL + "/image/list/"+spinsetcode+".json";
+         this.getSpinsetJson(cloudinaryConfig,spinURL,spinsetcode,media_assets);
+         
+      }else{
+        this.appendScriptToDOM(cloudinaryConfig,media_assets);
+      }
+  }
+
+  appendScriptToDOM(cloudinaryConfig,media_assets){
+    const body_tag = document.body;
       const script_tag = document.createElement('script');
+
+      var galleryJson2 = JSON.parse(cloudinaryConfig.cloudinaryGalleryConfigJsonString);
+      console.log("galleryJson2"+JSON.stringify(galleryJson2));
+
+      var galleryJson1 = {
+        "container": "#product-gallery-widget-wrapper",
+        "cloudName": cloudinaryConfig.cloudName,
+        "mediaAssets": media_assets,
+        ...galleryJson2
+      };
+      
+      if(cloudinaryConfig.hasOwnProperty("CName")){
+        galleryJson1.privateCdn = true;
+        galleryJson1.secureDistribution = cloudinaryConfig.CName;
+      }
+      console.log("cloudinaryConfig-->"+JSON.stringify(cloudinaryConfig));
+
       script_tag.innerHTML = `
-          const myWidget = cloudinary.galleryWidget({
-              "container": "#product-gallery-widget-wrapper",
-              "cloudName": "`+cloudinaryConfig.cloudName+`",
-              "mediaAssets": [{
-                  "tag": "sap_sku_`+code+`",
-                  "mediaType": "image"
-              }, {
-                  "tag": "sap_sku_`+code+`",
-                  "mediaType": "video"
-              }, {
-                  "tag": "sap_sku_`+code+`",
-                  "mediaType": "spin"
-              }],`+cloudinaryConfig.cloudinaryGalleryConfigJsonString+`
-              
-          });
+          const myWidget = cloudinary.galleryWidget(`+JSON.stringify(galleryJson1)+`);
+          
           myWidget.render();
 
       `;
+      console.log(script_tag);
       body_tag.appendChild(script_tag);
   }
+
+   jsonConcat(o1, o2) {
+    for (var key in o2) {
+     o1[key] = o2[key];
+    }
+    return o1;
+   }
+   
+   
+
+
 }
