@@ -23,4 +23,17 @@
 		<value>CLOUDINARY</value>
 	</enum>
 
+	<bean class="de.hybris.platform.cmsfacades.data.MediaData">
+		<property name="cloudinaryMediaJson" type="String" />
+	</bean>
+
+	<bean class="de.hybris.platform.commercefacades.product.data.ProductData">
+		<property name="sapCCProductCode" type="String">
+			<description>Code of the product spinset</description>
+		</property>
+		<property name="spinSetCode" type="String">
+			<description>Code of the product spinset</description>
+		</property>
+	</bean>
+
 </beans>
