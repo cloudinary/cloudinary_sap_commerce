@@ -10,7 +10,7 @@
         
         
         <requires-extension name="cmsoccaddon"/>
-        <requires-extension name="commercefacades"/>
+        <requires-extension name="cloudinarymediafacades"/>
                         		
         
         
