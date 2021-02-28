@@ -28,7 +28,7 @@ export class CloudinaryClientTokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log("request->"+request.withCredentials);
+    
     return this.getClientToken(request).pipe(
       take(1),
       switchMap((token: ClientToken) => {
@@ -40,9 +40,9 @@ export class CloudinaryClientTokenInterceptor implements HttpInterceptor {
               Authorization: `${token.token_type} ${token.access_token}`,
             },
           });
-          //console.log("token"+token.token_type+'< >'+token.access_token);
+          
         }
-        //console.log("request<->"+request.urlWithParams);
+        
         return next.handle(request);
       })
     );

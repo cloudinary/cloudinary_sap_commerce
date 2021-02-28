@@ -12,9 +12,6 @@ export class ProductCloudinaryNormalizer implements Converter<Occ.Product, Produ
     if (target === undefined) {
       target = { ...(source as any) };
     }
-    console.log("ProductCloudinaryNormalizer-->"+source.sapCCProductCode);
-    
-      //target.sapCCProductCode = this.normalize(source.sapCCProductCode);
       target.sapCCProductCode = source.sapCCProductCode;
     
     return target;
