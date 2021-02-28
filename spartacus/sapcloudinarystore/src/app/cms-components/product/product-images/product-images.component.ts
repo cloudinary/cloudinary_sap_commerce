@@ -187,8 +187,12 @@ export class ProductImagesComponent {
     const body_tag = document.body;
       const script_tag = document.createElement('script');
 
-      var galleryJson2 = JSON.parse(cloudinaryConfig.cloudinaryGalleryConfigJsonString);
-      console.log("galleryJson2"+JSON.stringify(galleryJson2));
+      var galleryJson2;
+      try{
+      galleryJson2 = JSON.parse(cloudinaryConfig.cloudinaryGalleryConfigJsonString);
+      }catch(err){
+        
+      }
 
       var galleryJson1 = {
         "container": "#product-gallery-widget-wrapper",
@@ -201,7 +205,7 @@ export class ProductImagesComponent {
         galleryJson1.privateCdn = true;
         galleryJson1.secureDistribution = cloudinaryConfig.CName;
       }
-      console.log("cloudinaryConfig-->"+JSON.stringify(cloudinaryConfig));
+      
 
       script_tag.innerHTML = `
           const myWidget = cloudinary.galleryWidget(`+JSON.stringify(galleryJson1)+`);
@@ -209,7 +213,7 @@ export class ProductImagesComponent {
           myWidget.render();
 
       `;
-      console.log(script_tag);
+      
       body_tag.appendChild(script_tag);
   }
 

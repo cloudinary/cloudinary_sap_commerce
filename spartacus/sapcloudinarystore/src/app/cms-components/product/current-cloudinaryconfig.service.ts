@@ -43,17 +43,12 @@ export class CurrentCloudinaryConfigService {
 
   list(): Observable<CloudinaryConfig> {
     const url = `${this.occEndpoints.getBaseEndpoint()}/cloudinary/configuration`;
-    //token: Observable<any> = this.authService.getClientToken();
+    
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     
        headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-    
-  //   console.log(this.http.get<CloudinaryConfig>(url).subscribe(data => {
-  //     console.log("iscloudinaryenabled-->"+data.isCloudinaryGalleryEnabled);
-  // }));
-    //responseData: this.http.get(url);
      return this.http.get(url).pipe(
       // Adapt each item in the raw data array
       map((data: any) => this.adapter.adapt(data))
