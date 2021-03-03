@@ -181,16 +181,6 @@
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="cloudinaryWidth" type="java.lang.Integer">
-					<description>Cloudinary Video Width</description>
-					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
-					<persistence type="property" />
-				</attribute>
-				<attribute qualifier="cloudinaryHeight" type="java.lang.Integer">
-					<description>Cloudinary Video Height</description>
-					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
-					<persistence type="property" />
-				</attribute>
 				<attribute qualifier="enableOptimizeImage" type="java.lang.Boolean">
 					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
 					<description> Enable Optimize Images </description>
