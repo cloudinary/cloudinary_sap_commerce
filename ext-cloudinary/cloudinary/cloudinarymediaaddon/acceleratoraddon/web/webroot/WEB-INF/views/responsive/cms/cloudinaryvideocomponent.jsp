@@ -16,8 +16,7 @@
   class="cld-video-player cld-video-player-skin-dark"
   data-cld-source-types='["mp4", "ogg", "webm"]'
   data-cld-public-id="${componentVideo.cloudinaryPublicId}"
-  data-cld-source-transformation= '${transformation}'
-  width="${cloudinaryConfig.cloudinaryWidth}" height="${cloudinaryConfig.cloudinaryHeight}">
+  data-cld-source-transformation= '${transformation}'>
 </video>
 
 <script type="text/javascript">
