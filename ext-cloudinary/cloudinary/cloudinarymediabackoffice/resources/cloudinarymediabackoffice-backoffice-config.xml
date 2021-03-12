@@ -214,8 +214,6 @@
                     <editorArea:attribute qualifier="cloudinaryVideoQuality"/>
                 </editorArea:section>
                 <editorArea:section name="hmc.section.cloudinary.video.transformation">
-                    <editorArea:attribute qualifier="cloudinaryWidth"/>
-                    <editorArea:attribute qualifier="cloudinaryHeight"/>
                     <editorArea:attribute qualifier="cloudinaryGlobalVideoTransformation"/>
                  </editorArea:section>
 
