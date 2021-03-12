@@ -30,7 +30,7 @@ public class CloudinaryConfigProductGalleryTextRenderer extends AbstractEditorAr
         Div usageResponseDiv = new Div();
         final Html html = new Html();
         html.setSclass("yw-editorarea-z-html");
-        html.setContent("Integrate a modern, responsive, flexible product gallery into your product detail pages on your e-commerce Site.<br/> Cloudinary's Product Gallery has saved hundreds of hours of development time for iconic e-commerce brands.<br/><a href='https://cloudinary.com/documentation/product_gallery' target=‘_blank’>Go to documentation</a>, <a href='https://demo.cloudinary.com/product-gallery/editor?code=configjson' target=‘_blank’>View Active demo</a>");
+        html.setContent("Integrate a modern, responsive, flexible product gallery into your product detail pages on your e-commerce site.<br/> Cloudinary's Product Gallery has saved hundreds of hours of development time for iconic e-commerce brands.<br/><a href='https://cloudinary.com/documentation/product_gallery' target=‘_blank’>Go to documentation</a>, <a href='https://demo.cloudinary.com/product-gallery/editor?code=configjson' target=‘_blank’>View Active demo</a>");
 
         usageResponseDiv.appendChild(html);
         usageResponseDiv.setParent(component);
