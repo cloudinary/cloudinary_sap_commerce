@@ -1,0 +1,1327 @@
+@color-white: #ffffff;
+@color-black: #000000;
+@color-body: #333333;
+@color-dark-grey: #666666;
+@color-grey: #cccccc;
+@color-light-grey: #f5f5f5;
+@color-mild-grey: #e9e9e9;
+@color-blue: #0078c0;
+@color-dark-blue: #263950;
+@color-red: #ff0000;
+@color-dark-red: #c90400;
+@color-green: #3ab85d;
+@color-yellow: #ffd200;
+@color-button-primary: @color-blue;
+@color-button-primary-hover: #3498db;
+@color-button-secondary: @color-dark-blue;
+@color-button-secondary-hover: #385980;
+
+@color-banking-blue: #00a1e4;
+@color-banking-dark-blue: #0a85df;
+@color-banking-darker-blue: #1d70b7;
+@color-banking-darkest-blue: #004370;
+
+.box-shadow(@x; @y; @a; @b; @color; @opacity) {
+   box-shadow: @x @y @a @b fade(@color, @opacity);
+   -moz-box-shadow: @x @y @a @b fade(@color, @opacity);
+   -webkit-box-shadow: @x @y @a @b fade(@color, @opacity);
+}
+.appearance-none {
+	appearance: none !important;
+	-webkit-appearance: none !important;
+	-webkit-appearance: none !important;
+	-moz-appearance: none !important;
+	-o-appearance: none !important;
+	&, &:hover, &:focus {
+		outline: none !important;
+		appearance: none !important;
+		-webkit-appearance: none !important;
+		-webkit-appearance: none !important;
+		-moz-appearance: none !important;
+		-o-appearance: none !important;
+		text-decoration: none !important;
+		outline: 0 !important;
+		border: 0;
+		&::-ms-expand {
+			display: none;  // Need this to hide default select in IE10
+		}
+		&::-ms-value {
+			background-color: transparent; // Need this to hide default select in IE10
+			color: #000;
+		}
+	}
+	&::-ms-expand {
+		display: none;  // Need this to hide default select in IE10
+	}
+	&::-ms-value {
+		background-color: transparent; // Need this to hide default select in IE10
+		color: #000;
+	}
+	background: none;
+}
+.grey-border-on {
+	border-color: @color-grey !important;
+	transition: all 0.3s linear;
+	-webkit-transition: all 0.3s linear;
+	&, &:hover {
+		border-color: @color-grey !important;
+	}
+	&:focus {
+		border-color: @color-banking-dark-blue !important;
+	}
+}
+
+//IE11 radiobuttons fix, don't delete!
+.yui-skin-sam main {
+	display: inline;
+}
+.xformContainer {
+	.description {
+		margin: 0 0 10px;
+	}
+}
+.orbeon.orbeon-portlet-div {
+	.navbar {
+		display: none;
+	}
+	[class*="span"]{
+		margin: 0;
+	}
+	.orbeon-portlet-body {
+		.xforms-form {
+			.fr-form-description {
+				display: none;
+			}
+			width: 100%;
+			.container {
+				padding: 0;
+				width: 100%;
+				.span12 {
+					width: 100%;
+				}
+			}
+			.fr-border {
+				position: relative;
+				top: -1px;
+				border: 1px solid @color-grey;
+				border-top: none;
+				padding: 20px 0 50px;
+				margin-bottom: 0;
+			}
+			.xxforms-animate {
+				background-color: @color-light-grey;
+			}
+			.xbl-fr-section {
+				background-color: @color-light-grey;
+				margin: 0 auto;
+				max-width: 940px;
+				width: 100%;
+				h2, h3, h4, h5, h6 {
+					&.fr-section-title {
+						background-color: @color-light-grey;
+						background-image: none;
+						border-top: 1px solid @color-grey;
+						padding: 20px 0 10px;
+						pointer-events: none;
+						a {
+							border-top: none;
+							color: @color-body;
+							font-size: 20px;
+							padding: 9px 0;
+						}
+						.fr-section-label {
+							&.fr-section-closed {
+								background-image: none;
+							}
+							&.fr-section-open {
+								background-image: none;
+							}
+						}
+					}
+				}
+				&.personal-details {
+					h2 {
+						&.fr-section-title:first-of-type {
+							border: none;
+						}
+					}
+				}
+			}
+			@media (max-width: 767px) {
+				margin: 0;
+				.xforms-group {
+					margin-bottom: 0 !important;
+				}
+			}
+		}
+		.fr-grid {
+			&.fr-grid-2 {
+				.fr-grid-tr > .fr-grid-td {
+					display: block;
+				}
+			}
+			&:not(.fr-repeat) > .fr-grid-body > .fr-grid-tr > .fr-grid-td {
+				@media (max-width: 767px) {
+					display: block;
+				}
+			}
+		}
+	}
+	.fr-mode-edit {
+		div[id*="trip-details-control"] {
+			.fr-grid .fr-grid-body {
+				.fr-grid-tr {
+					&:last-of-type, &:nth-last-child(-n+2) {
+						.fr-grid-td:first-of-type {
+							display: inline-block;
+							margin-left: 0;
+							vertical-align: middle;
+							width: 49%;
+							.fr-grid-content {
+								position: relative;
+								top: 5px;
+								text-align: right;
+								.ageoftraveller {
+									&.xforms-label {
+										padding-right: 15px;
+										width: 100%
+									}
+								}
+							}
+							@media (max-width: 767px) {
+								width: 100%;
+								.fr-grid-content {
+									top: 0px;
+								}
+							}
+						}
+						.fr-grid-td {
+							display: inline-block;
+							margin-left: 1%;
+							vertical-align: top;
+							width: 9.2%;
+							.fr-grid-content {
+								.ageoftraveller {
+									.xforms-label {
+										width: 30%;
+									}
+									.xforms-input-input {
+										text-align: center;
+										width: 70% !important;
+									}
+									.xforms-active.xforms-alert {
+										position: relative;
+										left: -5px;
+										width: 100%;
+										text-align: right;
+									}
+								}
+							}
+							@media (max-width: 767px) {
+								width: 19%;
+								.fr-grid-content {
+									.ageoftraveller {
+										.xforms-label {
+											width: 20%;
+											padding-right: 15px;
+										}
+										.xforms-input-input {
+											width: 80% !important;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		.fr-grid .fr-grid-body {
+			.fr-grid-content {
+				padding: 0 0 15px!important;
+				@media (max-width: 767px) {
+					padding: 4px 0 !important;
+				}
+			}
+			select {
+				height: 40px;
+				border-radius: 0;
+				margin-left: -4px;
+				@media (max-width: 767px) {
+					margin-left: 0px;
+				}
+			}
+			.xforms-label {
+				font-size: 14px;
+				color: @color-dark-blue;
+				display: inline-block;
+				width: 50%;
+				margin-left: -2px;
+				margin-right: -2px;
+				padding-right: 20px;
+				vertical-align: middle;
+				text-align: right;
+				line-height: normal;
+				text-transform: none;
+				pointer-events: none;
+				&:before {
+					line-height: 1;
+				}
+				@media (max-width: 767px) {
+					width: 100%;
+					text-align: left;
+				}
+				& + .xforms-input-input,
+				& + .xforms-control,
+				& + select,
+				& + .xforms-items,
+				& + textarea {
+					display: inline-block;
+					width: 50% !important;
+					margin-left: -2px;
+					margin-right: -2px;
+					vertical-align: middle;
+					border-radius: 0;
+					float: none;
+					@media (max-width: 767px) {
+						width: 100% !important;
+					}
+				}
+			}
+			input {
+				border-radius: 0;
+				&[type="text"], &[type="password"], &[type="datetime"],
+				&[type="datetime-local"], &[type="date"], &[type="month"],
+				&[type="time"], &[type="week"], &[type="number"],
+				&[type="email"], &[type="url"], &[type="search"],
+				&[type="tel"], &[type="color"] {
+				//					float: right;
+				//					margin-left: 20px;
+					border: 1px solid #c3c4cf;
+					height: 40px;
+					border-radius: 2px;
+				}
+				&[type="text"] {
+					padding: 10px;
+				}
+			}
+			.xforms-type-date {
+				&:after {
+					position: relative;
+					right: 0;
+					display: inline-block;
+				}
+				.xforms-input-input.xforms-type-date {
+					background-image: url("images/calendar.png");
+					padding: 10px;
+					background-position: 98% center;
+					background-repeat: no-repeat;
+				}
+			}
+			.property-cover-required,
+			.anyone-property-smoke,
+			.exterior-construction-materials,
+			.what-locks-are-in-place,
+			.do-you-smoke,
+			.second-person-smoke {
+				.xforms-items {
+					background: none;
+					border: 0;
+					box-shadow: none;
+					overflow: hidden;
+					vertical-align: middle;
+					@media (max-width: 767px) {
+						text-align: center;
+					}
+					.xforms-selected, .xforms-deselected {
+						padding: 0 20px;
+						margin:  0 0 0 -20px;
+						@media (max-width: 767px) {
+							padding: 15px;
+							margin:  0 auto;
+						}
+						@media (max-width: 360px) {
+							padding: 8px;
+							margin:  0 auto;
+						}
+						span {
+							background-size: contain !important;
+							border: none;
+							border-radius: 0;
+							line-height: 1.2;
+							margin: 0 auto;
+							padding: 105px 0 0;
+							position: relative;
+							text-align: center;
+							text-indent: 0px;
+							text-transform: none;
+							width: 96px;
+							transition: border .25s linear;
+							-webkit-transition: border .25s linear;
+							&::before, &::after {
+								display: none;
+							}
+							@media (max-width: 768px) {
+								width: 72px;
+								padding: 80px 0 0;
+								text-transform: none;
+							}
+						}
+					}
+				}
+				input[type="radio"], input[type="checkbox"] {
+					margin-left: 0;
+					display:  none;
+				}
+			}
+			.property-cover-required .xforms-items {
+				padding: 0;
+				span {
+					&:first-child {
+						&.xforms-selected span {
+							background: url(images/property_form_building_contents_clicked.png) center top no-repeat;
+						}
+						&.xforms-deselected span {
+							background: url(images/property_form_building_contents.png) center top no-repeat;
+						}
+					}
+					&:nth-child(2) {
+						&.xforms-selected span {
+							background: url(images/property_form_building_clicked.png) center top no-repeat;
+						}
+						&.xforms-deselected span {
+							background: url(images/property_form_building.png) center top no-repeat;
+						}
+					}
+					&:nth-child(3) {
+						&.xforms-selected span {
+							background: url(images/property_form_contents_clicked.png) center top no-repeat;
+						}
+						&.xforms-deselected span {
+							background: url(images/property_form_contents.png) center top no-repeat;
+						}
+					}
+				}
+			}
+			.anyone-property-smoke, .do-you-smoke, .second-person-smoke {
+				padding: 0;
+				.xforms-items {
+					span {
+						&:first-child {
+							&.xforms-selected span {
+								background: url(images/property_form_smoking_clicked.png) center top no-repeat;
+							}
+							&.xforms-deselected span {
+								background: url(images/property_form_smoking.png) center top no-repeat;
+							}
+						}
+						&:nth-child(2) {
+							&.xforms-selected span {
+								background: url(images/property_form_non_smoking_clicked.png) center top no-repeat;
+							}
+							&.xforms-deselected span {
+								background: url(images/property_form_non_smoking.png) center top no-repeat;
+							}
+						}
+					}
+				}
+			}
+			.exterior-construction-materials .xforms-items {
+				padding: 0;
+				span {
+					&:first-child {
+						&.xforms-selected span {
+							background: url(images/property_form_wood_clicked.png) center top no-repeat;
+						}
+						&.xforms-deselected span {
+							background: url(images/property_form_wood.png) center top no-repeat;
+						}
+					}
+					&:nth-child(2) {
+						&.xforms-selected span {
+							background: url(images/property_form_brick_clicked.png) center top no-repeat;
+						}
+						&.xforms-deselected span {
+							background: url(images/property_form_brick.png) center top no-repeat;
+						}
+					}
+				}
+			}
+			.what-locks-are-in-place .xforms-items {
+				padding: 0;
+				span {
+					&:first-child {
+						&.xforms-selected span {
+							background: url(images/property_form_single_lock_clicked.png) center top no-repeat;
+						}
+						&.xforms-deselected span {
+							background: url(images/property_form_single_lock.png) center top no-repeat;
+						}
+					}
+					&:nth-child(2) {
+						&.xforms-selected span {
+							background: url(images/property_form_multi_lock_clicked.png) center top no-repeat;
+						}
+						&.xforms-deselected span {
+							background: url(images/property_form_multi_lock.png) center top no-repeat;
+						}
+					}
+				}
+			}
+			.xforms-items {
+				display: inline-block;
+				vertical-align: middle;
+				.xforms-selected, .xforms-deselected {
+					display: inline-block;
+					vertical-align: top;
+					.radio {
+						margin: 0 0.5em 0 0;
+						vertical-align: initial;
+					}
+				}
+			}
+		}
+		.fr-buttons, .xbl-fr-error-summary {
+			display: none;
+		}
+	}
+	.xforms-visited {
+	 	& > .xforms-alert.xforms-active, & > .xforms-visited.xforms-alert.xforms-active {
+			&:not(:empty) {
+				width: 50%;
+				text-align: left;
+				position: relative;
+				float: right;
+				left: -6px;
+				@media (max-width: 767px) {
+					float: none;
+					width: 100%;
+					left: 0px;
+				}
+			}
+		}
+	}
+	.xforms-hint-appearance-full .xforms-hint,
+	.xforms-hint-appearance-inline .xforms-hint {
+		width: 50%;
+		text-align: left;
+		position: relative;
+		left: -6px;
+		padding: 1px;
+		@media (max-width: 767px) {
+			width: 100%;
+			left: 0px;
+		}
+	}
+}
+
+.xforms-select1 {
+	.xforms-items {
+		@media (max-width: 767px) {
+			text-align: center;
+			.life-coverage & {
+				text-align: left;
+			}
+		}
+		span {
+			.radio {
+				margin: 20px auto;
+				input[type="radio"] {
+					display: none;
+					&:checked {
+						& ~ span::after{
+							background: @color-dark-blue;
+						}
+					}
+				}
+				span {
+					line-height: 0;
+					margin: 10px;
+					padding-left: 49px;
+					text-indent: -40px;
+					text-transform: none;
+					position: relative;
+					&::before {
+						border: 5px solid #dadde0;
+						border-radius: 100%;
+						content: '';
+						height: 40px;
+						position: relative;
+						width: 40px;
+						display: inline-block;
+						left: -9px;
+						vertical-align: middle;
+					}
+					&::after {
+						border-radius: 100%;
+						content: '';
+						display: block;
+						position: absolute;
+						height: 22px;
+						width: 22px;
+						top: 9px;
+						left: 9px;
+						transition: background 0.3s linear;
+						-webkit-transition: background 0.3s linear;
+					}
+				}
+			}
+		}
+	}
+}
+
+div[id*="property-coverage-details-section-control"], div[id*="section-1-control"],
+div[id*="coverage-information-section-control"], div[id*="trip-details-control"],
+div[id*="contact-expert-control"] {
+	.fr-section-title {
+		display: none;
+	}
+}
+.xbl-component {
+	>.xforms-group {
+		margin-top: 30px;
+	}
+	&.personal-details {
+		>.xforms-group {
+			margin-top: 0;
+		}
+	}
+}
+
+.orbeon .fr-grid:not(.fr-repeat) > .fr-grid-body > .fr-grid-tr > .fr-grid-td {
+	@media (max-width: 767px) {
+		display: block;
+	}
+	input::-ms-clear {
+		display: none !important;
+	}
+}
+//Very important for orbeon pop-up - don't erase!
+.yui-skin-sam .yui-panel-container.yui-dialog {
+//	position: fixed;
+}
+
+// Red border on invalid SELECT fields
+.xforms-select1.xforms-invalid.xforms-visited {
+	select {
+		border: 2px solid #ff5454;
+	}
+}
+
+// Red border on invalid INPUT fields
+.xforms-input.xforms-invalid.xforms-visited {
+	input {
+		border: 2px solid #ff5454 !important;
+	}
+}
+
+// Color and alignment of the error message displayed below input fields
+.xforms-invalid {
+	>.xforms-alert.xforms-active {
+		color: @color_1;
+		text-align: right;
+	}
+}
+
+// Border styling of input fields on focus
+.xforms-input-input {
+	&:focus {
+		border: 2px solid #0078C0 !important;
+		box-shadow: none !important;
+		outline: none !important;
+	}
+}
+
+// **Aco**  Border styling of select fields on focus
+.xforms-select1 {
+	select {
+		&:focus {
+			border: 2px solid #0078C0;
+			box-shadow: none;
+			outline: none;
+		}
+	}
+}
+
+/***Orbeon OLD***/
+
+@color_1: #ff5454;
+@color_2: #fff;
+@color_3: #515151;
+@color_5: #222;
+@color_6: #333;
+@background_color_3: #3498DB;
+@background_color_5: gray;
+@background_color_6: #c8cdd3;
+
+
+/*Validation error popup*/
+.orbeon {
+	a {
+		outline: 0 !important;
+	}
+
+	label {
+		font-size: 14px;
+	}
+	textarea {
+		float: right;
+		margin-left: 20px;
+		border: 1px solid #c3c4cf;
+		height: 35px;
+		border-radius: 2px;
+	}
+	.uneditable-input {
+		float: right;
+		margin-left: 20px;
+		border: 1px solid #c3c4cf;
+		height: 35px;
+		border-radius: 2px;
+	}
+
+	.xbl-component.xbl-fr-section {
+//		margin-bottom: 20px;
+		&+.fr-page-break-before {
+			margin-top: -20px;
+		}
+		&:last-child {
+			margin-bottom: 0;
+			border-bottom: 0;
+		}
+		.xbl-component.xbl-fr-section {
+			margin-bottom: 0;
+			border-bottom: 2px dotted #898989;
+			&:last-child {
+				border: none;
+			}
+		}
+	}
+	.xforms-hint {
+		float: right;
+		text-align: right;
+	}
+	.radio {
+		input[type="radio"] {
+			margin-left: 20px;
+		}
+	}
+	form {
+		position: relative;
+	}
+	.row {
+		margin: 0 !important;
+	}
+	.span12 {
+		width: 100%;
+	}
+	.container {
+		width: 100%;
+	}
+	.navbar-static-top {
+		.container {
+			width: 100%;
+		}
+	}
+	.navbar-fixed-top {
+		.container {
+			width: 100%;
+		}
+	}
+	.navbar-fixed-bottom {
+		.container {
+			width: 100%;
+		}
+	}
+	.xforms-trigger {
+		cursor: default;
+		a {
+			cursor: default;
+		}
+	}
+}
+
+
+// Orbeon popup
+.yui-skin-sam {
+	.yui-panel-container {
+		padding-right: 10px;
+	}
+	// Dropdown calendar
+	.yui-calcontainer {
+		border: 2px solid @color-blue;
+		background-color: @color-white;
+		margin-left: 1px;
+		padding: 0;
+
+		/*calender_popup_popup*/
+		.yui-cal-nav {
+			width: 266px;
+			background-color: @color-white;
+			border: none;
+			margin: 0;
+			left: 8%;
+			top: 12%;
+			.yui-cal-nav-btn.yui-default {
+				background: none;
+				border: none;
+				margin-bottom: 4px;
+				button {
+					border: none;
+					background-color: @color-button-secondary;
+					text-transform: uppercase;
+					color: @color-white;
+					outline: none;
+					font-size: 15px;
+					width: 70px;
+					margin: 5px 10px 10px;
+					&:hover {
+						background-color: @color-button-secondary-hover;
+					}
+				}
+			}
+			.yui-cal-nav-btn {
+				background: none;
+				border: none;
+				button {
+					background-color: @color-button-primary;
+					color: @color-white;
+					border: none;
+					font-size: 15px;
+					width: 70px;
+					margin: 5px 10px 10px;
+					&:hover {
+						background-color: @color-button-primary-hover;
+					}
+				}
+			}
+			.yui-cal-nav-m {
+				.yui-cal-nav-mc {
+					// temporary important
+					margin-left: 0  !important;
+				}
+			}
+		}
+		.yui-cal-nav-y {
+			.yui-cal-nav-yc {
+				margin-bottom: 16px;
+				float: left;
+			}
+		}
+	}
+	table.yui-calendar {
+		width: 320px;
+		border-collapse: initial;
+		a {
+			transition: none;	
+		}
+	}
+	.yui-calendar {
+		.calhead {
+			.calheader {
+				padding: 10px 0;
+				.calnavleft {
+					background-position: 0 0;
+					background-image: url("images/left.png");
+					height: 17px;
+					left: 10px;
+					top: 12px;
+				}
+				.calnavright {
+					background-image: url("images/right.png");
+					background-position: 0 0;
+					height: 17px;
+					right: 10px;
+					top: 12px;
+				}
+			}
+		}
+		a.calnav {
+			color: @color-body;
+			font-size: 18px;
+			font-weight: normal;
+			border: none;
+			text-decoration: none;
+		}
+		td.calcell {
+			border: none;
+			a {
+				color: @color-body;
+				padding: 6px;
+				height: auto;
+				&:hover {
+					background: @color-light-grey;
+					color: @color-body;
+				}
+			}
+			&:hover {
+				background-color: @color-light-grey;
+			}
+			&.selected {
+				background-color: @color-blue;
+				a {
+					background: none;
+					color: @color-white;
+				}
+				&.calcellhover {
+					background-color: @color-blue;
+				}
+			}
+			&.oom {
+				background-color: @color-white;
+				padding: 6px;
+			}
+			&.today {
+				border: none;
+				background-color: @color-dark-blue;
+				a {
+					background-color: @color-dark-blue;
+					color: @color-white;
+					border: none;
+				}
+				&.calcellhover {
+					background-color: @color-blue;
+					a {
+						background-color: @color-blue;
+					}
+				}
+			}
+		}
+		.calweekdayrow {
+			th {
+				padding: 10px 0;
+			}
+			.calweekdaycell {
+				&:first-child {
+					padding-left: 10px;
+				}
+				&:last-child {
+					padding-right: 10px;
+				}
+			}
+		}
+		.calweekdaycell {
+			color: @color-body;
+			background-color: @color-light-grey;
+			text-transform: uppercase;
+			font-size: 11px;
+			font-weight: normal;
+		}
+	}
+	.mask {
+		background: url("images/overlay.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+		opacity: 0.9;
+	}
+	.yui-panel {
+		border: none;
+		background-color: @color-white;
+		margin-right: 0;
+		.hd {
+			font-size: 20px;
+			line-height: 1;
+			padding-top: 30px;
+			border: none;
+			border-radius: 3px;
+			border: none;
+			background: @color-white none;
+			text-align: center;
+			margin: 0;
+		}
+		.bd {
+			background-color: @color-white;
+			border: none;
+			background: none;
+			display: table-cell;
+		}
+		.ft {
+			background-color: @color-white;
+			border: none;
+			background: none;
+		}
+	}
+	.container-close {
+		background: url("images/close.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+		background-repeat: no-repeat;
+		width: 30px;
+		height: 30px;
+		top: 10px;
+		width: 30px;
+	}
+}
+.calyearleft {
+	display: none;
+}
+.calyearright {
+	display: none;
+}
+.xforms-input {
+	input.xforms-type-date {
+		width: 100% !important;
+//		margin-right: 48px;
+	}
+}
+.xbl-fr-alert-dialog {
+	.xbl-fr-alert-dialog-message {
+		padding-left: 0;
+		label {
+			top: 0;
+			width: 100%;
+			text-align: center;
+		}
+	}
+	.xbl-fr-alert-dialog-buttons {
+		.xforms-trigger {
+			button.btn-primary {
+				background-image: inherit;
+				background-color: @color-blue;
+				line-height: 28px;
+				border: none;
+				text-transform: uppercase;
+				color: @color_2;
+				cursor: pointer;
+				font-size: 14px;
+				width: 200px;
+				display: block;
+				margin: 0 auto 10px;
+				outline: none;
+			}
+			button {
+				&:hover {
+					background-color: @color-blue;
+				}
+			}
+		}
+		border: none;
+	}
+}
+.xbl-fr-alert-dialog.xbl-fr-alert-dialog-info {
+	.xbl-fr-alert-dialog-message {
+		background-image: none;
+		padding: 0 34px;
+		text-align: center;
+		min-height: initial;
+	}
+}
+div.orbeon {
+	div.fr-grid {
+		.fr-grid-content {
+			float: left;
+			width: 100%;
+			padding: 8px 0 !important;
+		}
+	}
+}
+.page-multiStepCheckoutSummaryPage {
+	.orbeon {
+		.xforms-type-date {
+			&:after {
+				left: auto !important;
+				right: 2px !important;
+				top: 15px;
+			}
+		}
+	}
+}
+.xforms-loading-loading {
+	top: 0;
+	right: 0;
+	left: auto;
+	display: none !important;
+}
+.xbl-fr-dropdown-select1 {
+	label {
+		margin-top: 11px !important;
+	}
+}
+.page-PropertyInsurancesHomeownersCategoryPage {
+	.section1 {
+		margin: 0;
+	}
+	.navbar-inverse {
+		display: none;
+	}
+}
+.page-AutoInsurancesCategoryPage {
+	.orbeon-portlet-body {
+		form {
+			margin-bottom: 0;
+		}
+	}
+	#content {
+		.orbeon-portlet-body {
+			form {
+				.container {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+}
+.xbl-fr-box-select {
+	.xforms-select-appearance-full {
+		.xforms-items {
+			height: auto !important;
+		}
+	}
+}
+.fr-language-choice {
+	display: inline-block;
+}
+/****************************************/
+/*********ORBEON BANKING START***********/
+/****************************************/
+.banking {
+	.xform-container__description {
+		visibility: hidden;
+	}
+	.xform-container__form {
+		.box-shadow(0px; 0px; 60px; 2px; @color-grey; 100%);
+		border: 1px solid @color-grey;
+	}
+	.orbeon.orbeon-portlet-div {
+		.orbeon-portlet-body {
+			.xforms-form {
+				margin: 0;
+				padding: 20px;
+				.fr-border {
+					background-color: @color-white;
+					border: none;
+					padding: 0;
+				}
+				.xbl-component > .xforms-group {
+					margin: 0;
+				}
+				.xbl-fr-section, .xxforms-animate {
+					background-color: @color-white;
+					padding: 0;
+					
+				}
+				.fr-section-title {
+					display: none;
+				}
+				select {
+					.appearance-none;
+					border-width: 1px !important;
+					border-style: solid !important;
+					.grey-border-on;
+					font-weight: bold;
+					background-image: linear-gradient(45deg, transparent 50%, black 50%), linear-gradient(135deg, black 50%, transparent 50%);
+					background-position: calc(97%) calc(50%), ~"calc(97% + 5px)" calc(50%);
+					background-size: 5px 5px, 5px 5px, 1px 1.5em;
+					background-repeat: no-repeat;
+					border-radius: 5px;
+					padding: 4px 10px;
+				}
+				.xforms-label {
+					color: @color-grey;
+					position: relative;
+					padding-right: 40px;
+					line-height: 20px;
+					@media (max-width: 767px) {
+						padding-right: 0;
+						padding-left: 5px;
+					}
+					& + .xforms-input-input,
+					& + .xforms-control,
+					& + select,
+					& + .xforms-items, {
+						.appearance-none;
+						box-shadow: none;
+						padding: 0 10px;
+						font-weight: bold;
+					}
+					& + textarea {
+						border-width: 1px !important;
+						border-style: solid !important;
+						.grey-border-on;
+						box-shadow: none;
+						border-radius: 5px;
+						font-weight: bold;
+					}
+					& + .xforms-control {
+						padding: 0;
+						@media (max-width: 767px) {
+							text-align: center;
+						}
+					}
+					& + .xforms-input-input:not(.xforms-type-date) {
+						border: none !important;
+						.grey-border-on;
+						border-bottom: 1px solid @color-grey !important;
+					}
+				}
+				.xforms-required {						
+					.xforms-label {
+						&:before {
+							display: none;
+							color: @color-banking-dark-blue;
+							@media (max-width: 767px) {
+								display: inline-block;
+								margin-right: 5px;
+							}
+						}
+						&:after {
+							color: @color-banking-dark-blue;
+							content: '*';
+							position: absolute;
+							right: 25px;
+							top: -2px;
+							vertical-align: middle;
+							font-size: 150%;
+							line-height: 1;
+							@media (max-width: 767px) {
+								display: none;
+							}	
+						}	
+					}
+				}
+				input {
+					&[type="text"], &[type="password"], &[type="datetime"],
+					&[type="datetime-local"], &[type="date"], &[type="month"],
+					&[type="time"], &[type="week"], &[type="number"],
+					&[type="email"], &[type="url"], &[type="search"],
+					&[type="tel"], &[type="color"] {
+						.appearance-none;
+						box-shadow: none;
+						border: none !important;
+						.grey-border-on;
+						font-weight: bold;
+						border-bottom: 1px solid @color-grey !important;
+						border-radius: 0;
+					}
+				}
+				.xforms-invalid > .xforms-alert.xforms-active,
+				.orbeon .xforms-alert.xforms-active.xforms-invalid {
+					color: @color-banking-dark-blue;
+					margin-bottom: 8px;
+				}
+				.fr-mode-edit .fr-grid {
+					margin: 0;
+					.fr-grid-body {
+						.xforms-select .xforms-items {
+							.xforms-selected, .xforms-deselected {
+								display: block;
+								.checkbox {
+									position: relative;
+									padding-left: 20px;
+									color: @color-grey;
+									text-transform: none;
+									margin-bottom: 16px;									
+									input {
+										display: none;
+										&:checked  {
+											& + span  {
+												font-weight: bold;
+												color: @color-black;
+												&:before {
+													border: 2px solid @color-banking-dark-blue;
+													font-family: 'Glyphicons Halflings';
+													font-weight: normal;
+													content: "\e013";
+													color: @color-banking-dark-blue;
+													line-height: 1;
+												}
+											}  
+										}
+									}
+									& > span {
+										&:before {
+											transition: all 0.3s linear;
+											-webkit-transition: all 0.3s linear;
+											content: "";
+											display: inline-block;
+											position: absolute;
+											top: 0;
+											left: 0;
+											height: 20px;
+											width: 20px;
+											border: 2px solid @color-grey;
+											border-radius: 5px;
+										}
+									}
+								}
+							}	
+						}
+						.xforms-type-date {
+							.xforms-input-input.xforms-type-date {
+								border-width: 1px !important;
+								border-style: solid !important;
+								.grey-border-on;
+								border-radius: 5px;
+							}
+						}
+						.fr-grid-content {
+							padding: 0 !important;
+							& > *:not(.xforms-disabled) {
+								margin-bottom: 15px;
+								display: block;
+							}
+						}
+					}	
+				}
+			}	
+		}
+		.xforms-hint-appearance-full .xforms-hint,
+		.xforms-hint-appearance-inline .xforms-hint {
+			color:@color-banking-dark-blue;
+			font-weight: bold;
+		}
+	}
+	.orbeon .xbl-fr-grid {
+		margin: 0;
+		.fr-grid:not(.fr-repeat) .fr-grid-body .fr-grid-tr {
+			height: auto;
+		}	
+	}
+	.xbl-fr-dropdown-select1 {
+		label {
+			margin-top: 5px !important;
+		}
+	}
+	.xforms-select1 {
+		.xforms-items {
+			@media (max-width: 767px) {
+				text-align: center;
+			}
+			span {
+				.radio {
+					font-weight: bold;
+					padding-bottom: 30px;
+					input[type="radio"] {
+						display: none;
+						&:checked {
+							& ~ span::before{
+								border: 4px solid @color-banking-darker-blue;
+							}
+							& ~ span::after{
+								display: none;
+							}
+						}
+					}
+					span {
+						margin: 10px 20px;
+						padding: 0;
+						text-indent: 0;
+						text-transform: none;
+						position: relative;
+						&::before {
+							transition: border 0.3s linear;
+							-webkit-transition: border 0.3s linear;
+							border: 1px solid @color-grey;
+							height: 15px;
+							width: 15px;
+							position: absolute;
+							top: 15px;
+							left: 50%;
+							transform: translateX(-50%);
+						}
+						&::after {
+							display: none;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+

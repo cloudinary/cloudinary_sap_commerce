@@ -1,0 +1,23 @@
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<properties xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:oxf="http://www.orbeon.com/oxf/processors">
+
+    <!-- buttons for insurance forms -->
+    <property as="xs:string"  name="oxf.fr.detail.buttons.yforms.*"                value="save-final"/>
+   
+    <!-- Event-Form is going to have autosave -->
+    <property as="xs:integer" name="oxf.fr.detail.autosave-delay.yforms.contact"   value="5000"/>
+
+    <!-- forms and data for yforms are stored in hybris -->
+    <property as="xs:string" name="oxf.fr.persistence.provider.yforms.*.form"      value="hybris"/>
+    <property as="xs:string" name="oxf.fr.persistence.provider.yforms.*.data"      value="hybris"/>
+
+    <!-- general CSS for every form in insurance-->
+    <property as="xs:string" name="oxf.fr.css.custom.uri.yforms.contact"
+              value="/forms/yforms/contact/style.css"/>
+
+    <property as="xs:string" name="oxf.xforms.format.input.date" value="[D01]-[M01]-[Y]"/>
+</properties>
+

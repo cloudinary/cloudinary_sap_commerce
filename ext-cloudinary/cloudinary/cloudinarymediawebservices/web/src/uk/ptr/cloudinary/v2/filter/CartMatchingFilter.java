@@ -23,7 +23,7 @@ public class CartMatchingFilter extends AbstractUrlMatchingFilter
 	public static final String REFRESH_CART_PARAM = "refreshCart";
 	private String regexp;
 	private CartLoaderStrategy cartLoaderStrategy;
-	private boolean cartRefreshedByDefault = true;
+	private boolean cartRefreshedByDefault = false;
 
 	@Override
 	protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,

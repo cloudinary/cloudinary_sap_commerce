@@ -172,4 +172,31 @@
 		<property name="pagination" type="de.hybris.platform.commerceservices.search.pagedata.PaginationData"/>
 	</bean>
 
+	<bean class="uk.ptr.cloudinary.dto.CloudinaryConfigurationWsDTO">
+		<description>Cloudinary Configuration</description>
+
+		<property name="cloudName" type="String"/>
+		<property name="apiKey" type="String"/>
+		<property name="environment" type="String"/>
+		<property name="isCloudinaryGalleryEnabled" type="boolean"/>
+		<property name="isResponsiveEnabled" type="boolean"/>
+		<property name="cloudinaryImageWidthLimitMax" type="int"/>
+		<property name="cloudinaryImageWidthLimitMin" type="int"/>
+		<property name="cloudinaryByteStep" type="int"/>
+		<property name="cloudinaryGalleryConfigJsonString" type="String"/>
+		<property name="cName" type="String"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO">
+	<description>Representation of a Product</description>
+
+		<property name="sapCCProductCode" type="String">
+			<description>Code of the product spinset</description>
+		</property>
+		<property name="spinSetCode" type="String">
+			<description>Code of the product spinset</description>
+		</property>
+
+	</bean>
+
 </beans>

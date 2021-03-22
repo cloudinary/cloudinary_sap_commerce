@@ -6,35 +6,30 @@
 	ATTENTION: This is just an example file. You have to edit it according to your needs.
 -->
 
-<items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-			xsi:noNamespaceSchemaLocation="items.xsd">
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="items.xsd">
 
-	<itemtypes>
-<!--
-		<itemtype generate="true"
-		   code="MyProduct"
-		   jaloclass="uk.ptr.cloudinary.jalo.MyProduct"
-		   extends="Product"
-		   autocreate="true"
-	   >
-			<attributes>
-				<attribute qualifier="myExampleInitialStringField" type="java.lang.String">
-					<description>My Example Initial String Value</description>
-					<modifiers initial="true"/>
-					<persistence type="property"/>
-				</attribute>
+    <itemtypes>
 
-				<attribute qualifier="myExampleBooleanField" type="java.lang.Boolean">
-					<description>Example Initial Boolean Field</description>
-               <persistence type="property"/>
-				</attribute>
+        <itemtype code="CloudinaryGalleryComponent" autocreate="true" generate="true" extends="SimpleCMSComponent"
+                  jaloclass="de.hybris.platform.core.jalo.components.CloudinaryGalleryComponent">
+        </itemtype>
 
-				<attribute qualifier="media" type="Media">
-					<persistence type="property"/>
-				</attribute>
+        <itemtype code="CloudinaryVideoComponent" autocreate="true" generate="true" extends="SimpleCMSComponent"
+                  jaloclass="de.hybris.platform.core.jalo.components.CloudinaryVideoComponent">
+            <attributes>
+                <attribute qualifier="cloudinaryVideo" type="Media">
+                    <description>Cloudinary Video</description>
+                    <modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="transformation" type="java.lang.String">
+                    <description>Cloudinary Video Transformation String</description>
+                    <modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
 
-			</attributes>
-		</itemtype>
--->
-	</itemtypes>
+    </itemtypes>
 </items>

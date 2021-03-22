@@ -6,6 +6,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.hybris.platform</groupId>
 	<artifactId>cloudinarymediawebservices</artifactId>
-	<version>2005.2</version>
+	<version>2005.4</version>
 	<packaging>jar</packaging>
 </project>

@@ -1,0 +1,9 @@
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<xf:model xmlns:xf="http://www.w3.org/2002/xforms">
+   <xf:action event="custom-clean-data">
+       <xf:setvalue ref="xxf:instance('fr-persistence-instance')/data-status">clean</xf:setvalue>
+       <xf:setvalue ref="xxf:instance('fr-persistence-instance')/autosave/status">clean</xf:setvalue>
+   </xf:action>
+</xf:model>

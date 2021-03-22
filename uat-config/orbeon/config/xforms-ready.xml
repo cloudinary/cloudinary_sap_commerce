@@ -1,0 +1,11 @@
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<xf:model xmlns:xf="http://www.w3.org/2002/xforms">
+    <xf:action event="xforms-ready" observer="fr-form-model"
+               if="($fr-mode='new') and (xxf:get-request-parameter('document-id')!='')">
+        <xf:setvalue event="xforms-ready" model="fr-parameters-model" ref="instance('fr-parameters-instance')/document"
+                     value="xxf:get-request-parameter('document-id')"/>
+
+    </xf:action>
+</xf:model>

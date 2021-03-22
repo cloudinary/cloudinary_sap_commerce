@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:file="http://www.springframework.org/schema/integration/file"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration 
+	http://www.springframework.org/schema/integration/spring-integration.xsd
+	http://www.springframework.org/schema/integration/file 
+	http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/> 
+
+	<bean id="baseDirectoryCloudinary" class="java.lang.String">
+		<constructor-arg value="#{baseDirectory}/${tenantId}/cloudinary" />
+	</bean>
+	<!-- 1) Scan for files -->
+	<file:inbound-channel-adapter id="batchFilesCloudinary" directory="#{baseDirectoryCloudinary}"
+		filename-regex="^(.*)-(\d+)\.csv" comparator="fileOrderComparator">
+		<int:poller fixed-rate="1000" />
+	</file:inbound-channel-adapter>
+	
+	<!-- 2) move the file to processing and create header -->
+	<file:outbound-gateway request-channel="batchFilesCloudinary" reply-channel="batchFilesCloudinaryProc"
+		directory="#{baseDirectoryCloudinary}/processing" delete-source-files="true" />
+	<int:service-activator input-channel="batchFilesCloudinaryProc" output-channel="batchFilesHeaderInit" ref="apparelHeaderSetupTask"
+		method="execute" />
+
+	<!-- 3) transform csv to impex file -->
+	<int:service-activator input-channel="batchFilesHeader" output-channel="batchFilesTran" ref="batchTransformerTask"
+						   method="execute" />
+	<bean id="batchTransformerTask"
+		  class="uk.ptr.cloudinary.tasks.CloudinaryImpexTransformerTask"
+		  init-method="initConvertersMap">
+		<property name="fieldSeparator" value="," />
+		<property name="encoding" value="UTF-8" />
+		<property name="linesToSkip" value="0"/>
+		<property name="cleanupHelper" ref="cleanupHelper" />
+	</bean>
+
+	<bean id="batchCloudinaryMediaConverterMapping"
+		  class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
+		  p:mapping="cloudinaryMedia"
+		  p:converter-ref="batchCloudinaryMediaConverter"/>
+
+	<bean id="batchCloudinaryMediaContainerConverterMapping"
+		  class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
+		  p:mapping="cloudinaryMedia"
+		  p:converter-ref="batchCloudinaryMediaContainerConverter"/>
+
+	<bean id="batchCloudinaryMediaProductConverterMapping"
+		  class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
+		  p:mapping="cloudinaryMedia"
+		  p:converter-ref="batchCloudinaryMediaProductConverter"/>
+
+	<!-- Converters -->
+	<bean id="batchCloudinaryMediaConverter" class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.impl.DefaultImpexConverter">
+		<property name="header">
+			<value>
+				# Import media from filesystem
+				INSERT_UPDATE Media;catalogVersion(catalog(id),version)[unique=true];code[unique=true];cloudinaryPublicId;cloudinaryResourceType;cloudinaryType;cloudinaryMediaFormat
+			</value>
+		</property>
+		<property name="impexRow">
+			<value>;{7}:{8};{+0};{+2};{+3};{+4};{+1}
+			</value>
+		</property>
+	</bean>
+	<bean id="batchCloudinaryMediaContainerConverter" class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.impl.DefaultImpexConverter">
+		<property name="header">
+			<value>
+				# Import media container
+				$medias=medias(code)
+				INSERT_UPDATE MediaContainer;qualifier[unique=true];medias(code, catalogVersion(catalog(id),version));catalogVersion(catalog(id),version)[unique=true]
+			</value>
+		</property>
+		<property name="impexRow">
+			<value>;{5};{+0}:{7}:{8};{7}:{8};</value>
+		</property>
+	</bean>
+	<bean id="batchCloudinaryMediaProductConverter" class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.impl.DefaultImpexConverter">
+		<property name="header">
+			<value>
+				# Import product media
+				UPDATE Product;code[unique=true];galleryImages(qualifier,catalogVersion(catalog(id),version));catalogVersion(catalog(id),version)[unique=true]
+			</value>
+		</property>
+		<property name="impexRow">
+			<value>;{6};{5}:{7}:{8};{7}:{8};</value>
+		</property>
+	</bean>
+
+	<int:service-activator input-channel="batchFilesTran" output-channel="batchFilesImp" ref="batchRunnerTask"
+						   method="execute" />
+	<bean id="batchRunnerTask" class="de.hybris.platform.acceleratorservices.dataimport.batch.task.AbstractImpexRunnerTask">
+		<property name="sessionService" ref="sessionService" />
+		<property name="importService" ref="importService" />
+		<lookup-method name="getImportConfig" bean="importConfig" />
+	</bean>
+	<bean id="importConfig" class="de.hybris.platform.servicelayer.impex.ImportConfig" scope="prototype">
+		<property name="removeOnSuccess" value="true" />
+		<property name="failOnError" value="false" />
+		<property name="synchronous" value="true" />
+		<property name="legacyMode" value="false" />
+		<property name="maxThreads" value="#{configurationService.configuration.getProperty('acceleratorservices.batch.impex.max-threads')}" />
+		<property name="locale" value="en"/>
+	</bean>
+
+	<!-- 5) Cleanup -->
+	<int:service-activator input-channel="batchFilesImp" ref="batchCleanupTask" method="execute" />
+	<bean id="batchCleanupTask" class="de.hybris.platform.acceleratorservices.dataimport.batch.task.CleanupTask">
+		<property name="cleanupHelper" ref="cleanupHelper" />
+	</bean>
+
+
+</beans>
