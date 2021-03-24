@@ -1,5 +1,29 @@
-# SAP Commerce Cloud/Hybris plugin
+Cloudinary
+==========
+Cloudinary is a cloud-based service that provides solutions for image and video management, including server or client-side upload, on-the-fly image and video transformations, quick CDN delivery, and a variety of asset management options.
 
-## Disclaimer
+The SAP Commerce Cloudinary Extension provides rich features such as media management, transformations, optimizations and advanced delivery features exposed via the SAP Commerce platform with a plug and play integrated extension.
 
-> _This software/code provided under Cloudinary Labs is an unsupported pre-production prototype undergoing further development and provided on an “AS IS” basis without warranty of any kind, express or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. Furthermore, Cloudinary is not under any obligation to provide a commercial version of the software.</br> </br> Your use of the Software/code is at your sole risk and Cloudinary will not be liable for any direct, indirect, incidental, special, exemplary, consequential or similar damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of the Software, even if advised of the possibility of such damage.</br> </br> You should refrain from uploading any confidential or personally identifiable information to the Software. All rights to and in the Software are and will remain at all times, owned by, or licensed to Cloudinary._
+## Get your Cloudinary account information ######################################################################
+If you don’t have a Cloudinary account, sign up for a [free account](https://cloudinary.com/users/register/free) so you can try out image and video transformations and seamless delivery through CDN.
+Get your cloudname, api_key and api_secret from your Cloudinary account [as described here](https://cloudinary.com/documentation/how_to_integrate_cloudinary#account_details).
+
+## Additional resources ##########################################################
+
+Additional resources are available at:
+
+* [Cloudinary Website](https://cloudinary.com)
+* [Cloudinary Documentation](https://cloudinary.com/documentation)
+* [Knowledge Base](https://support.cloudinary.com/hc/en-us)
+* [Video transformations documentation](https://cloudinary.com/documentation/video_manipulation_and_delivery)
+* [Image transformations documentation](https://cloudinary.com/documentation/image_transformations)
+
+## Support
+
+Contact us [https://cloudinary.com/contact](https://cloudinary.com/contact).
+
+Stay tuned for updates, tips and tutorials: [Blog](https://cloudinary.com/blog), [Twitter](https://twitter.com/cloudinary), [Facebook](https://www.facebook.com/Cloudinary).
+
+## Join the Community ##########################################################
+
+Impact the product, hear updates, test drive new features and more! Join [here](https://www.facebook.com/groups/CloudinaryCommunity).
