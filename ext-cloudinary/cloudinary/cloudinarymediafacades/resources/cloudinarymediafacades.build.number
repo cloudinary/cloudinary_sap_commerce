@@ -1,0 +1,11 @@
+#Ant properties
+#Tue Sep 29 20:19:09 CEST 2020
+version.api=2005
+vendor=hybris
+group.id=de.hybris.platform
+name=cloudinarymediafacades
+description=cloudinarymediafacades
+builddate=20200929 2018
+releasedate=20200513 1957
+version=2005.4
+module.name=platform-module

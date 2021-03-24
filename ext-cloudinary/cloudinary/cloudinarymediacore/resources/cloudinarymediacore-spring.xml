@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <import resource="cloudinarymediacore-services-spring.xml" />
+    <import resource="cloudinarymediacore-dao-spring.xml" />
+    <import resource="classpath:/cloudinarymediacore/integration/hot-folder-cloudinary-spring.xml"/>
+
+    <bean id="cloudinarymediacoreSystemSetup" class="uk.ptr.cloudinary.setup.CloudinarymediacoreSystemSetup"
+          parent="abstractCoreSystemSetup">
+        <constructor-arg ref="cloudinarymediacoreService"/>
+    </bean>
+
+    <bean id="conversionMediaFormatInitDefaultsInterceptor"
+            class="uk.ptr.cloudinary.interceptors.ConversionMediaFormatInitDefaultInterceptor" />
+
+    <bean id="conversionMediaFormatInitDefaultsInterceptorMapping"
+            class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="conversionMediaFormatInitDefaultsInterceptor"/>
+        <property name="typeCode" value="MediaFormat"/>
+    </bean>
+
+    <bean id="cloudinaryMediaDao" class="uk.ptr.cloudinary.dao.impl.DefaultCloudinaryMediaDao"/>
+
+    <bean id="cloudinaryMediaUploadSyncJob" class="uk.ptr.cloudinary.cronjob.CloudinaryMediaUploadSyncJob"
+          parent="abstractJobPerformable"/>
+
+    <bean id="cloudinaryMediaContainerDao" class="uk.ptr.cloudinary.dao.impl.DefaultCloudinaryMediaContainerDao"/>
+
+    <bean id="syncMediaCloudinaryStrategy" class="uk.ptr.cloudinary.service.impl.DefaultSyncMediaCloudinaryStrategy"/>
+
+    <bean id="cloudinaryMediaTransformationJob" class="uk.ptr.cloudinary.cronjob.CloudinaryMediaTransformationJob"
+            parent="abstractJobPerformable"/>
+
+    <bean id="cloudinaryMediaTagUpdateJob" class="uk.ptr.cloudinary.cronjob.CloudinaryMediaTagUpdateJob"
+          parent="abstractJobPerformable"/>
+
+    <bean id="cloudinaryProductDao" class="uk.ptr.cloudinary.dao.impl.DefaultCloudinaryProductDao"/>
+
+    <bean id="cloudinaryProductValidateInterceptor"
+          class="uk.ptr.cloudinary.interceptors.CloudinaryProductValidateInterceptor" />
+
+    <bean id="cloudinaryProductValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="cloudinaryProductValidateInterceptor"/>
+        <property name="typeCode" value="Product"/>
+    </bean>
+
+     <bean id="cloudinaryProductRemoveInterceptor"
+          class="uk.ptr.cloudinary.interceptors.CloudinaryProductRemoveInterceptor" />
+
+    <bean id="cloudinaryProductRemoveInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="cloudinaryProductRemoveInterceptor"/>
+        <property name="typeCode" value="Product"/>
+    </bean>
+
+    <bean id="cloudinaryMediaRemoveInterceptor"
+          class="uk.ptr.cloudinary.interceptors.CloudinaryMediaRemoveInterceptor" />
+
+        <bean id="cloudinaryMediaRemoveInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="cloudinaryMediaRemoveInterceptor"/>
+        <property name="typeCode" value="Media"/>
+    </bean>
+
+    <bean id="cloudinaryMediaContainerRemoveInterceptor"
+          class="uk.ptr.cloudinary.interceptors.CloudinaryMediaContainerRemoveInterceptor" />
+
+    <bean id="cloudinaryMediaContainerRemoveInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="cloudinaryMediaContainerRemoveInterceptor"/>
+        <property name="typeCode" value="MediaContainer"/>
+    </bean>
+
+    <bean id="cloudinaryMediaContainerValidateInterceptor"
+          class="uk.ptr.cloudinary.interceptors.CloudinaryMediaContainerValidateInterceptor" />
+
+    <bean id="cloudinaryMediaContainerValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="cloudinaryMediaContainerValidateInterceptor"/>
+        <property name="typeCode" value="MediaContainer"/>
+    </bean>
+
+    <bean id="cloudinaryMediaValidateInterceptor"
+          class="uk.ptr.cloudinary.interceptors.CloudinaryMediaValidateInterceptor" />
+
+    <bean id="cloudinaryMediaValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="cloudinaryMediaValidateInterceptor"/>
+        <property name="typeCode" value="Media"/>
+    </bean>
+</beans>

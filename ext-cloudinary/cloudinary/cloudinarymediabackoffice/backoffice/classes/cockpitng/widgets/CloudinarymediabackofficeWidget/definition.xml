@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved
+-->
+<widget-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.hybris.com/schema/cockpitng/widget-definition.xsd"
+	id="uk.ptr.cloudinary.widgets.cloudinarymediabackofficewidget">
+	<name>cloudinarymediabackoffice Sample Widget</name>
+	<description>cloudinarymediabackoffice Sample Widget</description>
+	<defaultTitle>cloudinarymediabackoffice Sample Widget</defaultTitle>
+	<author>Extgen</author>
+	<version>1.0</version>
+	<view src="cloudinarymediabackofficewidget.zul" />
+	<keywords>
+		<keyword>cloudinarymediabackoffice</keyword>
+	</keywords>
+	<controller class="uk.ptr.cloudinary.widgets.CloudinarymediabackofficeController" />
+</widget-definition>

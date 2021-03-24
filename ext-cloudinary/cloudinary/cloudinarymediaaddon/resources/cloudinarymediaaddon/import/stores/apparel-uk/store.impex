@@ -1,0 +1,10 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+$productCatalog=apparelProductCatalog
+$currencies=GBP
+$net=false
+$storeUid=apparel-uk
+$defaultCurrency=GBP
+$languages=en
+$defaultLanguage=en

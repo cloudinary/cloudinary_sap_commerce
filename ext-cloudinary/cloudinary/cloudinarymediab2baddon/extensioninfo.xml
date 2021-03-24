@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+--><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+        	
+    
+    <extension abstractclassprefix="Generated" classprefix="Cloudinarymediab2baddon" description="cloudinarymediab2baddon extension" managername="Cloudinarymediab2baddonManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="cloudinarymediab2baddon">
+                		
+        
+        <!-- you should add all required extensions to this list, except platform extensions which are automatically required -->
+
+        <requires-extension name="cloudinarymediafacades"/>
+
+        <requires-extension name="acceleratorstorefrontcommons"/>
+        
+        <requires-extension name="addonsupport"/>
+                		
+        
+        <coremodule generated="true" manager="uk.ptr.cloudinary.jalo.Cloudinarymediab2baddonManager" packageroot="uk.ptr.cloudinary"/>
+                		
+        
+        		
+        
+        <meta key="classpathgen" value="false"/>
+                	
+    
+    </extension>
+        
+
+</extensioninfo>

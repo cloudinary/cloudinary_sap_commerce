@@ -1,0 +1,11 @@
+#Ant properties
+#Tue Sep 29 20:22:46 CEST 2020
+version.api=2005
+vendor=hybris
+group.id=de.hybris.platform
+name=cloudinarymediab2baddon
+description=cloudinarymediab2baddon
+builddate=20200929 2018
+releasedate=20200513 1957
+version=2005.4
+module.name=platform-module

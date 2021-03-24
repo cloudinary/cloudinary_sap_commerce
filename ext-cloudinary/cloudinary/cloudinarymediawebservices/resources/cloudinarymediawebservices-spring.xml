@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns:int="http://www.springframework.org/schema/integration"
+		 xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+	<bean id="cwsProductFacade" parent="defaultProductFacade">
+		<property name="productConfiguredPopulator" ref="cwsProductConfiguredPopulator"/>
+		<property name="productConverter" ref="cwsProductConverter"/>
+	</bean>
+
+	<bean id="cwsProductConfiguredPopulator" parent="defaultProductConfiguredPopulator">
+		<property name="populators">
+			<map key-type="de.hybris.platform.commercefacades.product.ProductOption" merge="true">
+				<entry key="GALLERY" value-ref="cwsProductGalleryPopulatorList"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="cwsProductGalleryPopulatorList" parent="abstractPopulatorList">
+		<property name="populators">
+			<list>
+				<ref bean="cwsProductGalleryImagesPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cwsImageFormatMapping" parent="defaultImageFormatMapping">
+		<property name="mapping">
+			<map>
+				<entry key="superZoom" value="1200Wx1200H"/>
+				<entry key="zoom" value="515Wx515H"/>
+				<entry key="store" value="365Wx246H"/>
+				<entry key="product" value="300Wx300H"/>
+				<entry key="thumbnail" value="96Wx96H"/>
+				<entry key="cartIcon" value="65Wx65H"/>
+				<entry key="styleSwatch" value="30Wx30H"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="cwsProductPrimaryImagePopulator" parent="defaultProductPrimaryImagePopulator">
+		<property name="imageFormatMapping" ref="cwsImageFormatMapping"/>
+		<property name="imageFormats">
+			<list>
+				<value>zoom</value>
+				<value>product</value>
+				<value>thumbnail</value>
+				<value>cartIcon</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cwsProductGalleryImagesPopulator" parent="defaultProductGalleryImagesPopulator">
+		<property name="imageFormatMapping" ref="cwsImageFormatMapping"/>
+		<property name="imageFormats">
+			<list>
+				<value>zoom</value>
+				<value>product</value>
+				<value>thumbnail</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cwsProductPopulator"
+			parent="defaultProductPopulator">
+		<property name="productPrimaryImagePopulator" ref="cwsProductPrimaryImagePopulator"/>
+		<property name="productModelUrlResolver" ref="cloudinarymediawebservicesProductModelUrlResolver"/>
+	</bean>
+
+	<bean id="cwsProductConverter" parent="defaultProductConverter">
+		<property name="populators">
+			<list>
+				<ref bean="cwsProductPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cwsCatalogFacade" parent="defaultCatalogFacade">
+		<property name="catalogVersionPopulator" ref="cwsCatalogVersionPopulator"/>
+		<property name="categoryHierarchyPopulator" ref="cwsCategoryHierarchyPopulator"/>
+	</bean>
+
+	<bean id="cwsCatalogVersionPopulator" parent="defaultCatalogVersionPopulator">
+		<property name="categoryHierarchyPopulator" ref="cwsCategoryHierarchyPopulator"/>
+		<property name="categoriesUrl" value="/categories"/>
+	</bean>
+
+	<bean id="cwsCategoryHierarchyPopulator" parent="defaultCategoryHierarchyPopulator">
+		<property name="productConverter" ref="cwsProductConverter"/>
+		<property name="categoryUrlResolver" ref="cloudinarymediawebservicesCategoryModelUrlResolver"></property>
+	</bean>
+
+	<bean id="cwsProductExportFacade" parent="defaultProductExportFacade">
+		<property name="productConverter" ref="cwsProductConverter"/>
+		<property name="productCategoriesPopulator" ref="cwsProductCategoriesPopulator"/>
+	</bean>
+
+	<bean id="cwsProductCategoriesPopulator" parent="defaultProductCategoriesPopulator">
+		<property name="categoryConverter" ref="cwsCategoryConverter"/>
+	</bean>
+
+	<bean id="cwsCategoryConverter" parent="defaultCategoryConverter">
+		<lookup-method name="createTarget" bean="categoryData"/>
+		<property name="populators">
+			<list>
+				<ref bean="cwsCategoryPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cwsCategoryPopulator" parent="defaultCategoryPopulator">
+		<property name="categoryModelUrlResolver" ref="cloudinarymediawebservicesCategoryModelUrlResolver"/>
+	</bean>
+
+	<bean id="cloudinarymediawebservicesProductModelUrlResolver" parent="defaultProductModelUrlResolver">
+		<property name="defaultPattern" value="/{baseSite-uid}/products/{product-code}"/>
+	</bean>
+
+	<bean id="cloudinarymediawebservicesCategoryModelUrlResolver" parent="defaultCategoryModelUrlResolver">
+		<property name="pattern" value="/{baseSite-uid}/catalogs/{catalog-id}/{catalogVersion}/categories/{category-code}"/>
+	</bean>
+
+	<alias name="defaultCommerceStockFacade" alias="commerceStockFacade"/>
+	<bean id="defaultCommerceStockFacade" class="uk.ptr.cloudinary.stock.impl.DefaultCommerceStockFacade">
+		<property name="baseSiteService" ref="baseSiteService"/>
+		<property name="commerceStockService" ref="commerceStockService"/>
+		<property name="pointOfServiceService" ref="pointOfServiceService"/>
+		<property name="productService" ref="productService"/>
+		<property name="baseStoreForSiteSelectorStrategy" ref="baseStoreForSiteSelectorStrategy"/>
+	</bean>
+
+	<alias name="defaultBaseStoreForSiteSelectorStrategy" alias="baseStoreForSiteSelectorStrategy"/>
+	<bean id="defaultBaseStoreForSiteSelectorStrategy"
+			class="uk.ptr.cloudinary.strategies.impl.DefaultBaseStoreForSiteSelectorStrategy"/>
+
+	<bean id="commerceWebServicesCartFacade2" class="uk.ptr.cloudinary.cart.impl.CommerceWebServicesCartFacade"
+	      parent="defaultCartFacade">
+		<property name="cartConverter" ref="extendedCartConverter"/>
+		<property name="commerceCartService" ref="commerceWebServicesCartService"/>
+	</bean>
+
+	<!-- Populator for title name -->
+	<alias name="defaultExtendedCustomerPopulator" alias="extendedCustomerPopulator"/>
+	<bean id="defaultExtendedCustomerPopulator"
+			class="uk.ptr.cloudinary.customer.populator.ExtendedCustomerPopulator">
+		<property name="addressConverter" ref="addressConverter"/>
+	</bean>
+
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="customerConverter"/>
+		<property name="add" ref="extendedCustomerPopulator"/>
+	</bean>
+
+	<!-- Update Queues -->
+
+	<bean id="abstractUpdateQueue"
+			class="uk.ptr.cloudinary.queues.impl.AbstractUpdateQueue" abstract="true">
+		<property name="maxCapacity" value="100000"/>
+	</bean>
+
+	<!--Express Update Queue functionality-->
+
+	<bean id="productExpressUpdateQueue"
+			class="uk.ptr.cloudinary.queues.impl.ProductExpressUpdateQueue"
+			parent="abstractUpdateQueue"/>
+
+	<bean id="productExpressUpdateChannelListener"
+			class="uk.ptr.cloudinary.queues.channel.ProductExpressUpdateChannelListener">
+		<property name="productExpressUpdateElementConverter" ref="productExpressUpdateElementConverter"/>
+		<property name="productExpressUpdateQueue" ref="productExpressUpdateQueue"/>
+	</bean>
+
+	<int:service-activator input-channel="productExpressUpdateChannel"
+								  ref="productExpressUpdateChannelListener"
+								  method="onMessage"/>
+
+	<bean id="productExpressUpdateElementData"
+			class="uk.ptr.cloudinary.queues.data.ProductExpressUpdateElementData" scope="prototype"/>
+
+	<alias name="defaultProductExpressUpdateElementPopulator" alias="productExpressUpdateElementPopulator"/>
+	<bean id="defaultProductExpressUpdateElementPopulator"
+			class="uk.ptr.cloudinary.queues.populators.ProductExpressUpdateElementPopulator"/>
+
+	<alias name="defaultProductExpressUpdateElementConverter" alias="productExpressUpdateElementConverter"/>
+	<bean id="defaultProductExpressUpdateElementConverter" parent="abstractPopulatingConverter">
+		<lookup-method name="createTarget" bean="productExpressUpdateElementData"/>
+		<property name="populators">
+			<list>
+				<ref bean="productExpressUpdateElementPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="productExpressUpdateCleanerJob"
+			class="uk.ptr.cloudinary.queues.cronjob.ProductExpressUpdateCleanerJob"
+			parent="abstractJobPerformable">
+		<property name="productExpressUpdateQueue" ref="productExpressUpdateQueue"/>
+	</bean>
+
+	<!-- Order Status Update Queue -->
+
+	<bean id="orderStatusUpdateQueue"
+			class="uk.ptr.cloudinary.queues.impl.OrderStatusUpdateQueue"
+			parent="abstractUpdateQueue"/>
+
+	<bean id="orderStatusUpdateChannelListener"
+			class="uk.ptr.cloudinary.queues.channel.OrderStatusUpdateChannelListener">
+		<property name="orderStatusUpdateElementConverter" ref="orderStatusUpdateElementConverter"/>
+		<property name="orderStatusUpdateQueue" ref="orderStatusUpdateQueue"/>
+	</bean>
+
+	<int:service-activator input-channel="orderStatusUpdateChannel"
+								  ref="orderStatusUpdateChannelListener"
+								  method="onMessage"/>
+
+	<bean id="orderStatusUpdateElementData"
+			class="uk.ptr.cloudinary.queues.data.OrderStatusUpdateElementData" scope="prototype"/>
+
+	<alias name="defaultOrderStatusUpdateElementPopulator" alias="orderStatusUpdateElementPopulator"/>
+	<bean id="defaultOrderStatusUpdateElementPopulator"
+			class="uk.ptr.cloudinary.queues.populators.OrderStatusUpdateElementPopulator"/>
+
+	<alias name="defaultProductExpressUpdateElementConverter" alias="orderStatusUpdateElementConverter"/>
+	<bean id="defaultOrderStatusUpdateElementConverter" parent="abstractPopulatingConverter">
+		<lookup-method name="createTarget" bean="orderStatusUpdateElementData"/>
+		<property name="populators">
+			<list>
+				<ref bean="orderStatusUpdateElementPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="orderStatusUpdateCleanerJob"
+			class="uk.ptr.cloudinary.queues.cronjob.OrderStatusUpdateCleanerJob"
+			parent="abstractJobPerformable">
+		<property name="orderStatusUpdateQueue" ref="orderStatusUpdateQueue"/>
+	</bean>
+
+	<!-- Old cart cleaner -->
+	<bean id="oldCartRemovalJob" class="uk.ptr.cloudinary.cronjob.OldCartRemovalJob"
+			parent="abstractJobPerformable">
+		<property name="commerceCartDao" ref="commerceCartDao"/>
+		<property name="timeService" ref="timeService"/>
+		<property name="userService" ref="userService"/>
+	</bean>
+
+    <alias alias="orderCodeIdentificationStrategy" name="defaultOrderCodeIdentificationStrategy"/>
+    <bean id="defaultOrderCodeIdentificationStrategy" class="uk.ptr.cloudinary.strategies.impl.DefaultOrderCodeIdentificationStrategy">
+        <property name="idPattern" value="[0-9a-f]{40}|[0-9a-f-]{36}"/>
+    </bean>
+
+	<!-- Beans for user matching in commerce web services -->
+	<alias name="defaultWsUserFacade" alias="wsUserFacade"/>
+	<bean id="defaultWsUserFacade" parent="defaultUserFacade">
+		<property name="userMatchingService" ref="wsUserMatchingService"/>
+	</bean>
+
+	<alias name="defaultWsCustomerFacade" alias="wsCustomerFacade"/>
+	<bean id="defaultWsCustomerFacade" parent="defaultCustomerFacade">
+		<property name="userMatchingService" ref="wsUserMatchingService"/>
+		<property name="userFacade" ref="wsUserFacade"/>
+	</bean>
+
+	<alias name="defaultWsCustomerGroupFacade" alias="wsCustomerGroupFacade"/>
+	<bean id="defaultWsCustomerGroupFacade" parent="defaultCustomerGroupFacade">
+		<property name="userMatchingService" ref="wsUserMatchingService"/>
+	</bean>
+
+	<alias name="defaultWsUserMatchingService" alias="wsUserMatchingService"/>
+	<bean id="defaultWsUserMatchingService" parent="defaultUserMatchingService">
+		<property name="matchingStrategies">
+			<list>
+				<ref bean="customerIdMatchingStrategy"/>
+				<ref bean="userUIDMatchingStrategy"/>
+				<ref bean="externalCustomerIdMatchingStrategy"/>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

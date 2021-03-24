@@ -1,0 +1,30 @@
+$catalog-version=Online
+$catalogVersions=catalogVersions(catalog(id),version)
+
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ; cloudinaryMediaUploadSyncJob; cloudinaryMediaUploadSyncJob
+INSERT_UPDATE CloudinaryMediaUploadSyncJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode);catalogVersion;active
+                     ;cloudinaryMediaUploadSyncCronjob;cloudinaryMediaUploadSyncJob;false;en;;false
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];second;minute;hour;day;month;year;relative;active;maxAcceptableDelay
+                     ;cloudinaryMediaUploadSyncCronjob;0;0;0;-1;-1;-1;false;true;-1
+
+
+##Transformation job
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ; cloudinaryMediaTransformationJob; cloudinaryMediaTransformationJob
+INSERT_UPDATE CloudinaryMediaTransformationJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode);catalogVersions;active
+                                              ;cloudinaryMediaTransformationCronjob;cloudinaryMediaTransformationJob;false;en;;false
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];second;minute;hour;day;month;year;relative;active;maxAcceptableDelay
+                     ;cloudinaryMediaTransformationCronjob;0;30;0;-1;-1;-1;false;true;-1
+
+
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ; cloudinaryMediaTagUpdateJob; cloudinaryMediaTagUpdateJob
+INSERT_UPDATE CloudinaryMediaTagUpdateJob;code[unique=true];job(code);singleExecutable;sessionLanguage(isocode);catalogVersion;active
+                                              ;cloudinaryMediaTagUpdateCronjob;cloudinaryMediaTagUpdateJob;false;en;;false
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];second;minute;hour;day;month;year;relative;active;maxAcceptableDelay
+                     ;cloudinaryMediaTagUpdateCronjob;0;0;0;-1;-1;-1;false;true;-1
+
