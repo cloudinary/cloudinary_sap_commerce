@@ -140,11 +140,7 @@
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
-				<attribute qualifier="cloudinaryMaxBreakPoints" type="java.lang.Integer">
-					<description>Cloudinary Max BreakPoints</description>
-					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
-					<persistence type="property" />
-				</attribute>
+
 				<attribute qualifier="cloudinaryByteStep" type="java.lang.Integer">
 					<description>Cloudinary Byte Step</description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
