@@ -99,10 +99,6 @@ angular
               function() {
                   seCloudinaryMediaLibraryService.getCloudinaryConfiguration().then(
                     function(data) {
-                      // tslint:disable-next-line:no-console
-                      console.log(data);
-
-                      //this.isCloudinaryEnabled = data.isCloudinaryEnabled;
 
                       window.ml = window.cloudinary.createMediaLibrary(
                         {
@@ -312,8 +308,6 @@ angular
         };
 
         function loadMediaLibraryWidget() {
-            // tslint:disable-next-line:no-console
-            console.log("loadMediaLibraryWidget is called");
             var url = "https://media-library.cloudinary.com/global/all.js";
             var mlwScriptTag = document.createElement('script');
             mlwScriptTag.src = url;

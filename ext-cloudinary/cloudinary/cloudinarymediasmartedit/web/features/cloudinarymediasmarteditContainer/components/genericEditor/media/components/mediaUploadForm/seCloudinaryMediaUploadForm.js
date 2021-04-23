@@ -66,8 +66,6 @@ angular
             }.bind(this),
             function() {
                 if (this.image && this.image.cloudinaryMediaJson) {
-                  // tslint:disable-next-line:no-console
-                  console.log(this.image.code);
 
                   this.imageParameters = {
                       code: this.image.code,

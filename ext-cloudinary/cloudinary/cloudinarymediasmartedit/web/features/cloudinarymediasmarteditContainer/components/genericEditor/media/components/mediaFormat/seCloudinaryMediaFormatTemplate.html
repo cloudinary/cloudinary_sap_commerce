@@ -52,7 +52,9 @@
     </div>
 
     <!-- when the image is not yet uploaded -->
-    <div class="se-media--absent" data-ng-if="ctrl.isMediaEditEnabled()">
+    <div class="se-media--absent se-cloudinary-media-absend" data-ng-if="ctrl.isMediaEditEnabled()"
+         style="display: flex;flex-direction: column;"
+    >
         <!-- when the file selector is enabled -->
         <se-file-selector
                 data-ng-if="ctrl.field.editable"
