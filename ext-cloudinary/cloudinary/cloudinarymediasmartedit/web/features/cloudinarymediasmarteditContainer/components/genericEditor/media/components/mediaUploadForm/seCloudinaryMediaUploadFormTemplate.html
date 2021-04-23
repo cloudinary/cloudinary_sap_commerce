@@ -1,0 +1,36 @@
+<!-- seCloudiinaryMediaUploadFormTemplate.html -->
+<div class="se-media-upload-form">
+    <div class="se-media-upload-form__header">
+        <div class="se-media-upload-form__header-title">
+            {{ctrl.i18nKeys.UPLOAD_IMAGE_TO_LIBRARY | translate}}
+        </div>
+        <div class="se-media-upload-form__header-actions">
+            <button
+                    class="fd-button--light se-media-upload-btn__cancel fd-button--compact"
+                    type="button"
+                    data-ng-click="ctrl.onCancel()"
+            >
+                {{ctrl.i18nKeys.UPLOAD_IMAGE_CANCEL | translate}}
+            </button>
+            <button
+                    class="fd-button se-media-upload-btn__submit fd-button--compact"
+                    type="button"
+                    data-ng-click="ctrl.onMediaUploadSubmit()"
+            >
+                {{ctrl.i18nKeys.UPLOAD_IMAGE_SUBMIT | translate}}
+            </button>
+        </div>
+    </div>
+
+    <div class="se-media-upload-form__replace-file">
+        <div class="se-media-upload__file-name">{{ctrl.image.code}}</div>
+    </div>
+
+    <div class="se-media-upload-form__replace-file">
+
+    </div>
+
+    <span data-ng-if="ctrl.isUploading" class="se-media-upload-form__spinner">
+        <div class="spinner-md spinner-light">{{ctrl.i18nKeys.UPLOADING | translate}}</div>
+    </span>
+</div>
