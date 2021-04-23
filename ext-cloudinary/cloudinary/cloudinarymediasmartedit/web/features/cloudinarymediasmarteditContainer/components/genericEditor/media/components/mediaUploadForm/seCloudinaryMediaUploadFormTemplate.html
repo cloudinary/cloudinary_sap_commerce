@@ -26,9 +26,26 @@
         <div class="se-media-upload__file-name">{{ctrl.image.code}}</div>
     </div>
 
-    <div class="se-media-upload-form__replace-file">
-
-    </div>
+    <form class="se-media-upload__file-info">
+        <div class="se-media-upload__file-info-field">
+            <label
+                    name="label-code"
+                    class="se-control-label required"
+                    data-ng-class="{ 'se-media-upload-has-error': ctrl.hasError('code')}"
+            >{{ctrl.i18nKeys.CODE | translate}}</label
+            >
+            <se-media-upload-field
+                    data-error="ctrl.hasError('code')"
+                    data-field="'code'"
+                    data-model="ctrl.imageParameters"
+            ></se-media-upload-field>
+            <span
+                    class="upload-field-error upload-field-error-code fd-form__message fd-form__message--error"
+                    data-ng-repeat="error in ctrl.getErrorsForField('code')"
+            >{{error}}</span
+            >
+        </div>
+    </form>
 
     <span data-ng-if="ctrl.isUploading" class="se-media-upload-form__spinner">
         <div class="spinner-md spinner-light">{{ctrl.i18nKeys.UPLOADING | translate}}</div>
