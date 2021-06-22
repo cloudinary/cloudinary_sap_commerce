@@ -79,7 +79,7 @@
             <list-view:column qualifier="cloudinaryImageFormat"/>
             <list-view:column qualifier="cloudinaryQuality"/>
             <list-view:column qualifier="cloudinaryResponsive"/>
-            <list-view:column qualifier="cloudinaryMaxBreakPoints"/>
+
             <list-view:column qualifier="cloudinaryImageWidthLimitMin"/>
             <list-view:column qualifier="cloudinaryImageWidthLimitMax"/>
         </list-view:list-view>
@@ -122,7 +122,6 @@
                     <wz:property-list root="newCloudinaryConfig">
                         <wz:property qualifier="cloudinaryResponsive"/>
                         <wz:property qualifier="cloudinaryByteStep"/>
-                        <wz:property qualifier="cloudinaryMaxBreakPoints"/>
                         <wz:property qualifier="cloudinaryImageWidthLimitMin"/>
                         <wz:property qualifier="cloudinaryImageWidthLimitMax"/>
                     </wz:property-list>
@@ -198,7 +197,6 @@
                 </editorArea:section>
                     <editorArea:section name="hmc.section.cloudinary.image.responsive.breakpoints">
                         <editorArea:attribute qualifier="cloudinaryResponsive"/>
-                        <editorArea:attribute qualifier="cloudinaryMaxBreakPoints"/>
                         <editorArea:attribute qualifier="cloudinaryByteStep"/>
                         <editorArea:attribute qualifier="cloudinaryImageWidthLimitMax"/>
                         <editorArea:attribute qualifier="cloudinaryImageWidthLimitMin"/>
