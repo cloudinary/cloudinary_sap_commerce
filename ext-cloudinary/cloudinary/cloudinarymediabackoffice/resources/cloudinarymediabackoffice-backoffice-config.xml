@@ -153,9 +153,47 @@
                     </wz:done>
                 </wz:navigation>
             </wz:step>
-            <wz:step id="step3" label="create.cloudinaryconfig.product.gallery" merge-mode="replace">
-                <wz:info id="step3.intro" position="top" label="create.cloudinary.product.gallery.intro" />
-                <wz:content id="step3.content">
+            <wz:step id="step3" label="create.cloudinaryconfig.global.configuration" merge-mode="replace">
+                <wz:info id="step3.intro" position="top" label="create.cloudinary.transformation.intro" />
+                <wz:content id="step3.content1">
+                    <wz:custom-view lang="zul" src="widgets/imageglobalsettingtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="enableOptimizeImage"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/imageadvancesettingtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryContentImageFormat"/>
+                        <wz:property qualifier="cloudinaryContentImageQuality"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/imagetransformationtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryContentGlobalImageTransformation"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/videoglobalsettingtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="enableOptimizeContentVideo"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/videoadvancesettingtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryContentVideoFormat"/>
+                        <wz:property qualifier="cloudinaryContentVideoQuality"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/videotransformationtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryGlobalContentVideoTransformation"/>
+                    </wz:property-list>
+                </wz:content>
+                <wz:navigation id="step3.navigation">
+                    <wz:cancel/>
+                    <wz:next/>
+                    <wz:done>
+                        <wz:save property="newCloudinaryConfig"/>
+                    </wz:done>
+                </wz:navigation>
+            </wz:step>
+            <wz:step id="step4" label="create.cloudinaryconfig.product.gallery" merge-mode="replace">
+                <wz:info id="step4.intro" position="top" label="create.cloudinary.product.gallery.intro" />
+                <wz:content id="step4.content">
                     <wz:property-list root="newCloudinaryConfig">
                         <wz:property qualifier="enableCloudinaryGalleryWidget"/>
                     </wz:property-list>
@@ -166,7 +204,7 @@
                         <wz:property qualifier="cloudinaryGalleryConfigJsonString"/>
                     </wz:property-list>
                 </wz:content>
-                <wz:navigation id="step3.navigation">
+                <wz:navigation id="step4.navigation">
                     <wz:cancel/>
                     <wz:done>
                         <wz:save property="newCloudinaryConfig"/>
@@ -218,6 +256,33 @@
                  </editorArea:section>
 
             </editorArea:tab>
+
+            <editorArea:tab name="hmc.tab.globalContenttransformation" merge-mode="append">
+                <editorArea:customSection name="hmc.section.cloudinary.transformation"
+                                          spring-bean="cloudinaryConfigTransformationTextRenderer"/>
+                <editorArea:section name="hmc.section.cloudinary.image.optimize">
+                    <editorArea:attribute qualifier="enableOptimizeContentImage"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.image.advanced.optimization">
+                    <editorArea:attribute qualifier="cloudinaryContentImageFormat"/>
+                    <editorArea:attribute qualifier="cloudinaryContentImageQuality"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.image.transformation">
+                    <editorArea:attribute qualifier="cloudinaryContentGlobalImageTransformation"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.video.optimize">
+                    <editorArea:attribute qualifier="enableOptimizeContentVideo"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.video.advance">
+                    <editorArea:attribute qualifier="cloudinaryContentVideoFormat"/>
+                    <editorArea:attribute qualifier="cloudinaryContentVideoQuality"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.video.transformation">
+                    <editorArea:attribute qualifier="cloudinaryGlobalContentVideoTransformation"/>
+                </editorArea:section>
+
+            </editorArea:tab>
+
             <editorArea:tab name="hmc.tab.productgallery" merge-mode="append">
                 <editorArea:customSection name="hmc.section.cloudinary.productgallery"
                                           spring-bean="cloudinaryConfigProductGalleryTextRenderer"/>
