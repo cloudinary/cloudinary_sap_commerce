@@ -257,7 +257,7 @@
 
             </editorArea:tab>
 
-            <editorArea:tab name="hmc.tab.globalContenttransformation" merge-mode="append">
+            <editorArea:tab name="hmc.tab.globalcontenttransformation" merge-mode="append">
                 <editorArea:customSection name="hmc.section.cloudinary.transformation"
                                           spring-bean="cloudinaryConfigTransformationTextRenderer"/>
                 <editorArea:section name="hmc.section.cloudinary.image.optimize">
