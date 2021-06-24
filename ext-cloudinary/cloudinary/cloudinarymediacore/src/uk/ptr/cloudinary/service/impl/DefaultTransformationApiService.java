@@ -56,25 +56,24 @@ public class DefaultTransformationApiService implements TransformationApiService
                 Cloudinary cloudinary = new Cloudinary(cloudinaryConfig.getCloudinaryURL());
 
                 StringBuilder transformation = new StringBuilder();
-                StringBuilder mediaurl = new StringBuilder();
-                String updatedMediaUrl;
+                StringBuilder mediaUrl = new StringBuilder();
 
-                if (media.getCatalogVersion().getCatalog() instanceof ContentCatalogModel) {
-                    updatedMediaUrl = contentMediaTransformation(cloudinaryConfig, format, media, mediaurl, transformation, cloudinary);
+                if (!media.getIsCloudinaryOverride() && media.getCatalogVersion().getCatalog() instanceof ContentCatalogModel) {
+                    mediaUrl = contentMediaTransformation(cloudinaryConfig, format, media, mediaUrl, transformation, cloudinary);
                 } else {
-                    updatedMediaUrl = productMediaTransformation(cloudinaryConfig, format, media, mediaurl, transformation, cloudinary);
+                    mediaUrl = productMediaTransformation(cloudinaryConfig, format, media, mediaUrl, transformation, cloudinary);
                 }
-                mediaurl.append(CloudinarymediacoreConstants.DOT);
-                mediaurl.append(media.getCloudinaryMediaFormat());
-                media.setURL(updatedMediaUrl);
+                mediaUrl.append(CloudinarymediacoreConstants.DOT);
+                mediaUrl.append(media.getCloudinaryMediaFormat());
+                media.setURL(mediaUrl.toString());
                 modelService.save(media);
-                return mediaurl.toString();
+                return mediaUrl.toString();
             }
         }
         return null;
     }
 
-    private String productMediaTransformation(CloudinaryConfigModel cloudinaryConfig, MediaFormatModel format, MediaModel media, StringBuilder mediaUrl, StringBuilder transformation, Cloudinary cloudinary) {
+    private StringBuilder productMediaTransformation(CloudinaryConfigModel cloudinaryConfig, MediaFormatModel format, MediaModel media, StringBuilder mediaUrl, StringBuilder transformation, Cloudinary cloudinary) {
         if (format != null) {
             Transformation globalTransformation = new Transformation();
             if (BooleanUtils.isTrue(cloudinaryConfig.getCloudinaryResponsive())) {
@@ -131,10 +130,10 @@ public class DefaultTransformationApiService implements TransformationApiService
             }
             mediaUrl.append(cloudinary.url().resourceType(media.getCloudinaryResourceType()).transformation(new Transformation().rawTransformation(transformation.toString())).publicId(media.getCloudinaryPublicId()).secure(Boolean.TRUE).generate());
         }
-        return mediaUrl.toString();
+        return mediaUrl;
     }
 
-    private String contentMediaTransformation(CloudinaryConfigModel cloudinaryConfig, MediaFormatModel format, MediaModel media, StringBuilder mediaUrl, StringBuilder transformation, Cloudinary cloudinary) {
+    private StringBuilder contentMediaTransformation(CloudinaryConfigModel cloudinaryConfig, MediaFormatModel format, MediaModel media, StringBuilder mediaUrl, StringBuilder transformation, Cloudinary cloudinary) {
 
             Transformation contentGlobalTransformation = new Transformation();
             if (BooleanUtils.isTrue(cloudinaryConfig.getCloudinaryResponsive())) {
@@ -155,7 +154,7 @@ public class DefaultTransformationApiService implements TransformationApiService
 
 
                 if (StringUtils.isNotEmpty(cloudinaryConfig.getCloudinaryContentGlobalImageTransformation())) {
-                    transformation.append("/");
+                    transformation.append(",");
                     transformation.append(cloudinaryConfig.getCloudinaryContentGlobalImageTransformation());
                 }
 
@@ -171,7 +170,7 @@ public class DefaultTransformationApiService implements TransformationApiService
                 transformation.append(videoFormat);
 
                 if (StringUtils.isNotEmpty(cloudinaryConfig.getCloudinaryGlobalContentVideoTransformation())) {
-                    transformation.append("/");
+                    transformation.append(",");
                     transformation.append(cloudinaryConfig.getCloudinaryGlobalContentVideoTransformation());
                 }
             }
@@ -183,7 +182,7 @@ public class DefaultTransformationApiService implements TransformationApiService
                 }
             }
            mediaUrl.append(cloudinary.url().resourceType(media.getCloudinaryResourceType()).transformation(contentGlobalTransformation).publicId(media.getCloudinaryPublicId()).secure(Boolean.TRUE).generate());
-        return mediaUrl.toString();
+        return mediaUrl;
     }
 
     @Override
