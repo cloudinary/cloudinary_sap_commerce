@@ -58,7 +58,7 @@ public class DefaultTransformationApiService implements TransformationApiService
                 StringBuilder transformation = new StringBuilder();
                 StringBuilder mediaUrl = new StringBuilder();
 
-                if (!media.getIsCloudinaryOverride() && media.getCatalogVersion().getCatalog() instanceof ContentCatalogModel) {
+                if (media.getCatalogVersion().getCatalog() instanceof ContentCatalogModel) {
                     mediaUrl = contentMediaTransformation(cloudinaryConfig, format, media, mediaUrl, transformation, cloudinary);
                 } else {
                     mediaUrl = productMediaTransformation(cloudinaryConfig, format, media, mediaUrl, transformation, cloudinary);
@@ -153,7 +153,7 @@ public class DefaultTransformationApiService implements TransformationApiService
                 transformation.append(imageFormat);
 
 
-                if (StringUtils.isNotEmpty(cloudinaryConfig.getCloudinaryContentGlobalImageTransformation())) {
+                if (!BooleanUtils.isTrue(media.getIsCloudinaryOverride()) && StringUtils.isNotEmpty(cloudinaryConfig.getCloudinaryContentGlobalImageTransformation())) {
                     transformation.append(",");
                     transformation.append(cloudinaryConfig.getCloudinaryContentGlobalImageTransformation());
                 }
@@ -169,7 +169,7 @@ public class DefaultTransformationApiService implements TransformationApiService
                 String videoFormat = BooleanUtils.isTrue(cloudinaryConfig.getEnableOptimizeContentVideo()) ? CloudinaryVideoFormat.F_AUTO.getCode() : cloudinaryConfig.getCloudinaryContentVideoFormat().getCode();
                 transformation.append(videoFormat);
 
-                if (StringUtils.isNotEmpty(cloudinaryConfig.getCloudinaryGlobalContentVideoTransformation())) {
+                if (!BooleanUtils.isTrue(media.getIsCloudinaryOverride()) && StringUtils.isNotEmpty(cloudinaryConfig.getCloudinaryGlobalContentVideoTransformation())) {
                     transformation.append(",");
                     transformation.append(cloudinaryConfig.getCloudinaryGlobalContentVideoTransformation());
                 }
