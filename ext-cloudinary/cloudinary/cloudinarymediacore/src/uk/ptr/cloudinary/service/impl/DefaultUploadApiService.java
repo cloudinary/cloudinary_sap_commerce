@@ -62,6 +62,9 @@ public class DefaultUploadApiService implements UploadApiService
                     CloudinarymediacoreConstants.TAGS, tag
             );
 
+            if(cloudinaryConfigModel.getMediaUploadPreset() != null)
+                params.put(CloudinarymediacoreConstants.PRESETS, cloudinaryConfigModel.getMediaUploadPreset().getName());
+
             Map map = cloudinary.uploader().upload(bytes, params);
 
             final ObjectMapper mapper = new ObjectMapper();

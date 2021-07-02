@@ -59,6 +59,12 @@
 		  parent="abstractEditorAreaComponentRenderer">
 	</bean>
 
+	<alias name="defaultCloudinaryConfigMediaPresetTextRenderer" alias="cloudinaryConfigMediaPresetTextRenderer"/>
+	<bean id="defaultCloudinaryConfigMediaPresetTextRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigMediaPresetTextRenderer"
+		  parent="abstractEditorAreaComponentRenderer">
+	</bean>
+
 	<alias name="attributeDescriptionIconRenderer" alias="attributeDescriptionIconRenderer"/>
 	<bean id="attributeDescriptionIconRenderer"
 	class="uk.ptr.cloudinary.renderers.DefaultCloudinaryAttributeDescriptionIconRenderer"/>

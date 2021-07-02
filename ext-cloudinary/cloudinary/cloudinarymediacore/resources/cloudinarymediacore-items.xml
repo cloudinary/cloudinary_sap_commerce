@@ -102,6 +102,23 @@
 
 	<itemtypes>
 
+		<itemtype code="Preset" jaloclass="uk.ptr.cloudinary.jalo.Preset"
+				  extends="GenericItem" autocreate="true" generate="true">
+			<deployment table="preset" typecode="10113"/>
+			<attributes>
+				<attribute qualifier="name" type="java.lang.String">
+					<description>Preset Name</description>
+					<modifiers read="true" write="true" search="true" optional="false" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="unsigned" type="java.lang.Boolean">
+					<description>Preset Unsigned</description>
+					<modifiers read="true" write="true" search="true" optional="false" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+			</attributes>
+		</itemtype>
+
 		<itemtype code="CloudinaryConfig" jaloclass="uk.ptr.cloudinary.jalo.CloudinaryConfig"
 				  extends="GenericItem" autocreate="true" generate="true">
 			<deployment table="cloudinaryconfig" typecode="10111" />
@@ -221,6 +238,11 @@
 							<value>HYBRIS.LONG_STRING</value>
 						</columntype>
 					</persistence>
+				</attribute>
+				<attribute qualifier="mediaUploadPreset" type="Preset">
+					<description>Selected preset for media upload</description>
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
 				</attribute>
 			</attributes>
 

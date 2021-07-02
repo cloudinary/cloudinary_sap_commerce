@@ -46,6 +46,10 @@
 
     <bean id="cloudinaryProductDao" class="uk.ptr.cloudinary.dao.impl.DefaultCloudinaryProductDao"/>
 
+    <alias alias="presetDao" name="defaultPresetDao"/>
+    <bean id="defaultPresetDao" class="uk.ptr.cloudinary.dao.impl.DefaultPresetDao">
+    </bean>
+
     <bean id="cloudinaryProductValidateInterceptor"
           class="uk.ptr.cloudinary.interceptors.CloudinaryProductValidateInterceptor" />
 

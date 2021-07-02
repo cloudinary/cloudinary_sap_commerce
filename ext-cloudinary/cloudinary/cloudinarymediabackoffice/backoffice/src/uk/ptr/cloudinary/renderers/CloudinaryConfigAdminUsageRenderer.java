@@ -47,6 +47,9 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
     private AdminApiService adminApiService;
 
     @Resource
+    private PresetApiService presetApiService;
+
+    @Resource
     private ModelService modelService;
 
     @Resource
@@ -93,6 +96,7 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         if (BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary())) {
             try {
                 setConnectionDetailsOnDiv(cloudinaryConfigModel, usageResponseDiv, cloudinaryConnectionLabel, html, boxHeader);
+                getPresetDetails(cloudinaryConfigModel);
             } catch (IllegalArgumentException illegalException) {
                 LOG.error("Illegal Argument " + illegalException.getMessage());
             } catch (Exception e) {
@@ -111,6 +115,7 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
                         // Code if yes clicked
                         modelService.refresh(cloudinaryConfigModel);
                         String response = setConnectionDetailsOnDiv(cloudinaryConfigModel, usageResponseDiv, cloudinaryConnectionLabel, html, boxHeader);
+                        getPresetDetails(cloudinaryConfigModel);
                         if (response.equalsIgnoreCase("true")) {
                             falseCheck.setChecked(Boolean.FALSE);
                             cloudinaryConfigModel.setEnableCloudinary(true);
@@ -170,6 +175,51 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         usageResponseDiv.appendChild(connectionErrorMessage);
         usageResponseDiv.setParent(component);
 
+    }
+
+    private String getPresetDetails(CloudinaryConfigModel cloudinaryConfigModel) {
+        Map<String, Boolean> presetResponse = null;
+        String errorMsg = "";
+
+        try {
+            if(cloudinaryConfigModel != null)
+            {
+                presetResponse = presetApiService.getUploadPresets(cloudinaryConfigModel.getCloudinaryURL());
+                populatePresetInfo(cloudinaryConfigModel, presetResponse);
+            }
+        }
+        catch (IllegalArgumentException illegalException) {
+            LOG.error("Illegal Argument " + illegalException.getMessage());
+            errorMsg = CloudinarymediacoreConstants.INVALID_URL +cloudinaryConfigModel.getCloudinaryURL();
+            return errorMsg;
+        }
+        catch (Exception e) {
+            LOG.error("Exception occured calling Admin Usage API " + e.getMessage());
+            errorMsg = e.getMessage();
+            return errorMsg;
+        }
+        return Boolean.TRUE.toString();
+    }
+
+    private void populatePresetInfo(CloudinaryConfigModel cloudinaryConfigModel, Map<String, Boolean> presetResponse) {
+        List<PresetModel> presetModelList = new ArrayList<>();
+        if(presetResponse.size() > 0) {
+            //remove previous presets
+            modelService.removeAll(presetDao.find());
+            for(Map.Entry<String, Boolean> entry : presetResponse.entrySet()) {
+                populatePreset(cloudinaryConfigModel,presetModelList, entry);
+            }
+            cloudinaryConfigModel.setMediaUploadPreset(presetModelList.stream().findFirst().get());
+            modelService.save(cloudinaryConfigModel);
+        }
+    }
+
+    private void populatePreset(CloudinaryConfigModel cloudinaryConfigModel, List<PresetModel> presetModelList, Map.Entry<String, Boolean> entry) {
+        PresetModel presetModel = modelService.create(PresetModel.class);
+        presetModel.setName(entry.getKey());
+        presetModel.setUnsigned(entry.getValue());
+        presetModelList.add(presetModel);
+        modelService.save(presetModel);
     }
 
     private String getLabel(String key) {
