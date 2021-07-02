@@ -28,6 +28,11 @@
                     <modifiers read="true" write="true" search="true" optional="true" initial="true"/>
                     <persistence type="property"/>
                 </attribute>
+                <attribute qualifier="isOverridden" type="java.lang.Boolean">
+                    <defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
+                    <modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+                    <persistence type="property"/>
+                </attribute>
             </attributes>
         </itemtype>
 

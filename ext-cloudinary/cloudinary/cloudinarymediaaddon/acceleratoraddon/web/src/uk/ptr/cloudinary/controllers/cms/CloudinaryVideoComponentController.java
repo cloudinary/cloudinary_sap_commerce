@@ -3,16 +3,14 @@ package uk.ptr.cloudinary.controllers.cms;
 import atg.taglib.json.util.JSONException;
 import atg.taglib.json.util.JSONObject;
 import com.cloudinary.Cloudinary;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.hybris.platform.addonsupport.controllers.cms.AbstractCMSAddOnComponentController;
 import de.hybris.platform.core.model.components.CloudinaryVideoComponentModel;
-import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import uk.ptr.cloudinary.controllers.pages.ProductPageController;
 import uk.ptr.cloudinary.facades.CloudinaryConfigFacade;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 
@@ -27,6 +25,10 @@ public class CloudinaryVideoComponentController extends
 
     private static final Logger LOG = Logger.getLogger(CloudinaryVideoComponentController.class);
 
+    private static String PLAYER = "player";
+    private static String SOURCE = "source";
+    private static String SOURCE_TYPE = "sourceTypes";
+
     @Resource
     private CloudinaryConfigFacade cloudinaryConfigFacade;
 
@@ -34,26 +36,63 @@ public class CloudinaryVideoComponentController extends
     protected void fillModel(HttpServletRequest request, Model model, CloudinaryVideoComponentModel component) {
 
         CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigFacade.getCloudinaryConfig();
-        String transformationString = component.getTransformation();
-        try {
-            if (transformationString != null) {
-                String transformation = transformationString.replaceAll("\'", "\"");
-                JSONObject jsonObj = new JSONObject(transformation);
-                model.addAttribute("transformation", jsonObj);
-            }
-        }
-        catch (JSONException e){
-            LOG.error("Exception occurred while formatting transformation value ", e);
-        }
-        if(BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary()))
-        {
-            if(cloudinaryConfigModel.getCloudinaryURL()!= null){
+        if (org.apache.commons.lang3.BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary()) && org.apache.commons.lang3.BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinaryVideoPlayer())) {
+
+            String transformationJson = cloudinaryConfigModel.getVideoPlayerTransformation();
+            convertToJson(model, transformationJson);
+
+            String transformationString = setTransformationString(component, cloudinaryConfigModel);
+
+            if (cloudinaryConfigModel.getCloudinaryURL() != null) {
                 Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
                 model.addAttribute("cloudName", cloudinary.config.cloudName);
             }
             model.addAttribute("cloudinaryConfig", cloudinaryConfigModel);
+            model.addAttribute("componentVideo", component.getCloudinaryVideo());
+            model.addAttribute("showComponent", true);
+            model.addAttribute("transformationString", transformationString);
+        } else {
+            model.addAttribute("showComponent", false);
         }
-        model.addAttribute("componentVideo", component.getCloudinaryVideo());
 
+    }
+
+    private String setTransformationString(CloudinaryVideoComponentModel component, CloudinaryConfigModel cloudinaryConfigModel) {
+
+        String componentTransformation = component.getTransformation();
+        String globalTransformation = cloudinaryConfigModel.getCloudinaryGlobalContentVideoTransformation();
+
+        if (BooleanUtils.isTrue(component.getIsOverridden())) {
+            return componentTransformation;
+        } else if (StringUtils.isNotEmpty(componentTransformation) && StringUtils.isNotEmpty(globalTransformation)) {
+            return componentTransformation + '/' + globalTransformation;
+        } else if (StringUtils.isNotEmpty(componentTransformation)) {
+            return componentTransformation;
+        } else {
+            return globalTransformation;
+        }
+    }
+
+    private void convertToJson(Model model, String transformationString) {
+        try {
+            if (transformationString != null) {
+                String transformation = transformationString.replaceAll("\'", "\"");
+                JSONObject jsonObj = new JSONObject(transformation);
+                if (transformationString.contains(PLAYER)) {
+                    JSONObject playerJsonData = jsonObj.getJSONObject(PLAYER);
+                    model.addAttribute("playerJsonData", playerJsonData);
+                }
+                if (transformation.contains(SOURCE)) {
+                    JSONObject sourceJsonData = jsonObj.getJSONObject(SOURCE);
+                    if (sourceJsonData.get(SOURCE_TYPE) != null) {
+                        model.addAttribute("sourceJsonData", sourceJsonData);
+                    }
+                }
+
+            }
+        }
+        catch (JSONException e) {
+            LOG.error("Exception occurred while formatting transformation value ", e);
+        }
     }
 }
