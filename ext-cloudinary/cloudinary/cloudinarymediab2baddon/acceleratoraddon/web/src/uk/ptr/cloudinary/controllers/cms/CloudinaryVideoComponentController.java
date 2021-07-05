@@ -4,6 +4,8 @@ import atg.taglib.json.util.JSONException;
 import atg.taglib.json.util.JSONObject;
 import com.cloudinary.Cloudinary;
 import de.hybris.platform.addonsupport.controllers.cms.AbstractCMSAddOnComponentController;
+import de.hybris.platform.cms2.jalo.contents.ContentCatalog;
+import de.hybris.platform.cms2.model.contents.ContentCatalogModel;
 import de.hybris.platform.core.model.components.CloudinaryVideoComponentModel;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -59,17 +61,10 @@ public class CloudinaryVideoComponentController extends
 
     private String setTransformationString(CloudinaryVideoComponentModel component, CloudinaryConfigModel cloudinaryConfigModel) {
 
-        String componentTransformation = component.getTransformation();
-        String globalTransformation = cloudinaryConfigModel.getCloudinaryGlobalContentVideoTransformation();
-
-        if (BooleanUtils.isTrue(component.getIsOverridden())) {
-            return componentTransformation;
-        } else if (StringUtils.isNotEmpty(componentTransformation) && StringUtils.isNotEmpty(globalTransformation)) {
-            return componentTransformation + '/' + globalTransformation;
-        } else if (StringUtils.isNotEmpty(componentTransformation)) {
-            return componentTransformation;
+        if (component.getCatalogVersion().getCatalog() instanceof ContentCatalogModel) {
+            return cloudinaryConfigModel.getCloudinaryGlobalContentVideoTransformation();
         } else {
-            return globalTransformation;
+            return cloudinaryConfigModel.getCloudinaryGlobalVideoTransformation();
         }
     }
 

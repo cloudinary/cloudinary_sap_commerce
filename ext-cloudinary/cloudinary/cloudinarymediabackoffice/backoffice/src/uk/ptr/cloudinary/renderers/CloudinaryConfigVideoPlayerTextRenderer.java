@@ -28,7 +28,7 @@ public class CloudinaryConfigVideoPlayerTextRenderer extends AbstractEditorAreaC
         Div usageResponseDiv = new Div();
         final Html html = new Html();
         html.setSclass("yw-editorarea-z-html");
-        html.setContent("Display videos on your e-commerce site using Cloudinary's fully responsive and customizable Video Player. <br><a href='/' target=‘_blank’> Go to documentation");
+        html.setContent("Display videos on your e-commerce site using Cloudinary's fully responsive and customizable Video Player. <br><a href='https://cloudinary.com/documentation/cloudinary_video_player' target=‘_blank’> Go to documentation");
         usageResponseDiv.appendChild(html);
         usageResponseDiv.setParent(component);
     }

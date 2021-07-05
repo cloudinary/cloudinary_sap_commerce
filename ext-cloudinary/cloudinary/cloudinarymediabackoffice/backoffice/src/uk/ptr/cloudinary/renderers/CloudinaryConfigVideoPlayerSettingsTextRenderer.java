@@ -33,7 +33,7 @@ public class CloudinaryConfigVideoPlayerSettingsTextRenderer extends AbstractEdi
         Div usageResponseDiv = new Div();
         final Html html = new Html();
         html.setSclass("yw-editorarea-z-html");
-        html.setContent("Enter the configuration JSON to be used by the player.<br/> For a quick and easy start, use the <a href='https://demo.cloudinary.com/product-gallery/editor?code=configjson' target=‘_blank’>Video Player Studio</a>. Configure the player as needed and copy the generated JSON to this field.<br/>E.g.");
+        html.setContent("Enter the configuration JSON to be used by the player.<br/> For a quick and easy start, use the <a href='https://studio.cloudinary.com/?code=configjson' target=‘_blank’>Video Player Studio</a>. Configure the player as needed and copy the generated JSON to this field.<br/>E.g.");
 
         usageResponseDiv.appendChild(html);
         usageResponseDiv.setParent(component);
