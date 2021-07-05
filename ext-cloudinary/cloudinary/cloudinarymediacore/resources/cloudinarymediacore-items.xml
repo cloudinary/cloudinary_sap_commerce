@@ -268,6 +268,33 @@
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
+				<attribute qualifier="enableCloudinaryVideoPlayer" type="java.lang.Boolean">
+					<description> Enable Cloudinary Video Player </description>
+					<defaultvalue>java.lang.Boolean.FALSE</defaultvalue>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="videoPlayerTransformation" type="java.lang.String">
+					<description>Cloudinary Video Transformation Json String</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property">
+						<columntype database="oracle">
+							<value>CLOB</value>
+						</columntype>
+						<columntype database="sap">
+							<value>NCLOB</value>
+						</columntype>
+						<columntype database="mysql">
+							<value>TEXT</value>
+						</columntype>
+						<columntype database="sqlserver">
+							<value>TEXT</value>
+						</columntype>
+						<columntype>
+							<value>HYBRIS.LONG_STRING</value>
+						</columntype>
+					</persistence>
+				</attribute>
 			</attributes>
 
 		</itemtype>
