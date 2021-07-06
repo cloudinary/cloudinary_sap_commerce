@@ -102,23 +102,6 @@
 
 	<itemtypes>
 
-		<itemtype code="Preset" jaloclass="uk.ptr.cloudinary.jalo.Preset"
-				  extends="GenericItem" autocreate="true" generate="true">
-			<deployment table="preset" typecode="10113"/>
-			<attributes>
-				<attribute qualifier="name" type="java.lang.String">
-					<description>Preset Name</description>
-					<modifiers read="true" write="true" search="true" optional="false" initial="true"/>
-					<persistence type="property" />
-				</attribute>
-				<attribute qualifier="unsigned" type="java.lang.Boolean">
-					<description>Preset Unsigned</description>
-					<modifiers read="true" write="true" search="true" optional="false" initial="true"/>
-					<persistence type="property" />
-				</attribute>
-			</attributes>
-		</itemtype>
-
 		<itemtype code="CloudinaryConfig" jaloclass="uk.ptr.cloudinary.jalo.CloudinaryConfig"
 				  extends="GenericItem" autocreate="true" generate="true">
 			<deployment table="cloudinaryconfig" typecode="10111" />
@@ -137,6 +120,11 @@
 					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
 					<description>Enable Cloudinary Boolean Field</description>
 					<modifiers read="true" write="true" search="true" optional="false" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="mediaUploadPreset" type="Preset">
+					<description>Selected preset for media upload</description>
+					<modifiers read="true" write="true" search="true" optional="true"/>
 					<persistence type="property" />
 				</attribute>
 				<attribute qualifier="cloudinaryImageFormat" type="CloudinaryMediaFormat">
@@ -202,7 +190,7 @@
 				</attribute>
 				<attribute qualifier="enableOptimizeVideo" type="java.lang.Boolean">
 					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
-					<description> Enable Optimize Images </description>
+					<description> Enable Optimize Videos </description>
 					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
@@ -239,10 +227,78 @@
 						</columntype>
 					</persistence>
 				</attribute>
-				<attribute qualifier="mediaUploadPreset" type="Preset">
-					<description>Selected preset for media upload</description>
-					<modifiers read="true" write="true" search="true" optional="true"/>
+				<attribute qualifier="cloudinaryContentImageFormat" type="CloudinaryMediaFormat">
+					<description>Cloudinary Content Image Format </description>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryMediaFormat","f_auto")</defaultvalue>
 					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryContentImageQuality" type="CloudinaryMediaQuality">
+					<description>Cloudinary Content Image Quality</description>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryMediaQuality","q_auto")</defaultvalue>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryContentGlobalImageTransformation" type="java.lang.String">
+					<description>Cloudinary Content Global Image Transformation</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="enableOptimizeContentImage" type="java.lang.Boolean">
+					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
+					<description> Enable Optimize Content Images </description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="enableOptimizeContentVideo" type="java.lang.Boolean">
+					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
+					<description> Enable Optimize Content Videos </description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryContentVideoFormat" type="CloudinaryVideoFormat">
+					<description>Cloudinary Content Video Format </description>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryVideoFormat","f_auto")</defaultvalue>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryContentVideoQuality" type="CloudinaryVideoQuality">
+					<description>Cloudinary Content Video Quality</description>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryVideoQuality","q_auto")</defaultvalue>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryGlobalContentVideoTransformation" type="java.lang.String">
+					<description>Cloudinary Global Content Video Transformation</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="enableCloudinaryVideoPlayer" type="java.lang.Boolean">
+					<description> Enable Cloudinary Video Player </description>
+					<defaultvalue>java.lang.Boolean.FALSE</defaultvalue>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="videoPlayerTransformation" type="java.lang.String">
+					<description>Cloudinary Video Transformation Json String</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property">
+						<columntype database="oracle">
+							<value>CLOB</value>
+						</columntype>
+						<columntype database="sap">
+							<value>NCLOB</value>
+						</columntype>
+						<columntype database="mysql">
+							<value>TEXT</value>
+						</columntype>
+						<columntype database="sqlserver">
+							<value>TEXT</value>
+						</columntype>
+						<columntype>
+							<value>HYBRIS.LONG_STRING</value>
+						</columntype>
+					</persistence>
 				</attribute>
 			</attributes>
 
@@ -403,6 +459,20 @@
 					jaloclass="de.hybris.platform.core.model.CloudinaryMediaTransformationJob">
 			</itemtype>
 		</typegroup>
+
+		<typegroup name="Cloudinary Preset">
+		<itemtype code="Preset" jaloclass="uk.ptr.cloudinary.jalo.Preset"
+				  extends="GenericItem" autocreate="true" generate="true">
+			<deployment table="preset" typecode="10113"/>
+			<attributes>
+				<attribute qualifier="name" type="java.lang.String">
+					<description>Preset Name</description>
+					<modifiers read="true" write="true" search="true" optional="false" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+			</attributes>
+		</itemtype>
+	</typegroup>
 
 	</itemtypes>
 </items>

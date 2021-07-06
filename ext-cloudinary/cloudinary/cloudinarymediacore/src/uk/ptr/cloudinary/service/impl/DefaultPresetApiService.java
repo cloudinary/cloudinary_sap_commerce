@@ -38,7 +38,7 @@ public class DefaultPresetApiService implements PresetApiService {
         }
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Presets stored in hybris");
+            LOG.debug("Presets stored in SAP");
             for (Map.Entry<String, Boolean> preset : presetMap.entrySet()) {
                 LOG.debug(preset.getKey() + " , " + preset.getValue());
             }

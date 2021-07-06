@@ -19,15 +19,20 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
 import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
+import uk.ptr.cloudinary.dao.PresetDao;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
+import uk.ptr.cloudinary.model.PresetModel;
 import uk.ptr.cloudinary.service.AdminApiService;
 import org.zkoss.zul.Messagebox;
 import uk.ptr.cloudinary.service.AnalyticsApiService;
+import uk.ptr.cloudinary.service.PresetApiService;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaComponentRenderer<AbstractSection, CloudinaryConfigModel> {
@@ -58,6 +63,8 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
     @Resource
     private AnalyticsApiService analyticsApiService;
 
+    @Resource
+    private PresetDao presetDao;
 
     @Override
     public void render(Component component, AbstractSection abstractSectionConfiguration, CloudinaryConfigModel cloudinaryConfigModel, DataType dataType, WidgetInstanceManager widgetInstanceManager) {
@@ -217,7 +224,6 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
     private void populatePreset(CloudinaryConfigModel cloudinaryConfigModel, List<PresetModel> presetModelList, Map.Entry<String, Boolean> entry) {
         PresetModel presetModel = modelService.create(PresetModel.class);
         presetModel.setName(entry.getKey());
-        presetModel.setUnsigned(entry.getValue());
         presetModelList.add(presetModel);
         modelService.save(presetModel);
     }
