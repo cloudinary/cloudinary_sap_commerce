@@ -10,7 +10,7 @@
         xmlns:ea="http://www.hybris.com/cockpitng/component/editorArea"
         xmlns:y="http://www.hybris.com/cockpit/config/hybris"
         xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch"
-        xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree">
+        xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree" xmlns:simple-search="http://www.hybris.com/cockpitng/config/simplesearch">
 
     <!-- cloudinarymediabackoffice UI configuration should be provided here -->
 
@@ -79,7 +79,6 @@
             <list-view:column qualifier="cloudinaryImageFormat"/>
             <list-view:column qualifier="cloudinaryQuality"/>
             <list-view:column qualifier="cloudinaryResponsive"/>
-
             <list-view:column qualifier="cloudinaryImageWidthLimitMin"/>
             <list-view:column qualifier="cloudinaryImageWidthLimitMax"/>
         </list-view:list-view>
@@ -96,6 +95,10 @@
                     <wz:property-list root="newCloudinaryConfig">
                         <wz:property qualifier="cloudinaryURL" type="java.lang.String" />
                         <wz:property qualifier="cloudinaryFolderPath" type="java.lang.String"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/uploadpresettext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="mediaUploadPreset"/>
                     </wz:property-list>
                 </wz:content>
                 <wz:navigation id="step1.navigation">
@@ -117,13 +120,6 @@
                     <wz:property-list root="newCloudinaryConfig">
                         <wz:property qualifier="cloudinaryImageFormat"/>
                         <wz:property qualifier="cloudinaryQuality"/>
-                    </wz:property-list>
-                    <wz:custom-view lang="zul" src="widgets/responsivebreakpointtext.zul"/>
-                    <wz:property-list root="newCloudinaryConfig">
-                        <wz:property qualifier="cloudinaryResponsive"/>
-                        <wz:property qualifier="cloudinaryByteStep"/>
-                        <wz:property qualifier="cloudinaryImageWidthLimitMin"/>
-                        <wz:property qualifier="cloudinaryImageWidthLimitMax"/>
                     </wz:property-list>
                     <wz:custom-view lang="zul" src="widgets/imagetransformationtext.zul"/>
                     <wz:property-list root="newCloudinaryConfig">
@@ -152,7 +148,7 @@
                     </wz:done>
                 </wz:navigation>
             </wz:step>
-            <wz:step id="step3" label="create.cloudinaryconfig.global.configuration" merge-mode="replace">
+            <wz:step id="step3" label="create.cloudinaryconfig.global.content.configuration" merge-mode="replace">
                 <wz:info id="step3.intro" position="top" label="create.cloudinary.transformation.intro" />
                 <wz:content id="step3.content1">
                     <wz:custom-view lang="zul" src="widgets/imageglobalsettingtext.zul"/>
@@ -190,10 +186,28 @@
                     </wz:done>
                 </wz:navigation>
             </wz:step>
-
-            <wz:step id="step4" label="create.cloudinaryconfig.product.gallery" merge-mode="replace">
-                <wz:info id="step4.intro" position="top" label="create.cloudinary.product.gallery.intro" />
+            <wz:step id="step4" label="create.cloudinaryconfig.breakpoints" merge-mode="replace">
+                <wz:info id="step4.intro" position="top" label="" />
                 <wz:content id="step4.content">
+                    <wz:custom-view lang="zul" src="widgets/responsivebreakpointtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryResponsive"/>
+                        <wz:property qualifier="cloudinaryByteStep"/>
+                        <wz:property qualifier="cloudinaryImageWidthLimitMin"/>
+                        <wz:property qualifier="cloudinaryImageWidthLimitMax"/>
+                    </wz:property-list>
+                </wz:content>
+                <wz:navigation id="step4.navigation">
+                    <wz:cancel/>
+                    <wz:next/>
+                    <wz:done>
+                        <wz:save property="newCloudinaryConfig"/>
+                    </wz:done>
+                </wz:navigation>
+            </wz:step>
+            <wz:step id="step5" label="create.cloudinaryconfig.product.gallery" merge-mode="replace">
+                <wz:info id="step5.intro" position="top" label="create.cloudinary.product.gallery.intro" />
+                <wz:content id="step5.content">
                     <wz:property-list root="newCloudinaryConfig">
                         <wz:property qualifier="enableCloudinaryGalleryWidget"/>
                     </wz:property-list>
@@ -202,6 +216,27 @@
                     </wz:custom-view>
                     <wz:property-list root="newCloudinaryConfig">
                         <wz:property qualifier="cloudinaryGalleryConfigJsonString"/>
+                    </wz:property-list>
+                </wz:content>
+                <wz:navigation id="step5.navigation">
+                    <wz:cancel/>
+                    <wz:next/>
+                    <wz:done>
+                        <wz:save property="newCloudinaryConfig"/>
+                    </wz:done>
+                </wz:navigation>
+            </wz:step>
+            <wz:step id="step6" label="create.cloudinaryconfig.video.player" merge-mode="replace">
+                <wz:info id="step6.intro" position="top" label="create.cloudinary.video.player.intro" />
+                <wz:content id="step4.content">
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="enableCloudinaryVideoPlayer"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul">
+                        <wz:renderer spring-bean="cloudinaryConfigVideoPlayerTextWizardRenderer"></wz:renderer>
+                    </wz:custom-view>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="videoPlayerTransformation"/>
                     </wz:property-list>
                 </wz:content>
                 <wz:navigation id="step4.navigation">
@@ -214,14 +249,62 @@
         </wz:flow>
     </context>
 
+    <context type="Preset" parent="GenericItem" component="create-wizard" mergadmine-by="type" merge-mode="replace">
+        <wz:flow id="ItemWizard" title="create.title(ctx.TYPE_CODE)">
+        <wz:prepare id="itemPrepare">
+            <wz:initialize property="newPreset" type="ctx.TYPE_CODE"/>
+        </wz:prepare>
+        <wz:step id="step1" label="create.cloudinaryconfig.mediapreset.step1" merge-mode="replace">
+            <wz:info id="step1.intro" position="top" label="create.cloudinary.mediapreset.create" />
+            <wz:navigation id="step1.navigation">
+                <wz:cancel/>
+            </wz:navigation>
+        </wz:step>
+        </wz:flow>
+    </context>
+
+    <context merge-by="type" parent="GenericItem" type="Preset" component="simple-search">
+        <simple-search:simple-search>
+            <simple-search:field name="name"/>
+        </simple-search:simple-search>
+    </context>
+
+    <context type="Preset" component="advanced-search" merge-by="type" parent="Job">
+        <advanced-search:advanced-search>
+            <advanced-search:field-list>
+                <advanced-search:field name="name" selected="true"/>
+            </advanced-search:field-list>
+        </advanced-search:advanced-search>
+    </context>
+
+    <context merge-by="type" parent="GenericItem" type="Preset" component="listview">
+        <list-view:list-view xmlns:list-view="http://www.hybris.com/cockpitng/component/listView">
+            <list-view:column qualifier="name"/>
+        </list-view:list-view>
+    </context>
+
+    <context type="Preset" component="base" merge-by="type" parent="GenericItem">
+        <y:base>
+            <y:labels>
+                <y:label>name</y:label>
+            </y:labels>
+        </y:base>
+    </context>
+
     <context component="editor-area" merge-mode="append" merge-by="type" type="CloudinaryConfig">
         <editorArea:editorArea>
             <editorArea:tab name="hmc.tab.cloudinaryconfig" merge-mode="append">
-                <editorArea:customSection name="hmc.section.cloudinary.connection" position="1"
-                                          spring-bean="cloudinaryConfigAdminUsageRenderer"/>
                 <editorArea:section name="hmc.section.cloudinary.syncsettings">
                     <editorArea:attribute qualifier="cloudinaryURL"/>
                     <editorArea:attribute qualifier="cloudinaryFolderPath"/>
+                </editorArea:section>
+                <editorArea:customSection name="hmc.section.cloudinary.connection"
+                                          spring-bean="cloudinaryConfigAdminUsageRenderer"/>
+                <editorArea:section name="hmc.section.cloudinary.presets">
+                    <editorArea:attribute qualifier="mediaUploadPreset"/>
+                </editorArea:section>
+                <editorArea:section name="">
+                    <editorArea:customPanel name="" spring-bean="cloudinaryConfigMediaPresetTextRenderer"/>
                 </editorArea:section>
             </editorArea:tab>
             <editorArea:tab name="hmc.tab.globaltransformation" merge-mode="append">

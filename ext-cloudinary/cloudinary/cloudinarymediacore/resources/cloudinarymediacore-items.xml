@@ -122,6 +122,11 @@
 					<modifiers read="true" write="true" search="true" optional="false" initial="true"/>
 					<persistence type="property" />
 				</attribute>
+				<attribute qualifier="mediaUploadPreset" type="Preset">
+					<description>Selected preset for media upload</description>
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
 				<attribute qualifier="cloudinaryImageFormat" type="CloudinaryMediaFormat">
 					<description>Cloudinary Image Format </description>
 					<modifiers read="true" write="true" search="true" optional="false"/>
@@ -454,6 +459,20 @@
 					jaloclass="de.hybris.platform.core.model.CloudinaryMediaTransformationJob">
 			</itemtype>
 		</typegroup>
+
+		<typegroup name="Cloudinary Preset">
+		<itemtype code="Preset" jaloclass="uk.ptr.cloudinary.jalo.Preset"
+				  extends="GenericItem" autocreate="true" generate="true">
+			<deployment table="preset" typecode="10113"/>
+			<attributes>
+				<attribute qualifier="name" type="java.lang.String">
+					<description>Preset Name</description>
+					<modifiers read="true" write="true" search="true" optional="false" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+			</attributes>
+		</itemtype>
+	</typegroup>
 
 	</itemtypes>
 </items>

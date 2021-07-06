@@ -15,9 +15,10 @@ import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 
 import javax.annotation.Resource;
 
-public class CloudinaryConfigVideoPlayerSettingsTextRenderer extends AbstractEditorAreaComponentRenderer<AbstractPanel, CloudinaryConfigModel> {
+public class CloudinaryConfigMediaPresetTextRenderer extends AbstractEditorAreaComponentRenderer<AbstractPanel, CloudinaryConfigModel> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CloudinaryConfigVideoPlayerSettingsTextRenderer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CloudinaryConfigMediaPresetTextRenderer.class);
+    public static final String PRESET_TEXT = "See the <a href='https://cloudinary.com/documentation/admin_api#upload_presets' target=‘_blank’>upload presets</a> documentation";
 
     @Resource
     private ConfigurationService configurationService;
@@ -33,9 +34,10 @@ public class CloudinaryConfigVideoPlayerSettingsTextRenderer extends AbstractEdi
         Div usageResponseDiv = new Div();
         final Html html = new Html();
         html.setSclass("yw-editorarea-z-html");
-        html.setContent("Enter the configuration JSON to be used by the player.<br/> For a quick and easy start, use the <a href='https://studio.cloudinary.com/?code=configjson' target=‘_blank’>Video Player Studio</a>. Configure the player as needed and copy the generated JSON to this field.<br/>E.g.{\"player\":{\"fluid\":\"true\",\"controls\":\"true\"}");
+        html.setContent(PRESET_TEXT);
 
         usageResponseDiv.appendChild(html);
         usageResponseDiv.setParent(component);
     }
 }
+

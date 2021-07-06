@@ -12,19 +12,12 @@
 
      <c:choose>
     	<c:when test="${showComponent}">
-    	   <video id="cloudinaryVideoPlayer"
-                  controls
-                  muted
-                  class="cld-video-player cld-video-player-skin-dark">
+    	   <video id="cloudinaryVideoPlayer" playsinline controls muted autoplay class="cld-video-player">
            </video>
            <script type="text/javascript">
-            var cld = cloudinary.Cloudinary.new({ cloud_name: "${cloudName}", secure: true});
-            var player = cld.videoPlayer('cloudinaryVideoPlayer', ${playerJsonData});
-            player.source({
-                publicId: "${componentVideo.cloudinaryPublicId}",
-                sourceTypes: ${sourceJsonData},
-                transformation: [{ raw_transformation: ${transformationString} }]
-              });
+               var cld = cloudinary.Cloudinary.new({ cloud_name: "${cloudName}", secure: true});
+               var player = cld.videoPlayer('cloudinaryVideoPlayer', ${playerJsonData});
+               player.source(${sourceJsonData});
            </script>
         </c:when>
         <c:otherwise></c:otherwise>
