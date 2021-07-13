@@ -20,6 +20,8 @@
 
 	<bean id="adminApiService" class="uk.ptr.cloudinary.service.impl.DefaultAdminApiService"/>
 
+	<bean id="presetApiService" class="uk.ptr.cloudinary.service.impl.DefaultPresetApiService"/>
+
 	<bean id="uploadApiService" class="uk.ptr.cloudinary.service.impl.DefaultUploadApiService"/>
 
 	<bean id="transformationApiService" class="uk.ptr.cloudinary.service.impl.DefaultTransformationApiService"/>
