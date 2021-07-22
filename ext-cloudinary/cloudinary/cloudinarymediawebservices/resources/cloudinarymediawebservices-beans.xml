@@ -185,6 +185,7 @@
 		<property name="cloudinaryByteStep" type="int"/>
 		<property name="cloudinaryGalleryConfigJsonString" type="String"/>
 		<property name="cName" type="String"/>
+		<property name="isCloudinaryEnabled" type="boolean"/>
 	</bean>
 
 	<bean class="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO">
@@ -197,6 +198,13 @@
 			<description>Code of the product spinset</description>
 		</property>
 
+	</bean>
+
+	<bean class="de.hybris.platform.cmswebservices.data.MediaData">
+
+		<property name="cloudinaryMediaJson" type="String" >
+			<description>Cloudinary Media Json Data</description>
+		</property>
 	</bean>
 
 </beans>

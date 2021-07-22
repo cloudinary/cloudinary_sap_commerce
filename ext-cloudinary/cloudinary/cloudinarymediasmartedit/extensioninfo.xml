@@ -11,8 +11,8 @@
                       
         
         <requires-extension name="smartedit"/>
-                      
-        
+
+        <requires-extension name="cmsfacades"/>
         <coremodule generated="true" manager="uk.ptr.cloudinary.jalo.CloudinarymediasmarteditManager" packageroot="uk.ptr.cloudinary"/>
                        
         

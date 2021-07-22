@@ -81,4 +81,7 @@
     <alias name="defaultCloudinaryProductPrimaryImagePopulator" alias="productPrimaryImagePopulator"/>
     <bean id="defaultCloudinaryProductPrimaryImagePopulator" parent="baseProductImagePopulator" class="uk.ptr.cloudinary.facades.populator.CloudinaryProductPrimaryImagePopulator"/>
 
+    <alias name="defaultCloudinaryMediaFacade" alias="cloudinaryMediaFacade" />
+    <bean id="defaultCloudinaryMediaFacade" class="uk.ptr.cloudinary.facades.impl.DefaultCloudinaryMediaFacade"/>
+
 </beans>

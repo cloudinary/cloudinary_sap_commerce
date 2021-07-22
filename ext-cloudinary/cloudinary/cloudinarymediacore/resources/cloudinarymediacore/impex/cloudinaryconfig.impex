@@ -1,5 +1,5 @@
 INSERT_UPDATE CloudinaryConfig;enableCloudinary[unique=true];cloudinaryURL[unique=true];cloudinaryCname[unique=true];cloudinaryByteStep;cloudinaryFolderPath;cloudinaryImageWidthLimitMax;cloudinaryImageWidthLimitMin;cloudinaryResponsive;cloudinaryGlobalImageTransformation;cloudinaryGlobalVideoTransformation;
-;false;cloudinary://374658688623197:n0nPzQUL64sZcL4q6sDWbtFuOwI@portaltech-reply;;50;syncFolder/uploadAssets;2000;50;5;;;;;
+;false;cloudinary://374658688623197:n0nPzQUL64sZcL4q6sDWbtFuOwI@portaltech-reply;;50;syncFolder/uploadAssets;2000;50;;;;;;
 
 # Media formats
 INSERT_UPDATE MediaFormat;qualifier[unique=true];name;transformation;transformationStrategy[default=cloudinaryMediaConversionStrategy];

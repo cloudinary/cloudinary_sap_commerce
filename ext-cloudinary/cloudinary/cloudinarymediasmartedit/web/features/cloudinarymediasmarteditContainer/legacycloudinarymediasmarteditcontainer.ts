@@ -3,7 +3,10 @@
  */
 import { doImport } from './forcedImports';
 doImport();
-import { IFeatureService, SeModule } from 'smarteditcommons';
+import { EditorFieldMappingService, IFeatureService, SeModule } from 'smarteditcommons';
+
+import { CmsCloudinarySmarteditServicesModule } from 'cloudinarymediasmarteditcontainer/services/cmsCloudinarySmarteditServicesModule';
+import { CmsCloudinaryResourceLocationsModule } from 'cloudinarymediasmarteditcommons';
 /**
  * @ngdoc overview
  * @name cloudinarymediasmarteditContainer
@@ -11,9 +14,23 @@ import { IFeatureService, SeModule } from 'smarteditcommons';
  * Placeholder for documentation
  */
 @SeModule({
-    imports: ['smarteditServicesModule', 'abAnalyticsToolbarItemModule'],
-    initialize: (featureService: IFeatureService) => {
+    imports: [
+      CmsCloudinarySmarteditServicesModule,
+      CmsCloudinaryResourceLocationsModule,
+      'smarteditServicesModule',
+      'abAnalyticsToolbarItemModule',
+      'seCloudinaryMediaFormatModule',
+      'seCloudinaryMediaContainerFieldModule'
+    ],
+    initialize: (
+      featureService: IFeatureService,
+      editorFieldMappingService: EditorFieldMappingService
+    ) => {
         'ngInject';
+        // Configure generic editor
+        editorFieldMappingService.addFieldMapping('MediaContainer', null, null, {
+			       template: 'cloudinaryMediaContainerTemplate.html'
+		    });
         ////////////////////////////////////////////////////
         // Create Toolbar Item
         ////////////////////////////////////////////////////
@@ -28,6 +45,7 @@ import { IFeatureService, SeModule } from 'smarteditcommons';
             iconClassName: 'icon-message-information se-toolbar-menu-ddlb--button__icon',
             include: 'abAnalyticsToolbarItemWrapperTemplate.html'
         });
+
     }
 })
 export class CloudinarymediasmarteditContainer {}

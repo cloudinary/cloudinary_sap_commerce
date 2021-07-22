@@ -37,6 +37,7 @@ public class CloudinaryConfigurationController {
         CloudinaryConfigModel cloudinaryConfig = cloudinaryConfigService.getCloudinaryConfigModel();
         CloudinaryConfigurationWsDTO cloudinaryConfigurationWsDTO = new CloudinaryConfigurationWsDTO();
         cloudinaryConfigurationWsDTO.setIsCloudinaryGalleryEnabled(cloudinaryConfig.getEnableCloudinaryGalleryWidget());
+        cloudinaryConfigurationWsDTO.setIsCloudinaryEnabled(cloudinaryConfig.getEnableCloudinary());
         if(cloudinaryConfig.getCloudinaryURL()!= null) {
             Cloudinary cloudinary = new Cloudinary(cloudinaryConfig.getCloudinaryURL());
             cloudinaryConfigurationWsDTO.setCloudName(cloudinary.config.cloudName);
