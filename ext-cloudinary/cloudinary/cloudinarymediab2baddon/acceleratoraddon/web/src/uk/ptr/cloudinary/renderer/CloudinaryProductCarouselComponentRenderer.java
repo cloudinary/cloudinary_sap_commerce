@@ -9,7 +9,8 @@ import de.hybris.platform.commercefacades.search.ProductSearchFacade;
 import de.hybris.platform.commercefacades.search.data.SearchQueryData;
 import de.hybris.platform.commercefacades.search.data.SearchStateData;
 import de.hybris.platform.commerceservices.search.pagedata.PageableData;
-import uk.ptr.cloudinary.constants.CloudinarymediaaddonConstants;
+import uk.ptr.cloudinary.constants.Cloudinarymediab2baddonConstants;
+
 
 import javax.annotation.Resource;
 import javax.servlet.jsp.PageContext;
@@ -76,6 +77,6 @@ public class CloudinaryProductCarouselComponentRenderer<C extends ProductCarouse
 	@Override
 	protected String getAddonUiExtensionName(final C component)
 	{
-		return CloudinarymediaaddonConstants.EXTENSIONNAME;
+		return Cloudinarymediab2baddonConstants.EXTENSIONNAME;
 	}
 }
