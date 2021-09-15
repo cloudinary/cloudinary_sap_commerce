@@ -10,6 +10,7 @@ public final class CloudinarymediacoreConstants extends GeneratedCloudinarymedia
 {
 	public static final String EXTENSIONNAME = "cloudinarymediacore";
     public static final String VERSION = "Version";
+    public static final String CLOUDINARY_QUERY_PARAM = "?_i=AJ";
 
     private CloudinarymediacoreConstants()
 	{
@@ -63,5 +64,6 @@ public final class CloudinarymediacoreConstants extends GeneratedCloudinarymedia
 
 	public static final String SAP_SKU = "sap_sku_";
 	public static final String PRESETS = "upload_preset";
+
 
 }

@@ -113,10 +113,10 @@ public class CloudinaryMediaContentUpdateRenderer extends AbstractEditorAreaComp
                 }
                 if (StringUtils.isNotEmpty(cloudinaryConfigModel.getCloudinaryCname())) {
                     String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cloudinaryConfigModel.getCloudinaryCname());
-                    mediaModel.setURL(updatedUrl);
+                    mediaModel.setURL(updatedUrl + CloudinarymediacoreConstants.CLOUDINARY_QUERY_PARAM);
                     //mediaModel.setCloudinaryURL(updatedUrl);
                 } else {
-                    mediaModel.setURL(responseData.getSecure_url());
+                    mediaModel.setURL(responseData.getSecure_url() + CloudinarymediacoreConstants.CLOUDINARY_QUERY_PARAM);
                     //mediaModel.setCloudinaryURL(responseData.getSecure_url());
                 }
                 mediaModel.setCloudinaryPublicId(responseData.getPublic_id());

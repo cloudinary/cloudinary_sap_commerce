@@ -19,6 +19,7 @@ import de.hybris.platform.servicelayer.model.ModelService;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
 import uk.ptr.cloudinary.facades.CloudinaryMediaFacade;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
@@ -71,9 +72,9 @@ public class DefaultCloudinaryMediaFacade implements CloudinaryMediaFacade {
         final MediaModel mediaModel = modelService.create(MediaModel.class);
         if (org.apache.commons.lang3.StringUtils.isNotEmpty(cloudinaryCname)) {
             String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cloudinaryCname);
-            mediaModel.setURL(updatedUrl);
+            mediaModel.setURL(updatedUrl + CloudinarymediacoreConstants.CLOUDINARY_QUERY_PARAM);
         } else {
-            mediaModel.setURL(responseData.getSecure_url());
+            mediaModel.setURL(responseData.getSecure_url() + CloudinarymediacoreConstants.CLOUDINARY_QUERY_PARAM);
         }
         mediaModel.setCode(media.getCode());
         setCatalogForMedia(mediaModel,media);

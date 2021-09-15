@@ -2,8 +2,11 @@ package uk.ptr.cloudinary.service.impl;
 
 import de.hybris.platform.core.model.media.MediaModel;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.File;
+import java.util.Collection;
 import java.util.Map;
 
 import de.hybris.platform.servicelayer.media.MediaService;
@@ -49,10 +52,8 @@ public class DefaultUploadApiService implements UploadApiService
     @Override
     public UploadApiResponseData uploadAsset(CloudinaryConfigModel cloudinaryConfigModel, MediaModel mediaModel, String tag) throws IllegalArgumentException, Exception {
         try {
-            Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
 
-            final InputStream inputStream = mediaService.getStreamFromMedia(mediaModel);
-            byte[] bytes = IOUtils.toByteArray(inputStream);
+            Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
 
             Map params = ObjectUtils.asMap(
                     CloudinarymediacoreConstants.PUBLIC_ID, mediaModel.getCloudinaryPublicId(),
@@ -65,13 +66,15 @@ public class DefaultUploadApiService implements UploadApiService
             if(cloudinaryConfigModel.getMediaUploadPreset() != null)
                 params.put(CloudinarymediacoreConstants.PRESETS, cloudinaryConfigModel.getMediaUploadPreset().getName());
 
-            Map map = cloudinary.uploader().upload(bytes, params);
+            final Collection<File> result = mediaService.getFiles(mediaModel);
+
+            Map map = cloudinary.uploader().upload(result.iterator().next(), params);
 
             final ObjectMapper mapper = new ObjectMapper();
             final UploadApiResponseData responseData = mapper.convertValue(map, UploadApiResponseData.class);
 
             String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cloudinaryConfigModel.getCloudinaryCname());
-            mediaModel.setURL(updatedUrl);
+            mediaModel.setURL(updatedUrl + CloudinarymediacoreConstants.CLOUDINARY_QUERY_PARAM);
             //mediaModel.setCloudinaryURL(updatedUrl);
             mediaModel.setCloudinaryPublicId(responseData.getPublic_id());
             mediaModel.setCloudinaryResourceType(responseData.getResource_type());
@@ -82,6 +85,7 @@ public class DefaultUploadApiService implements UploadApiService
             mediaModel.setCloudinaryMediaFormat(responseData.getFormat());
             modelService.save(mediaModel);
             modelService.refresh(mediaModel);
+
             return responseData;
         }
         catch (IllegalArgumentException illegalException) {

@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
+import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.service.TransformationApiService;
 import uk.ptr.cloudinary.strategies.CloudinaryConvertedMediaCreationStrategy;
 
@@ -53,7 +54,7 @@ public class DefaultCloudinaryConvertedMediaCreationStrategy implements Cloudina
 		}
 
 
-		String transformationUrl = getTransformationApiService().createTransformation(parent,format);
+		String transformationUrl = getTransformationApiService().createTransformation(parent,format) + CloudinarymediacoreConstants.CLOUDINARY_QUERY_PARAM;
 		media.setURL(transformationUrl);
 		//media.setCloudinaryURL(transformationUrl);
 		media.setOriginal(parent);
