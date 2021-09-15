@@ -200,7 +200,7 @@ public class DefaultTransformationApiService implements TransformationApiService
     }
 
     @Override
-    public Collection<ImageData> x(final ProductModel product, final Collection<ImageData> imageDatas) {
+    public Collection<ImageData> createTransformation(final ProductModel product, final Collection<ImageData> imageDatas) {
         CloudinaryConfigModel cloudinaryConfig = cloudinaryConfigDao.getCloudinaryConfigModel();
 
         if (cloudinaryConfig != null && BooleanUtils.isTrue(cloudinaryConfig.getEnableCloudinary())) {
