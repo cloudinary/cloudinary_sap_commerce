@@ -87,10 +87,10 @@ public class CloudinaryMediaContentUpdateHandler extends MediaContentUpdateHandl
             } else {
                 if (StringUtils.isNotEmpty(cloudinaryCname)) {
                     String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cloudinaryCname);
-                    mediaToUpdate.setURL(updatedUrl);
+                    mediaToUpdate.setURL(updatedUrl + CloudinarymediacoreConstants.CLOUDINARY_QUERY_PARAM);
                     //mediaToUpdate.setCloudinaryURL(updatedUrl);
                 } else {
-                    mediaToUpdate.setURL(responseData.getSecure_url());
+                    mediaToUpdate.setURL(responseData.getSecure_url() + CloudinarymediacoreConstants.CLOUDINARY_QUERY_PARAM);
                     //mediaToUpdate.setCloudinaryURL(responseData.getSecure_url());
                 }
                 mediaToUpdate.setCloudinaryPublicId(responseData.getPublic_id());
