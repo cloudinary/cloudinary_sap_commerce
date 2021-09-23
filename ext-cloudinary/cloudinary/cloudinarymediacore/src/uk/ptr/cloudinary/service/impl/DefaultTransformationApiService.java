@@ -326,7 +326,7 @@ public class DefaultTransformationApiService implements TransformationApiService
                                 mediaurl.append(cloudinary.url().resourceType(imageData.getCloudinaryResourceType()).transformation(transformation).secure(Boolean.TRUE).publicId(imageData.getCloudinaryPublicId()).generate());
                                 mediaurl.append(CloudinarymediacoreConstants.DOT);
                                 mediaurl.append(imageData.getCloudinaryMediaFormat());
-                                imageData.setUrl(mediaurl.toString());
+                                imageData.setUrl(mediaurl.toString() + CloudinarymediacoreConstants.CLOUDINARY_QUERY_PARAM);
 
                             }
                         }
