@@ -208,8 +208,8 @@ export class ProductImagesComponent {
       
 
       script_tag.innerHTML = `
-          const myWidget = cloudinary.galleryWidget(`+JSON.stringify(galleryJson1)+`);
-          
+          var myWidget = cloudinary.galleryWidget(`+JSON.stringify(galleryJson1)+`);
+
           myWidget.render();
 
       `;

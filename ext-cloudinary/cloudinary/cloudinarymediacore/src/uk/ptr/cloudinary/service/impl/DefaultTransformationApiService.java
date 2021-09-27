@@ -120,6 +120,9 @@ public class DefaultTransformationApiService implements TransformationApiService
             }
 
             if (StringUtils.isNotBlank(transformation.toString())) {
+                if (transformation.charAt(transformation.length() - 1) == ',') {
+                    transformation.setLength(transformation.length() - 1);
+                }
                 globalTransformation = globalTransformation.rawTransformation(transformation.toString());
                 if (format != null && format.getTransformation() != null) {
                     globalTransformation = globalTransformation.chain().rawTransformation(format.getTransformation());
@@ -183,6 +186,9 @@ public class DefaultTransformationApiService implements TransformationApiService
             }
         }
         if (StringUtils.isNotEmpty(transformation.toString())) {
+            if (transformation.charAt(transformation.length() - 1) == ',') {
+                transformation.setLength(transformation.length() - 1);
+            }
             contentGlobalTransformation = contentGlobalTransformation.rawTransformation(transformation.toString());
             if (format != null && format.getTransformation() != null) {
                 contentGlobalTransformation = contentGlobalTransformation.chain().rawTransformation(format.getTransformation());
@@ -273,6 +279,9 @@ public class DefaultTransformationApiService implements TransformationApiService
                                 }
 
                                 if (org.apache.commons.lang3.StringUtils.isNotBlank(globalTransformation.toString())) {
+                                    if (globalTransformation.charAt(globalTransformation.length() - 1) == ',') {
+                                        globalTransformation.setLength(globalTransformation.length() - 1);
+                                    }
                                     transformation = transformation.rawTransformation(globalTransformation.toString());
                                 }
 
