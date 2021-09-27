@@ -206,7 +206,6 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
 
             list.add(mediaContainerModel);
         }
-        LOG.info("Created MediaContainer for product code : " + stagedProduct.getCode());
         stagedProduct.setGalleryImages(list);
         modelService.save(stagedProduct);
         return mediaModel;
