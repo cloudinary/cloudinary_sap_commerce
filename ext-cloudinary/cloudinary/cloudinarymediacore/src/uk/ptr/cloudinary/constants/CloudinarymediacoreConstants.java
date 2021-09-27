@@ -65,5 +65,4 @@ public final class CloudinarymediacoreConstants extends GeneratedCloudinarymedia
 	public static final String SAP_SKU = "sap_sku_";
 	public static final String PRESETS = "upload_preset";
 
-
 }

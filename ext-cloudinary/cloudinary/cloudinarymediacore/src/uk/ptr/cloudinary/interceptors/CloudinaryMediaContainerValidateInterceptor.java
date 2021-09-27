@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import uk.ptr.cloudinary.CloudinaryMasterMediaUtil;
-import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
 import uk.ptr.cloudinary.dao.CloudinaryProductDao;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
@@ -70,7 +69,7 @@ public class CloudinaryMediaContainerValidateInterceptor implements ValidateInte
                 if(!CollectionUtils.isEmpty(currentValue)) {
                     Optional<MediaModel> updatedMedia = currentValue.stream().filter(mc -> !oldMasterMedia.getCloudinaryPublicId().equals(mc.getCloudinaryPublicId())).findFirst();
                     if(updatedMedia.isPresent()){
-                        masterMedia.setURL(updatedMedia.get().getURL() + CloudinarymediacoreConstants.CLOUDINARY_QUERY_PARAM);
+                        masterMedia.setURL(updatedMedia.get().getURL());
                         masterMedia.setCloudinaryPublicId((updatedMedia.get().getCloudinaryPublicId()));
                         masterMedia.setCloudinaryResourceType((updatedMedia.get().getCloudinaryResourceType()));
                         masterMedia.setCloudinaryType((updatedMedia.get().getCloudinaryType()));

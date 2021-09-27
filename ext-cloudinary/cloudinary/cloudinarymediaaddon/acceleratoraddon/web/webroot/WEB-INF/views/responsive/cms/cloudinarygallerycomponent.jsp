@@ -65,6 +65,7 @@
        var galleryBaseJson = {
                               "container": "#my-gallery",
                               "cloudName": cloudName,
+                              "queryParam": "AJ",
 
                               "mediaAssets": media_assets,
                                ...galleryConfigJson

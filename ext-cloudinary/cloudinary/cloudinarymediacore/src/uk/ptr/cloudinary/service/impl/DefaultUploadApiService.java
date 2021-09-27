@@ -2,14 +2,13 @@ package uk.ptr.cloudinary.service.impl;
 
 import de.hybris.platform.core.model.media.MediaModel;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.File;
-import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 import de.hybris.platform.servicelayer.media.MediaService;
+import de.hybris.platform.servicelayer.media.NoDataAvailableException;
 import de.hybris.platform.servicelayer.model.ModelService;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -26,6 +25,10 @@ import uk.ptr.cloudinary.service.UploadApiService;
 import uk.ptr.cloudinary.util.CloudinaryConfigUtils;
 
 import javax.annotation.Resource;
+
+import java.io.File;
+import java.util.Collection;
+
 
 
 /**
@@ -52,8 +55,10 @@ public class DefaultUploadApiService implements UploadApiService
     @Override
     public UploadApiResponseData uploadAsset(CloudinaryConfigModel cloudinaryConfigModel, MediaModel mediaModel, String tag) throws IllegalArgumentException, Exception {
         try {
-
             Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
+
+            //final InputStream inputStream = mediaService.getStreamFromMedia(mediaModel);
+            //byte[] bytes = IOUtils.toByteArray(inputStream);
 
             Map params = ObjectUtils.asMap(
                     CloudinarymediacoreConstants.PUBLIC_ID, mediaModel.getCloudinaryPublicId(),
@@ -66,15 +71,15 @@ public class DefaultUploadApiService implements UploadApiService
             if(cloudinaryConfigModel.getMediaUploadPreset() != null)
                 params.put(CloudinarymediacoreConstants.PRESETS, cloudinaryConfigModel.getMediaUploadPreset().getName());
 
-            final Collection<File> result = mediaService.getFiles(mediaModel);
+            File file = retrieveFile(mediaModel);
 
-            Map map = cloudinary.uploader().upload(result.iterator().next(), params);
+            Map map = cloudinary.uploader().upload(file, params);
 
             final ObjectMapper mapper = new ObjectMapper();
             final UploadApiResponseData responseData = mapper.convertValue(map, UploadApiResponseData.class);
 
             String updatedUrl = CloudinaryConfigUtils.updateMediaCloudinaryUrl(responseData.getSecure_url(), cloudinaryConfigModel.getCloudinaryCname());
-            mediaModel.setURL(updatedUrl + CloudinarymediacoreConstants.CLOUDINARY_QUERY_PARAM);
+            mediaModel.setURL(updatedUrl);
             //mediaModel.setCloudinaryURL(updatedUrl);
             mediaModel.setCloudinaryPublicId(responseData.getPublic_id());
             mediaModel.setCloudinaryResourceType(responseData.getResource_type());
@@ -85,7 +90,6 @@ public class DefaultUploadApiService implements UploadApiService
             mediaModel.setCloudinaryMediaFormat(responseData.getFormat());
             modelService.save(mediaModel);
             modelService.refresh(mediaModel);
-
             return responseData;
         }
         catch (IllegalArgumentException illegalException) {
@@ -97,5 +101,25 @@ public class DefaultUploadApiService implements UploadApiService
         return null;
     }
 
+    public File retrieveFile(MediaModel media) throws IOException
+    {
+        NoDataAvailableException cause = null;
+
+        try {
+            Collection<File> files = mediaService.getFiles(media);
+            Iterator var5 = files.iterator();
+
+            while(var5.hasNext()) {
+                File f = (File)var5.next();
+                if (f.isFile() && f.canRead()) {
+                    return f;
+                }
+            }
+        } catch (NoDataAvailableException var6) {
+            cause = var6;
+        }
+
+        throw new IOException("Cannot access media '" + media + "'. Data is not locally available.", cause);
+    }
 
 }
