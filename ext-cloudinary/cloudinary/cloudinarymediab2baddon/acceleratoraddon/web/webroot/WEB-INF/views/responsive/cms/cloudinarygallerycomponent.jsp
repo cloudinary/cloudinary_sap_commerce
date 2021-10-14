@@ -10,7 +10,7 @@
 <input id="c_name" type="hidden" value="${cName}"/>
 <input id="cloudinaryGalleryConfigJsonString" type="hidden" value='${cloudinaryConfig.cloudinaryGalleryConfigJsonString}'/>
 
-<div class="image-gallery js-gallery">
+<div class="image-gallery-cloudinary js-gallery">
     <span class="image-gallery__zoom-icon glyphicon glyphicon-resize-full"></span>
     <div id="my-gallery" style="max-width:80%;margin:auto">
     </div>
