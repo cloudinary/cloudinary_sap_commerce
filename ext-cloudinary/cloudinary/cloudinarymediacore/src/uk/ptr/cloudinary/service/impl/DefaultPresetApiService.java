@@ -8,6 +8,7 @@ import com.cloudinary.http44.api.Response;
 import com.cloudinary.utils.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.service.PresetApiService;
 
 import java.util.ArrayList;
@@ -23,8 +24,11 @@ public class DefaultPresetApiService implements PresetApiService {
 
     @Override
     public Map<String, Boolean> getUploadPresets(String cloudinaryURL) throws IllegalArgumentException, Exception {
+
         LOG.info("Fetching presets from cloudinary");
+
         Cloudinary cloudinary = new Cloudinary(cloudinaryURL);
+        cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
         Response response = (Response) cloudinary.api().uploadPresets(ObjectUtils.emptyMap());
         Map<String, Boolean> presetMap = new HashMap<>();
 
