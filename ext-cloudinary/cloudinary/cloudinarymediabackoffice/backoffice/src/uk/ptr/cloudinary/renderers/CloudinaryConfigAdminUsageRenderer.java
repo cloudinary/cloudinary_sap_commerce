@@ -353,7 +353,7 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
             }
             else if (storageUsages.get(USED_PERCENT)!=null) {
 
-                usagesData.append(bandwidthUsages.get(USED_PERCENT));
+                usagesData.append(storageUsages.get(USED_PERCENT));
                 usagesData.append(CloudinarymediacoreConstants.PERCENTAGE);
 
             }
@@ -400,7 +400,7 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
             }
             else if (transformationUsages.get(USED_PERCENT)!=null) {
 
-                usagesData.append(bandwidthUsages.get(USED_PERCENT));
+                usagesData.append(transformationUsages.get(USED_PERCENT));
                 usagesData.append(CloudinarymediacoreConstants.PERCENTAGE);
 
             }else{
