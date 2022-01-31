@@ -48,7 +48,7 @@ public class DefaultUploadApiService implements UploadApiService
     public Map deleteAsset(String cloudinaryURL, String publicId) throws IOException
     {
         Cloudinary cloudinary = new Cloudinary(cloudinaryURL);
-
+        cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
         return cloudinary.uploader().destroy(publicId,ObjectUtils.asMap("invalidate", Boolean.TRUE));
     }
 
@@ -56,6 +56,8 @@ public class DefaultUploadApiService implements UploadApiService
     public UploadApiResponseData uploadAsset(CloudinaryConfigModel cloudinaryConfigModel, MediaModel mediaModel, String tag) throws IllegalArgumentException, Exception {
         try {
             Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
+            cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
+
 
             //final InputStream inputStream = mediaService.getStreamFromMedia(mediaModel);
             //byte[] bytes = IOUtils.toByteArray(inputStream);

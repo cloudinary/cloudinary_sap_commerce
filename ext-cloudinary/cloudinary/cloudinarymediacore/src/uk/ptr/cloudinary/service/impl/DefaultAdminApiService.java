@@ -14,8 +14,12 @@ import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 import uk.ptr.cloudinary.service.AdminApiService;
 
 import javax.annotation.Resource;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DefaultAdminApiService implements AdminApiService {
 
@@ -25,8 +29,7 @@ public class DefaultAdminApiService implements AdminApiService {
     public ApiResponse getCloudinaryPlanInfo(String cloudinaryURL) throws IllegalArgumentException, Exception{
 
             Cloudinary cloudinary = new Cloudinary(cloudinaryURL);
-            LocalDate date = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(CloudinarymediacoreConstants.DATE_FORMAT);
-            return cloudinary.api().usage(ObjectUtils.asMap("date", date.format(formatter)));
+            cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
+            return cloudinary.api().usage(ObjectUtils.emptyMap());
     }
 }

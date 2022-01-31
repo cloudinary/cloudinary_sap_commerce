@@ -54,6 +54,8 @@ public class DefaultTransformationApiService implements TransformationApiService
         if (cloudinaryConfig != null && cloudinaryConfig.getCloudinaryURL() != null) {
             if (media.getCloudinaryPublicId() != null && media.getCloudinaryResourceType() != null && media.getCloudinaryType() != null) {
                 Cloudinary cloudinary = new Cloudinary(cloudinaryConfig.getCloudinaryURL());
+                cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
+
 
                 StringBuilder transformation = new StringBuilder();
                 StringBuilder mediaUrl = new StringBuilder();
@@ -234,6 +236,8 @@ public class DefaultTransformationApiService implements TransformationApiService
                         if (cloudinaryConfig != null && cloudinaryConfig.getCloudinaryURL() != null) {
                             if (imageData.getCloudinaryPublicId() != null && imageData.getCloudinaryResourceType() != null && imageData.getCloudinaryType() != null) {
                                 Cloudinary cloudinary = new Cloudinary(cloudinaryConfig.getCloudinaryURL());
+                                cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
+
 
                                 StringBuilder globalTransformation = new StringBuilder();
                                 StringBuilder mediaurl = new StringBuilder();

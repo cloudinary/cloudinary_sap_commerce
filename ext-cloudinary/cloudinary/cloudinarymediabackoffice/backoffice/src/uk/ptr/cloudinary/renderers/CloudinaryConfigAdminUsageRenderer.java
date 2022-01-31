@@ -9,10 +9,12 @@ import com.hybris.cockpitng.util.UITools;
 import com.hybris.cockpitng.widgets.editorarea.renderer.impl.AbstractEditorAreaComponentRenderer;
 import de.hybris.platform.servicelayer.config.ConfigurationService;
 import de.hybris.platform.servicelayer.model.ModelService;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spockframework.util.ObjectUtil;
 import org.zkoss.util.resource.Labels;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.EventListener;
@@ -38,7 +40,6 @@ import java.util.Map;
 public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaComponentRenderer<AbstractSection, CloudinaryConfigModel> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CloudinaryConfigAdminUsageRenderer.class);
-    private static final String CLOUDINARY_VERSION = "v1.1.0";
     private static final String N_A = "N/A";
     private static final String CREDITS_USAGE = "credits_usage";
     private static final String USAGE = "usage";
@@ -79,7 +80,7 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
 
         Label cloudinaryVersion = new Label(CloudinarymediacoreConstants.VERSION);
         Label cloudinaryVersionValue = new Label();
-        cloudinaryVersionValue.setValue(" :  " + CLOUDINARY_VERSION);
+        cloudinaryVersionValue.setValue(" :  " + CloudinarymediacoreConstants.CLOUDINARY_VERSION);
 
         UITools.modifySClass(cloudinaryVersion, "yw-labelstyle-z-label", true);
 
@@ -103,7 +104,7 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         if (BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary())) {
             try {
                 setConnectionDetailsOnDiv(cloudinaryConfigModel, usageResponseDiv, cloudinaryConnectionLabel, html, boxHeader);
-                getPresetDetails(cloudinaryConfigModel);
+                //getPresetDetails(cloudinaryConfigModel);
             } catch (IllegalArgumentException illegalException) {
                 LOG.error("Illegal Argument " + illegalException.getMessage());
             } catch (Exception e) {
@@ -330,7 +331,11 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
             if(limit.get(USED_PERCENT)!=null) {
                 usagesData.append(limit.get(USED_PERCENT));
                 usagesData.append(CloudinarymediacoreConstants.PERCENTAGE);
-            }else{
+            }  else if(limit.get(CREDITS_USAGE)!=null){
+                usagesData.append(limit.get(CREDITS_USAGE));
+                usagesData.append(CloudinarymediacoreConstants.PERCENTAGE);
+            }
+            else{
                 usagesData.append(N_A);
             }
             usagesData.append(CLOSE_PARANTHESIS);
@@ -339,13 +344,20 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         }
 
         usagesData.append(CloudinarymediacoreConstants.STORAGE_USUAGE);
-        if(StringUtils.isNotBlank(storageUsage)) {
+        if(storageUsages!=null) {
             usagesData.append(storageUsage);
             usagesData.append(OPEN_PARANTHESIS);
-            if(storageUsages!=null && storageUsages.get(CREDITS_USAGE)!=null) {
+            if(storageUsages.get(CREDITS_USAGE)!=null) {
                 usagesData.append(storageUsages.get(CREDITS_USAGE));
                 usagesData.append(CloudinarymediacoreConstants.CREDITS);
-            }else{
+            }
+            else if (storageUsages.get(USED_PERCENT)!=null) {
+
+                usagesData.append(storageUsages.get(USED_PERCENT));
+                usagesData.append(CloudinarymediacoreConstants.PERCENTAGE);
+
+            }
+            else{
                 usagesData.append(N_A);
             }
             usagesData.append(CLOSE_PARANTHESIS);
@@ -354,16 +366,22 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
         }
 
         usagesData.append(CloudinarymediacoreConstants.BANDWIDTH_USUAGE);
-        if(StringUtils.isNotBlank(bandwidthUsage)) {
+        if(bandwidthUsages!=null) {
 
             usagesData.append(bandwidthUsage);
             usagesData.append(OPEN_PARANTHESIS);
-            if(bandwidthUsages!=null && bandwidthUsages.get(CREDITS_USAGE)!=null) {
+            if(bandwidthUsages.get(CREDITS_USAGE)!=null) {
 
                 usagesData.append(bandwidthUsages.get(CREDITS_USAGE));
                 usagesData.append(CloudinarymediacoreConstants.CREDITS);
 
-            }else{
+            }
+            else if (bandwidthUsages.get(USED_PERCENT)!=null) {
+
+                usagesData.append(bandwidthUsages.get(USED_PERCENT));
+                usagesData.append(CloudinarymediacoreConstants.PERCENTAGE);
+
+            } else{
                 usagesData.append(N_A);
             }
             usagesData.append(CLOSE_PARANTHESIS);
@@ -379,6 +397,12 @@ public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaCompon
             if(transformationUsages.get(CREDITS_USAGE)!=null) {
                 usagesData.append(transformationUsages.get(CREDITS_USAGE));
                 usagesData.append(CloudinarymediacoreConstants.CREDITS);
+            }
+            else if (transformationUsages.get(USED_PERCENT)!=null) {
+
+                usagesData.append(transformationUsages.get(USED_PERCENT));
+                usagesData.append(CloudinarymediacoreConstants.PERCENTAGE);
+
             }else{
                 usagesData.append(N_A);
             }
