@@ -11,6 +11,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.dto.CloudinaryConfigurationWsDTO;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 import uk.ptr.cloudinary.service.CloudinaryConfigService;
@@ -37,8 +38,11 @@ public class CloudinaryConfigurationController {
         CloudinaryConfigModel cloudinaryConfig = cloudinaryConfigService.getCloudinaryConfigModel();
         CloudinaryConfigurationWsDTO cloudinaryConfigurationWsDTO = new CloudinaryConfigurationWsDTO();
         cloudinaryConfigurationWsDTO.setIsCloudinaryGalleryEnabled(cloudinaryConfig.getEnableCloudinaryGalleryWidget());
+        cloudinaryConfigurationWsDTO.setIsCloudinaryEnabled(cloudinaryConfig.getEnableCloudinary());
         if(cloudinaryConfig.getCloudinaryURL()!= null) {
             Cloudinary cloudinary = new Cloudinary(cloudinaryConfig.getCloudinaryURL());
+            cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
+
             cloudinaryConfigurationWsDTO.setCloudName(cloudinary.config.cloudName);
             cloudinaryConfigurationWsDTO.setApiKey(cloudinary.config.apiKey);
             cloudinaryConfigurationWsDTO.setCName(cloudinary.config.cname);

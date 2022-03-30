@@ -3,7 +3,7 @@ package uk.ptr.cloudinary.renderer;
 
 import de.hybris.platform.acceleratorcms.model.components.ProductVariantSelectorComponentModel;
 import de.hybris.platform.addonsupport.renderer.impl.DefaultAddOnCMSComponentRenderer;
-import uk.ptr.cloudinary.constants.CloudinarymediaaddonConstants;
+import uk.ptr.cloudinary.constants.Cloudinarymediab2baddonConstants;
 
 import javax.servlet.jsp.PageContext;
 import java.util.Map;
@@ -28,6 +28,6 @@ public class CloudinaryProductVariantSelectorComponentRenderer<C extends Product
 	@Override
 	protected String getAddonUiExtensionName(final C component)
 	{
-		return CloudinarymediaaddonConstants.EXTENSIONNAME;
+		return Cloudinarymediab2baddonConstants.EXTENSIONNAME;
 	}
 }

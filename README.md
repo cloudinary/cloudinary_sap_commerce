@@ -11,7 +11,7 @@ Get your cloudname, api_key and api_secret from your Cloudinary account [as desc
 ## Additional resources ##########################################################
 
 Additional resources are available at:
-
+* [Cloudinary extension in SAP store](https://store.sap.com/dcp/en/product/display-0000059939_live_v1/Cloudinary%20for%20SAP%20Commerce)
 * [Cloudinary Website](https://cloudinary.com)
 * [Cloudinary Documentation](https://cloudinary.com/documentation)
 * [Knowledge Base](https://support.cloudinary.com/hc/en-us)

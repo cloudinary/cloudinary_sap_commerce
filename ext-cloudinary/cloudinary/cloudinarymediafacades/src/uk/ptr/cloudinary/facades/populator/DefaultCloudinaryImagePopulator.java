@@ -61,7 +61,7 @@ public class DefaultCloudinaryImagePopulator extends ImagePopulator implements P
             }
 
             if(source.getCloudinaryURL()!=null){
-                target.setCloudinaryURL(source.getCloudinaryURL());
+                target.setCloudinaryURL(source.getCloudinaryURL() + CloudinarymediacoreConstants.CLOUDINARY_QUERY_PARAM);
                 target.setUrl(target.getCloudinaryURL());
             }
 
