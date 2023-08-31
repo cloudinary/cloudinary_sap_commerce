@@ -5,9 +5,9 @@
 <html>
 <body>
 
-<link href="https://unpkg.com/cloudinary-video-player@1.5.1/dist/cld-video-player.min.css" rel="stylesheet">
+<link href="https://unpkg.com/cloudinary-video-player@1.9.9/dist/cld-video-player.min.css" rel="stylesheet">
 <script src="https://unpkg.com/cloudinary-core@latest/cloudinary-core-shrinkwrap.min.js" type="text/javascript"></script>
-<script src="https://unpkg.com/cloudinary-video-player@1.5.1/dist/cld-video-player.min.js"
+<script src="https://unpkg.com/cloudinary-video-player@1.9.9/dist/cld-video-player.min.js"
     type="text/javascript"></script>
 
      <c:choose>
