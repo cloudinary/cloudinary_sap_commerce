@@ -32,7 +32,7 @@
     "@spartacus/storefront": "^2.1.4",
     "@spartacus/styles": "^2.1.4",
     "bootstrap": "4.2.1",
-    "i18next": "^19.3.4",
+    "i18next": "^19.9.2",
     "i18next-xhr-backend": "^3.2.2",
     "ngx-infinite-scroll": "^8.0.0",
     "rxjs": "~6.5.4",
