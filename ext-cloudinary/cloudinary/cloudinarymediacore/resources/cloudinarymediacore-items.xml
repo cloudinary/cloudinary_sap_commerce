@@ -127,6 +127,11 @@
 					<modifiers read="true" write="true" search="true" optional="true"/>
 					<persistence type="property" />
 				</attribute>
+				<attribute qualifier="cloudinaryMaxBreakPoints" type="java.lang.Integer">
+					<description>Cloudinary Max BreakPoints</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
 				<attribute qualifier="cloudinaryImageFormat" type="CloudinaryMediaFormat">
 					<description>Cloudinary Image Format </description>
 					<modifiers read="true" write="true" search="true" optional="false"/>

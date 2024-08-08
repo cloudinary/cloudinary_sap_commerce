@@ -30,6 +30,7 @@ public class CloudinaryBeforeViewHandler implements BeforeViewHandler
 	{
 		CloudinaryConfigModel cloudinaryConfig = cloudinaryConfigFacade.getCloudinaryConfig();
 
+
 		if(BooleanUtils.isTrue(cloudinaryConfig.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfig.getCloudinaryResponsive()) && cloudinaryConfig.getCloudinaryURL()!= null) {
 
 			Cloudinary cloudinary = new Cloudinary(cloudinaryConfig.getCloudinaryURL());
