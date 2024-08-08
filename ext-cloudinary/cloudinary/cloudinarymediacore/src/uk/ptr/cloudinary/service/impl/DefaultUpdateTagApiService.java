@@ -21,6 +21,7 @@ public class DefaultUpdateTagApiService implements UpdateTagApiService {
     public void updateTagOnAsests(String publicId, String productCode, String cloudinaryURL, String resourceType) throws IOException {
         try {
             Cloudinary cloudinary = new Cloudinary(cloudinaryURL);
+            //cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
 
             String[] publicIds = {publicId};
 

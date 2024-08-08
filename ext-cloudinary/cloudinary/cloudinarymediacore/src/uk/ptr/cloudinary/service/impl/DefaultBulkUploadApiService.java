@@ -83,6 +83,7 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
 
             if (stagedProduct != null) {
                 if (org.apache.commons.collections.CollectionUtils.isEmpty(stagedProduct.getGalleryImages())) {
+                    LOG.info("Create Media Container for Product Code : " + stagedProduct.getCode());
                     MediaModel mediaModel = createMediaContainerAndAssociateWithProduct(stagedProduct, bulkUpload.getMediaContainers());
                     if (mediaModel != null) {
                         UpdateTagOnProduct(cloudinaryConfigModel, bulkUpload, mediaModel.getCloudinaryPublicId(), mediaModel.getCloudinaryResourceType());
@@ -90,6 +91,7 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
                     catalogVersionModels.add(stagedProduct.getCatalogVersion());
                 } else {
                     List<String> mediaContainerCodes = stagedProduct.getGalleryImages().stream().map(MediaContainerModel::getQualifier).collect(Collectors.toList());
+                    LOG.info("MediaContainer Codes : " + mediaContainerCodes + " for product code : " +stagedProduct.getCode());
                     List<MediaContainerData> mediaContainersData = bulkUpload.getMediaContainers().stream().collect(Collectors.toList());
                     if (!CollectionUtils.isEmpty(mediaContainersData)) {
                         Set<MediaContainerModel> mediaContainerModels = new HashSet<>();
@@ -204,10 +206,8 @@ public class DefaultBulkUploadApiService implements BulkUploadApiService {
 
             list.add(mediaContainerModel);
         }
-
         stagedProduct.setGalleryImages(list);
         modelService.save(stagedProduct);
-
         return mediaModel;
     }
 

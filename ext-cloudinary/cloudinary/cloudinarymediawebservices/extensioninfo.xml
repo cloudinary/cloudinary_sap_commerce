@@ -2,44 +2,32 @@
 <!--
  Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
 --><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
-            	
+           
     
-    
-    <extension abstractclassprefix="Generated" classprefix="Ycommercewebservices" name="cloudinarymediawebservices" usemaven="false">
-                        		
+    <extension abstractclassprefix="Generated" classprefix="Cloudinarymediawebservices" managername="CloudinarymediawebservicesManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="cloudinarymediawebservices" usemaven="false">
+                               
+      
         
-        
-        <requires-extension name="cmsoccaddon"/>
+        <requires-extension name="webservicescommons"/>
         <requires-extension name="cloudinarymediafacades"/>
-                        		
-        
-        
-        <requires-extension name="commercewebservicescommons"/>
-                        		
-        
-        
-        <requires-extension name="ordermanagementfacades"/>
                 
         <requires-extension name="cloudinarymediacore"/>
-                        		
+                                
+      
         
+        <coremodule generated="true" manager="uk.ptr.cloudinary.jalo.CloudinarymediawebservicesManager" packageroot="uk.ptr.cloudinary"/>
+                      
         
-        <coremodule generated="true" manager="de.hybris.platform.jalo.extension.GenericManager" packageroot="uk.ptr.cloudinary"/>
-                        		
+        <webmodule jspcompile="false" webroot="/cloudinarymediawebservices"/>
+                					
+		
         
-        
-        <webmodule jspcompile="false" webroot="/rest"/>
-                        		
-        
-        		
-        
-        
-        <meta key="modulegen-name" value="commercewebservices"/>
-                        	
-    
+        	
+
+   
     
     </extension>
-            
+              
 
 
 </extensioninfo>

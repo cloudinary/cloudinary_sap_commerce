@@ -8,15 +8,17 @@
                 		
         
         <requires-extension name="backoffice"/>
-
+        <requires-extension name="cloudinarymediawebservices"/>
         <requires-extension name="cloudinarymediacore"/>
         <requires-extension name="mediaconversionbackoffice"/>
+                		
+        
         <!--PLACEHOLDER_FOR_SASS_REGISTRATION-->
                 		
         
         <coremodule generated="true" manager="uk.ptr.cloudinary.jalo.CloudinarymediabackofficeManager" packageroot="uk.ptr.cloudinary"/>
-
-
+                		
+        
         <meta key="backoffice-module" value="true"/>
                 		
         
