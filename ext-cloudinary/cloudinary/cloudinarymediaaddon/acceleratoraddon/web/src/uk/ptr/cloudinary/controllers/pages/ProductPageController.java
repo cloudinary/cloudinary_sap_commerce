@@ -5,7 +5,7 @@ package uk.ptr.cloudinary.controllers.pages;
 
 import com.cloudinary.Cloudinary;
 import com.google.common.collect.Maps;
-import de.hybris.platform.commercefacades.futurestock.FutureStockFacade;
+import de.hybris.platform.acceleratorfacades.futurestock.FutureStockFacade;
 import de.hybris.platform.acceleratorservices.controllers.page.PageType;
 import de.hybris.platform.acceleratorstorefrontcommons.breadcrumb.impl.ProductBreadcrumbBuilder;
 import de.hybris.platform.acceleratorstorefrontcommons.constants.WebConstants;
@@ -40,7 +40,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.facades.CloudinaryConfigFacade;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 
