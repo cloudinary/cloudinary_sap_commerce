@@ -40,6 +40,7 @@ import java.util.Map;
 public class CloudinaryConfigAdminUsageRenderer extends AbstractEditorAreaComponentRenderer<AbstractSection, CloudinaryConfigModel> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CloudinaryConfigAdminUsageRenderer.class);
+    private static final String CLOUDINARY_VERSION = "v1.2.0";
     private static final String N_A = "N/A";
     private static final String CREDITS_USAGE = "credits_usage";
     private static final String USAGE = "usage";
