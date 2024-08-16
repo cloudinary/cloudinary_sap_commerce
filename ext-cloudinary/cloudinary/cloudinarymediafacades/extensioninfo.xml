@@ -16,7 +16,6 @@
 
         <requires-extension name="cloudinarymediacore"/>
         <requires-extension name="acceleratorfacades"/>
-        <requires-extension name="commercefacades"/>
         
         <coremodule generated="true" manager="uk.ptr.cloudinary.jalo.CloudinarymediafacadesManager" packageroot="uk.ptr.cloudinary"/>
                       

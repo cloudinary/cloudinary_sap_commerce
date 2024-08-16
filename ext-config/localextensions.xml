@@ -223,7 +223,7 @@
     <extension name='cmsbackoffice' />
     <extension name='cmscockpit' />
     <extension name='cmsfacades' />
-    <extension name='cmsoccaddon' />
+    <extension name='cmsocc' />
     <extension name='cmswebservices' />
     <extension name='previewwebservices' />
     <extension name='permissionsfacades' />
@@ -244,5 +244,7 @@
     <extension name='cloudinarymediawebservices' />
     <extension name='cloudinarymediafacades' />
     <extension name='cloudinarymediaaddon' />
+    <extension name='cloudinarymediaocc'/>
+    <extension name='spartacussampledata'/>
   </extensions>
 </hybrisconfig>

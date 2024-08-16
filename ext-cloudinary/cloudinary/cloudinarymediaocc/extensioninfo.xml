@@ -11,6 +11,7 @@
                 		
         
         <requires-extension name="commercewebservices"/>
+        <requires-extension name="cloudinarymediafacades"/>
                 		
         
         <coremodule generated="true" manager="uk.ptr.cloudinary.occ.jalo.CloudinarymediaoccManager" packageroot="uk.ptr.cloudinary.occ"/>

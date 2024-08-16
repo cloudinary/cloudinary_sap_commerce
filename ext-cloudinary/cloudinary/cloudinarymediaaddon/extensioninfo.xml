@@ -13,7 +13,6 @@
         <requires-extension name="cloudinarymediafacades"/>
 
         <requires-extension name="acceleratorstorefrontcommons"/>
-        <requires-extension name="acceleratorfacades"/>
 
         <requires-extension name="addonsupport"/>
 
