@@ -66,7 +66,7 @@
     <extension name='merchandisingcmswebservices' />
     <extension name='merchandisingservices' />
     <extension name='merchandisingservicesbackoffice' />
-    <extension name='merchandisingsmartedit' />
+    <!--<extension name='merchandisingsmartedit' />-->
     <extension name='merchandisingstorefrontsampledataaddon' />
     <extension name='commercefacades' />
     <extension name='commerceservices' />
@@ -156,7 +156,7 @@
     <extension name='personalizationsampledataaddon' />
     <extension name='personalizationservices' />
     <extension name='personalizationservicesbackoffice' />
-    <extension name='personalizationsmartedit' />
+    <!--<extension name='personalizationsmartedit' />-->
     <extension name='personalizationwebservices' />
     <extension name='previewpersonalizationweb' />
     <extension name='personalizationaddon' />
@@ -167,12 +167,12 @@
     <extension name='personalizationpromotions' />
     <extension name='personalizationpromotionsbackoffice' />
     <extension name='personalizationpromotionssampledataaddon' />
-    <extension name='personalizationpromotionssmartedit' />
+    <!--<extension name='personalizationpromotionssmartedit' />-->
     <extension name='personalizationpromotionsweb' />
     <extension name='personalizationsearch' />
     <extension name='personalizationsearchbackoffice' />
     <extension name='personalizationsearchsamplesaddon' />
-    <extension name='personalizationsearchsmartedit' />
+    <!--<extension name='personalizationsearchsmartedit' />-->
     <extension name='personalizationsearchweb' />
     <extension name='adminapi' />
     <extension name='auditreportservices' />
@@ -201,9 +201,9 @@
     <extension name='selectivecartfacades' />
     <extension name='selectivecartservices' />
     <extension name='selectivecartsplitlistaddon' />
-    <extension name='cmssmartedit' />
+    <!--<extension name='cmssmartedit' /> 
     <extension name='cmssmarteditwebservices' />
-    <!--<extension name='smartedit' />
+    <extension name='smartedit' />
     <extension name='smarteditaddon' />
     <extension name='smarteditwebservices' />-->
     <extension name='stocknotificationaddon' />
@@ -240,7 +240,7 @@
     <extension name='mediaconversionbackoffice' />
     <extension name='cloudinarymediacore' />
     <extension name='cloudinarymediabackoffice' />
-    <extension name='cloudinarymediasmartedit' />
+    <!--<extension name='cloudinarymediasmartedit' />-->
     <extension name='cloudinarymediawebservices' />
     <extension name='cloudinarymediafacades' />
     <extension name='cloudinarymediaaddon' />
