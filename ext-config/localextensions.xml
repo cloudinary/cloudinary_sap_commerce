@@ -203,9 +203,9 @@
     <extension name='selectivecartsplitlistaddon' />
     <extension name='cmssmartedit' />
     <extension name='cmssmarteditwebservices' />
-    <extension name='smartedit' />
+    <!--<extension name='smartedit' />
     <extension name='smarteditaddon' />
-    <extension name='smarteditwebservices' />
+    <extension name='smarteditwebservices' />-->
     <extension name='stocknotificationaddon' />
     <extension name='stocknotificationfacades' />
     <extension name='stocknotificationservices' />
