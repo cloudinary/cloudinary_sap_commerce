@@ -358,14 +358,14 @@
                 </editorArea:section>
             </editorArea:tab>
 
-            <editorArea:tab name="hmc.tab.imagebreakpoints" merge-mode="append">
+            <!--<editorArea:tab name="hmc.tab.imagebreakpoints" merge-mode="append">
                 <editorArea:section name="hmc.section.cloudinary.image.responsive.breakpoints">
                     <editorArea:attribute qualifier="cloudinaryResponsive"/>
                     <editorArea:attribute qualifier="cloudinaryByteStep"/>
                     <editorArea:attribute qualifier="cloudinaryImageWidthLimitMax"/>
                     <editorArea:attribute qualifier="cloudinaryImageWidthLimitMin"/>
                 </editorArea:section>
-            </editorArea:tab>
+            </editorArea:tab>-->
 
            <editorArea:tab name="hmc.tab.productgallery" merge-mode="append">
                 <editorArea:customSection name="hmc.section.cloudinary.productgallery"

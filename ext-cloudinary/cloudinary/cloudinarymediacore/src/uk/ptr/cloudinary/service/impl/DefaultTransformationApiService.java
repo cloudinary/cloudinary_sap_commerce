@@ -54,7 +54,7 @@ public class DefaultTransformationApiService implements TransformationApiService
         if (cloudinaryConfig != null && cloudinaryConfig.getCloudinaryURL() != null) {
             if (media.getCloudinaryPublicId() != null && media.getCloudinaryResourceType() != null && media.getCloudinaryType() != null) {
                 Cloudinary cloudinary = new Cloudinary(cloudinaryConfig.getCloudinaryURL());
-               // cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
+                //cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
 
 
                 StringBuilder transformation = new StringBuilder();
@@ -146,7 +146,7 @@ public class DefaultTransformationApiService implements TransformationApiService
     private StringBuilder contentMediaTransformation(CloudinaryConfigModel cloudinaryConfig, MediaFormatModel format, MediaModel media, StringBuilder mediaUrl, StringBuilder transformation, Cloudinary cloudinary) {
 
         Transformation contentGlobalTransformation = new Transformation();
-        if (BooleanUtils.isTrue(cloudinaryConfig.getCloudinaryResponsive())) {
+         if (BooleanUtils.isTrue(cloudinaryConfig.getCloudinaryResponsive())) {
             transformation.append("w_auto");
             transformation.append(",");
         }
@@ -193,8 +193,13 @@ public class DefaultTransformationApiService implements TransformationApiService
             }
             contentGlobalTransformation = contentGlobalTransformation.rawTransformation(transformation.toString());
             if (format != null && format.getTransformation() != null) {
-                contentGlobalTransformation = contentGlobalTransformation.chain().rawTransformation(format.getTransformation());
-                media.setCloudinaryTransformation(format.getTransformation());
+                String mFormat = format.getTransformation();
+                if (mFormat.contains(",h_")) {
+                    // Remove the height part ",h_" if it exists
+                    mFormat = mFormat.replaceAll(",h_\\d+", "");
+                }
+                contentGlobalTransformation = contentGlobalTransformation.chain().rawTransformation(mFormat);
+                media.setCloudinaryTransformation(mFormat);
             }
         }
         mediaUrl.append(cloudinary.url().resourceType(media.getCloudinaryResourceType()).transformation(contentGlobalTransformation).publicId(media.getCloudinaryPublicId()).secure(Boolean.TRUE).generate());

@@ -246,5 +246,6 @@
     <extension name='cloudinarymediaaddon' />
     <extension name='cloudinarymediaocc'/>
     <extension name='spartacussampledata'/>
+    <extension name="swaggerintegration" />
   </extensions>
 </hybrisconfig>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<editor-definition id="uk.ptr.cloudinary.backoffice.widgets.preview"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:noNamespaceSchemaLocation="http://www.hybris.com/schema/cockpitng/editor-definition.xsd">
+
+    <name>Cloudinary Select Asset</name>
+    <description>Cloudinary Widget to select asset</description>
+    <version>1.0</version>
+    <view src="cloudinaryuploadpreview.zul" />
+    <type>java.lang.String</type>
+    <type>java.lang.Object</type>
+
+</editor-definition>

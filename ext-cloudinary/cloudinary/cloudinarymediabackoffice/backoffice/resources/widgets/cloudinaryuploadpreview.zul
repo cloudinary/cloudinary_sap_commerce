@@ -1,0 +1,45 @@
+<zk xmlns:w="http://www.zkoss.org/2005/zk/client"
+    xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd ">
+
+    <html>
+        <script src="/backoffice/widgetClasspathResource/widgets/js/all.js"/>
+        <script src="/backoffice/widgetClasspathResource/widgets/js/cloudinaryupload.js"/>
+    </html>
+    <vlayout style="overflow: auto" height="100%" id="demoEditor">
+        <hbox align="center">
+            <div>
+                <label value="Select Asset from Cloudinary" style="font-weight: bold;"/>
+                <textbox id="txtBxId" value="" visible="false">
+                </textbox>
+            </div>
+        </hbox>
+        <hbox></hbox>
+        <hbox>
+            <div>
+                <label id="mediaName" value="" visible="true" style="font-weight: bold; color: grey; ">
+                </label>
+            </div>
+        </hbox>
+        <hbox></hbox>
+        <hbox align="center">
+            <div>
+                <button id="upload_widget" w:onClick="uploadImage()">Select Asset</button>
+                <button label="Done Upload" id="eventBtn" visible="false">
+                    <attribute w:name="onClick" name="">
+                        var txtBx = zk.$('$txtBxId');
+                        var textValue = zk.$('$txtBxId').getValue();
+                        txtBx.setValue(textValue);
+                        txtBx.fireOnChange(); /*optional*/
+
+                        var labBx = zk.$('$mediaName');
+                        var labValue = zk.$('$mediaName').getValue();
+                        labBx.setValue(labValue);
+
+                    </attribute>
+                </button>
+            </div>
+        </hbox>
+    </vlayout>
+</zk>
