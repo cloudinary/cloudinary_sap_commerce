@@ -1,11 +1,11 @@
 #Ant properties
-#Tue Sep 29 20:19:55 CEST 2020
-version.api=2005
+#Tue Jul 02 10:31:35 CEST 2024
+version.api=2211
 vendor=hybris
 group.id=de.hybris.platform
 name=cloudinarymediawebservices
 description=cloudinarymediawebservices
-builddate=20200929 2018
-releasedate=20200513 1957
-version=2005.4
+builddate=20240702 1022
+releasedate=20240611 1044
+version=2211.25
 module.name=platform-module

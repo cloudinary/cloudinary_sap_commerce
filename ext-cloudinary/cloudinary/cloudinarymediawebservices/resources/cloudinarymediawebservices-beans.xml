@@ -2,209 +2,129 @@
 <!--
  Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
 -->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
-
-	<enum class="uk.ptr.cloudinary.populator.options.PaymentInfoOption">
-		<value>BASIC</value>
-		<value>BILLING_ADDRESS</value>
-	</enum>
-
-	<!--auth response  -->
-	<bean class="uk.ptr.cloudinary.auth.data.LogoutResponse">
-		<property name="success" type="boolean"/>
+	
+	<!-- DATA -->
+	<bean class="uk.ptr.cloudinary.data.UserDataList">
+		<property name="users" type="java.util.List&lt;uk.ptr.cloudinary.data.UserData>"/>
 	</bean>
 
-	<!-- storesession data -->
-
-	<bean class="uk.ptr.cloudinary.storesession.data.LanguageDataList">
-		<property name="languages"
-		          type="java.util.Collection&lt;de.hybris.platform.commercefacades.storesession.data.LanguageData>"/>
+	<bean class="uk.ptr.cloudinary.data.UserData" >
+		<property name="defaultBillingAddress" type="uk.ptr.cloudinary.data.AddressData"/>
+		<property name="defaultShippingAddress" type="uk.ptr.cloudinary.data.AddressData"/>
+		<property name="addresses" type="java.util.List&lt;uk.ptr.cloudinary.data.AddressData>"/>
+		<property name="description" type="String"/>
+		<property name="firstName" type="String"/>
+		<property name="lastName" type="String"/>
+	</bean>
+	
+	<bean class="uk.ptr.cloudinary.data.AddressDataList">
+		<property name="addresses" type="java.util.List&lt;uk.ptr.cloudinary.data.AddressData>"/>
+	</bean>
+	
+	<bean class="uk.ptr.cloudinary.data.AddressData">
+		<property name="streetname" type="String"/>
+		<property name="streetnumber" type="String"/>
+		<property name="town" type="String"/>
+		<property name="shippingAddress" type="boolean"/>
+		<property name="billingAddress" type="boolean"/>
+		<property name="defaultAddress" type="boolean"/>
+		<property name="formattedAddress" type="String"/>
 	</bean>
 
-	<bean class="uk.ptr.cloudinary.storesession.data.CurrencyDataList">
-		<property name="currencies"
-		          type="java.util.Collection&lt;de.hybris.platform.commercefacades.storesession.data.CurrencyData>"/>
-	</bean>
-
-	<!-- order data -->
-
-	<bean class="uk.ptr.cloudinary.order.data.CartDataList">
-		<property name="carts"
-		          type="java.util.List&lt;de.hybris.platform.commercefacades.order.data.CartData>"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.order.data.OrderEntryDataList">
-		<property name="orderEntries"
-		          type="java.util.List&lt;de.hybris.platform.commercefacades.order.data.OrderEntryData>"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.order.data.CardTypeDataList">
-		<property name="cardTypes"
-		          type="java.util.List&lt;de.hybris.platform.commercefacades.order.data.CardTypeData>"/>
-	</bean>
-
-	<!-- product data -->
-
-	<bean class="uk.ptr.cloudinary.product.data.ProductDataList">
-		<property name="products"
-		          type="java.util.List&lt;de.hybris.platform.commercefacades.product.data.ProductData>"/>
-		<property name="catalog" type="String"/>
-		<property name="version" type="String"/>
-		<property name="totalProductCount" type="int"/>
-		<property name="totalPageCount" type="int"/>
-		<property name="currentPage" type="int"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.product.data.PromotionDataList">
-		<property name="promotions"
-		          type="java.util.List&lt;de.hybris.platform.commercefacades.product.data.PromotionData>"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.product.data.PromotionResultDataList">
-		<property name="promotions"
-		          type="java.util.List&lt;de.hybris.platform.commercefacades.product.data.PromotionResultData>"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.product.data.ReviewDataList">
-		<property name="reviews" type="java.util.List&lt;de.hybris.platform.commercefacades.product.data.ReviewData>"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.product.data.SuggestionDataList">
-		<property name="suggestions"
-		          type="java.util.List&lt;de.hybris.platform.commercefacades.product.data.SuggestionData>"/>
-	</bean>
-
-	<!-- user data -->
-
-	<bean class="uk.ptr.cloudinary.user.data.TitleDataList">
-		<property name="titles" type="java.util.List&lt;de.hybris.platform.commercefacades.user.data.TitleData>"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.user.data.CountryDataList">
-		<property name="countries" type="java.util.List&lt;de.hybris.platform.commercefacades.user.data.CountryData>"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.user.data.RegionDataList">
-		<property name="regions"
-				  type="java.util.List&lt;de.hybris.platform.commercefacades.user.data.RegionData>"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.user.data.AddressDataList">
-		<property name="addresses" type="java.util.List&lt;de.hybris.platform.commercefacades.user.data.AddressData>"/>
-	</bean>
-
-	<!-- voucher data -->
-	<bean class="uk.ptr.cloudinary.voucher.data.VoucherDataList">
-		<property name="vouchers"
-		          type="java.util.List&lt;de.hybris.platform.commercefacades.voucher.data.VoucherData>"/>
-	</bean>
-
-	<!-- validation data -->
-	<bean class="uk.ptr.cloudinary.validation.data.AddressValidationData">
-		<property name="errors" type="de.hybris.platform.webservicescommons.dto.error.ErrorListWsDTO"/>
-		<property name="decision" type="String"/>
-		<property name="suggestedAddressesList"
-		          type="uk.ptr.cloudinary.user.data.AddressDataList"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.validation.data.CartVoucherValidationData">
-		<property name="subject" type="String" />
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.validation.data.CartVoucherValidationDataList">
-		<property name="CartVoucherValidationDataList"
-				  type="java.util.List&lt;uk.ptr.cloudinary.validation.data.CartVoucherValidationData>"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.user.data.LoginChangeResponse">
-		<property name="success" type="boolean"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.user.data.PasswordRestoreResponse">
-		<property name="success" type="boolean"/>
-	</bean>
-
-	<!-- update queues -->
-
-	<bean class="uk.ptr.cloudinary.queues.data.ProductExpressUpdateElementData">
-		<property name="code" type="String"/>
-		<property name="catalogId" type="String"/>
-		<property name="catalogVersion" type="String"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.queues.data.ProductExpressUpdateElementDataList">
-		<property name="productExpressUpdateElements"
-		          type="java.util.List&lt;uk.ptr.cloudinary.queues.data.ProductExpressUpdateElementData>"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.queues.data.OrderStatusUpdateElementData">
-		<property name="code" type="String"/>
-		<property name="status" type="String"/>
-		<property name="baseSiteId" type="String"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.queues.data.OrderStatusUpdateElementDataList">
-		<property name="orderStatusUpdateElements"
-		          type="java.util.List&lt;uk.ptr.cloudinary.queues.data.OrderStatusUpdateElementData>"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.store.data.StoreCountListData">
-		<property name="countriesAndRegionsStoreCount"
-				  type="java.util.List&lt;de.hybris.platform.commercefacades.store.data.StoreCountData>"/>
-	</bean>
-
-	<!-- Consent management -->
-	<bean class="uk.ptr.cloudinary.consent.data.ConsentTemplateDataList">
-		<property name="consentTemplates"
-				  type="java.util.List&lt;de.hybris.platform.commercefacades.consent.data.ConsentTemplateData>"/>
-	</bean>
-
-	<!-- Base Sites -->
-	<bean class="uk.ptr.cloudinary.basesite.data.BaseSiteDataList">
-		<property name="baseSites"
-				  type="java.util.List&lt;de.hybris.platform.commercefacades.basesite.data.BaseSiteData>"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.returns.data.ReturnRequestsData">
-		<property name="returnRequests"
-				  type="java.util.List&lt;de.hybris.platform.ordermanagementfacades.returns.data.ReturnRequestData>"/>
-		<property name="sorts" type="java.util.List&lt;de.hybris.platform.commerceservices.search.pagedata.SortData>"/>
-		<property name="pagination" type="de.hybris.platform.commerceservices.search.pagedata.PaginationData"/>
-	</bean>
-
-	<bean class="uk.ptr.cloudinary.dto.CloudinaryConfigurationWsDTO">
-		<description>Cloudinary Configuration</description>
-
-		<property name="cloudName" type="String"/>
-		<property name="apiKey" type="String"/>
-		<property name="environment" type="String"/>
-		<property name="isCloudinaryGalleryEnabled" type="boolean"/>
-		<property name="isResponsiveEnabled" type="boolean"/>
-		<property name="cloudinaryImageWidthLimitMax" type="int"/>
-		<property name="cloudinaryImageWidthLimitMin" type="int"/>
-		<property name="cloudinaryByteStep" type="int"/>
-		<property name="cloudinaryGalleryConfigJsonString" type="String"/>
-		<property name="cName" type="String"/>
-		<property name="isCloudinaryEnabled" type="boolean"/>
-	</bean>
-
-	<bean class="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO">
-	<description>Representation of a Product</description>
-
-		<property name="sapCCProductCode" type="String">
-			<description>Code of the product spinset</description>
-		</property>
-		<property name="spinSetCode" type="String">
-			<description>Code of the product spinset</description>
-		</property>
-
-	</bean>
-
-	<bean class="de.hybris.platform.cmswebservices.data.MediaData">
-
-		<property name="cloudinaryMediaJson" type="String" >
-			<description>Cloudinary Media Json Data</description>
+	<!-- DTO -->
+	<bean class="uk.ptr.cloudinary.dto.SampleWsDTO">
+		<description>Sample DTO</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">sample</hint>
+		</hints>
+		<property name="value" type="String">
+			<description>sample value</description>
+			<hints>
+				<hint name="required">true</hint>
+			</hints>
 		</property>
 	</bean>
+
+	<bean class="uk.ptr.cloudinary.dto.UsersListWsDTO">
+		<description>User list</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">usersList</hint>
+		</hints>
+		<property name="users" type="java.util.List&lt;uk.ptr.cloudinary.dto.UserWsDTO>"/>
+	</bean>
+	
+	<bean class="uk.ptr.cloudinary.dto.UsersPageWsDTO" extends="de.hybris.platform.webservicescommons.dto.SearchPageWsDTO&lt;uk.ptr.cloudinary.dto.UserWsDTO>" >
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">usersPage</hint>
+		</hints>
+	</bean>
+
+	<bean class="uk.ptr.cloudinary.dto.UserWsDTO">
+		<description>User DTO</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">user</hint>
+		</hints>
+		<property name="addresses" type="java.util.List&lt;uk.ptr.cloudinary.dto.AddressWsDTO>"/>
+		<property name="firstName" type="String">
+			<description>First Name</description>
+			<hints>
+				<hint name="required">true</hint>
+			</hints>
+		</property>
+		<property name="lastName" type="String">
+			<description>Last Name</description>
+			<hints>
+				<hint name="required">true</hint>
+			</hints>
+		</property>
+		<property name="info" type="String" />
+		<property name="billingAddress" type="uk.ptr.cloudinary.dto.AddressWsDTO">
+			<description>Billing Address</description>
+		</property>
+		<property name="shippingAddress" type="uk.ptr.cloudinary.dto.AddressWsDTO">
+			<description>Shipping Address</description>
+		</property>
+	</bean>
+	
+	<bean class="uk.ptr.cloudinary.dto.AddressListWsDTO">
+		<description>List of addresses</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">addressList</hint>
+		</hints>
+		<property name="addresses" type="java.util.List&lt;uk.ptr.cloudinary.dto.AddressWsDTO>"/>
+	</bean>
+	
+	<bean class="uk.ptr.cloudinary.dto.AddressWsDTO">
+		<description>Address DTO</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">address</hint>
+		</hints>
+		<property name="street" type="String"/>
+		<property name="town" type="String"/>
+		<property name="streetNumber" type="String"/>
+	</bean>
+	
+	<bean class="uk.ptr.cloudinary.dto.TestMapWsDTO">
+		<description>Example of DTO with map</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">testMap</hint>
+		</hints>
+		<property name="stringMap" type="java.util.Map&lt;String,String>"/>
+		<property name="integerMap" type="java.util.Map&lt;String,Integer>"/>
+	</bean>
+
+
 
 </beans>

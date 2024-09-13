@@ -13,12 +13,12 @@ import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CurrentProductService {
-  
+
 
   constructor(
     private routingService: RoutingService,
     private productService: ProductService,
-  
+
   ) {}
 
   protected readonly DEFAULT_PRODUCT_SCOPE = ProductScope.DETAILS;
@@ -41,5 +41,5 @@ export class CurrentProductService {
     );
   }
 
-  
+
 }

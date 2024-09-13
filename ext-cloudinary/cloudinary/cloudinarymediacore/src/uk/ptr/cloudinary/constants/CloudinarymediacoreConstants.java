@@ -9,10 +9,12 @@ package uk.ptr.cloudinary.constants;
 public final class CloudinarymediacoreConstants extends GeneratedCloudinarymediacoreConstants
 {
 	public static final String EXTENSIONNAME = "cloudinarymediacore";
-    public static final String VERSION = "Version";
-    public static final String CLOUDINARY_QUERY_PARAM = "?_i=AJ";
 
-    private CloudinarymediacoreConstants()
+	public static final String VERSION = "Version";
+	public static final String CLOUDINARY_QUERY_PARAM = "?_i=AJ";
+
+
+	private CloudinarymediacoreConstants()
 	{
 		//empty to avoid instantiating this constant class
 	}
@@ -66,7 +68,8 @@ public final class CloudinarymediacoreConstants extends GeneratedCloudinarymedia
 	public static final String PRESETS = "upload_preset";
 
 	public static final String CLOUDINARYSAPCC ="CloudinarySAPCC";
-	public static final String CLOUDINARY_VERSION = "v1.2.0";
-	public static final String SAP_VERSION = "2005";
+
+	public static final String CLOUDINARY_VERSION = "v1.3.0";
+	public static final String SAP_VERSION = "2211";
 
 }

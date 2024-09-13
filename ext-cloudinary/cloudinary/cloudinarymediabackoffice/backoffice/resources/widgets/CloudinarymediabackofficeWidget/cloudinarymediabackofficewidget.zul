@@ -8,7 +8,7 @@
 		xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.hybris.com/schema/cockpitng/zul/zul.xsd"
  		height="100%">
  		
-	<div height="100%" style="background: #ccc;">
+	<div height="100%" class="cloudinarymediabackoffice-container">
 		<div>
 			<label id="label" value="${labels.hello} cloudinarymediabackoffice" />
 		</div>

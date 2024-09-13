@@ -30,7 +30,7 @@
         </advanced-search:advanced-search>
     </context>
 
-    <!--Explorer tree -->
+
 
     <context component="explorer-tree" merge-by="principal" principal="backofficeadministratorrole">
         <explorer-tree:explorer-tree  xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree">
@@ -186,7 +186,7 @@
                     </wz:done>
                 </wz:navigation>
             </wz:step>
-            <wz:step id="step4" label="create.cloudinaryconfig.breakpoints" merge-mode="replace">
+            <!--<wz:step id="step4" label="create.cloudinaryconfig.breakpoints" merge-mode="replace">
                 <wz:info id="step4.intro" position="top" label="" />
                 <wz:content id="step4.content">
                     <wz:custom-view lang="zul" src="widgets/responsivebreakpointtext.zul"/>
@@ -204,8 +204,8 @@
                         <wz:save property="newCloudinaryConfig"/>
                     </wz:done>
                 </wz:navigation>
-            </wz:step>
-            <wz:step id="step5" label="create.cloudinaryconfig.product.gallery" merge-mode="replace">
+            </wz:step>-->
+            <!--<wz:step id="step5" label="create.cloudinaryconfig.product.gallery" merge-mode="replace">
                 <wz:info id="step5.intro" position="top" label="create.cloudinary.product.gallery.intro" />
                 <wz:content id="step5.content">
                     <wz:property-list root="newCloudinaryConfig">
@@ -225,8 +225,9 @@
                         <wz:save property="newCloudinaryConfig"/>
                     </wz:done>
                 </wz:navigation>
-            </wz:step>
-            <wz:step id="step6" label="create.cloudinaryconfig.video.player" merge-mode="replace">
+            </wz:step>-->
+
+            <!--<wz:step id="step6" label="create.cloudinaryconfig.video.player" merge-mode="replace">
                 <wz:info id="step6.intro" position="top" label="create.cloudinary.video.player.intro" />
                 <wz:content id="step4.content">
                     <wz:property-list root="newCloudinaryConfig">
@@ -245,21 +246,21 @@
                         <wz:save property="newCloudinaryConfig"/>
                     </wz:done>
                 </wz:navigation>
-            </wz:step>
+            </wz:step>-->
         </wz:flow>
     </context>
 
     <context type="Preset" parent="GenericItem" component="create-wizard" mergadmine-by="type" merge-mode="replace">
         <wz:flow id="ItemWizard" title="create.title(ctx.TYPE_CODE)">
-        <wz:prepare id="itemPrepare">
-            <wz:initialize property="newPreset" type="ctx.TYPE_CODE"/>
-        </wz:prepare>
-        <wz:step id="step1" label="create.cloudinaryconfig.mediapreset.step1" merge-mode="replace">
-            <wz:info id="step1.intro" position="top" label="create.cloudinary.mediapreset.create" />
-            <wz:navigation id="step1.navigation">
-                <wz:cancel/>
-            </wz:navigation>
-        </wz:step>
+            <wz:prepare id="itemPrepare">
+                <wz:initialize property="newPreset" type="ctx.TYPE_CODE"/>
+            </wz:prepare>
+            <wz:step id="step1" label="create.cloudinaryconfig.mediapreset.step1" merge-mode="replace">
+                <wz:info id="step1.intro" position="top" label="create.cloudinary.mediapreset.create" />
+                <wz:navigation id="step1.navigation">
+                    <wz:cancel/>
+                </wz:navigation>
+            </wz:step>
         </wz:flow>
     </context>
 
@@ -269,7 +270,7 @@
         </simple-search:simple-search>
     </context>
 
-    <context type="Preset" component="advanced-search" merge-by="type" parent="Job">
+    <context type="Preset" component="advanced-search" merge-by="type">
         <advanced-search:advanced-search>
             <advanced-search:field-list>
                 <advanced-search:field name="name" selected="true"/>
@@ -329,7 +330,7 @@
                 </editorArea:section>
                 <editorArea:section name="hmc.section.cloudinary.video.transformation">
                     <editorArea:attribute qualifier="cloudinaryGlobalVideoTransformation"/>
-                 </editorArea:section>
+                </editorArea:section>
             </editorArea:tab>
 
             <editorArea:tab name="hmc.tab.globalcontenttransformation" merge-mode="append">
@@ -357,30 +358,30 @@
                 </editorArea:section>
             </editorArea:tab>
 
-            <editorArea:tab name="hmc.tab.imagebreakpoints" merge-mode="append">
+            <!--<editorArea:tab name="hmc.tab.imagebreakpoints" merge-mode="append">
                 <editorArea:section name="hmc.section.cloudinary.image.responsive.breakpoints">
                     <editorArea:attribute qualifier="cloudinaryResponsive"/>
                     <editorArea:attribute qualifier="cloudinaryByteStep"/>
                     <editorArea:attribute qualifier="cloudinaryImageWidthLimitMax"/>
                     <editorArea:attribute qualifier="cloudinaryImageWidthLimitMin"/>
                 </editorArea:section>
-            </editorArea:tab>
+            </editorArea:tab>-->
 
-            <editorArea:tab name="hmc.tab.productgallery" merge-mode="append">
+            <!--<editorArea:tab name="hmc.tab.productgallery" merge-mode="append">
                 <editorArea:customSection name="hmc.section.cloudinary.productgallery"
                                           spring-bean="cloudinaryConfigProductGalleryTextRenderer"/>
                 <editorArea:section name="hmc.section.cloudinary.productgallery.settings" >
                     <editorArea:attribute qualifier="enableCloudinaryGalleryWidget" />
                 </editorArea:section>
                 <editorArea:section name="" >
-                <editorArea:customPanel name="" spring-bean="cloudinaryConfigProductGallerySettingsTextRenderer"/>
+                    <editorArea:customPanel name="" spring-bean="cloudinaryConfigProductGallerySettingsTextRenderer"/>
                 </editorArea:section>
                 <editorArea:section name="">
                     <editorArea:attribute qualifier="cloudinaryGalleryConfigJsonString" editor=""/>
                 </editorArea:section>
-            </editorArea:tab>
+            </editorArea:tab>-->
 
-            <editorArea:tab name="hmc.tab.videoplayer" merge-mode="append">
+            <!--<editorArea:tab name="hmc.tab.videoplayer" merge-mode="append">
                 <editorArea:customSection name="hmc.section.cloudinary.videoplayer"
                                           spring-bean="cloudinaryConfigVideoPlayerTextRenderer"/>
                 <editorArea:section name="hmc.section.cloudinary.videoplayer.settings" >
@@ -392,7 +393,7 @@
                 <editorArea:section name="">
                     <editorArea:attribute qualifier="videoPlayerTransformation" editor=""/>
                 </editorArea:section>
-            </editorArea:tab>
+            </editorArea:tab>-->
 
             <editorArea:tab name="hmc.administration" position="99" merge-mode="append">
                 <editorArea:customSection name="hmc.unbound" merge-mode="remove"/>
@@ -400,7 +401,7 @@
         </editorArea:editorArea>
     </context>
 
-    <context type="Media" component="create-wizard" merge-by="type" parent="auto">
+    <context type="Media" component="create-wizard" merge-by="type">
         <wz:flow id="MediaWizard" title="create.title(ctx.TYPE_CODE)">
             <wz:prepare id="mediaPrepare">
                 <wz:initialize property="newMedia" type="ctx.TYPE_CODE"/>
@@ -500,7 +501,7 @@
         </wz:flow>
     </context>
 
-    <context merge-by="type" parent="auto" type="Media" component="editor-area">
+    <context merge-by="type" type="Media" component="editor-area">
         <editorArea:editorArea>
             <editorArea:tab name="hmc.tab.common" merge-mode="append">
                 <editorArea:customSection name="hmc.section.media.content"
@@ -647,7 +648,7 @@
     </context>
 
     <context merge-by="type" parent="GenericItem" type="Product" component="editor-area" merge-mode="append">
-		<editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
+        <editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
             <editorArea:tab name="hmc.tab.product.multimedia" position="18">
                 <editorArea:section name="hmc.section.product.pictures">
                     <editorArea:attribute qualifier="picture"/>
@@ -670,8 +671,8 @@
                     <editorArea:attribute qualifier="cloudinaryImageSpinTag"/>
                 </editorArea:section>
             </editorArea:tab>
-		</editorArea:editorArea>
-	</context>
+        </editorArea:editorArea>
+    </context>
 
     <context merge-by="type" parent="GenericItem" type="Category" component="editor-area">
         <editorArea:editorArea name="">
@@ -684,5 +685,9 @@
             </editorArea:tab>
         </editorArea:editorArea>
     </context>
+
+    <!--<context component="component-code" module="cloudinarymediabackoffice">-->
+    <!--Please check documentation for code snippets for specific components-->
+    <!--</context>-->
 
 </config>

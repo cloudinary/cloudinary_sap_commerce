@@ -20,8 +20,7 @@ public class DefaultRemoveTagApiService implements RemoveTagApiService {
 
         try {
             Cloudinary cloudinary = new Cloudinary(cloudinaryURL);
-            cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
-
+           // cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
             Map result = cloudinary.uploader().removeTag((CloudinarymediacoreConstants.SAP_SKU + productCode), new String[]{publicId} , ObjectUtils.emptyMap());
         }
         catch (IllegalArgumentException illegalException) {

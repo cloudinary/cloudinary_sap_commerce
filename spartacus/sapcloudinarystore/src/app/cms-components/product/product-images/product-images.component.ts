@@ -20,7 +20,7 @@ export class ProductImagesComponent {
   public CName;
   public spinSetCode;
   private sapProdCode = new BehaviorSubject(null);
-  
+
 
   private product$: Observable<
     Product
@@ -45,12 +45,12 @@ export class ProductImagesComponent {
   );
 
   constructor(private currentProductService: CurrentProductService,private currentCloudinaryConfigService: CurrentCloudinaryConfigService) {
-    
+
 
     this.currentCloudinaryConfigService.list().subscribe(cloudinaryConfig => {
-      
+
       this.isCloudinaryGalleryEnabled = cloudinaryConfig.isCloudinaryGalleryEnabled;
-      
+
       //this.CName = cloudinaryConfig.CName;
       if(this.isCloudinaryGalleryEnabled){
         this.product$.subscribe(prod => {
@@ -60,8 +60,8 @@ export class ProductImagesComponent {
           });
         });
         }
-      //}); 
-  
+      //});
+
     });
   }
 
@@ -166,7 +166,7 @@ export class ProductImagesComponent {
 
       if(spinsetcode!=null)
       {
-        
+
          var spinURL;
          if(cloudinaryConfig.hasOwnProperty("CName")){
           spinURL = "https://"+cloudinaryConfig.CName;
@@ -177,7 +177,7 @@ export class ProductImagesComponent {
          }
          spinURL = spinURL + "/image/list/"+spinsetcode+".json";
          this.getSpinsetJson(cloudinaryConfig,spinURL,spinsetcode,media_assets);
-         
+
       }else{
         this.appendScriptToDOM(cloudinaryConfig,media_assets);
       }
@@ -191,7 +191,7 @@ export class ProductImagesComponent {
       try{
       galleryJson2 = JSON.parse(cloudinaryConfig.cloudinaryGalleryConfigJsonString);
       }catch(err){
-        
+
       }
 
       var galleryJson1 = {
@@ -200,12 +200,12 @@ export class ProductImagesComponent {
         "mediaAssets": media_assets,
         ...galleryJson2
       };
-      
+
       if(cloudinaryConfig.hasOwnProperty("CName")){
         galleryJson1.privateCdn = true;
         galleryJson1.secureDistribution = cloudinaryConfig.CName;
       }
-      
+
 
       script_tag.innerHTML = `
           var myWidget = cloudinary.galleryWidget(`+JSON.stringify(galleryJson1)+`);
@@ -213,7 +213,7 @@ export class ProductImagesComponent {
           myWidget.render();
 
       `;
-      
+
       body_tag.appendChild(script_tag);
   }
 
@@ -223,8 +223,8 @@ export class ProductImagesComponent {
     }
     return o1;
    }
-   
-   
+
+
 
 
 }
