@@ -420,6 +420,8 @@ public class ProductPageController extends AbstractPageController
 		if (BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinaryGalleryWidget())) {
 			if (cloudinaryConfigModel.getCloudinaryURL() != null) {
 				Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
+				cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
+
 				model.addAttribute("cloudName", cloudinary.config.cloudName);
 				model.addAttribute("cName", cloudinary.config.cname);
 			}

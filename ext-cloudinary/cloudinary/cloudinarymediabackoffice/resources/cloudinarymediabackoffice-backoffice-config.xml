@@ -186,6 +186,7 @@
                     </wz:done>
                 </wz:navigation>
             </wz:step>
+
            <!-- <wz:step id="step4" label="create.cloudinaryconfig.breakpoints" merge-mode="replace">
                 <wz:info id="step4.intro" position="top" label="" />
                 <wz:content id="step4.content">
@@ -271,6 +272,7 @@
     </context>
 
     <context type="Preset" component="advanced-search" merge-by="type">
+
         <advanced-search:advanced-search>
             <advanced-search:field-list>
                 <advanced-search:field name="name" selected="true"/>
@@ -359,6 +361,7 @@
             </editorArea:tab>
 
             <!--<editorArea:tab name="hmc.tab.imagebreakpoints" merge-mode="append">
+
                 <editorArea:section name="hmc.section.cloudinary.image.responsive.breakpoints">
                     <editorArea:attribute qualifier="cloudinaryResponsive"/>
                     <editorArea:attribute qualifier="cloudinaryByteStep"/>
@@ -368,6 +371,7 @@
             </editorArea:tab>-->
 
            <!--<editorArea:tab name="hmc.tab.productgallery" merge-mode="append">
+
                 <editorArea:customSection name="hmc.section.cloudinary.productgallery"
                                           spring-bean="cloudinaryConfigProductGalleryTextRenderer"/>
                 <editorArea:section name="hmc.section.cloudinary.productgallery.settings" >
@@ -382,6 +386,7 @@
             </editorArea:tab>-->
 
             <!--<editorArea:tab name="hmc.tab.videoplayer" merge-mode="append">
+
                 <editorArea:customSection name="hmc.section.cloudinary.videoplayer"
                                           spring-bean="cloudinaryConfigVideoPlayerTextRenderer"/>
                 <editorArea:section name="hmc.section.cloudinary.videoplayer.settings" >
@@ -394,7 +399,6 @@
                     <editorArea:attribute qualifier="videoPlayerTransformation" editor=""/>
                 </editorArea:section>
             </editorArea:tab>-->
-
             <editorArea:tab name="hmc.administration" position="99" merge-mode="append">
                 <editorArea:customSection name="hmc.unbound" merge-mode="remove"/>
             </editorArea:tab>

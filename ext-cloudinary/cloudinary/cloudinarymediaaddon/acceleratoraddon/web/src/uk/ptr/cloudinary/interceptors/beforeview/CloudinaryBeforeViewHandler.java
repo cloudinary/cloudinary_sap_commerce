@@ -6,6 +6,7 @@ import de.hybris.platform.acceleratorstorefrontcommons.interceptors.BeforeViewHa
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
+import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.facades.CloudinaryConfigFacade;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 
@@ -34,6 +35,8 @@ public class CloudinaryBeforeViewHandler implements BeforeViewHandler
 		if(BooleanUtils.isTrue(cloudinaryConfig.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfig.getCloudinaryResponsive()) && cloudinaryConfig.getCloudinaryURL()!= null) {
 
 			Cloudinary cloudinary = new Cloudinary(cloudinaryConfig.getCloudinaryURL());
+			cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
+
 			modelAndView.addObject("cloudName", cloudinary.config.cloudName);
 			modelAndView.addObject("max", cloudinaryConfig.getCloudinaryImageWidthLimitMax());
 			modelAndView.addObject("min", cloudinaryConfig.getCloudinaryImageWidthLimitMin());

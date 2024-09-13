@@ -58,7 +58,6 @@ public class DefaultUploadApiService implements UploadApiService
             Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
             //cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
 
-
             //final InputStream inputStream = mediaService.getStreamFromMedia(mediaModel);
             //byte[] bytes = IOUtils.toByteArray(inputStream);
 

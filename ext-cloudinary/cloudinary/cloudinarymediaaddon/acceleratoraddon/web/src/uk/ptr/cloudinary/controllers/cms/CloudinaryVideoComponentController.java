@@ -51,7 +51,7 @@ public class CloudinaryVideoComponentController extends
 
             if (cloudinaryConfigModel.getCloudinaryURL() != null) {
                 Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
-               // cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
+               // cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")")
 
                 model.addAttribute("cloudName", cloudinary.config.cloudName);
             }

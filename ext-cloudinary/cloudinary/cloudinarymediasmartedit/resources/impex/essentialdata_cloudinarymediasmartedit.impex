@@ -4,6 +4,6 @@
 
 # Enable the following lines in your extended SmartEdit module, then run ant updatesystem
 #
-## INSERT_UPDATE SmartEditConfiguration;key[unique=true];value
-## ;applications.cloudinarymediasmartedit;{"smartEditLocation":"/cloudinarymediasmartedit/cloudinarymediasmartedit/js/cloudinarymediasmartedit.js"}
-## ;applications.cloudinarymediasmarteditContainer;{"smartEditContainerLocation":"/cloudinarymediasmartedit/cloudinarymediasmartedit/js/cloudinarymediasmarteditContainer.js"}
+INSERT_UPDATE SmartEditConfiguration;key[unique=true];value
+;applications.cloudinarymediasmartedit;{"smartEditLocation":"/cloudinarymediasmartedit/cloudinarymediasmartedit/js/cloudinarymediasmartedit.js", "extends" : "cmssmartedit"}
+;applications.cloudinarymediasmarteditContainer;{"smartEditContainerLocation":"/cloudinarymediasmartedit/cloudinarymediasmartedit/js/cloudinarymediasmarteditContainer.js", "extends":"cmssmarteditContainer"}

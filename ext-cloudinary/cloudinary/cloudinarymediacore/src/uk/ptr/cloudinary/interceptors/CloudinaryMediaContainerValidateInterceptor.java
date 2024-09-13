@@ -7,6 +7,7 @@ import de.hybris.platform.servicelayer.interceptor.InterceptorContext;
 import de.hybris.platform.servicelayer.interceptor.InterceptorException;
 import de.hybris.platform.servicelayer.interceptor.ValidateInterceptor;
 import de.hybris.platform.servicelayer.model.ItemModelContextImpl;
+import de.hybris.platform.servicelayer.model.ModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -20,9 +21,7 @@ import uk.ptr.cloudinary.service.UpdateTagApiService;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class CloudinaryMediaContainerValidateInterceptor implements ValidateInterceptor<MediaContainerModel> {
 
@@ -39,6 +38,9 @@ public class CloudinaryMediaContainerValidateInterceptor implements ValidateInte
 
     @Resource
     private CloudinaryProductDao cloudinaryProductDao;
+
+    @Resource
+    private ModelService modelService;
 
     @Override
     public void onValidate(MediaContainerModel model, InterceptorContext ctx) throws InterceptorException {
@@ -58,6 +60,33 @@ public class CloudinaryMediaContainerValidateInterceptor implements ValidateInte
 
             MediaModel newMasterMedia = !CollectionUtils.isEmpty(currentValue) ? getMasterMedia(currentValue) : null;
 
+            MediaModel masterMedia = model.getMaster();
+
+            if(cloudinaryConfigModel.getEnableCloudinary() && oldMasterMedia != null && newMasterMedia == null){
+
+                Collection<MediaModel> newMediaList =  new ArrayList<MediaModel>();
+
+                if(!CollectionUtils.isEmpty(currentValue)) {
+                    Optional<MediaModel> updatedMedia = currentValue.stream().filter(mc -> !oldMasterMedia.getCloudinaryPublicId().equals(mc.getCloudinaryPublicId())).findFirst();
+                    if(updatedMedia.isPresent()){
+                        masterMedia.setURL(updatedMedia.get().getURL());
+                        masterMedia.setCloudinaryPublicId((updatedMedia.get().getCloudinaryPublicId()));
+                        masterMedia.setCloudinaryResourceType((updatedMedia.get().getCloudinaryResourceType()));
+                        masterMedia.setCloudinaryType((updatedMedia.get().getCloudinaryType()));
+                        masterMedia.setCloudinaryVersion((updatedMedia.get().getCloudinaryVersion()));
+                        masterMedia.setCloudinaryMediaFormat((updatedMedia.get().getCloudinaryMediaFormat()));
+                        modelService.save(masterMedia);
+                        modelService.refresh(masterMedia);
+                    }
+                    currentValue.stream().forEach(m -> {
+                        m.setOriginal(masterMedia);
+                        modelService.save(m);
+                        newMediaList.add(m);
+                    });
+                }
+                newMediaList.add(masterMedia);
+                model.setMedias(newMediaList);
+            }
             if (product != null) {
                 if (oldMasterMedia != null && newMasterMedia != null && !oldMasterMedia.getCloudinaryPublicId().equalsIgnoreCase(newMasterMedia.getCloudinaryPublicId())) {
                     removeTagApiService.removeTagFromAsset(oldMasterMedia.getCloudinaryPublicId(), product.getCode(), cloudinaryConfigModel.getCloudinaryURL());
