@@ -8,6 +8,14 @@ import de.hybris.platform.cmswebservices.data.MediaData;
 import de.hybris.platform.webservicescommons.errors.exceptions.WebserviceValidationException;
 import de.hybris.platform.webservicescommons.mapping.DataMapper;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -29,7 +37,7 @@ import java.io.IOException;
  */
 @Controller
 @RequestMapping("{baseSiteId}/catalogs/{catalogId}/versions/{versionId}" + CloudinaryMediaUploadController.MEDIA_URI_PATH)
-@Api(tags = "catalog version media")
+@Tag(name = "catalog version media")
 public class CloudinaryMediaUploadController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CloudinaryMediaUploadController.class);
@@ -51,25 +59,24 @@ public class CloudinaryMediaUploadController {
     //@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    @ApiOperation(value = "Uploads media.", notes = "Provides a new multipart media item for a given catalogId.", nickname = "doUploadMultipartMedia")
     @ApiResponses(
             { //
-                    @ApiResponse(code = 400, message = "When an error occurs parsing the MultipartFile (IOException) or when the media query parameters provided contain validation errors (WebserviceValidationException)"),
-                    @ApiResponse(code = 200, message = "The newly created Media item", response = MediaData.class) })
-    @ApiImplicitParams(
+                    @ApiResponse(responseCode = "400", description = "When an error occurs parsing the MultipartFile (IOException) or when the media query parameters provided contain validation errors (WebserviceValidationException)"),
+                    @ApiResponse(responseCode = "200", description = "The newly created Media item", content = @Content(schema = @Schema(implementation = MediaData.class))) })
+    @Parameters(
             { //
-                    @ApiImplicitParam(name = "altText", value = "The alternative text to use for the newly created media.", required = true, dataType = "string", paramType = "query"),
-                    @ApiImplicitParam(name = "code", value = "The code to use for the newly created media.", required = true, dataType = "string", paramType = "query"),
-                    @ApiImplicitParam(name = "description", value = "The description to use for the newly created media.", required = true, dataType = "string", paramType = "query"),
-                    @ApiImplicitParam(name = "mime", value = "Internet Media Type for the media file.", required = false, dataType = "string", paramType = "query")})
+                    @Parameter(name = "altText", description = "The alternative text to use for the newly created media.", required = true, schema = @Schema(type = "string"), in = ParameterIn.QUERY),
+                    @Parameter(name = "code", description = "The code to use for the newly created media.", required = true, schema = @Schema(type = "string"), in = ParameterIn.QUERY),
+                    @Parameter(name = "description", description = "The description to use for the newly created media.", required = true, schema = @Schema(type = "string"), in = ParameterIn.QUERY),
+                    @Parameter(name = "mime", description = "Internet Media Type for the media file.", required = false, schema = @Schema(type = "string"), in = ParameterIn.QUERY)})
     public MediaData uploadMultipartMedia(
-            @ApiParam(value = "The unique identifier of the catalog for which to link the new media.", required = true) //
+            @Parameter(description = "The unique identifier of the catalog for which to link the new media.", required = true) //
             @PathVariable("catalogId")
             final String catalogId,
-            @ApiParam(value = "The specific catalog version to which the new media will be associated to.", required = true) //
+            @Parameter(description = "The specific catalog version to which the new media will be associated to.", required = true) //
             @PathVariable("versionId")
             final String versionId,
-            @ApiIgnore(value = "The MediaData containing the data for the associated media item to be created.") //
+            @Parameter(description = "The MediaData containing the data for the associated media item to be created.") //
             @RequestBody
             final MediaData media,
             final HttpServletRequest request, final HttpServletResponse response) throws IOException
