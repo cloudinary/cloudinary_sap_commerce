@@ -66,7 +66,7 @@ public final class CloudinarymediacoreConstants extends GeneratedCloudinarymedia
 	public static final String PRESETS = "upload_preset";
 
 	public static final String CLOUDINARYSAPCC ="CloudinarySAPCC";
-	public static final String CLOUDINARY_VERSION = "v1.2.0";
-	public static final String SAP_VERSION = "2005";
+	public static final String CLOUDINARY_VERSION = "v1.3.0";
+	public static final String SAP_VERSION = "2211";
 
 }

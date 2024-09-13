@@ -186,7 +186,7 @@
                     </wz:done>
                 </wz:navigation>
             </wz:step>
-            <wz:step id="step4" label="create.cloudinaryconfig.breakpoints" merge-mode="replace">
+           <!-- <wz:step id="step4" label="create.cloudinaryconfig.breakpoints" merge-mode="replace">
                 <wz:info id="step4.intro" position="top" label="" />
                 <wz:content id="step4.content">
                     <wz:custom-view lang="zul" src="widgets/responsivebreakpointtext.zul"/>
@@ -204,8 +204,8 @@
                         <wz:save property="newCloudinaryConfig"/>
                     </wz:done>
                 </wz:navigation>
-            </wz:step>
-           <wz:step id="step5" label="create.cloudinaryconfig.product.gallery" merge-mode="replace">
+            </wz:step>-->
+           <!--<wz:step id="step5" label="create.cloudinaryconfig.product.gallery" merge-mode="replace">
                 <wz:info id="step5.intro" position="top" label="create.cloudinary.product.gallery.intro" />
                 <wz:content id="step5.content">
                     <wz:property-list root="newCloudinaryConfig">
@@ -225,9 +225,9 @@
                         <wz:save property="newCloudinaryConfig"/>
                     </wz:done>
                 </wz:navigation>
-            </wz:step>
+            </wz:step>-->
           
-            <wz:step id="step6" label="create.cloudinaryconfig.video.player" merge-mode="replace">
+            <!--<wz:step id="step6" label="create.cloudinaryconfig.video.player" merge-mode="replace">
                 <wz:info id="step6.intro" position="top" label="create.cloudinary.video.player.intro" />
                 <wz:content id="step4.content">
                     <wz:property-list root="newCloudinaryConfig">
@@ -246,7 +246,7 @@
                         <wz:save property="newCloudinaryConfig"/>
                     </wz:done>
                 </wz:navigation>
-            </wz:step>
+            </wz:step>-->
         </wz:flow>
     </context>
 
@@ -367,7 +367,7 @@
                 </editorArea:section>
             </editorArea:tab>-->
 
-           <editorArea:tab name="hmc.tab.productgallery" merge-mode="append">
+           <!--<editorArea:tab name="hmc.tab.productgallery" merge-mode="append">
                 <editorArea:customSection name="hmc.section.cloudinary.productgallery"
                                           spring-bean="cloudinaryConfigProductGalleryTextRenderer"/>
                 <editorArea:section name="hmc.section.cloudinary.productgallery.settings" >
@@ -379,9 +379,9 @@
                 <editorArea:section name="">
                     <editorArea:attribute qualifier="cloudinaryGalleryConfigJsonString" editor=""/>
                 </editorArea:section>
-            </editorArea:tab>
+            </editorArea:tab>-->
 
-            <editorArea:tab name="hmc.tab.videoplayer" merge-mode="append">
+            <!--<editorArea:tab name="hmc.tab.videoplayer" merge-mode="append">
                 <editorArea:customSection name="hmc.section.cloudinary.videoplayer"
                                           spring-bean="cloudinaryConfigVideoPlayerTextRenderer"/>
                 <editorArea:section name="hmc.section.cloudinary.videoplayer.settings" >
@@ -393,7 +393,7 @@
                 <editorArea:section name="">
                     <editorArea:attribute qualifier="videoPlayerTransformation" editor=""/>
                 </editorArea:section>
-            </editorArea:tab>
+            </editorArea:tab>-->
 
             <editorArea:tab name="hmc.administration" position="99" merge-mode="append">
                 <editorArea:customSection name="hmc.unbound" merge-mode="remove"/>

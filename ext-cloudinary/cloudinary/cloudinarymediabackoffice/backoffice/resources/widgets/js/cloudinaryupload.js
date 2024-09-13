@@ -73,8 +73,8 @@ myCropWidget = cloudinary.createMediaLibrary({
   api_key: apiKey,
   integration : {
           type: "CloudinarySAPCC",//the integration identifier e.g. “SAP CC”,
-          platform: "SAP Commerce Cloud 2005",//hosting app name + version e.g. SAP CC 1.2.3,
-          version: "1.2.0",//integration version e.g. 1.0.0
+          platform: "SAP Commerce Cloud 2211",//hosting app name + version e.g. SAP CC 1.2.3,
+          version: "1.3.0",//integration version e.g. 1.0.0
           environment: environment//e.g “prod”/“stag”/“dev”
       },
   multiple: false,
