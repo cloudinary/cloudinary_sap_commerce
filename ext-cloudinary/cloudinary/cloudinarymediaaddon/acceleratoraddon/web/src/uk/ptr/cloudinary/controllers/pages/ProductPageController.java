@@ -5,7 +5,7 @@ package uk.ptr.cloudinary.controllers.pages;
 
 import com.cloudinary.Cloudinary;
 import com.google.common.collect.Maps;
-import de.hybris.platform.acceleratorfacades.futurestock.FutureStockFacade;
+import de.hybris.platform.commercefacades.futurestock.impl.DefaultFutureStockFacade;
 import de.hybris.platform.acceleratorservices.controllers.page.PageType;
 import de.hybris.platform.acceleratorstorefrontcommons.breadcrumb.impl.ProductBreadcrumbBuilder;
 import de.hybris.platform.acceleratorstorefrontcommons.constants.WebConstants;
@@ -29,7 +29,6 @@ import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.product.ProductService;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
 import de.hybris.platform.util.Config;
-import de.hybris.platform.variants.model.VariantProductModel;
 import de.hybris.platform.yacceleratorstorefront.controllers.ControllerConstants;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.BooleanUtils;
@@ -41,7 +40,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import uk.ptr.cloudinary.constants.CloudinarymediacoreConstants;
 import uk.ptr.cloudinary.facades.CloudinaryConfigFacade;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
 
@@ -96,7 +94,7 @@ public class ProductPageController extends AbstractPageController
 	private ReviewValidator reviewValidator;
 
 	@Resource(name = "futureStockFacade")
-	private FutureStockFacade futureStockFacade;
+	private DefaultFutureStockFacade futureStockFacade;
 
 	@Resource
 	private CloudinaryConfigFacade cloudinaryConfigFacade;
@@ -416,7 +414,7 @@ public class ProductPageController extends AbstractPageController
 
 		CloudinaryConfigModel cloudinaryConfigModel = cloudinaryConfigFacade.getCloudinaryConfig();
 
-		if (BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinaryGalleryWidget())) {
+		/*if (BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinary()) && BooleanUtils.isTrue(cloudinaryConfigModel.getEnableCloudinaryGalleryWidget())) {
 			if (cloudinaryConfigModel.getCloudinaryURL() != null) {
 				Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
 				cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
@@ -428,7 +426,7 @@ public class ProductPageController extends AbstractPageController
 			model.addAttribute("isProductGalleryEnabled", Boolean.TRUE);
 			model.addAttribute("cloudinaryConfig", cloudinaryConfigModel);
 			model.addAttribute("sapCCProductCode", productData.getSapCCProductCode());
-		}
+		}*/
 
 	}
 

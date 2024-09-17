@@ -1,8 +1,6 @@
 <hybrisconfig xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='../bin/platform/resources/schemas/extensions.xsd'>
   <extensions>
     <path dir='${HYBRIS_BIN_DIR}' autoload='false' />
-    <extension name='spartacussampledataaddon' />
-    <!--<extension name='yb2bacceleratorstorefront' />-->
     <extension name='adaptivesearch' />
     <extension name='adaptivesearchbackoffice' />
     <extension name='adaptivesearchfacades' />
@@ -25,9 +23,6 @@
     <extension name='b2bacceleratoraddon' />
     <extension name='b2bacceleratorfacades' />
     <extension name='b2bacceleratorservices' />
-    <!--<extension name='b2bocc' />
-    <extension name='b2bocctests' />
-    <extension name='b2bwebservicescommons' />-->
     <extension name='commerceorgaddon' />
     <extension name='commerceorgsamplesaddon' />
     <extension name='powertoolsstore' />
@@ -35,8 +30,6 @@
     <extension name='b2bpunchout' />
     <extension name='b2bpunchoutaddon' />
     <extension name='savedorderforms' />
-    <!--<extension name='savedorderformsocc' />-->
-    <extension name='secureportaladdon' />
     <extension name='b2bapprovalprocess' />
     <extension name='b2bapprovalprocessfacades' />
     <extension name='b2bcommerce' />
@@ -78,14 +71,6 @@
     <extension name='commercefacades' />
     <extension name='commerceservices' />
     <extension name='commerceservicesbackoffice' />
-
-    <!--<extension name='ycommercewebservices' />
-    <extension name='yoccaddon' />-->
-    <!--<extension name='commercewebservices' />
-    <extension name='commercewebservicescommons' />-->
-    <!--<extension name='commercewebservicestests' />
-    <extension name='yocc' />
-    <extension name='yocctests' />-->
     <extension name='configurablebundleaddon' />
     <extension name='configurablebundlebackoffice' />
     <extension name='configurablebundlefacades' />
@@ -93,7 +78,6 @@
     <extension name='sapproductconfigb2baddon' />
     <extension name='sapproductconfigb2bservices' />
     <extension name='sapproductconfigfacades' />
-    <!--<extension name='sapproductconfigocc' />-->
     <extension name='sapproductconfigrules' />
     <extension name='sapproductconfigrulesbackoffice' />
     <extension name='sapproductconfigruntimeinterface' />
@@ -104,12 +88,10 @@
     <extension name='consignmenttrackingbackoffice' />
     <extension name='consignmenttrackingfacades' />
     <extension name='consignmenttrackingmock' />
-    <!--<extension name='consignmenttrackingocc' />-->
     <extension name='consignmenttrackingservices' />
     <extension name='acceleratorbackoffice' />
     <extension name='acceleratorcms' />
     <extension name='acceleratorfacades' />
-    <!--<extension name='acceleratorocc' />-->
     <extension name='acceleratorservices' />
     <extension name='acceleratorstorefrontcommons' />
     <extension name='addonsupport' />
@@ -120,12 +102,10 @@
     <extension name='customercouponaddon' />
     <extension name='customercouponbackoffice' />
     <extension name='customercouponfacades' />
-    <!--<extension name='customercouponocc' />-->
     <extension name='customercouponsamplesaddon' />
     <extension name='customercouponservices' />
     <extension name='customerinterestsaddon' />
     <extension name='customerinterestsfacades' />
-    <!--<extension name='customerinterestsocc' />-->
     <extension name='customerinterestsservices' />
     <extension name='customersupportbackoffice' />
     <extension name='customerticketingaddon' />
@@ -149,16 +129,13 @@
     <extension name='integrationservices' />
     <extension name='odata2services' />
     <extension name='odata2webservices' />
-    <extension name='odata2webservicesfeaturetests' />
     <extension name='outboundservices' />
     <extension name='outboundsync' />
     <extension name='outboundsyncbackoffice' />
     <extension name='messagecentercsfacades' />
-    <!--<extension name='messagecentercsocc' />-->
     <extension name='messagecentercsservices' />
     <extension name='notificationaddon' />
     <extension name='notificationfacades' />
-    <!--<extension name='notificationocc' />-->
     <extension name='notificationservices' />
     <extension name='npmancillary' />
     <extension name='b2bordermanagementfacades' />
@@ -224,7 +201,7 @@
     <extension name='selectivecartfacades' />
     <extension name='selectivecartservices' />
     <extension name='selectivecartsplitlistaddon' />
-    <extension name='cmssmartedit' />
+    <extension name='cmssmartedit' /> 
     <extension name='cmssmarteditwebservices' />
     <extension name='smartedit' />
     <extension name='smarteditaddon' />
@@ -235,13 +212,10 @@
     <extension name='textfieldconfiguratortemplateaddon' />
     <extension name='textfieldconfiguratortemplatebackoffice' />
     <extension name='textfieldconfiguratortemplatefacades' />
-    <!--<extension name='textfieldconfiguratortemplateocc' />
-    <extension name='textfieldconfiguratortemplateocctests' />-->
     <extension name='textfieldconfiguratortemplateservices' />
     <extension name='timedaccesspromotionengineaddon' />
     <extension name='timedaccesspromotionenginebackoffice' />
     <extension name='timedaccesspromotionenginefacades' />
-    <!--<extension name='timedaccesspromotionengineocc' />-->
     <extension name='timedaccesspromotionenginesamplesaddon' />
     <extension name='timedaccesspromotionengineservices' />
     <extension name='cms2' />
@@ -249,14 +223,12 @@
     <extension name='cmsbackoffice' />
     <extension name='cmscockpit' />
     <extension name='cmsfacades' />
-    <!--<extension name='cmsocc' />-->
-    <extension name='cmsoccaddon' />
+    <extension name='cmsocc' />
     <extension name='cmswebservices' />
     <extension name='previewwebservices' />
     <extension name='permissionsfacades' />
     <extension name='permissionswebservices' />
     <extension name='webservicescommons' />
-    <!--<extension name='ywebservices' />-->
     <extension name='orbeonweb' />
     <extension name='xyformsbackoffice' />
     <extension name='xyformsfacades' />
@@ -272,5 +244,8 @@
     <extension name='cloudinarymediawebservices' />
     <extension name='cloudinarymediafacades' />
     <extension name='cloudinarymediaaddon' />
+    <extension name='cloudinarymediaocc'/>
+    <extension name='spartacussampledata'/>
+    <extension name="swaggerintegration" />
   </extensions>
 </hybrisconfig>

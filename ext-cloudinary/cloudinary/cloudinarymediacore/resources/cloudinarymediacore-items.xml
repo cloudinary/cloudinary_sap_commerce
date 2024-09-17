@@ -3,8 +3,8 @@
  Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
 -->
 
-<items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-			xsi:noNamespaceSchemaLocation="items.xsd">
+<items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xsi:noNamespaceSchemaLocation="items.xsd">
 
 	<enumtypes>
 		<enumtype code="CloudinaryMediaFormat" autocreate="true" generate="true" dynamic="true">
@@ -53,7 +53,7 @@
 			<deployment table="mediacontenttypeformats" typecode="10112"/>
 			<sourceElement type="ConversionGroup" cardinality="many" navigable="false"/>
 			<targetElement type="MediaFormat" cardinality="many" collectiontype="set"
-					qualifier="supportedMediaFormats">
+						   qualifier="supportedMediaFormats">
 				<description>All supported formats, i.e. all formats to convert the original media to.</description>
 				<modifiers read="true" write="true"/>
 			</targetElement>
@@ -72,16 +72,16 @@
 			</targetElement>
 		</relation>
 		<relation code="CatalogVersionToCloudinaryMediaTransformationJob" generate="true"
-				localized="false" autocreate="true">
+				  localized="false" autocreate="true">
 			<sourceElement type="CatalogVersion" cardinality="many"
-					qualifier="catalogVersions">
+						   qualifier="catalogVersions">
 				<modifiers read="true" write="true" search="true"
-						optional="false" />
+						   optional="false" />
 			</sourceElement>
 			<targetElement type="CloudinaryMediaTransformationJob" cardinality="one"
-					qualifier="cloudinaryMediaTransformationJob">
+						   qualifier="cloudinaryMediaTransformationJob">
 				<modifiers read="true" write="true" search="true"
-						optional="true" />
+						   optional="true" />
 			</targetElement>
 		</relation>
 		<relation code="CatalogVersionToCloudinaryMediaTagUpdateJob" generate="true"
@@ -125,6 +125,11 @@
 				<attribute qualifier="mediaUploadPreset" type="Preset">
 					<description>Selected preset for media upload</description>
 					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryMaxBreakPoints" type="java.lang.Integer">
+					<description>Cloudinary Max BreakPoints</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
 					<persistence type="property" />
 				</attribute>
 				<attribute qualifier="cloudinaryImageFormat" type="CloudinaryMediaFormat">
@@ -360,86 +365,86 @@
 		</itemtype>
 
 		<typegroup name="Category">
-		<itemtype code="Category" autocreate="false" generate="false">
-		<description>Extends existing type with additional attributes.</description>
-			<attributes>
-				<attribute qualifier="cloudinaryImageTransformation" type="java.lang.String">
-					<modifiers read="true" write="true" search="true"  />
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="cloudinaryVideoTransformation" type="java.lang.String">
-					<modifiers read="true" write="true" search="true"  />
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="isCloudinaryOverride" type="java.lang.Boolean">
-					<modifiers read="true" write="true" search="true"  />
-					<persistence type="property"/>
-				</attribute>
-			</attributes>
-		</itemtype>
+			<itemtype code="Category" autocreate="false" generate="false">
+				<description>Extends existing type with additional attributes.</description>
+				<attributes>
+					<attribute qualifier="cloudinaryImageTransformation" type="java.lang.String">
+						<modifiers read="true" write="true" search="true"  />
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="cloudinaryVideoTransformation" type="java.lang.String">
+						<modifiers read="true" write="true" search="true"  />
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="isCloudinaryOverride" type="java.lang.Boolean">
+						<modifiers read="true" write="true" search="true"  />
+						<persistence type="property"/>
+					</attribute>
+				</attributes>
+			</itemtype>
 		</typegroup>
 
 		<typegroup name="Product">
-		<itemtype code="Product" autocreate="false" generate="false">
-		<description>Extends existing type with additional attributes.</description>
-			<attributes>
-				<attribute qualifier="cloudinaryImageTransformation" type="java.lang.String">
-					<modifiers read="true" write="true" search="true"  />
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="cloudinaryVideoTransformation" type="java.lang.String">
-					<modifiers read="true" write="true" search="true"  />
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="isCloudinaryOverride" type="java.lang.Boolean">
-					<modifiers read="true" write="true" search="true"  />
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="cloudinaryImageSpinTag" type="java.lang.String">
-					<modifiers read="true" write="true" search="true"  />
-					<persistence type="property"/>
-				</attribute>
-			</attributes>
-		</itemtype>
+			<itemtype code="Product" autocreate="false" generate="false">
+				<description>Extends existing type with additional attributes.</description>
+				<attributes>
+					<attribute qualifier="cloudinaryImageTransformation" type="java.lang.String">
+						<modifiers read="true" write="true" search="true"  />
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="cloudinaryVideoTransformation" type="java.lang.String">
+						<modifiers read="true" write="true" search="true"  />
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="isCloudinaryOverride" type="java.lang.Boolean">
+						<modifiers read="true" write="true" search="true"  />
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="cloudinaryImageSpinTag" type="java.lang.String">
+						<modifiers read="true" write="true" search="true"  />
+						<persistence type="property"/>
+					</attribute>
+				</attributes>
+			</itemtype>
 		</typegroup>
 
 		<typegroup name="MediaFormat">
-		<itemtype code="MediaFormat" autocreate="false" generate="false">
-			<attributes>
-				<attribute qualifier="mediaMimeType" type="java.lang.String">
-					<description>Mime type of this format.</description>
-					<modifiers initial="true" optional="true"/>
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="transformation" type="java.lang.String">
-					<description>Transformation command</description>
-					<modifiers optional="true"/>
-					<persistence type="property">
-						<columntype>
-							<value>HYBRIS.LONG_STRING</value>
-						</columntype>
-					</persistence>
-				</attribute>
-				<attribute qualifier="transformationStrategy" type="java.lang.String">
-					<description>Bean name of the conversion strategy to use.</description>
-					<defaultvalue>"cloudinaryMediaConversionStrategy"</defaultvalue>
-					<modifiers optional="false"/>
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="inputMediaFormat" type="MediaFormat">
-					<description>Media format to take as input for the conversion (optional).</description>
-					<modifiers optional="true"/>
-					<persistence type="property"/>
-				</attribute>
-			</attributes>
-		</itemtype>
+			<itemtype code="MediaFormat" autocreate="false" generate="false">
+				<attributes>
+					<attribute qualifier="mediaMimeType" type="java.lang.String">
+						<description>Mime type of this format.</description>
+						<modifiers initial="true" optional="true"/>
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="transformation" type="java.lang.String">
+						<description>Transformation command</description>
+						<modifiers optional="true"/>
+						<persistence type="property">
+							<columntype>
+								<value>HYBRIS.LONG_STRING</value>
+							</columntype>
+						</persistence>
+					</attribute>
+					<attribute qualifier="transformationStrategy" type="java.lang.String">
+						<description>Bean name of the conversion strategy to use.</description>
+						<defaultvalue>"cloudinaryMediaConversionStrategy"</defaultvalue>
+						<modifiers optional="false"/>
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="inputMediaFormat" type="MediaFormat">
+						<description>Media format to take as input for the conversion (optional).</description>
+						<modifiers optional="true"/>
+						<persistence type="property"/>
+					</attribute>
+				</attributes>
+			</itemtype>
 		</typegroup>
 
 		<typegroup name="Cloudinary Media Sync Job">
-		<itemtype code="CloudinaryMediaUploadSyncJob" autocreate="true"
-				  generate="true" extends="CronJob"
-				  jaloclass="de.hybris.platform.core.model.CloudinaryMediaUploadSyncJob">
-		</itemtype>
+			<itemtype code="CloudinaryMediaUploadSyncJob" autocreate="true"
+					  generate="true" extends="CronJob"
+					  jaloclass="de.hybris.platform.core.model.CloudinaryMediaUploadSyncJob">
+			</itemtype>
 		</typegroup>
 
 		<typegroup name="Cloudinary Media Tag Update Job">
@@ -451,24 +456,24 @@
 
 		<typegroup name="Cloudinary Media Transformation Job">
 			<itemtype code="CloudinaryMediaTransformationJob" autocreate="true"
-					generate="true" extends="CronJob"
-					jaloclass="de.hybris.platform.core.model.CloudinaryMediaTransformationJob">
+					  generate="true" extends="CronJob"
+					  jaloclass="de.hybris.platform.core.model.CloudinaryMediaTransformationJob">
 			</itemtype>
 		</typegroup>
 
 		<typegroup name="Cloudinary Preset">
-		<itemtype code="Preset" jaloclass="uk.ptr.cloudinary.jalo.Preset"
-				  extends="GenericItem" autocreate="true" generate="true">
-			<deployment table="preset" typecode="10113"/>
-			<attributes>
-				<attribute qualifier="name" type="java.lang.String">
-					<description>Preset Name</description>
-					<modifiers read="true" write="true" search="true" optional="false" initial="true"/>
-					<persistence type="property" />
-				</attribute>
-			</attributes>
-		</itemtype>
-	</typegroup>
+			<itemtype code="Preset" jaloclass="uk.ptr.cloudinary.jalo.Preset"
+					  extends="GenericItem" autocreate="true" generate="true">
+				<deployment table="preset" typecode="10113"/>
+				<attributes>
+					<attribute qualifier="name" type="java.lang.String">
+						<description>Preset Name</description>
+						<modifiers read="true" write="true" search="true" optional="false" initial="true"/>
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+		</typegroup>
 
 	</itemtypes>
 </items>

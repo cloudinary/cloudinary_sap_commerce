@@ -28,7 +28,7 @@ public class DefaultPresetApiService implements PresetApiService {
         LOG.info("Fetching presets from cloudinary");
 
         Cloudinary cloudinary = new Cloudinary(cloudinaryURL);
-        cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
+        //cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
         Response response = (Response) cloudinary.api().uploadPresets(ObjectUtils.emptyMap());
         Map<String, Boolean> presetMap = new HashMap<>();
 

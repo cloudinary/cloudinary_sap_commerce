@@ -84,6 +84,12 @@
 				"role": "index-write"
 			},
 			{
+				"collection": null,
+				"path": "/admin/info/system",
+				"method": "GET",
+				"role": "system-info-read"
+			},
+			{
 				"name": "config-read",
 				"role": "admin"
 			},
@@ -130,16 +136,19 @@
 			],
 			"solrindexingclient": [
 				"index-read",
-				"index-write"
+				"index-write",
+				"system-info-read"
 			],
 			"solrserver": [
 				"index-read",
 				"index-write",
+				"system-info-read",
 				"admin"
 			],
 			"solradmin": [
 				"index-read",
 				"index-write",
+				"system-info-read",
 				"admin"
 			]
 		}
