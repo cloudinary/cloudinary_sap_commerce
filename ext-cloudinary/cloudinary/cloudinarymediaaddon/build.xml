@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
- Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
 -->
 <project name="cloudinarymediaaddon" default="all">
 	<property file="platformhome.properties" />
@@ -20,7 +20,7 @@
           IF YOU WANT TO ADAPT THE BUILD PROCESS, CREATE A FILE
           CALLED buildcallbacks.xml IN YOUR EXTENSION.
           PLEASE ALSO REFER TO THE DOCUMENTATION ON THE HYBRIS HELP SITE
-          (https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/2005/en-US/8b6ded0d86691014a6fab18e171c1f91.html).
+          (https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/LATEST/en-US/8b6ded0d86691014a6fab18e171c1f91.html).
 
 
  *** WARNING *** WARNING *** WARNING *** WARNING *** WARNING *** WARNING *** WARNING ***

@@ -1,8 +1,5 @@
 package uk.ptr.cloudinary.controllers.cms;
 
-import atg.taglib.json.util.JSONArray;
-import atg.taglib.json.util.JSONException;
-import atg.taglib.json.util.JSONObject;
 import com.cloudinary.Cloudinary;
 import de.hybris.platform.addonsupport.controllers.cms.AbstractCMSAddOnComponentController;
 import de.hybris.platform.cms2.model.contents.ContentCatalogModel;
@@ -10,6 +7,9 @@ import de.hybris.platform.core.model.components.CloudinaryVideoComponentModel;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.cloudinary.json.JSONArray;
+import org.cloudinary.json.JSONException;
+import org.cloudinary.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,7 +51,7 @@ public class CloudinaryVideoComponentController extends
 
             if (cloudinaryConfigModel.getCloudinaryURL() != null) {
                 Cloudinary cloudinary = new Cloudinary(cloudinaryConfigModel.getCloudinaryURL());
-                cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
+               // cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")")
 
                 model.addAttribute("cloudName", cloudinary.config.cloudName);
             }

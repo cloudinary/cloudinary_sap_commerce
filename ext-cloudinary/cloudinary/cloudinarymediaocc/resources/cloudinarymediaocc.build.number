@@ -1,0 +1,11 @@
+#Ant properties
+#Tue Jul 02 10:31:43 CEST 2024
+version.api=2211
+vendor=hybris
+group.id=de.hybris.platform
+name=cloudinarymediaocc
+description=cloudinarymediaocc
+builddate=20240702 1022
+releasedate=20240611 1044
+version=2211.25
+module.name=platform-module

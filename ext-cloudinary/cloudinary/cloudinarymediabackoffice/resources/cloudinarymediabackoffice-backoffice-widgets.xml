@@ -8,8 +8,6 @@
     <widget-extension widgetId="backofficeMainSlot">
         <widget id="cloudinarymediabackoffice-perspective" widgetDefinitionId="uk.ptr.cloudinary.widgets.cloudinarymediabackofficewidget"
             template="false" slotId="perspectives" title="Hello cloudinarymediabackoffice">
-            <setting key="perspectiveImageUrl" value="/cng/images/perspective.png"
-                type="String" />
         </widget>
     </widget-extension>
 

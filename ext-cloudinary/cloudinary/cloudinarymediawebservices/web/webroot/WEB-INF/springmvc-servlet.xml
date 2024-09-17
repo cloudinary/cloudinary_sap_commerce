@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/cache
+     	http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+		
+	<context:annotation-config />
+	<context:component-scan base-package="uk.ptr.cloudinary,de.hybris.platform.webservicescommons.swagger" scope-resolver="de.hybris.platform.spring.IgnoreTenantScopeMetadataResolver" />
+	
+	<!-- json and xml conversion -->
+	
+	<!-- 
+	jsonHttpMessageConverter and xmlHttpMessageConverter are default message converters declared in webservicescommons.
+	There is custom message converter provided for test purposes only.
+	Please remove them and use jsonHttpMessageConverter and xmlHttpMessageConverter or customise the configuration for own needs.
+	Changes done in custom message converters like adapter list will affect only this web service.
+	 -->
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+            <ref bean="jsonHttpMessageConverter"/>
+            <ref bean="xmlHttpMessageConverter"/>
+		</mvc:message-converters>
+	</mvc:annotation-driven>	
+	
+
+	<!-- This tag allows for mapping the DispatcherServlet to "/" (thus overriding the mapping of the container's default Servlet), while 
+		still allowing static resource requests to be handled by the container's default Servlet. It configures a DefaultServletHttpRequestHandler 
+		with a URL mapping (given a lowest precedence order) of "/**". This handler will forward all requests to the default Servlet. -->
+	<mvc:default-servlet-handler />
+
+	<!-- Support for @CacheControl annotation -->
+	<mvc:interceptors>
+		<ref bean="endpointRestrictionsInterceptor"/>
+		<bean class="de.hybris.platform.webservicescommons.interceptors.CacheControlHandlerInterceptor"/>
+	</mvc:interceptors>
+	
+	<!-- Load additional configuration -->
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<security:global-method-security pre-post-annotations="enabled" proxy-target-class="true" secured-annotations="enabled" />
+
+    <bean id="endpointRestrictionsInterceptor"
+          parent="baseEndpointRestrictionsInterceptor">
+        <constructor-arg name="specificConfigPrefix" value="cloudinarymediawebservices"/>
+    </bean>
+
+    <!--
+    Custom message converters which can override some of the default settings provided by webservicescommons.
+    Needed only for sample test.
+    REMOVE THEM
+     -->
+    <beans profile="tenant_junit">
+        <!--Overwrites default message converters with custom ones-->
+        <mvc:annotation-driven>
+            <mvc:message-converters>
+                <ref bean="customJsonHttpMessageConverter" />
+                <ref bean="customXmlHttpMessageConverter" />
+            </mvc:message-converters>
+        </mvc:annotation-driven>
+
+        <bean id="customJsonHttpMessageConverter" parent="jsonHttpMessageConverter">
+            <property name="jaxbContextFactory" ref="customJaxbContextFactory" />
+            <property name="jaxbWrapperSupport" ref="customJaxbWrapperSupport" />
+        </bean>
+
+        <bean id="customXmlHttpMessageConverter" parent="xmlHttpMessageConverter">
+            <property name="jaxbContextFactory" ref="customJaxbContextFactory" />
+            <property name="jaxbWrapperSupport" ref="customJaxbWrapperSupport" />
+        </bean>
+
+        <!--
+        Custom Moxy Jaxb context factory declaration.
+        Overwrites default typeAdapters and contextClasses for tests.
+         -->
+        <bean id="customJaxbContextFactory" parent="jaxbContextFactory">
+            <property name="typeAdapters" ref="customJaxbTypeAdaptersList" />
+            <property name="otherClasses" ref="customJaxbContextClasses" />
+        </bean>
+
+        <!-- Configuration needed for tests to run properly. -->
+        <util:list id="customJaxbTypeAdaptersList">
+            <value>de.hybris.platform.webservicescommons.jaxb.adapters.DateAdapter</value>
+            <value>de.hybris.platform.webservicescommons.jaxb.adapters.VariableMapAdapter</value>
+            <value>de.hybris.platform.webservicescommons.jaxb.adapters.XSSStringAdapter</value>
+        </util:list>
+
+
+        <util:list id="customJaxbContextClasses">
+            <value>java.lang.Long</value>
+            <value>java.lang.String</value>
+            <value>java.util.ArrayList</value>
+        </util:list>
+
+        <bean id="customJaxbWrapperSupport" class="de.hybris.platform.webservicescommons.jaxb.wrapper.JaxbWrapperSupport">
+            <property name="wrapperFactories">
+                <list>
+                    <bean class="de.hybris.platform.webservicescommons.jaxb.wrapper.impl.JaxbStringWrapperFactory"/>
+                    <bean class="de.hybris.platform.webservicescommons.jaxb.wrapper.impl.JaxbLongWrapperFactory"/>
+                    <bean class="de.hybris.platform.webservicescommons.jaxb.wrapper.impl.JaxbDoubleWrapperFactory"/>
+                    <bean class="de.hybris.platform.webservicescommons.jaxb.wrapper.impl.JaxbListWrapperFactory"/>
+                    <bean class="de.hybris.platform.webservicescommons.jaxb.wrapper.impl.JaxbMapWrapperFactory"/>
+                </list>
+            </property>
+        </bean>
+    </beans>
+
+</beans>

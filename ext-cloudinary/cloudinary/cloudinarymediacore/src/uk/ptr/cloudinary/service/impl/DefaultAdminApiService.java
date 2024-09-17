@@ -29,7 +29,7 @@ public class DefaultAdminApiService implements AdminApiService {
     public ApiResponse getCloudinaryPlanInfo(String cloudinaryURL) throws IllegalArgumentException, Exception{
 
             Cloudinary cloudinary = new Cloudinary(cloudinaryURL);
-            cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
+            //cloudinary.setUserAgent(CloudinarymediacoreConstants.CLOUDINARYSAPCC, CloudinarymediacoreConstants.CLOUDINARY_VERSION + "(SAPCC" + CloudinarymediacoreConstants.SAP_VERSION + ")");
             return cloudinary.api().usage(ObjectUtils.emptyMap());
     }
 }

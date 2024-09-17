@@ -19,7 +19,7 @@ import org.springframework.util.CollectionUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkplus.databind.AnnotateDataBinder;
+//import org.zkoss.zkplus.databind.AnnotateDataBinder;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Textbox;
@@ -43,7 +43,7 @@ public class CloudinaryProductMediaContentUpdateRenderer extends AbstractEditorA
 
     public static final String VERSION = "v";
 
-    private AnnotateDataBinder binder;
+    //private AnnotateDataBinder binder;
 
     @Resource
     private CloudinaryConfigDao cloudinaryConfigDao;
@@ -81,8 +81,8 @@ public class CloudinaryProductMediaContentUpdateRenderer extends AbstractEditorA
 
     public void onClickbutton(Component parent, Textbox textbox, ProductModel productModel, CloudinaryConfigModel cloudinaryConfigModel) {
         Window dialogWin = (Window) Executions.createComponents("widgets/cloudinaryuploadedit.zul", parent, null);
-        binder = new AnnotateDataBinder(dialogWin);
-        binder.loadAll();
+        //binder = new AnnotateDataBinder(dialogWin);
+        //binder.loadAll();
         dialogWin.doModal();
 
         Button done = (Button) dialogWin.getFellow("done");

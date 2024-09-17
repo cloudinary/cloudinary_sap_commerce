@@ -49,11 +49,11 @@
           parent="defaultProductFacade">
     </bean>
 
-    <alias name="cwsCloudinaryProductFacade" alias="cwsProductFacade"/>
+ <!--   <alias name="cwsCloudinaryProductFacade" alias="cwsProductFacade"/>
     <bean id="cwsCloudinaryProductFacade" parent="defaultCloudinaryProductFacade">
         <property name="productConfiguredPopulator" ref="cwsProductConfiguredPopulator"/>
         <property name="productConverter" ref="cwsProductConverter"/>
-    </bean>
+    </bean>-->
 
     <alias name="defaultProductVariantFacade" alias="productVariantFacade"/>
     <bean id="defaultProductVariantFacade"
