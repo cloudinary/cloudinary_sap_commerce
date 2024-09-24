@@ -5,7 +5,7 @@ package uk.ptr.cloudinary.controllers.pages;
 
 import com.cloudinary.Cloudinary;
 import com.google.common.collect.Maps;
-import de.hybris.platform.acceleratorfacades.futurestock.FutureStockFacade;
+import de.hybris.platform.commercefacades.futurestock.impl.DefaultFutureStockFacade;
 import de.hybris.platform.acceleratorservices.controllers.page.PageType;
 import de.hybris.platform.acceleratorstorefrontcommons.breadcrumb.impl.ProductBreadcrumbBuilder;
 import de.hybris.platform.acceleratorstorefrontcommons.constants.WebConstants;
