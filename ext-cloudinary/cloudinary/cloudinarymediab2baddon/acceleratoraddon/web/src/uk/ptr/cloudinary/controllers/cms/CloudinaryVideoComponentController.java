@@ -1,8 +1,8 @@
 package uk.ptr.cloudinary.controllers.cms;
 
-import atg.taglib.json.util.JSONArray;
-import atg.taglib.json.util.JSONException;
-import atg.taglib.json.util.JSONObject;
+import org.cloudinary.json.JSONArray;
+import org.cloudinary.json.JSONException;
+import org.cloudinary.json.JSONObject;
 import com.cloudinary.Cloudinary;
 import de.hybris.platform.addonsupport.controllers.cms.AbstractCMSAddOnComponentController;
 import de.hybris.platform.cms2.model.contents.ContentCatalogModel;

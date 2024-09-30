@@ -54,7 +54,9 @@
 			</property>
 		</bean>
 		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.UiExperienceMetadataViewHandler"  />
-		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.AnalyticsPropertiesBeforeViewHandler" />
+		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.AnalyticsPropertiesBeforeViewHandler" >
+			<property name="hostConfigService" ref="hostConfigService" />
+		</bean>
 		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.ConfigWro4jBeforeViewHandler" >
 			<property name="siteConfigService" ref="siteConfigService"/>
 		</bean>
