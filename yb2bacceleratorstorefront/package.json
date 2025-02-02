@@ -24,6 +24,6 @@
     "jquery.waitforimages" : "2.4.0",
     "jquery.zoom" : "1.7.13",
     "owl.carousel" : "1.3.3",
-    "dompurify" : "2.4.5"
+    "dompurify" : "2.5.8"
   }
 }
