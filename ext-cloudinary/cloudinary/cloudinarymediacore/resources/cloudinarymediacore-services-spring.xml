@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+	<bean id="cloudinarymediacoreService" class="uk.ptr.cloudinary.service.impl.DefaultCloudinarymediacoreService">
+		<!-- setter injection example -->
+		<property name="modelService" ref="modelService"/>
+		<property name="mediaService" ref="mediaService"/>
+		<property name="flexibleSearchService" ref="flexibleSearchService"/>
+	</bean>
+
+	<bean id="adminApiService" class="uk.ptr.cloudinary.service.impl.DefaultAdminApiService"/>
+
+	<bean id="presetApiService" class="uk.ptr.cloudinary.service.impl.DefaultPresetApiService"/>
+
+	<bean id="uploadApiService" class="uk.ptr.cloudinary.service.impl.DefaultUploadApiService"/>
+
+	<bean id="transformationApiService" class="uk.ptr.cloudinary.service.impl.DefaultTransformationApiService"/>
+
+	<alias name="defaultCloudinaryConvertedMediaCreationStrategy" alias="cloudinaryConvertedMediaCreationStrategy"/>
+	<bean id="defaultCloudinaryConvertedMediaCreationStrategy"
+		  class="uk.ptr.cloudinary.strategies.impl.DefaultCloudinaryConvertedMediaCreationStrategy">
+	</bean>
+
+	<bean id="cloudinaryMediaConversionStrategy"
+		  class="uk.ptr.cloudinary.strategies.impl.DefaultCloudinaryMediaConversionStrategy">
+	</bean>
+
+	<alias name="defaultCloudinaryMediaConversionService" alias="mediaConversionService"/>
+	<bean id="defaultCloudinaryMediaConversionService"
+		  class="uk.ptr.cloudinary.service.impl.DefaultCloudinaryMediaConversionService" parent="defaultMediaConversionService" />
+
+	<alias name="defaultCloudinaryConversionErrorLogStrategy" alias="cloudinaryConversionErrorLogStrategy"/>
+	<bean id="defaultCloudinaryConversionErrorLogStrategy"
+		  class="uk.ptr.cloudinary.strategies.impl.DefaultCloudinaryConversionErrorLogStrategy"
+		  init-method="init"
+		  destroy-method="destroy" parent="defaultConversionErrorLogStrategy">
+	</bean>
+
+	<alias name="defaultCloudinaryOnDemandConversionFacade" alias="cloudinaryOnDemandConversionFacade"/>
+	<bean id="defaultCloudinaryOnDemandConversionFacade"
+		  class="uk.ptr.cloudinary.facades.impl.DefaultCloudinaryOnDemandConversionFacade" parent="defaultOnDemandConversionFacade">
+	</bean>
+
+	<bean id="cloudinaryConfigService" class="uk.ptr.cloudinary.service.impl.DefaultCloudinaryConfigService"/>
+
+
+	<bean id="cloudinaryImageValueProvider" class="uk.ptr.cloudinary.search.providers.CloudinaryImageValueProvider" parent="abstractImageValueProvider"/>
+
+	<alias name="cloudinaryImage515ValueProvider" alias="image515ValueProvider"/>
+	<bean id="cloudinaryImage515ValueProvider" parent="cloudinaryImageValueProvider" >
+		<property name="mediaFormat" value="515Wx515H"/>
+	</bean>
+
+	<alias name="cloudinaryImage300ValueProvider" alias="image300ValueProvider"/>
+	<bean id="cloudinaryImage300ValueProvider" parent="cloudinaryImageValueProvider" >
+		<property name="mediaFormat" value="300Wx300H"/>
+	</bean>
+
+	<alias name="cloudinaryImage96ValueProvider" alias="image96ValueProvider"/>
+	<bean id="cloudinaryImage96ValueProvider" parent="cloudinaryImageValueProvider" >
+		<property name="mediaFormat" value="96Wx96H"/>
+	</bean>
+
+	<alias name="cloudinaryImage65ValueProvider" alias="image65ValueProvider"/>
+	<bean id="cloudinaryImage65ValueProvider" parent="cloudinaryImageValueProvider" >
+		<property name="mediaFormat" value="65Wx65H"/>
+	</bean>
+
+	<alias name="cloudinaryImage30ValueProvider" alias="image30ValueProvider"/>
+	<bean id="cloudinaryImage30ValueProvider" parent="cloudinaryImageValueProvider" >
+		<property name="mediaFormat" value="30Wx30H"/>
+	</bean>
+
+	<bean id="cloudinaryMediaSyncTaskRunner"
+		  class="uk.ptr.cloudinary.tasks.runner.CloudinaryMediaSyncTaskRunner" />
+
+	<alias name="defaultCloudinaryTaskService" alias="cloudinaryTaskService"/>
+	<bean id="defaultCloudinaryTaskService"
+		  class="uk.ptr.cloudinary.service.impl.DefaultCloudinaryTaskService" />
+
+	<bean id="cloudinaryEnabledAttributeHandler" class="uk.ptr.cloudinary.handlers.CloudinaryEnabledAttributeHandler" />
+
+	<bean id="cloudinaryUrlAttributeHandler" class="uk.ptr.cloudinary.handlers.CloudinaryUrlAttributeHandler" />
+
+	<bean id="updateTagApiService" class="uk.ptr.cloudinary.service.impl.DefaultUpdateTagApiService"/>
+
+	<bean id="bulkUploadApiService" class="uk.ptr.cloudinary.service.impl.DefaultBulkUploadApiService"/>
+
+	<bean id="analyticsApiService" class="uk.ptr.cloudinary.service.impl.DefaultAnalyticsApiService"/>
+
+	<bean id="removeTagApiService" class="uk.ptr.cloudinary.service.impl.DefaultRemoveTagApiService"/>
+
+</beans>

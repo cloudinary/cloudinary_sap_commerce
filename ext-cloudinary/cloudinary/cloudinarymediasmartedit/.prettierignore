@@ -1,0 +1,19 @@
+.tscache
+temp
+/jsTarget
+node_modules
+**/generated/**
+
+# BUNDLE
+smartedit-build
+build
+
+web/webroot/cloudinarymediasmartedit
+**/protractor-conf.js
+**/.jshintrc
+jsTests/**/list.html
+jsTests/**/smartedit.html
+**/storefront.html
+/coverage/
+/classes/
+**/generated_*

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved
+-->
+<action-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   id="uk.ptr.cloudinary.backoffice.widgets.actions.deletecloudinarymedia"
+                   xsi:noNamespaceSchemaLocation="http://www.hybris.com/schema/cockpitng/action-definition.xsd">
+    <name>Delete</name>
+    <description>
+        Action providing default implementation of delete operation including physical removal of the deleted object.
+    </description>
+    <author>hybris</author>
+    <version>1.0</version>
+
+    <iconUri>icons/icon_action_delete_default.png</iconUri>
+    <iconDisabledUri>icons/icon_action_delete_disabled.png</iconDisabledUri>
+    <iconHoverUri>icons/icon_action_delete_hover.png</iconHoverUri>
+
+    <inputType>java.util.Collection</inputType>
+    <outputType>java.util.Collection</outputType>
+    <actionClassName>uk.ptr.cloudinary.actions.CloudinaryDeleteAction</actionClassName>
+    <customRendererClassName></customRendererClassName>
+</action-definition>

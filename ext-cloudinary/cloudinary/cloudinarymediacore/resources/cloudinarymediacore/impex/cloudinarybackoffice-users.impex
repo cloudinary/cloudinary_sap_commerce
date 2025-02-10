@@ -1,0 +1,3 @@
+INSERT_UPDATE Employee;UID[unique=true];password;groups(uid);
+;cloudinaryadmin;Cloudin@ry;admingroup,backofficeadministratorrole,itemLockingGroup,cmsmanagergroup
+;cloudinaryauditemp;cloudinaryauditemp;itemLockingGroup,backofficeauditgroup

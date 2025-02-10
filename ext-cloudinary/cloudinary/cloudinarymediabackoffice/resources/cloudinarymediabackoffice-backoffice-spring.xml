@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="cloudinarymediabackofficeService" class="uk.ptr.cloudinary.services.CloudinarymediabackofficeService" />
+
+	<bean id="cloudinarymediabackofficeLabelLocator" class="com.hybris.cockpitng.util.labels.ResourcesLabelLocator" scope="singleton" init-method="init" lazy-init="false">
+		<property name="location" value="/cloudinarymediabackoffice-backoffice-labels/"/>
+		<property name="name" value="labels"/>
+	</bean>
+
+	<alias name="defaultCloudinaryConfigAdminUsageRenderer" alias="cloudinaryConfigAdminUsageRenderer"/>
+	<bean id="defaultCloudinaryConfigAdminUsageRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigAdminUsageRenderer"
+		  parent="abstractEditorAreaComponentRenderer">
+	</bean>
+
+	<alias name="defaultCloudinaryMediaContentUpdateHandler" alias="mediaContentUpdateHandler"/>
+	<bean id="defaultCloudinaryMediaContentUpdateHandler" class="uk.ptr.cloudinary.handler.CloudinaryMediaContentUpdateHandler" parent="defaultMediaContentUpdateHandler"/>
+
+	<alias name="defaultCloudinaryMediaContentUpdateRenderer" alias="cloudinaryMediaContentUpdateRenderer"/>
+	<bean id="defaultCloudinaryMediaContentUpdateRenderer"
+		  class="uk.ptr.cloudinary.editor.CloudinaryMediaContentUpdateRenderer"  parent="abstractEditorAreaComponentRenderer">
+	</bean>
+
+	<alias name="defaultCloudinaryProductMediahandler" alias="productMediaComposedFlowActionHandler"/>
+	<bean id="defaultCloudinaryProductMediahandler" class="uk.ptr.cloudinary.handler.CloudinaryProductMediahandler" parent="defaultProductMediaComposedFlowActionHandler"/>
+
+	<alias name="defaultCloudinaryProductMediaContentUpdateRenderer" alias="cloudinaryProductMediaContentUpdateRenderer"/>
+	<bean id="defaultCloudinaryProductMediaContentUpdateRenderer"
+		  class="uk.ptr.cloudinary.editor.CloudinaryProductMediaContentUpdateRenderer"  parent="abstractEditorAreaComponentRenderer">
+	</bean>
+
+	<alias name="defaultCloudinaryConfigTransformationTextRenderer" alias="cloudinaryConfigTransformationTextRenderer"/>
+	<bean id="defaultCloudinaryConfigTransformationTextRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigTransformationTextRenderer"
+		  parent="abstractEditorAreaComponentRenderer">
+	</bean>
+
+	<alias name="defaultCloudinaryConfigProductGalleryTextRenderer" alias="cloudinaryConfigProductGalleryTextRenderer"/>
+	<bean id="defaultCloudinaryConfigProductGalleryTextRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigProductGalleryTextRenderer"
+		  parent="abstractEditorAreaComponentRenderer">
+	</bean>
+
+	<alias name="defaultCloudinaryConfigProductGalleryTextWizardRenderer" alias="cloudinaryConfigProductGalleryTextWizardRenderer"/>
+	<bean id="defaultCloudinaryConfigProductGalleryTextWizardRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigProductGalleryTextWizardRenderer">
+	</bean>
+
+	<alias name="defaultCloudinaryConfigProductGallerySettingsTextRenderer" alias="cloudinaryConfigProductGallerySettingsTextRenderer"/>
+	<bean id="defaultCloudinaryConfigProductGallerySettingsTextRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigProductGallerySettingsTextRenderer"
+		  parent="abstractEditorAreaComponentRenderer">
+	</bean>
+
+	<alias name="defaultCloudinaryConfigMediaPresetTextRenderer" alias="cloudinaryConfigMediaPresetTextRenderer"/>
+	<bean id="defaultCloudinaryConfigMediaPresetTextRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigMediaPresetTextRenderer"
+		  parent="abstractEditorAreaComponentRenderer">
+	</bean>
+
+	<alias name="attributeDescriptionIconRenderer" alias="attributeDescriptionIconRenderer"/>
+	<bean id="attributeDescriptionIconRenderer"
+		  class="uk.ptr.cloudinary.renderers.DefaultCloudinaryAttributeDescriptionIconRenderer"/>
+
+	<alias name="defaultCloudinaryConfigVideoPlayerTextRenderer" alias="cloudinaryConfigVideoPlayerTextRenderer"/>
+	<bean id="defaultCloudinaryConfigVideoPlayerTextRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigVideoPlayerTextRenderer"
+		  parent="abstractEditorAreaComponentRenderer">
+	</bean>
+
+	<alias name="defaultCloudinaryConfigVideoPlayerSettingsTextRenderer" alias="cloudinaryConfigVideoPlayerSettingsTextRenderer"/>
+	<bean id="defaultCloudinaryConfigVideoPlayerSettingsTextRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigVideoPlayerSettingsTextRenderer"
+		  parent="abstractEditorAreaComponentRenderer">
+	</bean>
+
+	<alias name="defaultCloudinaryConfigVideoPlayerTextWizardRenderer" alias="cloudinaryConfigVideoPlayerTextWizardRenderer"/>
+	<bean id="defaultCloudinaryConfigVideoPlayerTextWizardRenderer"
+		  class="uk.ptr.cloudinary.renderers.CloudinaryConfigVideoPlayerTextWizardRenderer">
+	</bean>
+</beans>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+		   http://www.springframework.org/schema/util/spring-util.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+           
+    <context:annotation-config/>
+
+	<context:component-scan base-package="uk.ptr.cloudinary.controllers.cms" />
+	<!-- Expose /acceleratoraddon/web/webroot/WEB-INF/messages/base.js.properties  resource bundle as javascript variables -->
+	<bean id="defaultCloudinarymediab2baddonJavaScriptMessageResourceAccessor" parent="abstractJavaScriptMessageResourceAccessor">
+		<property name="addOnName" value="cloudinarymediab2baddon"/>
+	</bean>
+
+	<bean id="defaultCloudinarymediab2baddonBeforeViewJsPropsHandlerAdaptee" parent="abstractBeforeViewJsPropsHandlerAdaptee" class="de.hybris.platform.addonsupport.interceptors.ExportJsPropertiesBeforeViewHandler">
+		<property name="messageSource" ref="defaultCloudinarymediab2baddonJavaScriptMessageResourceAccessor"/>
+	</bean>
+
+	<bean id="getCloudinarymediab2baddonBeforeViewHandler" parent="beforeViewHandlerAdapter">
+		<property name="adaptee">
+			<ref bean="defaultCloudinarymediab2baddonBeforeViewJsPropsHandlerAdaptee"/>
+		</property>
+	</bean>
+	<bean id="Cloudinarymediab2baddonBeforeViewHandlerListMergeDirective" depends-on="beforeViewHandlersList" parent="listMergeDirective">
+		<property name="add" ref="getCloudinarymediab2baddonBeforeViewHandler"/>
+	</bean>
+
+	<bean name="productPageController" class="uk.ptr.cloudinary.controllers.pages.ProductPageController"/>
+	<bean name="addToCartController" class="uk.ptr.cloudinary.controllers.misc.AddToCartController"/>
+	<bean name="miniCartController" class="uk.ptr.cloudinary.controllers.misc.MiniCartController"/>
+
+	<alias name="defaultBeforeViewHandlersList" alias="beforeViewHandlersList" />
+	<util:list id="defaultBeforeViewHandlersList"  >
+		<!-- The CmsPageBeforeViewHandler could change the target view, so it should be run first. -->
+		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.CmsPageBeforeViewHandler" />
+		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.UiThemeResourceBeforeViewHandler" />
+		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.SeoRobotsFollowBeforeViewHandler" >
+			<property name="robotIndexForJSONMapping">
+				<map>
+					<entry key="/search" value="noindex,follow" />
+				</map>
+			</property>
+		</bean>
+		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.UiExperienceMetadataViewHandler"  />
+		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.AnalyticsPropertiesBeforeViewHandler" >
+			<property name="hostConfigService" ref="hostConfigService" />
+		</bean>
+		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.ConfigWro4jBeforeViewHandler" >
+			<property name="siteConfigService" ref="siteConfigService"/>
+		</bean>
+		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.DebugInfoBeforeViewHandler" />
+		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.CartRestorationBeforeViewHandler">
+			<property name="sessionService" ref="sessionService" />
+			<property name="pagesToShowModifications">
+				<list>
+					<value>/cart</value>
+				</list>
+			</property>
+		</bean>
+		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.GoogleMapsBeforeViewHandler" />
+		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.ConsentManagementBeforeViewHandler" />
+		<bean class="de.hybris.platform.yb2bacceleratorstorefront.interceptors.beforeview.CookieNotificationBeforeViewHandler">
+			<property name="cookieNotificationCookieGenerator" ref="cookieNotificationCookieGenerator" />
+		</bean>
+		<bean class="uk.ptr.cloudinary.interceptors.beforeview.CloudinaryBeforeViewHandler" />
+
+	</util:list>
+
+	<bean id="cloudinarySimpleResponsiveBannerComponentRenderer"  class="uk.ptr.cloudinary.renderer.CloudinarySimpleResponsiveBannerComponentRenderer" parent="addOnJspIncludeCMSComponentRenderer"/>
+
+	<bean id="SimpleResponsiveBannerComponentMapping" parent="addonCmsComponentRendererMapping" >
+		<property name="typeCode" value="SimpleResponsiveBannerComponent" />
+		<property name="renderer" ref="cloudinarySimpleResponsiveBannerComponentRenderer" />
+	</bean>
+
+	<bean id="cloudinaryProductCarouselComponentRenderer"  class="uk.ptr.cloudinary.renderer.CloudinaryProductCarouselComponentRenderer" parent="addOnJspIncludeCMSComponentRenderer"/>
+
+	<bean id="ProductCarouselComponentMapping" parent="addonCmsComponentRendererMapping" >
+		<property name="typeCode" value="ProductCarouselComponent" />
+		<property name="renderer" ref="cloudinaryProductCarouselComponentRenderer" />
+	</bean>
+
+	<bean id="cloudinaryProductVariantSelectorComponentRenderer"  class="uk.ptr.cloudinary.renderer.CloudinaryProductVariantSelectorComponentRenderer" parent="addOnJspIncludeCMSComponentRenderer"/>
+
+	<bean id="ProductVariantSelectorComponentMapping" parent="addonCmsComponentRendererMapping" >
+		<property name="typeCode" value="ProductVariantSelectorComponent" />
+		<property name="renderer" ref="cloudinaryProductVariantSelectorComponentRenderer" />
+	</bean>
+
+</beans>

@@ -1,0 +1,8 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+$catalog-Online=Online
+$product-catalog=electronicsProductCatalog
+$productCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$product-catalog]),CatalogVersion.version[default=$catalog-Online])[default=$product-catalog:$catalog-Online]
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Online'])[unique=true,default=$productCatalog:Online]

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="cloudinarymediafacadesSystemSetup" class="uk.ptr.cloudinary.setup.CloudinarymediafacadesSystemSetup">
+        <!-- constructor arg injection example -->
+        <constructor-arg ref="cloudinarymediafacadesService"/>
+    </bean>
+
+    <bean id="cloudinarymediafacadesService" class="uk.ptr.cloudinary.service.impl.DefaultCloudinarymediafacadesService">
+        <!-- setter injection example -->
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+
+    <alias name="defaultCloudinaryImagePopulator" alias="imagePopulator"/>
+    <bean id="defaultCloudinaryImagePopulator"
+          class="uk.ptr.cloudinary.facades.populator.DefaultCloudinaryImagePopulator"/>
+
+    <alias name="defaultCloudinaryProductImagesPopulator" alias="cloudinaryProductImagesPopulator"/>
+    <bean id="defaultCloudinaryProductImagesPopulator" parent="baseProductImagePopulator"
+            class="uk.ptr.cloudinary.facades.populator.DefaultCloudinaryProductImagesPopulator"/>
+
+    <!-- <bean parent="configurablePopulatorModification">
+        <property name="target" ref="productVariantConfiguredPopulator" />
+        <property name="keyType" value="de.hybris.platform.commercefacades.product.ProductOption" />
+        <property name="key" value="CLOUDINARY" />
+        <property name="add" ref="cloudinaryProductImagesPopulator" />
+    </bean> -->
+
+
+    <alias name="defaulCloudinaryConfigFacade" alias="cloudinaryConfigFacade"/>
+    <bean id="defaulCloudinaryConfigFacade" class="uk.ptr.cloudinary.facades.impl.DefaulCloudinaryConfigFacade"/>
+
+
+    <alias name="defaultCloudinaryProductFacade" alias="productFacade"/>
+    <bean id="defaultCloudinaryProductFacade"
+          class="uk.ptr.cloudinary.facades.impl.DefaultCloudinaryProductFacade"
+          parent="defaultProductFacade">
+    </bean>
+
+ <!--   <alias name="cwsCloudinaryProductFacade" alias="cwsProductFacade"/>
+    <bean id="cwsCloudinaryProductFacade" parent="defaultCloudinaryProductFacade">
+        <property name="productConfiguredPopulator" ref="cwsProductConfiguredPopulator"/>
+        <property name="productConverter" ref="cwsProductConverter"/>
+    </bean>-->
+
+    <alias name="defaultProductVariantFacade" alias="productVariantFacade"/>
+    <bean id="defaultProductVariantFacade"
+          class="de.hybris.platform.commercefacades.product.impl.DefaultProductVariantFacade"
+          parent="defaultCloudinaryProductFacade">
+        <property name="productConfiguredPopulator" ref="productVariantConfiguredPopulator"/>
+        <property name="productConfigurationConverter" ref="orderEntryProductInfoConverter"/>
+    </bean>
+
+    <alias name="defaultCloudinaryProductImagesConverter" alias="cloudinaryProductImagesConverter"/>
+    <bean id="defaultCloudinaryProductImagesConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+        <property name="populators">
+            <list>
+                <ref bean="cloudinaryProductImagesPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="cloudinaryResponsiveImagePopulator" alias="responsiveImagePopulator"/>
+    <bean id="cloudinaryResponsiveImagePopulator" class="uk.ptr.cloudinary.facades.populator.CloudinaryResponsiveImagePopulator">
+        <property name="responsiveImageFormats" ref="responsiveImageFormats"/>
+    </bean>
+
+    <alias name="defaultCloudinaryProductPrimaryImagePopulator" alias="productPrimaryImagePopulator"/>
+    <bean id="defaultCloudinaryProductPrimaryImagePopulator" parent="baseProductImagePopulator" class="uk.ptr.cloudinary.facades.populator.CloudinaryProductPrimaryImagePopulator"/>
+
+    <alias name="defaultCloudinaryMediaFacade" alias="cloudinaryMediaFacade" />
+    <bean id="defaultCloudinaryMediaFacade" class="uk.ptr.cloudinary.facades.impl.DefaultCloudinaryMediaFacade"/>
+
+</beans>

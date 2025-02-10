@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+
+<items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xsi:noNamespaceSchemaLocation="items.xsd">
+
+	<enumtypes>
+		<enumtype code="CloudinaryMediaFormat" autocreate="true" generate="true" dynamic="true">
+			<value code="f_auto"/>
+			<value code="f_png"/>
+			<value code="f_jpg"/>
+			<value code="f_gif"/>
+			<value code="f_webp"/>
+			<value code="Original"/>
+		</enumtype>
+		<enumtype code="CloudinaryMediaQuality" autocreate="true" generate="true" dynamic="true">
+			<value code="q_auto"/>
+			<value code="q_auto_best"/>
+			<value code="q_auto_good"/>
+			<value code="q_auto_eco"/>
+			<value code="q_auto_low"/>
+			<value code="q_100"/>
+			<value code="q_80"/>
+			<value code="q_60"/>
+			<value code="q_40"/>
+			<value code="q_20"/>
+			<value code="Original"/>
+		</enumtype>
+		<enumtype code="CloudinaryVideoQuality" autocreate="true" generate="true" dynamic="true">
+			<value code="q_auto"/>
+			<value code="q_auto_best"/>
+			<value code="q_auto_good"/>
+			<value code="q_auto_eco"/>
+			<value code="q_auto_low"/>
+			<value code="q_100"/>
+			<value code="q_80"/>
+			<value code="q_60"/>
+			<value code="q_40"/>
+			<value code="q_20"/>
+			<value code="Original"/>
+		</enumtype>
+		<enumtype code="CloudinaryVideoFormat" autocreate="true" generate="true" dynamic="true">
+			<value code="f_auto"/>
+			<value code="f_mp4"/>
+			<value code="Original"/>
+		</enumtype>
+	</enumtypes>
+
+	<relations>
+		<relation generate="true" localized="false" code="ConversionGroupToMediaFormatRel" autocreate="true">
+			<deployment table="mediacontenttypeformats" typecode="10112"/>
+			<sourceElement type="ConversionGroup" cardinality="many" navigable="false"/>
+			<targetElement type="MediaFormat" cardinality="many" collectiontype="set"
+						   qualifier="supportedMediaFormats">
+				<description>All supported formats, i.e. all formats to convert the original media to.</description>
+				<modifiers read="true" write="true"/>
+			</targetElement>
+		</relation>
+		<relation code="CatalogVersionToCloudinaryMediaUploadSyncJob" generate="true"
+				  localized="false" autocreate="true">
+			<sourceElement type="CatalogVersion" cardinality="many"
+						   qualifier="catalogVersion">
+				<modifiers read="true" write="true" search="true"
+						   optional="false" />
+			</sourceElement>
+			<targetElement type="CloudinaryMediaUploadSyncJob" cardinality="one"
+						   qualifier="cloudinaryMediaUploadSyncJob">
+				<modifiers read="true" write="true" search="true"
+						   optional="true" />
+			</targetElement>
+		</relation>
+		<relation code="CatalogVersionToCloudinaryMediaTransformationJob" generate="true"
+				  localized="false" autocreate="true">
+			<sourceElement type="CatalogVersion" cardinality="many"
+						   qualifier="catalogVersions">
+				<modifiers read="true" write="true" search="true"
+						   optional="false" />
+			</sourceElement>
+			<targetElement type="CloudinaryMediaTransformationJob" cardinality="one"
+						   qualifier="cloudinaryMediaTransformationJob">
+				<modifiers read="true" write="true" search="true"
+						   optional="true" />
+			</targetElement>
+		</relation>
+		<relation code="CatalogVersionToCloudinaryMediaTagUpdateJob" generate="true"
+				  localized="false" autocreate="true">
+			<sourceElement type="CatalogVersion" cardinality="many"
+						   qualifier="catalogVersion">
+				<modifiers read="true" write="true" search="true"
+						   optional="false" />
+			</sourceElement>
+			<targetElement type="CloudinaryMediaTagUpdateJob" cardinality="one"
+						   qualifier="cloudinaryMediaTagUpdateJob">
+				<modifiers read="true" write="true" search="true"
+						   optional="true" />
+			</targetElement>
+		</relation>
+	</relations>
+
+
+	<itemtypes>
+
+		<itemtype code="CloudinaryConfig" jaloclass="uk.ptr.cloudinary.jalo.CloudinaryConfig"
+				  extends="GenericItem" autocreate="true" generate="true">
+			<deployment table="cloudinaryconfig" typecode="10111" />
+			<attributes>
+				<attribute qualifier="cloudinaryURL" type="java.lang.String">
+					<description>Cloudinary API url</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryFolderPath" type="java.lang.String">
+					<description>Cloudinary Folder Path </description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="enableCloudinary" type="java.lang.Boolean">
+					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
+					<description>Enable Cloudinary Boolean Field</description>
+					<modifiers read="true" write="true" search="true" optional="false" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="mediaUploadPreset" type="Preset">
+					<description>Selected preset for media upload</description>
+					<modifiers read="true" write="true" search="true" optional="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryMaxBreakPoints" type="java.lang.Integer">
+					<description>Cloudinary Max BreakPoints</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryImageFormat" type="CloudinaryMediaFormat">
+					<description>Cloudinary Image Format </description>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryMediaFormat","f_auto")</defaultvalue>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryQuality" type="CloudinaryMediaQuality">
+					<description>Cloudinary Quality</description>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryMediaQuality","q_auto")</defaultvalue>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryResponsive" type="java.lang.Boolean">
+					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
+					<description>Enable Cloudinary Responsive Breakpoint</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+
+				<attribute qualifier="cloudinaryByteStep" type="java.lang.Integer">
+					<description>Cloudinary Byte Step</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryImageWidthLimitMax" type="java.lang.Integer">
+					<description>Cloudinary Image Width Limit Maximum</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryImageWidthLimitMin" type="java.lang.Integer">
+					<description>Cloudinary Image width Limit Minimum</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="enableCloudinaryGalleryWidget" type="java.lang.Boolean">
+					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
+					<description> Enable Cloudinary Gallery Widget</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryGlobalImageTransformation" type="java.lang.String">
+					<description>Cloudinary Image Transformation</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryGlobalVideoTransformation" type="java.lang.String">
+					<description>Cloudinary Video Transformation</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryCname" type="java.lang.String">
+					<description>Cloudinary Name</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="enableOptimizeImage" type="java.lang.Boolean">
+					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
+					<description> Enable Optimize Images </description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="enableOptimizeVideo" type="java.lang.Boolean">
+					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
+					<description> Enable Optimize Videos </description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryVideoFormat" type="CloudinaryVideoFormat">
+					<description>Cloudinary Video Format </description>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryVideoFormat","f_auto")</defaultvalue>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryVideoQuality" type="CloudinaryVideoQuality">
+					<description>Cloudinary VideoQuality</description>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryVideoQuality","q_auto")</defaultvalue>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryGalleryConfigJsonString" type="java.lang.String">
+					<description>Cloudinary Gallery Config Json String</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property">
+						<columntype database="oracle">
+							<value>CLOB</value>
+						</columntype>
+						<columntype database="sap">
+							<value>NCLOB</value>
+						</columntype>
+						<columntype database="mysql">
+							<value>TEXT</value>
+						</columntype>
+						<columntype database="sqlserver">
+							<value>TEXT</value>
+						</columntype>
+						<columntype>
+							<value>HYBRIS.LONG_STRING</value>
+						</columntype>
+					</persistence>
+				</attribute>
+				<attribute qualifier="cloudinaryContentImageFormat" type="CloudinaryMediaFormat">
+					<description>Cloudinary Content Image Format </description>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryMediaFormat","f_auto")</defaultvalue>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryContentImageQuality" type="CloudinaryMediaQuality">
+					<description>Cloudinary Content Image Quality</description>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryMediaQuality","q_auto")</defaultvalue>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryContentGlobalImageTransformation" type="java.lang.String">
+					<description>Cloudinary Content Global Image Transformation</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="enableOptimizeContentImage" type="java.lang.Boolean">
+					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
+					<description> Enable Optimize Content Images </description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="enableOptimizeContentVideo" type="java.lang.Boolean">
+					<defaultvalue>java.lang.Boolean.TRUE</defaultvalue>
+					<description> Enable Optimize Content Videos </description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryContentVideoFormat" type="CloudinaryVideoFormat">
+					<description>Cloudinary Content Video Format </description>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryVideoFormat","f_auto")</defaultvalue>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryContentVideoQuality" type="CloudinaryVideoQuality">
+					<description>Cloudinary Content Video Quality</description>
+					<modifiers read="true" write="true" search="true" optional="false"/>
+					<defaultvalue>em().getEnumerationValue("CloudinaryVideoQuality","q_auto")</defaultvalue>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="cloudinaryGlobalContentVideoTransformation" type="java.lang.String">
+					<description>Cloudinary Global Content Video Transformation</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="enableCloudinaryVideoPlayer" type="java.lang.Boolean">
+					<description> Enable Cloudinary Video Player </description>
+					<defaultvalue>java.lang.Boolean.FALSE</defaultvalue>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property" />
+				</attribute>
+				<attribute qualifier="videoPlayerTransformation" type="java.lang.String">
+					<description>Cloudinary Video Transformation Json String</description>
+					<modifiers read="true" write="true" search="true" optional="true" initial="true"/>
+					<persistence type="property">
+						<columntype database="oracle">
+							<value>CLOB</value>
+						</columntype>
+						<columntype database="sap">
+							<value>NCLOB</value>
+						</columntype>
+						<columntype database="mysql">
+							<value>TEXT</value>
+						</columntype>
+						<columntype database="sqlserver">
+							<value>TEXT</value>
+						</columntype>
+						<columntype>
+							<value>HYBRIS.LONG_STRING</value>
+						</columntype>
+					</persistence>
+				</attribute>
+			</attributes>
+
+		</itemtype>
+
+		<itemtype code="Media" autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="cloudinaryURL" type="java.lang.String">
+					<modifiers read="true" write="false" />
+					<persistence type="dynamic" attributeHandler="cloudinaryUrlAttributeHandler" />
+				</attribute>
+				<attribute qualifier="cloudinaryResourceType" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="cloudinaryType" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="cloudinaryTransformation" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="cloudinaryPublicId" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="cloudinaryVersion" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="cloudinaryFetchURL" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="cloudinaryMediaFormat" type="java.lang.String">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="isCloudinaryFetch" type="java.lang.Boolean">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+				<attribute qualifier="isCloudinaryOverride" type="java.lang.Boolean">
+					<modifiers read="true" write="true" search="true"  />
+					<persistence type="property"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+
+		<itemtype code="ConversionErrorLog" autocreate="false" generate="false">
+			<attributes>
+				<attribute qualifier="targetMediaFormat" type="MediaFormat">
+					<description>The targeted format, for which the conversion failed.</description>
+					<modifiers write="false" read="true" optional="false" initial="true"/>
+					<persistence type="property"/>
+				</attribute>
+			</attributes>
+		</itemtype>
+
+		<typegroup name="Category">
+			<itemtype code="Category" autocreate="false" generate="false">
+				<description>Extends existing type with additional attributes.</description>
+				<attributes>
+					<attribute qualifier="cloudinaryImageTransformation" type="java.lang.String">
+						<modifiers read="true" write="true" search="true"  />
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="cloudinaryVideoTransformation" type="java.lang.String">
+						<modifiers read="true" write="true" search="true"  />
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="isCloudinaryOverride" type="java.lang.Boolean">
+						<modifiers read="true" write="true" search="true"  />
+						<persistence type="property"/>
+					</attribute>
+				</attributes>
+			</itemtype>
+		</typegroup>
+
+		<typegroup name="Product">
+			<itemtype code="Product" autocreate="false" generate="false">
+				<description>Extends existing type with additional attributes.</description>
+				<attributes>
+					<attribute qualifier="cloudinaryImageTransformation" type="java.lang.String">
+						<modifiers read="true" write="true" search="true"  />
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="cloudinaryVideoTransformation" type="java.lang.String">
+						<modifiers read="true" write="true" search="true"  />
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="isCloudinaryOverride" type="java.lang.Boolean">
+						<modifiers read="true" write="true" search="true"  />
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="cloudinaryImageSpinTag" type="java.lang.String">
+						<modifiers read="true" write="true" search="true"  />
+						<persistence type="property"/>
+					</attribute>
+				</attributes>
+			</itemtype>
+		</typegroup>
+
+		<typegroup name="MediaFormat">
+			<itemtype code="MediaFormat" autocreate="false" generate="false">
+				<attributes>
+					<attribute qualifier="mediaMimeType" type="java.lang.String">
+						<description>Mime type of this format.</description>
+						<modifiers initial="true" optional="true"/>
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="transformation" type="java.lang.String">
+						<description>Transformation command</description>
+						<modifiers optional="true"/>
+						<persistence type="property">
+							<columntype>
+								<value>HYBRIS.LONG_STRING</value>
+							</columntype>
+						</persistence>
+					</attribute>
+					<attribute qualifier="transformationStrategy" type="java.lang.String">
+						<description>Bean name of the conversion strategy to use.</description>
+						<defaultvalue>"cloudinaryMediaConversionStrategy"</defaultvalue>
+						<modifiers optional="false"/>
+						<persistence type="property"/>
+					</attribute>
+					<attribute qualifier="inputMediaFormat" type="MediaFormat">
+						<description>Media format to take as input for the conversion (optional).</description>
+						<modifiers optional="true"/>
+						<persistence type="property"/>
+					</attribute>
+				</attributes>
+			</itemtype>
+		</typegroup>
+
+		<typegroup name="Cloudinary Media Sync Job">
+			<itemtype code="CloudinaryMediaUploadSyncJob" autocreate="true"
+					  generate="true" extends="CronJob"
+					  jaloclass="de.hybris.platform.core.model.CloudinaryMediaUploadSyncJob">
+			</itemtype>
+		</typegroup>
+
+		<typegroup name="Cloudinary Media Tag Update Job">
+			<itemtype code="CloudinaryMediaTagUpdateJob" autocreate="true"
+					  generate="true" extends="CronJob"
+					  jaloclass="de.hybris.platform.core.model.CloudinaryMediaTagUpdateJob">
+			</itemtype>
+		</typegroup>
+
+		<typegroup name="Cloudinary Media Transformation Job">
+			<itemtype code="CloudinaryMediaTransformationJob" autocreate="true"
+					  generate="true" extends="CronJob"
+					  jaloclass="de.hybris.platform.core.model.CloudinaryMediaTransformationJob">
+			</itemtype>
+		</typegroup>
+
+		<typegroup name="Cloudinary Preset">
+			<itemtype code="Preset" jaloclass="uk.ptr.cloudinary.jalo.Preset"
+					  extends="GenericItem" autocreate="true" generate="true">
+				<deployment table="preset" typecode="10113"/>
+				<attributes>
+					<attribute qualifier="name" type="java.lang.String">
+						<description>Preset Name</description>
+						<modifiers read="true" write="true" search="true" optional="false" initial="true"/>
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+		</typegroup>
+
+	</itemtypes>
+</items>

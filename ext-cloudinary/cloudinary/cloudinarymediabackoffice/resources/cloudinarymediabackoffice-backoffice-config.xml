@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved
+-->
+<config xmlns="http://www.hybris.com/cockpit/config"
+        xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea"
+        xmlns:list-view="http://www.hybris.com/cockpitng/component/listView"
+        xmlns:wz="http://www.hybris.com/cockpitng/config/wizard-config"
+        xmlns:hybris="http://www.hybris.com/cockpit/config/hybris"
+        xmlns:ea="http://www.hybris.com/cockpitng/component/editorArea"
+        xmlns:y="http://www.hybris.com/cockpit/config/hybris"
+        xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch"
+        xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree" xmlns:simple-search="http://www.hybris.com/cockpitng/config/simplesearch">
+
+    <!-- cloudinarymediabackoffice UI configuration should be provided here -->
+
+    <context merge-by="type" parent="GenericItem" type="CloudinaryConfig" component="base">
+        <y:base>
+            <y:labels>
+                <y:label>'Cloudinary'+' '+ 'Configuration'</y:label>
+            </y:labels>
+        </y:base>
+    </context>
+
+    <context type="Media" component="advanced-search" merge-by="type" parent="AbstractMedia">
+        <advanced-search:advanced-search xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch">
+            <advanced-search:field-list>
+                <advanced-search:field name="cloudinaryURL" selected="true" operator="contains"/>
+            </advanced-search:field-list>
+        </advanced-search:advanced-search>
+    </context>
+
+
+
+    <context component="explorer-tree" merge-by="principal" principal="backofficeadministratorrole">
+        <explorer-tree:explorer-tree  xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree">
+            <explorer-tree:navigation-node id="hmc_treenode_cloudinary">
+                <explorer-tree:type-node code="CloudinaryConfig" id="hmc_typenode_cloudinaryconfig"/>
+            </explorer-tree:navigation-node>
+        </explorer-tree:explorer-tree>
+    </context>
+
+    <context merge-by="principal" component="explorer-tree" principal="warehouseadministratorrole,admin,backofficeadministratorrole">
+        <n:explorer-tree xmlns:n="http://www.hybris.com/cockpitng/config/explorertree">
+            <n:navigation-node id="warehousing.treenode.order.management">
+                <n:type-node id="warehousing.typenode.atp.formulas" code="AtpFormula"/>
+                <n:type-node id="warehousing.typenode.sourcing.configuration" code="SourcingConfig"/>
+                <n:type-node id="warehousing.typenode.atp.restockconfig" code="RestockConfig"/>
+            </n:navigation-node>
+            <n:navigation-node id="hmc.group.basecommerce">
+                <n:type-node id="warehousing.typenode.asns" code="AdvancedShippingNotice" />
+            </n:navigation-node>
+        </n:explorer-tree>
+    </context>
+
+    <context component="explorer-tree" parent="auto" merge-by="principal" principal="admin,backofficeadministratorrole">
+        <explorer-tree:explorer-tree xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree">
+            <explorer-tree:navigation-node id="hmc.entitlements">
+                <explorer-tree:type-node code="Entitlement" id="Entitlement" />
+                <explorer-tree:type-node code="ProductEntitlement" id="ProductEntitlement" />
+            </explorer-tree:navigation-node>
+        </explorer-tree:explorer-tree>
+    </context>
+
+    <context component="explorer-tree" parent="auto" merge-by="principal" principal="admin,backofficeadministratorrole">
+        <explorer-tree:explorer-tree xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree">
+            <explorer-tree:navigation-node id="hmc.yforms">
+                <explorer-tree:type-node code="YFormDefinition" id="YFormDefinition" />
+                <explorer-tree:type-node code="YFormData" id="YFormData" />
+            </explorer-tree:navigation-node>
+        </explorer-tree:explorer-tree>
+    </context>
+
+    <context merge-by="type" type="CloudinaryConfig" component="listview">
+        <list-view:list-view xmlns:list-view="http://www.hybris.com/cockpitng/component/listView">
+            <list-view:column qualifier="cloudinaryByteStep"/>
+            <list-view:column qualifier="cloudinaryFolderPath"/>
+            <list-view:column qualifier="enableOptimizeImage"/>
+            <list-view:column qualifier="cloudinaryImageFormat"/>
+            <list-view:column qualifier="cloudinaryQuality"/>
+            <list-view:column qualifier="cloudinaryResponsive"/>
+            <list-view:column qualifier="cloudinaryImageWidthLimitMin"/>
+            <list-view:column qualifier="cloudinaryImageWidthLimitMax"/>
+        </list-view:list-view>
+    </context>
+
+    <context type="CloudinaryConfig" parent="GenericItem" component="create-wizard" merge-by="type" merge-mode="replace">
+        <wz:flow id="ItemWizard" title="create.title(ctx.TYPE_CODE)">
+            <wz:prepare id="itemPrepare">
+                <wz:initialize property="newCloudinaryConfig" type="ctx.TYPE_CODE"/>
+            </wz:prepare>
+            <wz:step id="step1" label="create.cloudinaryconfig.configuration" merge-mode="replace">
+                <wz:info id="step1.intro" position="top" label="create.cloudinary.essential.intro" />
+                <wz:content id="step1.content">
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryURL" type="java.lang.String" />
+                        <wz:property qualifier="cloudinaryFolderPath" type="java.lang.String"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/uploadpresettext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="mediaUploadPreset"/>
+                    </wz:property-list>
+                </wz:content>
+                <wz:navigation id="step1.navigation">
+                    <wz:cancel/>
+                    <wz:next/>
+                    <wz:done>
+                        <wz:save property="newCloudinaryConfig"/>
+                    </wz:done>
+                </wz:navigation>
+            </wz:step>
+            <wz:step id="step2" label="create.cloudinaryconfig.global.configuration" merge-mode="replace">
+                <wz:info id="step2.intro" position="top" label="create.cloudinary.transformation.intro" />
+                <wz:content id="step2.content1">
+                    <wz:custom-view lang="zul" src="widgets/imageglobalsettingtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="enableOptimizeImage"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/imageadvancesettingtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryImageFormat"/>
+                        <wz:property qualifier="cloudinaryQuality"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/imagetransformationtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryGlobalImageTransformation"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/videoglobalsettingtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="enableOptimizeVideo"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/videoadvancesettingtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryVideoFormat"/>
+                        <wz:property qualifier="cloudinaryVideoQuality"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/videotransformationtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryGlobalVideoTransformation"/>
+                    </wz:property-list>
+
+                </wz:content>
+                <wz:navigation id="step2.navigation">
+                    <wz:cancel/>
+                    <wz:next/>
+                    <wz:done>
+                        <wz:save property="newCloudinaryConfig"/>
+                    </wz:done>
+                </wz:navigation>
+            </wz:step>
+            <wz:step id="step3" label="create.cloudinaryconfig.global.content.configuration" merge-mode="replace">
+                <wz:info id="step3.intro" position="top" label="create.cloudinary.transformation.intro" />
+                <wz:content id="step3.content1">
+                    <wz:custom-view lang="zul" src="widgets/imageglobalsettingtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="enableOptimizeImage"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/imageadvancesettingtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryContentImageFormat"/>
+                        <wz:property qualifier="cloudinaryContentImageQuality"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/imagetransformationtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryContentGlobalImageTransformation"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/videoglobalsettingtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="enableOptimizeContentVideo"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/videoadvancesettingtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryContentVideoFormat"/>
+                        <wz:property qualifier="cloudinaryContentVideoQuality"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul" src="widgets/videotransformationtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryGlobalContentVideoTransformation"/>
+                    </wz:property-list>
+                </wz:content>
+                <wz:navigation id="step3.navigation">
+                    <wz:cancel/>
+                    <wz:next/>
+                    <wz:done>
+                        <wz:save property="newCloudinaryConfig"/>
+                    </wz:done>
+                </wz:navigation>
+            </wz:step>
+            <!--<wz:step id="step4" label="create.cloudinaryconfig.breakpoints" merge-mode="replace">
+                <wz:info id="step4.intro" position="top" label="" />
+                <wz:content id="step4.content">
+                    <wz:custom-view lang="zul" src="widgets/responsivebreakpointtext.zul"/>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryResponsive"/>
+                        <wz:property qualifier="cloudinaryByteStep"/>
+                        <wz:property qualifier="cloudinaryImageWidthLimitMin"/>
+                        <wz:property qualifier="cloudinaryImageWidthLimitMax"/>
+                    </wz:property-list>
+                </wz:content>
+                <wz:navigation id="step4.navigation">
+                    <wz:cancel/>
+                    <wz:next/>
+                    <wz:done>
+                        <wz:save property="newCloudinaryConfig"/>
+                    </wz:done>
+                </wz:navigation>
+            </wz:step>-->
+            <!--<wz:step id="step5" label="create.cloudinaryconfig.product.gallery" merge-mode="replace">
+                <wz:info id="step5.intro" position="top" label="create.cloudinary.product.gallery.intro" />
+                <wz:content id="step5.content">
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="enableCloudinaryGalleryWidget"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul">
+                        <wz:renderer spring-bean="cloudinaryConfigProductGalleryTextWizardRenderer"></wz:renderer>
+                    </wz:custom-view>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="cloudinaryGalleryConfigJsonString"/>
+                    </wz:property-list>
+                </wz:content>
+                <wz:navigation id="step5.navigation">
+                    <wz:cancel/>
+                    <wz:next/>
+                    <wz:done>
+                        <wz:save property="newCloudinaryConfig"/>
+                    </wz:done>
+                </wz:navigation>
+            </wz:step>-->
+
+            <!--<wz:step id="step6" label="create.cloudinaryconfig.video.player" merge-mode="replace">
+                <wz:info id="step6.intro" position="top" label="create.cloudinary.video.player.intro" />
+                <wz:content id="step4.content">
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="enableCloudinaryVideoPlayer"/>
+                    </wz:property-list>
+                    <wz:custom-view lang="zul">
+                        <wz:renderer spring-bean="cloudinaryConfigVideoPlayerTextWizardRenderer"></wz:renderer>
+                    </wz:custom-view>
+                    <wz:property-list root="newCloudinaryConfig">
+                        <wz:property qualifier="videoPlayerTransformation"/>
+                    </wz:property-list>
+                </wz:content>
+                <wz:navigation id="step4.navigation">
+                    <wz:cancel/>
+                    <wz:done>
+                        <wz:save property="newCloudinaryConfig"/>
+                    </wz:done>
+                </wz:navigation>
+            </wz:step>-->
+        </wz:flow>
+    </context>
+
+    <context type="Preset" parent="GenericItem" component="create-wizard" mergadmine-by="type" merge-mode="replace">
+        <wz:flow id="ItemWizard" title="create.title(ctx.TYPE_CODE)">
+            <wz:prepare id="itemPrepare">
+                <wz:initialize property="newPreset" type="ctx.TYPE_CODE"/>
+            </wz:prepare>
+            <wz:step id="step1" label="create.cloudinaryconfig.mediapreset.step1" merge-mode="replace">
+                <wz:info id="step1.intro" position="top" label="create.cloudinary.mediapreset.create" />
+                <wz:navigation id="step1.navigation">
+                    <wz:cancel/>
+                </wz:navigation>
+            </wz:step>
+        </wz:flow>
+    </context>
+
+    <context merge-by="type" parent="GenericItem" type="Preset" component="simple-search">
+        <simple-search:simple-search>
+            <simple-search:field name="name"/>
+        </simple-search:simple-search>
+    </context>
+
+    <context type="Preset" component="advanced-search" merge-by="type">
+        <advanced-search:advanced-search>
+            <advanced-search:field-list>
+                <advanced-search:field name="name" selected="true"/>
+            </advanced-search:field-list>
+        </advanced-search:advanced-search>
+    </context>
+
+    <context merge-by="type" parent="GenericItem" type="Preset" component="listview">
+        <list-view:list-view xmlns:list-view="http://www.hybris.com/cockpitng/component/listView">
+            <list-view:column qualifier="name"/>
+        </list-view:list-view>
+    </context>
+
+    <context type="Preset" component="base" merge-by="type" parent="GenericItem">
+        <y:base>
+            <y:labels>
+                <y:label>name</y:label>
+            </y:labels>
+        </y:base>
+    </context>
+
+    <context component="editor-area" merge-mode="append" merge-by="type" type="CloudinaryConfig">
+        <editorArea:editorArea>
+            <editorArea:tab name="hmc.tab.cloudinaryconfig" merge-mode="append">
+                <editorArea:section name="hmc.section.cloudinary.syncsettings">
+                    <editorArea:attribute qualifier="cloudinaryURL"/>
+                    <editorArea:attribute qualifier="cloudinaryFolderPath"/>
+                </editorArea:section>
+                <editorArea:customSection name="hmc.section.cloudinary.connection"
+                                          spring-bean="cloudinaryConfigAdminUsageRenderer"/>
+                <editorArea:section name="hmc.section.cloudinary.presets">
+                    <editorArea:attribute qualifier="mediaUploadPreset"/>
+                </editorArea:section>
+                <editorArea:section name="">
+                    <editorArea:customPanel name="" spring-bean="cloudinaryConfigMediaPresetTextRenderer"/>
+                </editorArea:section>
+            </editorArea:tab>
+            <editorArea:tab name="hmc.tab.globaltransformation" merge-mode="append">
+                <editorArea:customSection name="hmc.section.cloudinary.transformation"
+                                          spring-bean="cloudinaryConfigTransformationTextRenderer"/>
+                <editorArea:section name="hmc.section.cloudinary.image.optimize">
+                    <editorArea:attribute qualifier="enableOptimizeImage"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.image.advanced.optimization">
+                    <editorArea:attribute qualifier="cloudinaryImageFormat"/>
+                    <editorArea:attribute qualifier="cloudinaryQuality"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.image.transformation">
+                    <editorArea:attribute qualifier="cloudinaryGlobalImageTransformation"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.video.optimize">
+                    <editorArea:attribute qualifier="enableOptimizeVideo"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.video.advance">
+                    <editorArea:attribute qualifier="cloudinaryVideoFormat"/>
+                    <editorArea:attribute qualifier="cloudinaryVideoQuality"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.video.transformation">
+                    <editorArea:attribute qualifier="cloudinaryGlobalVideoTransformation"/>
+                </editorArea:section>
+            </editorArea:tab>
+
+            <editorArea:tab name="hmc.tab.globalcontenttransformation" merge-mode="append">
+                <editorArea:customSection name="hmc.section.cloudinary.transformation"
+                                          spring-bean="cloudinaryConfigTransformationTextRenderer"/>
+                <editorArea:section name="hmc.section.cloudinary.image.optimize">
+                    <editorArea:attribute qualifier="enableOptimizeContentImage"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.image.advanced.optimization">
+                    <editorArea:attribute qualifier="cloudinaryContentImageFormat"/>
+                    <editorArea:attribute qualifier="cloudinaryContentImageQuality"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.image.transformation">
+                    <editorArea:attribute qualifier="cloudinaryContentGlobalImageTransformation"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.video.optimize">
+                    <editorArea:attribute qualifier="enableOptimizeContentVideo"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.video.advance">
+                    <editorArea:attribute qualifier="cloudinaryContentVideoFormat"/>
+                    <editorArea:attribute qualifier="cloudinaryContentVideoQuality"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.video.transformation">
+                    <editorArea:attribute qualifier="cloudinaryGlobalContentVideoTransformation"/>
+                </editorArea:section>
+            </editorArea:tab>
+
+            <!--<editorArea:tab name="hmc.tab.imagebreakpoints" merge-mode="append">
+                <editorArea:section name="hmc.section.cloudinary.image.responsive.breakpoints">
+                    <editorArea:attribute qualifier="cloudinaryResponsive"/>
+                    <editorArea:attribute qualifier="cloudinaryByteStep"/>
+                    <editorArea:attribute qualifier="cloudinaryImageWidthLimitMax"/>
+                    <editorArea:attribute qualifier="cloudinaryImageWidthLimitMin"/>
+                </editorArea:section>
+            </editorArea:tab>-->
+
+            <!--<editorArea:tab name="hmc.tab.productgallery" merge-mode="append">
+                <editorArea:customSection name="hmc.section.cloudinary.productgallery"
+                                          spring-bean="cloudinaryConfigProductGalleryTextRenderer"/>
+                <editorArea:section name="hmc.section.cloudinary.productgallery.settings" >
+                    <editorArea:attribute qualifier="enableCloudinaryGalleryWidget" />
+                </editorArea:section>
+                <editorArea:section name="" >
+                    <editorArea:customPanel name="" spring-bean="cloudinaryConfigProductGallerySettingsTextRenderer"/>
+                </editorArea:section>
+                <editorArea:section name="">
+                    <editorArea:attribute qualifier="cloudinaryGalleryConfigJsonString" editor=""/>
+                </editorArea:section>
+            </editorArea:tab>-->
+
+            <!--<editorArea:tab name="hmc.tab.videoplayer" merge-mode="append">
+                <editorArea:customSection name="hmc.section.cloudinary.videoplayer"
+                                          spring-bean="cloudinaryConfigVideoPlayerTextRenderer"/>
+                <editorArea:section name="hmc.section.cloudinary.videoplayer.settings" >
+                    <editorArea:attribute qualifier="enableCloudinaryVideoPlayer" />
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinary.videoplayer.settings" >
+                    <editorArea:customPanel name="" spring-bean="cloudinaryConfigVideoPlayerSettingsTextRenderer"/>
+                </editorArea:section>
+                <editorArea:section name="">
+                    <editorArea:attribute qualifier="videoPlayerTransformation" editor=""/>
+                </editorArea:section>
+            </editorArea:tab>-->
+
+            <editorArea:tab name="hmc.administration" position="99" merge-mode="append">
+                <editorArea:customSection name="hmc.unbound" merge-mode="remove"/>
+            </editorArea:tab>
+        </editorArea:editorArea>
+    </context>
+
+    <context type="Media" component="create-wizard" merge-by="type">
+        <wz:flow id="MediaWizard" title="create.title(ctx.TYPE_CODE)">
+            <wz:prepare id="mediaPrepare">
+                <wz:initialize property="newMedia" type="ctx.TYPE_CODE"/>
+                <wz:assign property="newMedia.catalogVersion" value="ctx.parentObject?.catalogVersion"/>
+            </wz:prepare>
+            <wz:step id="step1" label="essential.label" sublabel="essential.sublabel">
+                <wz:content id="step1.content">
+                    <wz:property-list root="newMedia">
+                        <wz:property qualifier="code" position="10"/>
+                        <wz:property qualifier="catalogVersion" position="20"/>
+                        <wz:property qualifier="removable" position="30" exclude="true"/>
+                    </wz:property-list>
+                </wz:content>
+                <wz:navigation id="step1.navigation">
+                    <wz:cancel/>
+                    <wz:next visible="!#empty(newMedia.code) and newMedia.catalogVersion != null"/>
+                    <wz:done visible="!#empty(newMedia.code) and newMedia.catalogVersion != null">
+                        <wz:save property="newMedia"/>
+                    </wz:done>
+                </wz:navigation>
+            </wz:step>
+
+            <wz:step id="step2" label="media.content.label" sublabel="media.content.sublabel">
+                <wz:content id="step2.content">
+                    <wz:property qualifier="mediaContent" position="10"
+                                 type="com.hybris.cockpitng.editor.defaultfileupload.FileUploadResult"
+                                 editor="com.hybris.cockpitng.editor.dndfileupload"/>
+                </wz:content>
+                <wz:navigation id="step2.navigation">
+                    <wz:cancel>
+                        <wz:revert property="newMedia"/>
+                    </wz:cancel>
+                    <wz:back/>
+                    <wz:next/>
+                    <wz:custom visible="!#empty(newMedia.code) and newMedia.catalogVersion != null"
+                               label="com.hybris.cockpitng.widgets.configurableflow.flow.done"
+                               handler="mediaContentUpdateHandler">
+                        <wz:parameter>
+                            <wz:name>mediaProperty</wz:name>
+                            <wz:value>newMedia</wz:value>
+                        </wz:parameter>
+                        <wz:parameter>
+                            <wz:name>mediaContentProperty</wz:name>
+                            <wz:value>mediaContent</wz:value>
+                        </wz:parameter>
+                    </wz:custom>
+                </wz:navigation>
+            </wz:step>
+
+            <wz:step id="step4" label="media.content.label" sublabel="cloudinarymedia.content.sublabel"
+                     merge-mode="replace">
+                <wz:content id="step4.content">
+                    <wz:custom-view lang="zul" src="widgets/cloudinaryuploadpreview.zul"/>
+                </wz:content>
+                <wz:navigation id="step4.navigation">
+                    <wz:cancel>
+                        <wz:revert property="newMedia"/>
+                    </wz:cancel>
+                    <wz:back/>
+                    <wz:custom visible="!#empty(newMedia.code) and newMedia.catalogVersion != null" label="Done"
+                               handler="mediaContentUpdateHandler">
+                        <wz:parameter>
+                            <wz:name>mediaProperty</wz:name>
+                            <wz:value>newMedia</wz:value>
+                        </wz:parameter>
+                        <wz:parameter>
+                            <wz:name>media</wz:name>
+                            <wz:value>create</wz:value>
+                        </wz:parameter>
+                    </wz:custom>
+                </wz:navigation>
+            </wz:step>
+            <wz:step id="step3" label="properties.label" sublabel="properties.sublabel" merge-mode="remove">
+                <wz:content id="step3.content">
+                    <wz:property-list root="newMedia">
+                        <wz:property qualifier="folder" position="10"/>
+                        <wz:property qualifier="mediaFormat" position="20"/>
+                        <wz:property qualifier="mediaContainer" position="30"/>
+                    </wz:property-list>
+                </wz:content>
+                <wz:navigation id="step3.navigation">
+                    <wz:cancel/>
+                    <wz:back/>
+                    <wz:custom visible="!#empty(newMedia.code) and newMedia.catalogVersion != null" label="Done Upload"
+                               handler="mediaContentUpdateHandler">
+                        <wz:parameter>
+                            <wz:name>mediaProperty</wz:name>
+                            <wz:value>newMedia</wz:value>
+                        </wz:parameter>
+                        <wz:parameter>
+                            <wz:name>mediaContentProperty</wz:name>
+                            <wz:value>mediaContent1</wz:value>
+                        </wz:parameter>
+                    </wz:custom>
+                </wz:navigation>
+            </wz:step>
+        </wz:flow>
+    </context>
+
+    <context merge-by="type" type="Media" component="editor-area">
+        <editorArea:editorArea>
+            <editorArea:tab name="hmc.tab.common" merge-mode="append">
+                <editorArea:customSection name="hmc.section.media.content"
+                                          spring-bean="cloudinaryMediaContentUpdateRenderer"/>
+                <editorArea:section name="hmc.cloudinary.response.properties" merge-mode="replace">
+                    <editorArea:attribute qualifier="cloudinaryURL" readonly="true"/>
+                    <editorArea:attribute qualifier="cloudinaryResourceType" readonly="true"/>
+                    <editorArea:attribute qualifier="cloudinaryType" readonly="true"/>
+                    <editorArea:attribute qualifier="cloudinaryPublicId" readonly="true"/>
+                    <editorArea:attribute qualifier="cloudinaryTransformation" readonly="true"/>
+                    <editorArea:attribute qualifier="isCloudinaryOverride" />
+                    <editorArea:attribute qualifier="cloudinaryMediaFormat" readonly="true"/>
+                    <editorArea:attribute qualifier="cloudinaryVersion" readonly="true"/>
+                </editorArea:section>
+            </editorArea:tab>
+        </editorArea:editorArea>
+    </context>
+
+    <context type="Media" component="editorareaactions" merge-by="type">
+        <y:actions>
+            <y:group qualifier="common" position="10">
+                <y:label>actiongroup.common</y:label>
+                <y:action action-id="uk.ptr.cloudinary.backoffice.widgets.actions.deletecloudinarymedia"
+                          property="currentObject" position="10"/>
+                <y:action action-id="com.hybris.cockpitng.action.delete" property="currentObject" merge-mode="REMOVE"/>
+                <y:action action-id="com.hybris.backoffice.widgets.actions.sync" property="currentObject"
+                          position="20"/>
+            </y:group>
+        </y:actions>
+    </context>
+
+    <context merge-by="type" type="MediaFormat" component="editor-area">
+        <editorArea:editorArea name="hmc.tab.media.metadata">
+            <editorArea:tab name="hmc.tab.mediafolder.conversion">
+                <editorArea:section name="hmc.tab.mediafolder.conversion">
+                    <editorArea:attribute qualifier="conversion"/>
+                </editorArea:section>
+            </editorArea:tab>
+        </editorArea:editorArea>
+    </context>
+
+    <context merge-by="type" parent="GenericItem" type="ConversionGroup" component="editor-area">
+        <editorArea:editorArea name="">
+            <editorArea:essentials>
+                <editorArea:essentialSection name="hmc.essential" merge-mode="append">
+                    <editorArea:attribute qualifier="code"/>
+                </editorArea:essentialSection>
+            </editorArea:essentials>
+            <editorArea:tab name="hmc.tab.mediacontainer.commons">
+                <editorArea:section name="hmc.tab.mediacontainer.properties" merge-mode="replace">
+                    <editorArea:attribute qualifier="name"/>
+                    <editorArea:attribute qualifier="supportedMediaFormats"/>
+                </editorArea:section>
+            </editorArea:tab>
+        </editorArea:editorArea>
+    </context>
+
+    <context component="create-wizard" type="Product" merge-by="type">
+        <wz:flow id="ProductWizard" title="create.title(ctx.TYPE_CODE)">
+            <wz:step id="step4" label="create.product.media.label" sublabel="create.product.media.sublabel">
+                <wz:info label="create.product.media.info.label" position="top"/>
+                <wz:content id="step4.content">
+                    <wz:property qualifier="newProduct.picture" validate="false"/>
+                    <wz:property qualifier="createProductPicture"
+                                 type="com.hybris.cockpitng.editor.defaultfileupload.FileUploadResult"
+                                 editor="com.hybris.cockpitng.editor.dndfileupload" validate="false">
+                        <wz:editor-parameter>
+                            <wz:name>accept</wz:name>
+                            <wz:value>image/*</wz:value>
+                        </wz:editor-parameter>
+                        <wz:editor-parameter>
+                            <wz:name>singleLineMode</wz:name>
+                            <wz:value>true</wz:value>
+                        </wz:editor-parameter>
+                    </wz:property>
+                    <wz:property qualifier="newProduct.thumbnail" validate="false"/>
+                    <wz:property qualifier="createProductThumbnail"
+                                 type="com.hybris.cockpitng.editor.defaultfileupload.FileUploadResult"
+                                 editor="com.hybris.cockpitng.editor.dndfileupload" validate="false">
+                        <wz:editor-parameter>
+                            <wz:name>accept</wz:name>
+                            <wz:value>image/*</wz:value>
+                        </wz:editor-parameter>
+                        <wz:editor-parameter>
+                            <wz:name>singleLineMode</wz:name>
+                            <wz:value>true</wz:value>
+                        </wz:editor-parameter>
+                    </wz:property>
+                    <wz:property qualifier="newProduct.logo" validate="false"/>
+                    <wz:property qualifier="createProductLogos" type="java.util.Collection"
+                                 editor="com.hybris.cockpitng.editor.multidndfileupload" validate="false">
+                        <wz:editor-parameter>
+                            <wz:name>accept</wz:name>
+                            <wz:value>image/*</wz:value>
+                        </wz:editor-parameter>
+                        <wz:editor-parameter>
+                            <wz:name>singleLineMode</wz:name>
+                            <wz:value>true</wz:value>
+                        </wz:editor-parameter>
+                    </wz:property>
+                </wz:content>
+                <wz:navigation id="step4.navigation">
+                    <wz:cancel>
+                        <wz:revert property="newProduct.picture"/>
+                        <wz:revert property="newProduct.thumbnail"/>
+                        <wz:revert property="newProduct.logo"/>
+                        <wz:revert property="newProduct"/>
+                    </wz:cancel>
+                    <wz:next visible="!#empty(newProduct.code) and newProduct.catalogVersion != null"/>
+                    <wz:back/>
+                    <wz:custom label="com.hybris.cockpitng.widgets.configurableflow.flow.done"
+                               composedHandler="customDoneHandler">
+                        <wz:save property="newProduct"/>
+                    </wz:custom>
+                </wz:navigation>
+            </wz:step>
+            <wz:step id="step5" label="create.product.cloudinarymedia.label"
+                     sublabel="create.product.cloudinary.media.sublabel">
+                <wz:content id="step5.content">
+                    <wz:custom-view lang="zul" src="widgets/cloudinaryuploadpreview.zul"/>
+                </wz:content>
+                <wz:navigation id="step5.navigation">
+                    <wz:cancel>
+                        <wz:revert property="newProduct.picture"/>
+                        <wz:revert property="newProduct.thumbnail"/>
+                        <wz:revert property="newProduct.logo"/>
+                        <wz:revert property="newProduct"/>
+                    </wz:cancel>
+                    <wz:back/>
+                    <wz:custom label="com.hybris.cockpitng.widgets.configurableflow.flow.done"
+                               composedHandler="customDoneHandler">
+                        <wz:parameter>
+                            <wz:name>cloudinaryProductProperty</wz:name>
+                            <wz:value>newProduct</wz:value>
+                        </wz:parameter>
+                        <wz:parameter>
+                            <wz:name>cloudinaryProductContentProperty</wz:name>
+                            <wz:value>productContent1</wz:value>
+                        </wz:parameter>
+                    </wz:custom>
+                </wz:navigation>
+            </wz:step>
+        </wz:flow>
+    </context>
+
+    <context merge-by="type" parent="GenericItem" type="Product" component="editor-area" merge-mode="append">
+        <editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
+            <editorArea:tab name="hmc.tab.product.multimedia" position="18">
+                <editorArea:section name="hmc.section.product.pictures">
+                    <editorArea:attribute qualifier="picture"/>
+                    <editorArea:attribute qualifier="thumbnail"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.product.additionalmedias">
+                    <editorArea:attribute qualifier="data_sheet"/>
+                    <editorArea:attribute qualifier="detail"/>
+                    <editorArea:attribute qualifier="logo"/>
+                    <editorArea:attribute qualifier="normal"/>
+                    <editorArea:attribute qualifier="others"/>
+                    <editorArea:attribute qualifier="thumbnails"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinarymedias">
+                    <editorArea:attribute qualifier="cloudinaryImageTransformation"/>
+                    <editorArea:attribute qualifier="cloudinaryVideoTransformation"/>
+                    <editorArea:attribute qualifier="isCloudinaryOverride"/>
+                </editorArea:section>
+                <editorArea:section name="hmc.section.cloudinarymedia.spinset.tag" description="hmc.section.cloudinarymedia.spinset.tag.decription">
+                    <editorArea:attribute qualifier="cloudinaryImageSpinTag"/>
+                </editorArea:section>
+            </editorArea:tab>
+        </editorArea:editorArea>
+    </context>
+
+    <context merge-by="type" parent="GenericItem" type="Category" component="editor-area">
+        <editorArea:editorArea name="">
+            <editorArea:tab name="hmc.multimedia">
+                <editorArea:section name="hmc.section.cloudinarymedias">
+                    <editorArea:attribute qualifier="cloudinaryImageTransformation"/>
+                    <editorArea:attribute qualifier="cloudinaryVideoTransformation"/>
+                    <editorArea:attribute qualifier="isCloudinaryOverride"/>
+                </editorArea:section>
+            </editorArea:tab>
+        </editorArea:editorArea>
+    </context>
+
+    <!--<context component="component-code" module="cloudinarymediabackoffice">-->
+    <!--Please check documentation for code snippets for specific components-->
+    <!--</context>-->
+
+</config>
