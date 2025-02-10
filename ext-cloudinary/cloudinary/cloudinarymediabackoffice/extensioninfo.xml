@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved
+--><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+        	
+    
+    <extension abstractclassprefix="Generated" classprefix="Cloudinarymediabackoffice" name="cloudinarymediabackoffice" usemaven="false">
+                		
+        
+        <requires-extension name="backoffice"/>
+        <requires-extension name="cloudinarymediawebservices"/>
+        <requires-extension name="cloudinarymediacore"/>
+        <requires-extension name="mediaconversionbackoffice"/>
+                		
+        
+        <!--PLACEHOLDER_FOR_SASS_REGISTRATION-->
+                		
+        
+        <coremodule generated="true" manager="uk.ptr.cloudinary.jalo.CloudinarymediabackofficeManager" packageroot="uk.ptr.cloudinary"/>
+                		
+        
+        <meta key="backoffice-module" value="true"/>
+                		
+        
+        	
+    
+    </extension>
+        
+
+</extensioninfo>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+	
+	<!-- DATA -->
+	<bean class="uk.ptr.cloudinary.data.UserDataList">
+		<property name="users" type="java.util.List&lt;uk.ptr.cloudinary.data.UserData>"/>
+	</bean>
+
+	<bean class="uk.ptr.cloudinary.data.UserData" >
+		<property name="defaultBillingAddress" type="uk.ptr.cloudinary.data.AddressData"/>
+		<property name="defaultShippingAddress" type="uk.ptr.cloudinary.data.AddressData"/>
+		<property name="addresses" type="java.util.List&lt;uk.ptr.cloudinary.data.AddressData>"/>
+		<property name="description" type="String"/>
+		<property name="firstName" type="String"/>
+		<property name="lastName" type="String"/>
+	</bean>
+	
+	<bean class="uk.ptr.cloudinary.data.AddressDataList">
+		<property name="addresses" type="java.util.List&lt;uk.ptr.cloudinary.data.AddressData>"/>
+	</bean>
+	
+	<bean class="uk.ptr.cloudinary.data.AddressData">
+		<property name="streetname" type="String"/>
+		<property name="streetnumber" type="String"/>
+		<property name="town" type="String"/>
+		<property name="shippingAddress" type="boolean"/>
+		<property name="billingAddress" type="boolean"/>
+		<property name="defaultAddress" type="boolean"/>
+		<property name="formattedAddress" type="String"/>
+	</bean>
+
+	<!-- DTO -->
+	<bean class="uk.ptr.cloudinary.dto.SampleWsDTO">
+		<description>Sample DTO</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">sample</hint>
+		</hints>
+		<property name="value" type="String">
+			<description>sample value</description>
+			<hints>
+				<hint name="required">true</hint>
+			</hints>
+		</property>
+	</bean>
+
+	<bean class="uk.ptr.cloudinary.dto.UsersListWsDTO">
+		<description>User list</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">usersList</hint>
+		</hints>
+		<property name="users" type="java.util.List&lt;uk.ptr.cloudinary.dto.UserWsDTO>"/>
+	</bean>
+	
+	<bean class="uk.ptr.cloudinary.dto.UsersPageWsDTO" extends="de.hybris.platform.webservicescommons.dto.SearchPageWsDTO&lt;uk.ptr.cloudinary.dto.UserWsDTO>" >
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">usersPage</hint>
+		</hints>
+	</bean>
+
+	<bean class="uk.ptr.cloudinary.dto.UserWsDTO">
+		<description>User DTO</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">user</hint>
+		</hints>
+		<property name="addresses" type="java.util.List&lt;uk.ptr.cloudinary.dto.AddressWsDTO>"/>
+		<property name="firstName" type="String">
+			<description>First Name</description>
+			<hints>
+				<hint name="required">true</hint>
+			</hints>
+		</property>
+		<property name="lastName" type="String">
+			<description>Last Name</description>
+			<hints>
+				<hint name="required">true</hint>
+			</hints>
+		</property>
+		<property name="info" type="String" />
+		<property name="billingAddress" type="uk.ptr.cloudinary.dto.AddressWsDTO">
+			<description>Billing Address</description>
+		</property>
+		<property name="shippingAddress" type="uk.ptr.cloudinary.dto.AddressWsDTO">
+			<description>Shipping Address</description>
+		</property>
+	</bean>
+	
+	<bean class="uk.ptr.cloudinary.dto.AddressListWsDTO">
+		<description>List of addresses</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">addressList</hint>
+		</hints>
+		<property name="addresses" type="java.util.List&lt;uk.ptr.cloudinary.dto.AddressWsDTO>"/>
+	</bean>
+	
+	<bean class="uk.ptr.cloudinary.dto.AddressWsDTO">
+		<description>Address DTO</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">address</hint>
+		</hints>
+		<property name="street" type="String"/>
+		<property name="town" type="String"/>
+		<property name="streetNumber" type="String"/>
+	</bean>
+	
+	<bean class="uk.ptr.cloudinary.dto.TestMapWsDTO">
+		<description>Example of DTO with map</description>
+		<hints>
+			<hint name="wsRelated" />
+			<hint name="alias">testMap</hint>
+		</hints>
+		<property name="stringMap" type="java.util.Map&lt;String,String>"/>
+		<property name="integerMap" type="java.util.Map&lt;String,Integer>"/>
+	</bean>
+
+
+
+</beans>

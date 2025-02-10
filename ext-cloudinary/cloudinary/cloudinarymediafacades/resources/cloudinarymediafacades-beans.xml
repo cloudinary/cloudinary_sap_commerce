@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+
+	<bean class="de.hybris.platform.commercefacades.product.data.ImageData">
+		<property name="cloudinaryResourceType" type="String"/>
+		<property name="cloudinaryType" type="String"/>
+		<property name="cloudinaryVersion" type="String"/>
+		<property name="cloudinaryPublicId" type="String"/>
+		<property name="cloudinaryMediaFormat" type="String"/>
+		<property name="cloudinaryTransformation" type="String"/>
+		<property name="cloudinaryOverride" type="boolean"/>
+		<property name="cloudinaryURL" type="String"/>
+	</bean>
+
+	<enum class="de.hybris.platform.commercefacades.product.ProductOption">
+		<value>CLOUDINARY</value>
+	</enum>
+
+	<bean class="de.hybris.platform.cmsfacades.data.MediaData">
+		<property name="cloudinaryMediaJson" type="String" />
+	</bean>
+
+	<bean class="de.hybris.platform.commercefacades.product.data.ProductData">
+		<property name="sapCCProductCode" type="String">
+			<description>Code of the product spinset</description>
+		</property>
+		<property name="spinSetCode" type="String">
+			<description>Code of the product spinset</description>
+		</property>
+	</bean>
+
+</beans>

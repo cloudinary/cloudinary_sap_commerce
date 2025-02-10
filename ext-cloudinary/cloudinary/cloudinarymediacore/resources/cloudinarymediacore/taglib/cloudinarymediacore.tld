@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<description>hybris mediaconversion utility taglib</description>
+	<display-name>mediaconversion taglib</display-name>
+	<tlib-version>1.0</tlib-version>
+	<short-name>cloudinarymediacore</short-name>
+	<uri>http://www.hybris.de/jsp/cloudinarymediacore</uri>
+
+	<tag>
+		<description>
+			References a (converted) image in a given format.
+			
+			The url generated will either point directly to the media or, if the
+			specified format has to be generated first, to the mediaconversion convert servlet that will
+			do the conversion in a different thread.
+		</description>
+		<name>img</name>
+		<tag-class>uk.ptr.cloudinary.tags.CloudinaryImageTag</tag-class>
+		<body-content>empty</body-content>
+        <attribute>
+            <description>The media qualifier to output.</description>
+            <name>mediaQualifier</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>
+                The qualifier of the output format (MediaFormatModel). 
+                If no format is specified or the specified format is the empty 
+                string the container's master media will be addressed.
+            </description>
+            <name>format</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Optional alt text to override alt text set on the media.</description>
+            <name>alt</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Optional CSS class to be used</description>
+            <name>cssClass</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Optional (CSS) style attribute.</description>
+            <name>style</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>
+                Optional width of the generated img element.
+                Note: this width is not obeyed in image scaling, i.e. it is only used in the generated HTML output.
+            </description>
+            <name>width</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>
+                Optional height of the generated img element.
+                Note: this width is not obeyed in image scaling, i.e. it is only used in the generated HTML output.
+            </description>
+            <name>height</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Optional title attribute for the generated HTML img element.</description>
+            <name>title</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Optional id attribute for the generated HTML img element.</description>
+            <name>id</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Optional align attribute for the generated HTML img element.
+                Note: possible values for this attribute are: top, middle, bottom, left, right. 
+            </description>
+            <name>align</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Optional border attribute for the generated HTML img element.</description>
+            <name>border</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Optional ismap attribute for the generated HTML img element.</description>
+            <name>ismap</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>boolean</type>
+        </attribute>
+        <attribute>
+            <description>Optional longdesc attribute for the generated HTML img element.</description>
+            <name>longdesc</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Optional name attribute for the generated HTML img element.</description>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Optional vspace attribute for the generated HTML img element.</description>
+            <name>vspace</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>Optional usemap attribute for the generated HTML img element.</description>
+            <name>usemap</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+	</tag>
+	
+	<tag>
+        <description>
+            Outputs or sets a variable to the URL of a media in a given format.
+            
+            The url generated will either point directly to the media or, if the
+            specified format has to be generated first, to the mediaconversion servlet that will
+            do the conversion in a different thread.
+        </description>
+        <name>url</name>
+        <tag-class>uk.ptr.cloudinary.tags.CloudinaryUrlTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>The media qualifier to output.</description>
+            <name>mediaQualifier</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The qualifier of the output format (MediaFormatModel).
+                If no format is specified or the specified format is the empty 
+                string the container's master media will be addressed.
+            </description>
+            <name>format</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>The name of the variable to set.</description>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>
+                The scope of the variable to set.
+                One of page, request, session, or application.
+            </description>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+</taglib>

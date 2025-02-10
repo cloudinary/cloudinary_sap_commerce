@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+--><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+           
+    
+    <extension abstractclassprefix="Generated" classprefix="Cloudinarymediawebservices" managername="CloudinarymediawebservicesManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="cloudinarymediawebservices" usemaven="false">
+                               
+      
+        
+        <requires-extension name="webservicescommons"/>
+        <requires-extension name="cloudinarymediafacades"/>
+        <requires-extension name="cmsocc"/>
+        <requires-extension name="cloudinarymediacore"/>
+
+        <coremodule generated="true" manager="uk.ptr.cloudinary.jalo.CloudinarymediawebservicesManager" packageroot="uk.ptr.cloudinary"/>
+        
+        <webmodule jspcompile="false" webroot="/cloudinarymediawebservices"/>
+                					
+		
+        
+        	
+
+   
+    
+    </extension>
+              
+
+
+</extensioninfo>

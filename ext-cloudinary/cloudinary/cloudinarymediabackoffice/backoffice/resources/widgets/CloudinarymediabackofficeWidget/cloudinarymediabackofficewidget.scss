@@ -1,0 +1,13 @@
+@charset "utf-8";
+@import "./support/cloudinarymediabackofficewidget-variables.scss";
+
+.yw-labelstyle
+{
+	color: $cloudinarymediabackoffice-label-text-color;
+}
+
+.cloudinarymediabackoffice-container {
+	background: $cloudinarymediabackoffice-container-background;
+	font-family: $cloudinarymediabackoffice-container-font-family;
+	font-size: $cloudinarymediabackoffice-container-font-size;
+}

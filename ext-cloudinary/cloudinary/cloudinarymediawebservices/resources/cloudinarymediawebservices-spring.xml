@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!--
+	The hybris platform provides one single Spring application context for beans located at the jalo layer.
+	Each extension can add beans to this context by specifying them at this configuration file.
+	 
+	You can use and/or redefine beans defined at configuration files of other extensions as well as
+	adding new one.
+		
+	If you want to locate this file at a different location or want to use several files for better,
+	structuring, please use the '<yourextension>.application-context' property at your project.properties file.
+	There you can specify a comma separated list of files where first is tried to find a file per classpath and
+	then per file system.
+
+	
+	If you want to configure beans for your web module please have a look at
+	your web/webroot/WEB-INF/<extname>-web-spring.xml.
+	-->
+	
+	<!--  Example how to override a manager -->
+	<!--
+	<bean id="core.productManager"   class="uk.ptr.cloudinary.jalo.CloudinarymediawebservicesProductManager" 	init-method="init"	destroy-method="destroy" />
+	-->
+	
+	
+ 	<!--  Example how to configure the class to use for jalo session creation -->
+	<!--
+	<bean id="jalosession"   class="de.hybris.platform.jalo.JaloSessionFactory">
+		<property name="targetClassName" value="uk.ptr.cloudinary.jalo.CloudinarymediawebservicesJaloSession"/>
+	</bean>
+	-->
+
+	
+	<!--  Example how to override an item  -->
+	<!-- 
+	<bean id="de.hybris.platform.jalo.product.Product" class="uk.ptr.cloudinary.jalo.CloudinarymediawebservicesProduct" scope="prototype" />		
+ 	-->
+
+	<!--  
+	 Example how to register and use an AOP aspect 
+     Also see http://static.springframework.org/spring/docs/2.5.x/reference/aop.html	
+     -->
+	
+	<!-- 
+	<bean id="cloudinarymediawebservicesProfBean" class="uk.ptr.cloudinary.aop.CloudinarymediawebservicesProfilingAspect"/>
+	<aop:config proxy-target-class="true">
+  		<aop:aspect id="cloudinarymediawebservicesProfAspect" ref="cloudinarymediawebservicesProfBean" >
+    	  <aop:pointcut id="profiledMethods" 
+	      	expression="execution(* getModificationTime(..))" />  	            
+	   		<aop:around pointcut-ref="profiledMethods" method="profile" />
+  		</aop:aspect>
+	</aop:config>
+	 -->
+
+	
+	<!-- some other examples of a pointcut that matches everything:
+
+    	  <aop:pointcut id="profiledMethods" 
+	      	expression="bean(de.hybris.platform.jalo.user.Customer) &amp;&amp; 
+	      	            !execution(* getPK(..))" />  	            
+	       <aop:pointcut id="profiledMethods" expression="execution(* *(..))" />	
+	  -->
+	
+	
+	<!-- Beans needed for sample code -->
+ 
+	
+	<!-- Sample Converters and Populators -->
+	<bean id="cloudinarymediawebservicesSampleAddressPopulator" class="uk.ptr.cloudinary.populators.SampleAddressPopulator" />
+
+	<bean id="cloudinarymediawebservicesSampleAddressConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="uk.ptr.cloudinary.data.AddressData" />
+		<property name="populators">
+			<list>
+				<ref bean="cloudinarymediawebservicesSampleAddressPopulator" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cloudinarymediawebservicesSampleUserPopulator" class="uk.ptr.cloudinary.populators.SampleUserPopulator">
+		<property name="addressConverter" ref="cloudinarymediawebservicesSampleAddressConverter" />
+	</bean>
+
+	<bean id="cloudinarymediawebservicesSampleUserConverter" parent="defaultPopulatingConverter">
+		<property name="targetClass" value="uk.ptr.cloudinary.data.UserData" />
+		<property name="populators">
+			<list>
+				<ref bean="cloudinarymediawebservicesSampleUserPopulator" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cloudinarymediawebservicesSampleAddressReversePopulator" class="uk.ptr.cloudinary.populators.SampleAddressReversePopulator" />
+
+	<bean id="cloudinarymediawebservicesSampleAddressReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.core.model.user.AddressModel" />
+		<property name="populators">
+			<list>
+				<ref bean="cloudinarymediawebservicesSampleAddressReversePopulator" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cloudinarymediawebservicesSampleUserReversePopulator" class="uk.ptr.cloudinary.populators.SampleUserReversePopulator">
+		<constructor-arg name="addressReverseConverter" ref="cloudinarymediawebservicesSampleAddressReverseConverter" />
+	</bean>
+
+	<!-- Sample Services -->
+	<bean id="cloudinarymediawebservicesSampleUserService" class="uk.ptr.cloudinary.services.impl.SampleUserServicesImpl" />
+	
+ 	<!-- Sample facades -->
+	<alias name="cloudinarymediawebservicesDefaultSampleFacades" alias="cloudinarymediawebservicesSampleFacades"/>
+	<bean id="cloudinarymediawebservicesDefaultSampleFacades" class="uk.ptr.cloudinary.facades.impl.DefaultSampleFacades">
+		<property name="userConverter" ref="cloudinarymediawebservicesSampleUserConverter" />
+		<property name="userReversePopulator" ref="cloudinarymediawebservicesSampleUserReversePopulator" />
+		<property name="sampleUserService" ref="cloudinarymediawebservicesSampleUserService" />
+	</bean>
+</beans>

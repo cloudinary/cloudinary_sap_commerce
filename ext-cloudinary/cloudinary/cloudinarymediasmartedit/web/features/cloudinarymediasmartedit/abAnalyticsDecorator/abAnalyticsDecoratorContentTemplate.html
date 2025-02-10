@@ -1,0 +1,13 @@
+<div>
+    <p>
+        <strong
+            >{{ $ctrl.smarteditComponentId | limitTo:16 }}{{ $ctrl.smarteditComponentId.length > 16
+            ? '...' : ''}}</strong
+        >
+    </p>
+    <p>
+        {{ $ctrl.smarteditComponentType | limitTo:16 }}{{ $ctrl.smarteditComponentType.length > 16 ?
+        '...' : ''}}
+    </p>
+    <p>{{ $ctrl.abAnalytics }}</p>
+</div>
