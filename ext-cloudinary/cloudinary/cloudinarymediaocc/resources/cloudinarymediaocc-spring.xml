@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+
+	<alias name="defaultCloudinaryBasicMediaPopulator" alias="basicMediaModelPopulator" />
+	<bean id="defaultCloudinaryBasicMediaPopulator" class="uk.ptr.cloudinary.occ.populator.CloudinaryBasicMediaPopulator">
+		<property name="uniqueItemIdentifierService" ref="cmsUniqueItemIdentifierService" />
+	</bean>
+
+    <alias alias="dataMapper" name="defaultDataMapper"/>
+    <bean id="dataMapper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultDataMapper">
+        <property name="fieldSetBuilder" ref="fieldSetBuilder" />
+    </bean>
+
+    <bean id="fieldSetBuilder"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetBuilder">
+        <property name="defaultRecurrencyLevel" value="4" />
+        <property name="defaultMaxFieldSetSize" value="50000" />
+        <property name="fieldSetLevelHelper" ref="fieldSetLevelHelper" />
+    </bean>
+
+    <alias alias="fieldSetLevelHelper" name="defaultFieldSetLevelHelper" />
+    <bean id="defaultFieldSetLevelHelper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetLevelHelper">
+    </bean>
+
+
+</beans>

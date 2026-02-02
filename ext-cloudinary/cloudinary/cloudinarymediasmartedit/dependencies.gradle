@@ -1,0 +1,4 @@
+ext {
+	libraries = []
+	mavenCompilerRelease = "21"
+}

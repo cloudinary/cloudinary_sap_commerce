@@ -1,0 +1,22 @@
+Building Angular Package
+
+------------------------------------------------------------------------------
+Building entry point 'cloudinarymediab2bsmarteditcontainer'
+------------------------------------------------------------------------------
+- Compiling with Angular sources in Ivy partial compilation mode.
+✖ Compiling with Angular sources in Ivy partial compilation mode.
+src/cloudinarymediab2bsmarteditcontainerModule.ts:24:30 - error TS2304: Cannot find name 'FormsModule'.
+
+24     imports: [BrowserModule, FormsModule, SeTranslationModule.forChild()],
+                                ~~~~~~~~~~~
+src/cloudinarymediab2bsmarteditcontainerModule.ts:24:14 - error NG1010: Value at position 1 in the NgModule.imports of Cloudinarymediab2bsmarteditContainerModule is not a reference
+  Value could not be determined statically.
+
+24     imports: [BrowserModule, FormsModule, SeTranslationModule.forChild()],
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/cloudinarymediab2bsmarteditcontainerModule.ts:24:30
+    24     imports: [BrowserModule, FormsModule, SeTranslationModule.forChild()],
+                                    ~~~~~~~~~~~
+    Unknown reference.
+

@@ -1,0 +1,19 @@
+{
+  "name": "yb2bacceleratorstorefront",
+  "version": "0.0.0",
+  "description": "For maintain and scan deliverable JS Libraries of the accelerator",
+  "devDependencies": {
+    "less" : "1.7.3"
+  },
+  "dependencies": {
+    "enquire.js" : "2.1.6",
+    "Imager" : "",
+    "jquery" : "3.7.1",
+    "jquery-ui" : "1.13.3",
+    "jquery-blockui" : "2.7.0",
+    "jquery-colorbox" : "1.6.4",
+    "jquery-form" : "4.3.0",
+    "jquery.waitforimages" : "2.4.0",
+    "dompurify" : "2.5.6"
+  }
+}

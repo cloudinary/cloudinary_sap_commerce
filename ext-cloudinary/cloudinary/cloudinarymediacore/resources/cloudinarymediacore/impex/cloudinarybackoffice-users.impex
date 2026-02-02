@@ -1,0 +1,10 @@
+INSERT_UPDATE Employee;UID[unique=true];password;groups(uid);
+;cloudinaryadmin;Cloudin@ry;admingroup,backofficeadministratorrole,itemLockingGroup,cmsmanagergroup
+;cloudinaryauditemp;cloudinaryauditemp;itemLockingGroup,backofficeauditgroup
+
+# Public OAuth Client Credential
+INSERT_UPDATE OAuthClientDetails; clientId[unique=true]      ;public ;authorities ;scope ;authorizedGrantTypes             ;registeredRedirectUri ;loginPageUri
+                                ; mobile_android_public      ;true   ;ROLE_CLIENT ;basic ;authorization_code,refresh_token ;https://powertools.localhost:4200 ;https://powertools.localhost:4200/powertools-spa/en/USD/login
+
+INSERT_UPDATE OAuthClientDetails;clientId[unique=true];resourceIds;scope[mode=append];authorizedGrantTypes;accessTokenValiditySeconds;authorities;registeredredirecturi;requireProofKey;public;
+                                ;smartedit;hybris;basic,permissionswebservices;authorization_code,saml_token;3600;ROLE_ADMINGROUP,ROLE_BASECMSMANAGERGROUP,ROLE_PREVIEWMANAGERGROUP;"https://localhost:9002/smartedit";true;true;

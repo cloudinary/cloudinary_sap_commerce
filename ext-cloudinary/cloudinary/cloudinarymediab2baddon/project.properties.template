@@ -1,0 +1,17 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# you can put key/value pairs here.
+# Use Config.getParameter(..) to retrieve the values during runtime.
+
+cloudinarymediab2baddon.key=value
+
+# Specifies the location of the spring context file added automatically to the global platform application context.
+cloudinarymediab2baddon.application-context=cloudinarymediab2baddon-spring.xml
+
+yacceleratorstorefront.additionalWebSpringConfigs.cloudinarymediab2baddon=classpath:/cloudinarymediab2baddon/web/spring/cloudinarymediab2baddon-web-spring.xml
+
+
+
+cloudinarymediab2baddon.javascript.paths.responsive=/responsive/common/js/cloudinarymediab2baddon.js
+cloudinarymediab2baddon.css.paths.responsive=/responsive/common/css/cloudinarymediab2baddon.css

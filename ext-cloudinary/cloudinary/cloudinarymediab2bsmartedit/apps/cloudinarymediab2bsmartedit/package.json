@@ -1,0 +1,61 @@
+{
+    "name": "cloudinarymediab2bsmartedit",
+    "version": "0.0.1",
+    "private": true,
+    "typings": "dist/index.d.ts",
+    "description": "cloudinarymediab2bsmartedit (inner) library",
+    "scripts": {
+        "build": "ng build > se-build.log 2>&1",
+        "build:dev": "ng build --configuration development",
+        "test": "ng test --watch=false --browsers=ChromeHeadless",
+        "test:coverage": "ng test --watch=false --browsers=ChromeHeadless --code-coverage",
+        "test:dev": "ng test",
+        "lint": "npm run lint:base -- '{src,tests}/**/*.{ts,js}'",
+        "lint:fix": "npm run lint:base -- '{src,tests}/**/*.{js,ts}' --fix",
+        "lint:base": "eslint"
+    },
+    "files": [
+        "/dist"
+    ],
+    "devDependencies": {
+        "smartedit-build": "workspace:*",
+        "@angular-devkit/build-angular": "19.2.16",
+        "@angular/cli": "19.2.16",
+        "@angular/compiler-cli": "19.2.15",
+        "@types/jasmine": "5.1.9",
+        "jasmine-core": "5.10.0",
+        "karma": "6.4.4",
+        "karma-chrome-launcher": "3.2.0",
+        "karma-coverage": "2.2.1",
+        "karma-jasmine": "5.1.0",
+        "karma-jasmine-html-reporter": "2.1.0",
+        "karma-junit-reporter": "2.0.1",
+        "ng-packagr": "19.2.2",
+        "typescript": "5.8.3",
+        "@types/lodash": "4.17.20",
+        "@types/node": "20.19.16",
+        "reflect-metadata": "0.2.2",
+        "@babel/preset-env": "7.28.3",
+        "@babel/eslint-parser": "7.28.4",
+        "eslint": "9.35.0"
+    },
+    "dependencies": {
+        "smarteditcommons": "workspace:*",
+        "cloudinarymediab2bsmarteditcommons": "workspace:*",
+        "@angular/animations": "19.2.15",
+        "@angular/common": "19.2.15",
+        "@angular/compiler": "19.2.15",
+        "@angular/core": "19.2.15",
+        "@angular/forms": "19.2.15",
+        "@angular/platform-browser": "19.2.15",
+        "@angular/platform-browser-dynamic": "19.2.15",
+        "@angular/router": "19.2.15",
+        "@fundamental-ngx/core": "0.56.6",
+        "@ngx-translate/core": "16.0.4",
+        "rxjs": "7.8.2",
+        "zone.js": "0.15.1",
+        "core-js": "3.45.1",
+        "lodash": "4.17.21",
+        "tslib": "2.8.1"
+    }
+}

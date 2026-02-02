@@ -1,0 +1,9 @@
+{
+    "extends": "./node_modules/smartedit-build/config/tsconfig.base.json",
+    "include": ["src/**/*", "tests/**/*"],
+    "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "./dist",
+        "typeRoots": ["node_modules/@types", "node_modules/smartedit-build/test/@types"]
+    }
+}

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+--><project name="cloudinarymediasmartedit_buildcallbacks">
+        
+    <patternset id="extension.cloudinarymediasmartedit.binary.filter">
+                
+        <patternset refid="extension.binary.filter"/>
+                
+        <exclude name="build/"/>
+                
+        <exclude name="smartedit-build/"/>
+                
+        <exclude name="smartedit-custom-build/generated/"/>
+                
+        <exclude name="node_modules/"/>
+                
+        <exclude name="jsTarget/"/>
+                
+        <exclude name="package.json"/>
+            
+    </patternset>
+        
+    <patternset id="extension.cloudinarymediasmartedit.source.filter">
+                
+        <patternset refid="extension.source.filter"/>
+                
+        <exclude name="build/"/>
+                
+        <exclude name="smartedit-build/"/>
+                
+        <exclude name="smartedit-custom-build/generated/"/>
+                
+        <exclude name="node_modules/"/>
+                
+        <exclude name="jsTarget/"/>
+                
+        <exclude name="package.json"/>
+            
+    </patternset>
+        
+    <patternset id="extension.cloudinarymediasmartedit.production.filter">
+                
+        <patternset refid="extension.production.filter"/>
+                
+        <exclude name="build/"/>
+                
+        <exclude name="smartedit-build/"/>
+                
+        <exclude name="smartedit-custom-build/generated/"/>
+                
+        <exclude name="node_modules/"/>
+                
+        <exclude name="jsTarget/"/>
+                
+        <exclude name="package.json"/>
+            
+    </patternset>
+        
+    <macrodef name="cloudinarymediasmartedit_before_clean">
+                
+        <sequential>
+                        
+            <if>
+                				
+                <available file="${ext.npmancillary.path}${file.separator}resources${file.separator}npm${file.separator}node_modules" type="dir"/>
+                                
+                <then>
+                                        
+                    <delete dir="${ext.cloudinarymediasmartedit.path}${file.separator}temp"/>
+                                        
+                    <delete dir="${ext.cloudinarymediasmartedit.path}${file.separator}jsTarget"/>
+                                        
+                    <delete dir="${ext.cloudinarymediasmartedit.path}${file.separator}web${file.separator}webroot${file.separator}cloudinarymediasmartedit${file.separator}js"/>
+                                        
+                    <unLinkSmarteditBundle target="${ext.cloudinarymediasmartedit.path}"/>
+                                        
+                    <removeNodeModulesSymlink path="${ext.cloudinarymediasmartedit.path}"/>
+                                    
+                </then>
+                            
+            </if>
+                    
+        </sequential>
+            
+    </macrodef>
+        
+    <macrodef name="cloudinarymediasmartedit_before_build">
+                
+        <sequential>
+                    	
+            <copy failonerror="false" file="${ext.cloudinarymediasmartedit.path}${file.separator}gitignore" overwrite="true" tofile="${ext.cloudinarymediasmartedit.path}${file.separator}.gitignore"/>
+                        
+            <if>
+                				
+                <available file="${ext.npmancillary.path}${file.separator}resources${file.separator}npm${file.separator}node_modules" type="dir"/>
+                                
+                <then>
+                                        
+                    <linkSmarteditBundle target="${ext.cloudinarymediasmartedit.path}"/>
+                                        
+                    <gruntBuild path="${ext.cloudinarymediasmartedit.path}" phase="packageSkipTests"/>
+                                    
+                </then>
+                            
+            </if>
+                    
+        </sequential>
+            
+    </macrodef>
+        
+    <macrodef name="cloudinarymediasmartedit_before_yunit">
+                
+        <sequential>
+                        
+            <if>
+                				
+                <available file="${ext.npmancillary.path}${file.separator}resources${file.separator}npm${file.separator}node_modules" type="dir"/>
+                                
+                <then>
+                                        
+                    <gruntBuild path="${ext.cloudinarymediasmartedit.path}" phase="test_only"/>
+                                    
+                </then>
+                            
+            </if>
+                    
+        </sequential>
+            
+    </macrodef>
+        
+
+
+</project>

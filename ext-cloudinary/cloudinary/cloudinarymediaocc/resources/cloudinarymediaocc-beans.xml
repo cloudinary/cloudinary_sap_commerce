@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+
+	<!--
+		Example Data POJO
+	
+	<bean class="yemptypackage.data.MyPojo">
+		<property name="id" type="String"/>
+		<property name="flag" type="boolean"/>
+	</bean>
+	-->
+
+	
+	<bean class="uk.ptr.cloudinary.dto.CloudinaryConfigurationWsDTO">
+		<description>Cloudinary Configuration</description>
+
+		<property name="cloudName" type="String"/>
+		<property name="apiKey" type="String"/>
+		<property name="environment" type="String"/>
+		<property name="isCloudinaryGalleryEnabled" type="boolean"/>
+		<property name="isResponsiveEnabled" type="boolean"/>
+		<property name="cloudinaryImageWidthLimitMax" type="int"/>
+		<property name="cloudinaryImageWidthLimitMin" type="int"/>
+		<property name="cloudinaryByteStep" type="int"/>
+		<property name="cloudinaryGalleryConfigJsonString" type="String"/>
+		<property name="cName" type="String"/>
+		<property name="isCloudinaryEnabled" type="boolean"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO">
+	<description>Representation of a Product</description>
+
+		<property name="sapCCProductCode" type="String">
+			<description>Code of the product spinset</description>
+		</property>
+		<property name="spinSetCode" type="String">
+			<description>Code of the product spinset</description>
+		</property>
+
+	</bean>
+
+	<bean class="de.hybris.platform.cmswebservices.data.MediaData">
+
+		<property name="cloudinaryMediaJson" type="String" >
+			<description>Cloudinary Media Json Data</description>
+		</property>
+	</bean>
+
+</beans>

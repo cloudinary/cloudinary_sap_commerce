@@ -1,0 +1,10 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+$productCatalog=apparelProductCatalog
+$currencies=EUR
+$net=false
+$storeUid=apparel-de
+$defaultCurrency=EUR
+$languages=de
+$defaultLanguage=de

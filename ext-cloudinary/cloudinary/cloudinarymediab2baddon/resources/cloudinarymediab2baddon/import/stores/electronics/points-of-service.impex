@@ -1,0 +1,9 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+#% impex.setLocale( Locale.GERMAN );
+
+$storeUid=electronics
+$productCatalog=electronicsProductCatalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$storeImage=storeImage(qualifier, $catalogVersion)

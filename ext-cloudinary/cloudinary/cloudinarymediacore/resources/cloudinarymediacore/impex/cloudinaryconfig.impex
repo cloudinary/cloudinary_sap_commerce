@@ -1,0 +1,16 @@
+INSERT_UPDATE CloudinaryConfig;enableCloudinary[unique=true];enableCloudinaryGalleryWidget[default=false];cloudinaryURL[unique=true];cloudinaryCname[unique=true];cloudinaryByteStep;cloudinaryFolderPath;cloudinaryImageWidthLimitMax;cloudinaryImageWidthLimitMin;cloudinaryMaxBreakPoints;cloudinaryResponsive;cloudinaryGlobalImageTransformation;cloudinaryGlobalVideoTransformation;
+                              ;false;;;;50;syncFolder/uploadAssets;2000;50;;;;;;
+# Media formats
+INSERT_UPDATE MediaFormat;qualifier[unique=true];name;transformation;transformationStrategy[default=cloudinaryMediaConversionStrategy];
+                         ;1200Wx1200H;1200Wx1200H;w_1200,h_1200
+                         ;515Wx515H;515Wx515H;w_515,h_515
+                         ;365Wx246H;365Wx246H;w_365,h_246
+                         ;300Wx300H;300Wx300H;w_300,h_300
+                         ;192Wx96H;192Wx96H;w_192,h_96
+                         ;96Wx96H;96Wx96H;w_96,h_96
+                         ;65Wx65H;65Wx65H;w_65,h_65
+                         ;30Wx30H;30Wx30H;w_30,h_30
+                         ;mobile;mobile;w_480,h_170
+                         ;tablet;tablet;w_770,h_221
+                         ;desktop;desktop;w_960,h_275
+                         ;widescreen;widescreen;w_1400,h_401

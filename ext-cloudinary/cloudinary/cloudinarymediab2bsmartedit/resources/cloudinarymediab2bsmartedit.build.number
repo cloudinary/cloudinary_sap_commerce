@@ -1,0 +1,11 @@
+#Ant properties
+#Thu Feb 27 20:34:04 UTC 2025
+version.api=2211
+vendor=hybris
+group.id=de.hybris.platform
+name=cloudinarymediab2bsmartedit
+description=cloudinarymediab2bsmartedit
+builddate=20250227 2033
+releasedate=20250227 2033
+version=2211.37
+module.name=platform-module

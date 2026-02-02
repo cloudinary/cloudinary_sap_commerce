@@ -1,0 +1,25 @@
+Building Angular Package
+
+------------------------------------------------------------------------------
+Building entry point 'cloudinarymediab2bsmarteditcommons'
+------------------------------------------------------------------------------
+- Compiling with Angular sources in Ivy partial compilation mode.
+✔ Compiling with Angular sources in Ivy partial compilation mode.
+- Writing FESM bundles
+✔ Writing FESM bundles
+- Copying assets
+✔ Copying assets
+- Writing package manifest
+ℹ Removing scripts section in package.json as it's considered a potential security vulnerability.
+ℹ Removing devDependencies section in package.json.
+✔ Writing package manifest
+✔ Built cloudinarymediab2bsmarteditcommons
+
+------------------------------------------------------------------------------
+Built Angular Package
+ - from: /Users/h.kottikkal/Documents/Portaltech_Projects/cloudinary_b2b_2211.37/hybris/bin/custom/cloudinarymediab2bsmartedit/apps/cloudinarymediab2bsmarteditcommons
+ - to:   /Users/h.kottikkal/Documents/Portaltech_Projects/cloudinary_b2b_2211.37/hybris/bin/custom/cloudinarymediab2bsmartedit/apps/cloudinarymediab2bsmarteditcommons/dist
+------------------------------------------------------------------------------
+
+Build at: 2025-07-24T15:42:39.130Z - Time: 2343ms
+

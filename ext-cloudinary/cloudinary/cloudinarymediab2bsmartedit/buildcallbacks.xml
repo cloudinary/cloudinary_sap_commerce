@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
+--><project name="cloudinarymediab2bsmartedit_buildcallbacks">
+        
+    <patternset id="extension.cloudinarymediab2bsmartedit.binary.filter">
+                
+        <patternset refid="extension.binary.filter"/>
+                
+        <exclude name="build/"/>
+                
+        <exclude name="**/node_modules/"/>
+                
+        <exclude name="jsTarget/"/>
+                
+        <exclude name="apps/**/.angular/"/>
+                
+        <exclude name="apps/**/.rush/"/>
+                
+        <exclude name="apps/**/.temp/"/>
+                
+        <exclude name="apps/**/junit/"/>
+            
+    </patternset>
+        
+    <patternset id="extension.cloudinarymediab2bsmartedit.source.filter">
+                
+        <patternset refid="extension.source.filter"/>
+                
+        <exclude name="build/"/>
+                
+        <exclude name="**/node_modules/"/>
+                
+        <exclude name="jsTarget/"/>
+                
+        <exclude name="apps/**/.angular/"/>
+                
+        <exclude name="apps/**/.rush/"/>
+                
+        <exclude name="apps/**/.temp/"/>
+                
+        <exclude name="apps/**/junit/"/>
+            
+    </patternset>
+        
+    <patternset id="extension.cloudinarymediab2bsmartedit.production.filter">
+                
+        <patternset refid="extension.production.filter"/>
+                
+        <exclude name="build/"/>
+                
+        <exclude name="**/node_modules/"/>
+                
+        <exclude name="jsTarget/"/>
+                
+        <exclude name="apps/**/.angular/"/>
+                
+        <exclude name="apps/**/.rush/"/>
+                
+        <exclude name="apps/**/.temp/"/>
+                
+        <exclude name="apps/**/junit/"/>
+            
+    </patternset>
+        
+
+    
+    <macrodef name="cloudinarymediab2bsmartedit_before_build">
+                
+        <sequential>
+                        
+            <build_smartedit_extension appNames="cloudinarymediab2bsmarteditcommons,cloudinarymediab2bsmarteditContainer,cloudinarymediab2bsmartedit" extensionName="cloudinarymediab2bsmartedit"/>
+                    
+        </sequential>
+            
+    </macrodef>
+        
+    <!-- Please find details in https://cxjira.sap.com/browse/CMSX-10210
+   that why we can use 'web' property to ensure our frontend UT only execute once in team & commerce-suite pipeline -->
+        
+    <macrodef name="cloudinarymediab2bsmartedit_before_yunit">
+                
+        <sequential>
+                        
+            <if>
+                                
+                <istrue value="${testclasses.web}"/>
+                                
+                <then>
+                                        
+                    <test_smartedit_extension appNames="cloudinarymediab2bsmarteditcommons,cloudinarymediab2bsmarteditContainer,cloudinarymediab2bsmartedit" extensionName="cloudinarymediab2bsmartedit"/>
+                                    
+                </then>
+                            
+            </if>
+                    
+        </sequential>
+            
+    </macrodef>
+        
+    <!--
+        How-to run unit tests in the extension:
+        1- Execute the command "ant allwebtests" within "platform" folder (will execute tests for ALL extensions).
+        2- OR Execute the command "npm run test" or "npm run test:dev" in each apps/*/* folder individually.
+        3- OR Execute the command "ant test_cloudinarymediab2bsmartedit"
+    -->
+        
+    <target name="test_cloudinarymediab2bsmartedit">
+                
+        <test_smartedit_extension appNames="cloudinarymediab2bsmarteditcommons,cloudinarymediab2bsmarteditContainer,cloudinarymediab2bsmartedit" extensionName="cloudinarymediab2bsmartedit"/>
+            
+    </target>
+    
+</project>

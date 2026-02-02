@@ -1,0 +1,11 @@
+#Ant properties
+#Thu Aug 06 14:54:28 CEST 2020
+version.api=2005
+vendor=hybris
+group.id=de.hybris.platform
+name=cloudinarymediaaddon
+description=cloudinarymediaaddon
+builddate=20200806 1450
+releasedate=20200513 1957
+version=2005.2
+module.name=platform-module

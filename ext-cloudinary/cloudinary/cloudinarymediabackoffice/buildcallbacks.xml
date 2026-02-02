@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved
+--><!--
+ All hybris buildcallbacks.xml macrodefinitions:
+
+ Build/Documentation
+
+	 before/after ant macro "clean"
+		 <macrodef name="cloudinarymediabackoffice_before_clean"/>
+		 <macrodef name="cloudinarymediabackoffice_after_clean"/>
+
+	 before/after ant macro "build"
+		 <macrodef name="cloudinarymediabackoffice_before_build"/>
+		 <macrodef name="cloudinarymediabackoffice_after_build"/>
+
+	 before/after ant macro "compile_core" - the core module of the extension
+		 <macrodef name="cloudinarymediabackoffice_before_compile_core">
+		 <macrodef name="cloudinarymediabackoffice_after_compile_core">
+
+	 before/after ant macro "compile_web" - the web module of the extension
+		 <macrodef name="cloudinarymediabackoffice_before_compile_web" />
+		 <macrodef name="cloudinarymediabackoffice_after_compile_web" />
+
+	 before/after ant macro "compile_hmc" - the hmc module of the extension
+		 <macrodef name="cloudinarymediabackoffice_before_compile_hmc" />
+		 <macrodef name="cloudinarymediabackoffice_after_compile_hmc" />
+
+ Preparing extension
+
+	 will be called in the beginning of the ant call and only once (also when using multiple
+	 ant targets e.g. ant build yunittest)
+		 <macrodef name="cloudinarymediabackoffice_only_once_prepare"/>
+
+ Creating ear module/production
+
+	 before/after ant macro "ear"
+		 <macrodef name="cloudinarymediabackoffice_before_ear"/>
+		 <macrodef name="cloudinarymediabackoffice_after_ear"/>
+
+	 before/after ant macro "production" - for hybris server only
+		 <macrodef name="cloudinarymediabackoffice_before_production" />
+		 <macrodef name="cloudinarymediabackoffice_after_production" />
+
+ JUnit Test
+
+	 before/after ant macro "yunitinit"
+		 <macrodef name="cloudinarymediabackoffice_before_yunitinit" />
+		 <macrodef name="cloudinarymediabackoffice_after_yunitinit" />
+
+	 before/after ant macro "yunit"
+		 <macrodef name="cloudinarymediabackoffice_before_yunit" />
+		 <macrodef name="cloudinarymediabackoffice_after_yunit" />
+
+ Distribution package
+
+ 	 before/after ant macro "dist" - internal target; only for use when platform is available in source code
+		 <macrodef name="cloudinarymediabackoffice_after_dist"/>
+		 <macrodef name="cloudinarymediabackoffice_before_dist"/>
+
+	 before/after ant macro "dist_copy" - internal target; only for use when platform is available in source code
+		 <macrodef name="cloudinarymediabackoffice_before_dist_copy"/>
+		 <macrodef name="cloudinarymediabackoffice_after_dist_copy"/>
+
+ 	 With these filters you can override the default extension filters defined in platform/resources/ant/dist/filtersets.xml
+ 	  	 <patternset id="extension.cloudinarymediabackoffice.binary.filter">
+ 	  	  	 <patternset refid="extension.filter" />
+ 	  	  	 <exclude name="**/*-source.jar" />
+ 	  	 </patternset>
+ 	  	 <patternset id="extension.cloudinarymediabackoffice.source.filter">
+ 	  	  	 <exclude name="**/bin/**" />
+ 	  	 </patternset>
+
+ Backoffice module
+
+ 	 before/after ant macro "backoffice" - internal target; only for use when extensin is a backoffice module
+		 <macrodef name="cloudinarymediabackoffice_before_clean_backoffice"/>
+		 <macrodef name="cloudinarymediabackoffice_after_clean_backoffice"/>
+		 <macrodef name="cloudinarymediabackoffice_before_compile_backoffice"/>
+		 <macrodef name="cloudinarymediabackoffice_after_compile_backoffice"/>
+
+--><project name="cloudinarymediabackoffice_buildcallbacks">
+    	
+    <property name="cloudinarymediabackofficeWebFragmentSrc" value="${ext.cloudinarymediabackoffice.path}/resources/web-fragment.xml"/>
+    	
+    <property name="cloudinarymediabackofficeWebFragmentDestJar" value="${ext.backoffice.path}/web/webroot/WEB-INF/lib/webfragmentExt_cloudinarymediabackoffice.jar"/>
+    	
+
+	
+
+	
+    <macrodef name="cloudinarymediabackoffice_after_clean">
+        		
+        <sequential>
+            			
+            <cloudinarymediabackoffice_remove_web_fragment/>
+            		
+        </sequential>
+        	
+    </macrodef>
+    	
+    <macrodef name="cloudinarymediabackoffice_after_build">
+        		
+        <sequential>
+            			
+            <cloudinarymediabackoffice_remove_web_fragment/>
+            			
+            <cloudinarymediabackoffice_create_web_fragment/>
+            		
+        </sequential>
+        	
+    </macrodef>
+    	
+    <macrodef name="cloudinarymediabackoffice_remove_web_fragment">
+        		
+        <sequential>
+            			
+            <if>
+                				
+                <available file="${cloudinarymediabackofficeWebFragmentDestJar}"/>
+                				
+                <then>
+                    					
+                    <delete file="${cloudinarymediabackofficeWebFragmentDestJar}"/>
+                    				
+                </then>
+                			
+            </if>
+            		
+        </sequential>
+        	
+    </macrodef>
+    	
+    <macrodef name="cloudinarymediabackoffice_create_web_fragment">
+        		
+        <sequential>
+            			
+            <if>
+                				
+                <available file="${cloudinarymediabackofficeWebFragmentSrc}"/>
+                				
+                <then>
+                    					
+                    <sequential>
+                        						
+                        <jar destfile="${cloudinarymediabackofficeWebFragmentDestJar}">
+                            							
+                            <metainf file="${cloudinarymediabackofficeWebFragmentSrc}"/>
+                            						
+                        </jar>
+                        					
+                    </sequential>
+                    				
+                </then>
+                			
+            </if>
+            		
+        </sequential>
+        	
+    </macrodef>
+    	
+    <patternset id="cloudinarymediabackoffice.localization.pattern">
+        		
+        <!-- core and hmc  -->
+        		
+        <include name="**/*locales*_en.properties"/>
+        		
+        <exclude name="**/hmc/web/webroot/WEB-INF/classes/**/*"/>
+        		
+        <exclude name="**/unittest/**/*"/>
+        		
+        <!-- cockpit (ng) -->
+        		
+        <include name="**/i3-label_en.properties"/>
+        		
+        <include name="**/labels_en.properties"/>
+        		
+        <!-- messages -->
+        		
+        <include name="**/*messages_en.properties"/>
+        		
+        <include name="**/*messages.properties"/>
+        		
+        <!-- frontend properties files in WEB-INF/messages folder -->
+        		
+        <include name="**/WEB-INF/messages/*_en.properties"/>
+        		
+        <!-- csv and impex -->
+        		
+        <include name="**/*_en.csv"/>
+        		
+        <include name="**/*_en.impex"/>
+        		
+        <include name="**/lang-en.properties"/>
+        		
+        <!-- email localizations from yacceleratorcore -->
+        		
+        <include name="resources/**/messages/*_en.properties"/>
+        		
+        <!-- include validation messages -->
+        		
+        <include name="resources/**/ValidationMessages.properties"/>
+        	
+    </patternset>
+    	
+    <macrodef name="cloudinarymediabackoffice_before_build">
+		<sequential>
+			<register_sass_extension extensionname="cloudinarymediabackoffice"/>
+			<register_sass_extension extensionname="cloudinarymediabackoffice" resources="resources" destination=""/>
+		</sequential>
+	</macrodef>
+    
+</project>

@@ -1,0 +1,22 @@
+{
+    "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+    "dest": "./dist",
+    "lib": {
+        "cssUrl": "inline",
+        "entryFile": "./src/index.ts",
+        "styleIncludePaths": [
+            "./styling",
+            "./node_modules/smartedit-build/styles/",
+            "./node_modules/fundamental-styles/dist/"
+        ]
+    },
+    "assets": [
+        "./styling",
+        {
+            "input": "./node_modules/smartedit-build/styles",
+            "glob": "**/*.scss",
+            "output": "./styling/sass"
+        }
+    ],
+    "allowedNonPeerDependencies": ["."]
+}

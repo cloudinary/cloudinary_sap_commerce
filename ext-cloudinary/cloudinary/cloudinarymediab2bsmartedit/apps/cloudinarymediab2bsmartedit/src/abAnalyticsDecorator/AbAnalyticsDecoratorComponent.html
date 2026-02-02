@@ -1,0 +1,24 @@
+<div>
+    <se-tooltip
+        [placement]="'bottom'"
+        [triggers]="['mouseenter', 'mouseleave']"
+        [isChevronVisible]="true"
+    >
+        <div se-tooltip-trigger><ng-content></ng-content></div>
+        <span se-tooltip-body>
+            <div>
+                <p>
+                    <strong
+                        >{{ smarteditComponentId | slice:0:16 }}{{ smarteditComponentId.length > 16
+                        ? '...' : ''}}</strong
+                    >
+                </p>
+                <p>
+                    {{ smarteditComponentType | slice:0:16 }}{{ smarteditComponentType.length > 16 ?
+                    '...' : ''}}
+                </p>
+                <p>{{ abAnalytics }}</p>
+            </div>
+        </span>
+    </se-tooltip>
+</div>

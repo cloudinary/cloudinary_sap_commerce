@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<taglib version="3.1"
+	xmlns="https://jakarta.ee/xml/ns/jakartaee"
+	xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-jsptaglibrary_3_1.xsd">
+	<tlib-version>1.0</tlib-version>
+	<short-name>implicit</short-name>
+</taglib>

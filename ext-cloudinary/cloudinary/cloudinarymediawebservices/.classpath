@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<classpath>
+    	
+    <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+    	
+    <classpathentry kind="output" path="eclipsebin/notused"/>
+    				
+				
+	
+    <classpathentry exported="true" kind="src" path="/webservicescommons"/>
+    	
+    <classpathentry exported="false" kind="lib" path="web/webroot/WEB-INF/lib/javax.servlet.jsp.jstl-1.2.5.jar"/>
+    	
+    <classpathentry exported="true" kind="lib" path="resources"/>
+    	
+    <classpathentry exported="true" kind="src" output="eclipsebin/classes" path="src"/>
+    	
+    <classpathentry exported="false" kind="src" output="eclipsebin/web/classes" path="web/src"/>
+    	
+    <classpathentry exported="true" kind="src" output="eclipsebin/classes" path="testsrc"/>
+    	
+    <classpathentry exported="true" kind="src" output="eclipsebin/classes" path="gensrc"/>
+    	
+    <classpathentry exported="false" kind="src" path="/platform"/>
+    <classpathentry combineaccessrules="false" kind="src" path="/cmsoccaddon"/>
+    				
+
+</classpath>

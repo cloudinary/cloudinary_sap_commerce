@@ -1,0 +1,78 @@
+<div data-ng-if="ctrl.hasReadPermissionOnMediaRelatedTypes && ctrl.advancedMediaContainerManagementEnabled">
+    <se-dropdown
+            data-ng-if="ctrl.model"
+            data-field="ctrl.mediaContainerDropdownField"
+            data-qualifier="'mediaContainer'"
+            data-model="ctrl.mediaContainerFieldModel"
+            data-id="ctrl.mediaContainerDropdownId"
+            data-item-template-url="ctrl.itemTemplateUrl"
+            data-get-api="ctrl.configureSeDropdown($api)"
+            data-show-remove-button="true"
+    ></se-dropdown>
+
+    <div data-ng-if="ctrl.isMediaContainerSelected() || ctrl.isMediaContainerCreation()">
+        <label
+                [id]="ctrl.mediaContainerDropdownField.qualifier + '-label'"
+                class="se-control-label required se-media-container-name-label">
+            {{ 'se.cms.media.responsive.name' | lowercase | translate }}</label>
+        <input
+                type="text"
+                class="fd-form-control"
+                id="media-container-qualifier-{{ ctrl.mediaContainerDropdownId }}"
+                name="media-container-qualifier"
+                data-ng-model="ctrl.model[ctrl.qualifier].qualifier"
+                data-ng-model-options="{debounce: 500}"
+                data-ng-readonly="ctrl.isMediaContainerNameReadOnly()"
+                data-ng-class="{'se-input--is-disabled': ctrl.isMediaContainerNameReadOnly()}"/>
+    </div>
+</div>
+
+<div class="se-media-container-field"
+     data-ng-if="ctrl.hasReadPermissionOnMediaRelatedTypes && (ctrl.isMediaContainerSelected() || ctrl.isMediaContainerCreation() || !ctrl.advancedMediaContainerManagementEnabled)"
+>
+    <div class="se-media-container-field__media-list">
+        <se-cloudinary-media-format
+                class="se-media-container-cell"
+                data-ng-repeat="option in ctrl.field.options"
+                data-ng-class="'se-media-container-cell--' + option.id"
+                data-media-uuid="ctrl.model[ctrl.qualifier].medias[option.id]"
+                data-is-under-edit="ctrl.isFormatUnderEdit(option.id)"
+                data-media-format="option.id"
+                data-field="ctrl.field"
+                data-is-field-disabled="ctrl.isFieldDisabled"
+                data-on-file-select="ctrl.fileSelected(files, option.id)"
+                data-on-delete="ctrl.imageDeleted(option.id)"
+                data-on-show-media-library="ctrl.showMediaLibrary(option.id)"
+        >
+        </se-cloudinary-media-format>
+    </div>
+    <se-media-upload-form
+            data-ng-if="ctrl.image.file"
+            class="se-media-upload-form-wrapper"
+            data-image="ctrl.image"
+            data-field="ctrl.field"
+            data-on-upload-callback="ctrl.imageUploaded(uuid)"
+            data-on-cancel-callback="ctrl.resetImage()"
+            data-on-select-callback="ctrl.fileSelected(files)"
+    >
+    </se-media-upload-form>
+
+    <se-cloudinary-media-upload-form
+            data-ng-if="ctrl.image.cloudinaryMediaJson"
+            class="se-media-upload-form-wrapper"
+            data-image="ctrl.image"
+            data-field="ctrl.field"
+            data-on-upload-callback="ctrl.imageUploaded(uuid)"
+            data-on-cancel-callback="ctrl.resetImage()"
+    >
+    </se-cloudinary-media-upload-form>
+
+    <se-errors-list data-errors="ctrl.fileErrors"></se-errors-list>
+</div>
+
+<div class="se-media-container-field" data-ng-if="!ctrl.hasReadPermissionOnMediaRelatedTypes">
+    <span
+            translate="se.cms.media.typepermissions.error"
+            translate-values="{containedTypes: ctrl.field.containedTypes}"
+    ></span>
+</div>

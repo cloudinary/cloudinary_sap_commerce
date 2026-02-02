@@ -1,0 +1,8 @@
+{
+    "name": "cloudinarymediab2bsmarteditcontainer",
+    "extension": {
+        "type": "container",
+        "angularApp": "cloudinarymediab2bsmarteditContainer",
+        "seEntryModule": "Cloudinarymediab2bsmarteditContainerModule"
+    }
+}

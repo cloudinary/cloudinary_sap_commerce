@@ -1,0 +1,41 @@
+{
+    "extends": "./node_modules/smartedit-build/config/tsconfig.base.json",
+    "include": [
+        "src/**/*",
+        "tests/**/*"
+    ],
+    "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "./dist",
+        "typeRoots": [
+            "node_modules/@types",
+            "node_modules/smartedit-build/test/@types"
+        ],
+        "paths": {
+            "smarteditcommons": [
+                "/Users/h.kottikkal/Documents/Portaltech_Projects/cloudinary_b2b_2211.37/hybris/bin/modules/smartedit/smartedit/apps/smartedit-commons/dist"
+            ],
+            "@smart/utils": [
+                "/Users/h.kottikkal/Documents/Portaltech_Projects/cloudinary_b2b_2211.37/hybris/bin/modules/smartedit/smartedit/apps/smart-utils/dist"
+            ],
+            "smarteditcontainer": [
+                "/Users/h.kottikkal/Documents/Portaltech_Projects/cloudinary_b2b_2211.37/hybris/bin/modules/smartedit/smartedit/apps/smartedit-container/dist"
+            ],
+            "cloudinarymediab2bsmarteditcommons": [
+                "/Users/h.kottikkal/Documents/Portaltech_Projects/cloudinary_b2b_2211.37/hybris/bin/custom/ext-cloudinary/cloudinary/cloudinarymediab2bsmartedit/apps/cloudinarymediab2bsmarteditcommons/dist"
+            ],
+            "cloudinarymediab2bsmarteditcontainer": [
+                "src"
+            ],
+            "cloudinarymediab2bsmarteditcontainer/*": [
+                "src/*"
+            ],
+            "testhelpers": [
+                "/Users/h.kottikkal/Documents/Portaltech_Projects/cloudinary_b2b_2211.37/hybris/bin/modules/smartedit/smartedittools/apps/smartedit-build/test/unit"
+            ],
+            "testhelpers/*": [
+                "/Users/h.kottikkal/Documents/Portaltech_Projects/cloudinary_b2b_2211.37/hybris/bin/modules/smartedit/smartedittools/apps/smartedit-build/test/unit/*"
+            ]
+        }
+    }
+}

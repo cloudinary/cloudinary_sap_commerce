@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!-- 
+  WARNING: This is the Spring WEB configuration file. If you want to replace
+  items or managers you have to do this from the extensions core configuration 
+  file (cloudinarymediasmartedit/resources/cloudinarymediasmartedit-spring.xml)
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/mvc
+           http://www.springframework.org/schema/mvc/spring-mvc.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- spring security file -->
+	<import resource="config/security-spring.xml"/>
+	
+	<!-- Scan for annotation configured controller -->
+	<import resource="classpath:cloudinarymediasmartedit-spring.xml"/>
+
+	<context:component-scan base-package="uk.ptr.cloudinary"/>
+	     
+    <!-- activates annotation driven binding -->
+	<bean id="pathMatcher" class="org.springframework.util.AntPathMatcher"/>
+	<bean id="urlPathHelper" class="org.springframework.web.util.UrlPathHelper"/>
+	
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+		<property name="order" value="0"/>
+		<property name="pathMatcher" ref="pathMatcher"/>
+		<property name="urlPathHelper" ref="urlPathHelper"/>
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+				<!-- <property name="conversionService" ref="conversionService"/> -->
+			</bean>
+		</property>
+	</bean>
+	
+	
+	<!-- 
+     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1000000"/>
+	</bean>
+	   -->    
+	<!-- 
+	 Registering the hybris "tenant" scope 
+	 This is the custom hybris scope that manages the lifetime of a "tenant". 
+	 If you do not deal with tenants ("multimandantenf??higkeit"), then there 
+	 is no need to understand what this is for.  
+	 -->
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="tenant" value="de.hybris.platform.spring.TenantScope"/>
+            </map>
+        </property>
+    </bean>
+    
+	<!-- Spring managed FilterChain for hybris Filter stack -->
+	<bean id="smarteditAppPlatformFilterChain" class="de.hybris.platform.servicelayer.web.PlatformFilterChain">
+		<constructor-arg>
+			<list>
+				<ref bean="log4jFilter"/>
+				<ref bean="dynamicTenantActivationFilter"/>
+				<ref bean="sessionFilter"/>
+				<ref bean="springSecurityFilterChain" />
+                <ref bean="smarteditAppMediaFilter" />
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="smarteditAppMediaFilter" class="de.hybris.platform.servicelayer.web.WebAppMediaFilter">
+		<property name="mediaPermissionService" ref="mediaPermissionService"/>
+		<property name="modelService" ref="modelService"/>
+		<property name="userService" ref="userService"/>
+		<property name="mediaService" ref="mediaService"/>
+	</bean>
+	
+</beans>
+

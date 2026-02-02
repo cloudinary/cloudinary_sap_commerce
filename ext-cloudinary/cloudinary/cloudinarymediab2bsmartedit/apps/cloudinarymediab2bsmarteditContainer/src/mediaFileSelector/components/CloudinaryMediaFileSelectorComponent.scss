@@ -1,0 +1,46 @@
+.media-select-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-top: 8px;
+
+    .media-select-btn {
+        width: 130px;
+        text-align: center;
+        padding: 6px 12px;
+        border-radius: 4px;
+    }
+
+    .media-select-popup {
+        position: absolute;
+        top: 38px;
+        left: 0;
+        background: #fff;
+        border: 1px solid #dcdcdc;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        padding: 6px 0;
+        z-index: 100;
+        min-width: 200px;
+
+        .popup-option {
+            padding: 8px 16px;
+            color: #007bff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.15s;
+
+            &:hover {
+                background: #f2f2f2;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .hidden-file-input {
+        display: none;
+    }
+}
+
+se-media-file-selector .se-file-selector__label {
+    display: none !important;
+}

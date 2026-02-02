@@ -1,0 +1,11 @@
+.tscache
+temp
+/jsTarget
+node_modules
+**/generated/**
+
+# BUNDLE
+smartedit-build
+build
+
+/classes/

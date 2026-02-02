@@ -1,0 +1,18 @@
+<div class="media-select-wrapper">
+    <button
+        type="button"
+        class="hide se-btn se-btn-secondary media-select-btn"
+        (click)="togglePopup()">
+        Select Media
+    </button>
+
+    <input #fileInput type="file" class="hidden-file-input" (change)="onSelect($event)" />
+    <!-- Popup -->
+    <div class="media-select-popup" *ngIf="showPopup">
+        <div class="popup-option" (click)="onCloudinaryClick()">
+            <span *ngIf="!isUploading">Upload from Cloudinary</span>
+            <span *ngIf="isUploading">Uploading...</span>
+        </div>
+        <div class="popup-option" (click)="triggerFileInput()">Choose File from Local</div>
+    </div>
+</div>

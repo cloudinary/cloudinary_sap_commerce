@@ -1,0 +1,7 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+
+INSERT_UPDATE SmartEditConfiguration;key[unique=true];value
+;cloudinaryConfigUrl;"""/occ/v2/powertools-spa/cloudinary/configuration"""
+;cloudinaryOccBaseUrl;"""https://powertools.local:9002/"""

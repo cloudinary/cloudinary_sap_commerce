@@ -1,0 +1,179 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "b2bCloudinaryStore": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/b2b-cloudinary-store",
+            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@spartacus/smartedit/assets",
+                "output": "assets/"
+              }
+            ],
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/user.scss",
+              "src/styles/spartacus/cart.scss",
+              "src/styles/spartacus/order.scss",
+              "src/styles/spartacus/checkout.scss",
+              "src/styles/spartacus/opf.scss",
+              "src/styles/spartacus/pdf-invoices.scss",
+              "src/styles/spartacus/requested-delivery-date.scss",
+              "src/styles/spartacus/customer-ticketing.scss",
+              "src/styles/spartacus/organization.scss",
+              "src/styles/spartacus/product-configurator.scss",
+              "src/styles/spartacus/storefinder.scss",
+              "src/styles/spartacus/asm.scss",
+              "src/styles/spartacus/s4-service.scss",
+              "src/styles/spartacus/epd-visualization.scss",
+              "src/styles/spartacus/estimated-delivery-date.scss",
+              "src/styles/spartacus/qualtrics-embedded-feedback.scss",
+              "src/styles/spartacus/product-multi-dimensional.scss",
+              "src/styles/spartacus/product.scss",
+              "src/styles/spartacus/pickup-in-store.scss",
+              "src/styles/spartacus/quote.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "3.5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "b2bCloudinaryStore:build:production"
+            },
+            "development": {
+              "buildTarget": "b2bCloudinaryStore:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@spartacus/smartedit/assets",
+                "output": "assets/"
+              }
+            ],
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/user.scss",
+              "src/styles/spartacus/cart.scss",
+              "src/styles/spartacus/order.scss",
+              "src/styles/spartacus/checkout.scss",
+              "src/styles/spartacus/opf.scss",
+              "src/styles/spartacus/pdf-invoices.scss",
+              "src/styles/spartacus/requested-delivery-date.scss",
+              "src/styles/spartacus/customer-ticketing.scss",
+              "src/styles/spartacus/organization.scss",
+              "src/styles/spartacus/product-configurator.scss",
+              "src/styles/spartacus/storefinder.scss",
+              "src/styles/spartacus/asm.scss",
+              "src/styles/spartacus/s4-service.scss",
+              "src/styles/spartacus/epd-visualization.scss",
+              "src/styles/spartacus/estimated-delivery-date.scss",
+              "src/styles/spartacus/qualtrics-embedded-feedback.scss",
+              "src/styles/spartacus/product-multi-dimensional.scss",
+              "src/styles/spartacus/product.scss",
+              "src/styles/spartacus/pickup-in-store.scss",
+              "src/styles/spartacus/quote.scss"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2022 SAP SE or an SAP affiliate company. All rights reserved.
+--><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+           
+    
+    <extension abstractclassprefix="Generated" classprefix="Cloudinarymediab2bsmartedit" managername="Cloudinarymediab2bsmarteditManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="cloudinarymediab2bsmartedit">
+                      
+        
+        <!-- you should add all required extensions to this list, except platform extensions which are automatically required -->
+                      
+        
+        <requires-extension name="smartedittools"/>
+                      
+        
+        <requires-extension name="smartedit"/>
+                      
+        
+        <coremodule generated="true" manager="uk.ptr.cloudinary.jalo.Cloudinarymediab2bsmarteditManager" packageroot="uk.ptr.cloudinary"/>
+                       
+        
+        <webmodule jspcompile="false" webroot="/cloudinarymediab2bsmartedit"/>
+                       
+        
+           
+    
+    </extension>
+              
+
+
+</extensioninfo>
