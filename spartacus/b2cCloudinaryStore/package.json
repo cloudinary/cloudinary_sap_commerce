@@ -39,6 +39,7 @@
     "@spartacus/tracking": "~221121.2.0",
     "@spartacus/user": "~221121.2.0",
     "angular-oauth2-oidc": "19.0.0",
+    "cloudinary-video-player": "^3.10.0",
     "i18next": "^24.2.1",
     "i18next-http-backend": "^3.0.1",
     "i18next-resources-to-backend": "^1.2.1",
@@ -64,6 +65,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "ng-packagr": "^19.2.0",
     "parse5": "^7.2.1",
     "typescript": "~5.7.2"
   }

@@ -11,8 +11,7 @@ import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from '@spartacus/storefront';
 import { AppComponent } from './app.component';
 import { SpartacusModule } from './spartacus/spartacus.module';
-import { ProductImageNormalizer } from '@spartacus/core';
-import { CustomProductImageNormalizer } from './spartacus/product-image.normalizer';
+import { CloudinaryModule } from '../../projects/cloudinary/src/public-api';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,14 +21,9 @@ import { CustomProductImageNormalizer } from './spartacus/product-image.normaliz
     AppRoutingModule,
     EffectsModule.forRoot([]),
     SpartacusModule,
+    CloudinaryModule,
   ],
-  providers: [
-    provideHttpClient(withFetch(), withInterceptorsFromDi()),
-    {
-      provide: ProductImageNormalizer,
-      useClass: CustomProductImageNormalizer,
-    },
-  ],
+  providers: [provideHttpClient(withFetch(), withInterceptorsFromDi())],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

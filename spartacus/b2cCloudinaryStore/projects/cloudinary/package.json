@@ -1,0 +1,15 @@
+{
+  "name": "@your-org/cloudinary-spartacus",
+  "version": "0.0.1",
+  "description": "Cloudinary integration module for Spartacus",
+  "peerDependencies": {
+    "@angular/common": "^19.2.0",
+    "@angular/core": "^19.2.0",
+    "@spartacus/core": "~221121.2.0",
+    "@spartacus/storefront": "~221121.2.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

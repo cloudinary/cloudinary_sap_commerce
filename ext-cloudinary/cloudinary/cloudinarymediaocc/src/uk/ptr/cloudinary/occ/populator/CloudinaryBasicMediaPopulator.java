@@ -16,5 +16,9 @@ public class CloudinaryBasicMediaPopulator extends BasicMediaPopulator
         {
             target.setUrl(source.getCloudinaryURL());
         }
+        if (Objects.nonNull(source.getCloudinaryPublicId()))
+        {
+            target.setCloudinaryPublicId(source.getCloudinaryPublicId());
+        }
     }
 }
