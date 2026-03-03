@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { CloudinaryConfig } from '../models/cloudinary-config.model';
 import {
   CloudinaryConfigService,
@@ -14,17 +14,24 @@ import {
   providedIn: 'root',
 })
 export class CurrentCloudinaryConfigService implements CloudinaryConfigService {
+  private config$?: Observable<CloudinaryConfig>;
+
   constructor(
     @Inject(CLOUDINARY_CONFIG_CONNECTOR)
     private connector: CloudinaryConfigConnector,
   ) {}
 
   /**
-   * Retrieve the Cloudinary configuration from the connector.  By
-   * default the connector will use the HTTP adapter but it can be
-   * replaced for testing or advanced scenarios.
+   * Retrieve the Cloudinary configuration from the connector.
+   *
+   * Results are memoised so that subsequent calls reuse the original
+   * observable and thus perform only a single backend request per
+   * application lifetime.  Consumers can still subscribe multiple times.
    */
   list(): Observable<CloudinaryConfig> {
-    return this.connector.getConfig();
+    if (!this.config$) {
+      this.config$ = this.connector.getConfig().pipe(shareReplay(1));
+    }
+    return this.config$;
   }
 }
