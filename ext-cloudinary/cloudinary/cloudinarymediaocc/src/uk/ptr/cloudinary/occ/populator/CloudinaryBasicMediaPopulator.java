@@ -23,7 +23,7 @@ public class CloudinaryBasicMediaPopulator extends BasicMediaPopulator
         }
         if (CloudinarymediacoreConstants.VIDEO.equals(source.getCloudinaryResourceType()))
         {
-            target.setMime(CloudinarymediacoreConstants.VIDEO);
+            target.setMime(CloudinarymediacoreConstants.VIDEO + "/" + source.getCloudinaryMediaFormat());
         }
     }
 }
