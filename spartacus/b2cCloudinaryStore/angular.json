@@ -7,15 +7,10 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss",
-          "standalone": false
+          "style": "scss"
         },
-        "@schematics/angular:directive": {
-          "standalone": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false
-        }
+        "@schematics/angular:directive": {},
+        "@schematics/angular:pipe": {}
       },
       "root": "",
       "sourceRoot": "src",
@@ -25,7 +20,6 @@
           "builder": "@angular/build:application",
           "options": {
             "outputPath": "dist/b2c-cloudinary-store",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"

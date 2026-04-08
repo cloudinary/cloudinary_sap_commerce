@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { StorefrontComponent } from "@spartacus/storefront";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  standalone: false,
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  imports: [StorefrontComponent]
 })
 export class AppComponent {
   title = 'b2cCloudinaryStore';
