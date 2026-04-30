@@ -1,0 +1,20 @@
+.cloudinary-video-player {
+  display: inline-block;
+  position: relative;
+
+  video {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.cloudinary-video-player-error {
+  padding: 16px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  color: #6c757d;
+  text-align: center;
+}
