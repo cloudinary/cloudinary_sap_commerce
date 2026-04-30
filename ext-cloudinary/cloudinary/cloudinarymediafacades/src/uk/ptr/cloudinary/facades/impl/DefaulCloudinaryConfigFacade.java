@@ -1,18 +1,17 @@
 package uk.ptr.cloudinary.facades.impl;
 
-import uk.ptr.cloudinary.dao.CloudinaryConfigDao;
+import jakarta.annotation.Resource;
 import uk.ptr.cloudinary.facades.CloudinaryConfigFacade;
 import uk.ptr.cloudinary.model.CloudinaryConfigModel;
-
-import jakarta.annotation.Resource;
+import uk.ptr.cloudinary.service.CloudinaryConfigService;
 
 public class DefaulCloudinaryConfigFacade implements CloudinaryConfigFacade {
 
     @Resource
-    private CloudinaryConfigDao cloudinaryConfigDao;
+    private CloudinaryConfigService cloudinaryConfigService;
 
     @Override
     public CloudinaryConfigModel getCloudinaryConfig() {
-        return cloudinaryConfigDao.getCloudinaryConfigModel();
+        return cloudinaryConfigService.getCloudinaryConfigModel();
     }
 }

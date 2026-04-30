@@ -1,0 +1,30 @@
+<div class="cx-product-images">
+  <div class="cx-thumbnails" *ngIf="thumbs$ | async as thumbs">
+    <button
+      *ngFor="let thumb of thumbs"
+      class="cx-thumbnail"
+      [class.active]="isActive(thumb) | async"
+      (click)="openImage(thumb)"
+    >
+      <cx-media
+        [container]="thumb"
+        format="thumbnail"
+        [alt]="thumb?.altText"
+      ></cx-media>
+    </button>
+  </div>
+
+  <div class="cx-main-image" *ngIf="mainImage$ | async as mainImage">
+    <cx-media
+      [container]="mainImage"
+      format="zoom"
+      [alt]="mainImage?.altText"
+    ></cx-media>
+  </div>
+
+  <!-- Cloudinary Gallery Container -->
+  <div
+    id="cloudinary-gallery-container"
+    *ngIf="isCloudinaryGalleryEnabled"
+  ></div>
+</div>
