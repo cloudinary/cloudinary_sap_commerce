@@ -32,6 +32,8 @@
 		<property name="cloudinaryGalleryConfigJsonString" type="String"/>
 		<property name="cName" type="String"/>
 		<property name="isCloudinaryEnabled" type="boolean"/>
+        <property name="cloudinaryVideoPlayerJsonString" type="String"/>
+        <property name="cloudinaryVideoSourceJsonString" type="String"/>
 	</bean>
 
 	<bean class="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO">
@@ -47,10 +49,18 @@
 	</bean>
 
 	<bean class="de.hybris.platform.cmswebservices.data.MediaData">
-
 		<property name="cloudinaryMediaJson" type="String" >
 			<description>Cloudinary Media Json Data</description>
 		</property>
 	</bean>
+
+    <bean class="de.hybris.platform.cmsocc.data.MediaWsDTO">
+        <property name="cloudinaryMediaJson" type="String" >
+            <description>Cloudinary Media Json Data</description>
+        </property>
+        <property name="cloudinaryPublicId" type="String" >
+            <description>Cloudinary Public ID</description>
+        </property>
+    </bean>
 
 </beans>

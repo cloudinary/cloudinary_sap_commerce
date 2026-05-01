@@ -12,4 +12,15 @@
 
     <context:component-scan base-package="uk.ptr.cloudinary.occ.controllers"/>
 
+    <bean parent="fieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.cmsocc.data.MediaWsDTO" />
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,url,altText" />
+                <entry key="DEFAULT" value="BASIC,mime,cloudinaryPublicId" />
+                <entry key="FULL" value="DEFAULT,downloadUrl,description,catalogId,cloudinaryPublicId" />
+            </map>
+        </property>
+    </bean>
 </beans>

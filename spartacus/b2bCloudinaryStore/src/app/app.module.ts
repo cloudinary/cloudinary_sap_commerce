@@ -1,25 +1,32 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
-import { EffectsModule } from "@ngrx/effects";
-import { StoreModule } from "@ngrx/store";
-import { AppRoutingModule } from "@spartacus/storefront";
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { AppRoutingModule } from '@spartacus/storefront';
 import { AppComponent } from './app.component';
 import { SpartacusModule } from './spartacus/spartacus.module';
+import { CloudinaryModule } from '../../projects/cloudinary/src/public-api';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     StoreModule.forRoot({}),
     AppRoutingModule,
     EffectsModule.forRoot([]),
-    SpartacusModule
+    SpartacusModule,
+    CloudinaryModule,
   ],
-  providers: [provideHttpClient(withFetch(), withInterceptorsFromDi()), provideHttpClient(withFetch(), withInterceptorsFromDi())],
-  bootstrap: [AppComponent]
+  providers: [
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

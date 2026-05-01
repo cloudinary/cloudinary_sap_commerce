@@ -227,7 +227,7 @@
                 </wz:navigation>
             </wz:step>-->
 
-            <!--<wz:step id="step6" label="create.cloudinaryconfig.video.player" merge-mode="replace">
+            <wz:step id="step6" label="create.cloudinaryconfig.video.player" merge-mode="replace">
                 <wz:info id="step6.intro" position="top" label="create.cloudinary.video.player.intro" />
                 <wz:content id="step4.content">
                     <wz:property-list root="newCloudinaryConfig">
@@ -246,7 +246,7 @@
                         <wz:save property="newCloudinaryConfig"/>
                     </wz:done>
                 </wz:navigation>
-            </wz:step>-->
+            </wz:step>
         </wz:flow>
     </context>
 
@@ -381,7 +381,7 @@
                 </editorArea:section>
             </editorArea:tab>-->
 
-            <!--<editorArea:tab name="hmc.tab.videoplayer" merge-mode="append">
+            <editorArea:tab name="hmc.tab.videoplayer" merge-mode="append">
                 <editorArea:customSection name="hmc.section.cloudinary.videoplayer"
                                           spring-bean="cloudinaryConfigVideoPlayerTextRenderer"/>
                 <editorArea:section name="hmc.section.cloudinary.videoplayer.settings" >
@@ -393,7 +393,7 @@
                 <editorArea:section name="">
                     <editorArea:attribute qualifier="videoPlayerTransformation" editor=""/>
                 </editorArea:section>
-            </editorArea:tab>-->
+            </editorArea:tab>
 
             <editorArea:tab name="hmc.administration" position="99" merge-mode="append">
                 <editorArea:customSection name="hmc.unbound" merge-mode="remove"/>

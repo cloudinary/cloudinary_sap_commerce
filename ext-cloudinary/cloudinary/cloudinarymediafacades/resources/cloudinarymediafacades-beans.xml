@@ -25,6 +25,7 @@
 
 	<bean class="de.hybris.platform.cmsfacades.data.MediaData">
 		<property name="cloudinaryMediaJson" type="String" />
+		<property name="cloudinaryPublicId" type="String" />
 	</bean>
 
 	<bean class="de.hybris.platform.commercefacades.product.data.ProductData">

@@ -5,6 +5,7 @@ import { ProductImageNormalizer } from '@spartacus/core';
 import { AppRoutingModule } from '@spartacus/storefront';
 import { CustomProductImageNormalizer } from './spartacus/product-image.normalizer';
 import { SpartacusModule } from './spartacus/spartacus.module';
+import { CloudinaryModule } from '../../projects/cloudinary/src/public-api';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { SpartacusModule } from './spartacus/spartacus.module';
     AppRoutingModule,
     EffectsModule.forRoot([]),
     SpartacusModule,
+    CloudinaryModule,
   ],
   providers: [
     {
