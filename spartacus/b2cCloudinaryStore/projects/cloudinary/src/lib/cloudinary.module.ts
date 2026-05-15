@@ -8,6 +8,8 @@ import {
   provideConfig,
 } from '@spartacus/core';
 import { CloudinaryVideoPlayerComponent } from './components/cloudinary-video-player/cloudinary-video-player.component';
+import { CloudinaryProductGalleryComponent } from './components/cloudinary-product-gallery/cloudinary-product-gallery.component';
+import { MediaModule } from '@spartacus/storefront';
 import {
   CLOUDINARY_CONFIG_ADAPTER,
   HttpCloudinaryConfigAdapter,
@@ -20,8 +22,11 @@ import { CLOUDINARY_CONFIG_SERVICE } from './product/cloudinary-config.token';
 import { CurrentCloudinaryConfigService } from './product/current-cloudinaryconfig.service';
 
 @NgModule({
-  declarations: [CloudinaryVideoPlayerComponent],
-  imports: [CommonModule, HttpClientModule],
+  declarations: [
+    CloudinaryVideoPlayerComponent,
+    CloudinaryProductGalleryComponent,
+  ],
+  imports: [CommonModule, HttpClientModule, MediaModule],
   providers: [
     {
       provide: ProductImageNormalizer,
@@ -31,6 +36,9 @@ import { CurrentCloudinaryConfigService } from './product/current-cloudinaryconf
       cmsComponents: {
         CloudinaryVideoComponent: {
           component: CloudinaryVideoPlayerComponent,
+        },
+        ProductImagesComponent: {
+          component: CloudinaryProductGalleryComponent,
         },
       },
       backend: {
@@ -57,6 +65,6 @@ import { CurrentCloudinaryConfigService } from './product/current-cloudinaryconf
       useExisting: CurrentCloudinaryConfigService,
     },
   ],
-  exports: [CloudinaryVideoPlayerComponent],
+  exports: [CloudinaryVideoPlayerComponent, CloudinaryProductGalleryComponent],
 })
 export class CloudinaryModule {}
