@@ -31,12 +31,12 @@
     <bean id="defaultCloudinaryProductImagesPopulator" parent="baseProductImagePopulator"
             class="uk.ptr.cloudinary.facades.populator.DefaultCloudinaryProductImagesPopulator"/>
 
-    <!-- <bean parent="configurablePopulatorModification">
+     <bean parent="configurablePopulatorModification">
         <property name="target" ref="productVariantConfiguredPopulator" />
         <property name="keyType" value="de.hybris.platform.commercefacades.product.ProductOption" />
         <property name="key" value="CLOUDINARY" />
         <property name="add" ref="cloudinaryProductImagesPopulator" />
-    </bean> -->
+    </bean>
 
 
     <alias name="defaulCloudinaryConfigFacade" alias="cloudinaryConfigFacade"/>
@@ -49,7 +49,7 @@
           parent="defaultProductFacade">
     </bean>
 
- <!--   <alias name="cwsCloudinaryProductFacade" alias="cwsProductFacade"/>
+<!--    <alias name="cwsCloudinaryProductFacade" alias="cwsProductFacade"/>
     <bean id="cwsCloudinaryProductFacade" parent="defaultCloudinaryProductFacade">
         <property name="productConfiguredPopulator" ref="cwsProductConfiguredPopulator"/>
         <property name="productConverter" ref="cwsProductConverter"/>

@@ -1,0 +1,31 @@
+.cloudinary-product-gallery {
+  .cx-thumbnails {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+    .cx-thumbnail {
+      border: 2px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+
+      &.active {
+        border-color: #007acc;
+      }
+
+      &:hover {
+        border-color: #005999;
+      }
+    }
+  }
+
+  .cx-main-image {
+    text-align: center;
+  }
+
+  .cloudinary-gallery-container {
+    width: 100%;
+    min-height: 400px;
+  }
+}

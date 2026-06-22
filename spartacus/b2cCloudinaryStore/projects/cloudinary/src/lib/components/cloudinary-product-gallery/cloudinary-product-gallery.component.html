@@ -1,0 +1,14 @@
+<div class="cloudinary-product-gallery">
+  <!-- Default Spartacus Product Images Component -->
+  <ng-container
+    #defaultContainer
+    *ngIf="!isCloudinaryGalleryEnabled"
+  ></ng-container>
+
+  <!-- Cloudinary Product Gallery Widget v2 -->
+  <div
+    #galleryContainer
+    *ngIf="isCloudinaryGalleryEnabled"
+    class="cloudinary-gallery-container"
+  ></div>
+</div>
