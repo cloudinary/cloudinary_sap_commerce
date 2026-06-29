@@ -195,7 +195,6 @@ import { UserAccountModule } from '@spartacus/user/account';
       a11yPreventCartItemsFormRedundantRecreation: true,
       a11yStoreFinderLabel: true,
       a11yLinkBtnsToTertiaryBtns: true,
-      a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
       a11yAddPaddingToCarouselPanel: true,
       authorizationCodeFlowByDefault: true,
       incrementProcessesCountForMergeCart: true,
