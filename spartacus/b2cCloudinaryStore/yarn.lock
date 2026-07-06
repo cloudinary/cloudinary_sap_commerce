@@ -144,10 +144,10 @@
     "@angular-devkit/core" "21.2.5"
     rxjs "7.8.2"
 
-"@angular-devkit/core@21.2.16":
-  version "21.2.16"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-21.2.16.tgz#49d5ad6b43e0aed2323ac2aec918d7f0e6343707"
-  integrity sha512-bRot0dqonxdSuGzXyOYtVJis/u9CJycrfC/aaxLeMF37gKtWIyCR2KFkMRXAoiV/AKk5/NuuqDNqcQS9w5G3Fg==
+"@angular-devkit/core@21.2.18":
+  version "21.2.18"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-21.2.18.tgz#a7d8b087891bad18266dc8185827bb3cbe525c81"
+  integrity sha512-783AuDmzAjFkOBHey7cx1mXd8CTiMg9LvG+BCxEp8i4EB7cOGYrq3lBzkwhKJq6yYpz7dNgM1QgeLk+NcrFBSA==
   dependencies:
     ajv "8.18.0"
     ajv-formats "3.0.1"
@@ -168,12 +168,12 @@
     rxjs "7.8.2"
     source-map "0.7.6"
 
-"@angular-devkit/schematics@21.2.16":
-  version "21.2.16"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-21.2.16.tgz#8d1bf62601dfc36732d114e17f5adbb32ad517c9"
-  integrity sha512-3wTn2N6iWxYLrRaFDk3J3a6P3OxL+yvYGoDA7pNKfI+Nu0PpTK8BBwhNQD8L5P3US/QGWTkMNbzZ7XxBBfFP/g==
+"@angular-devkit/schematics@21.2.18":
+  version "21.2.18"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-21.2.18.tgz#ae973d367a1e99c5759f8fd47534e5967962bba4"
+  integrity sha512-PakHs+Eefx06KORDFyH4wmkIZ/wm4mI4DqhXe4XFuWJOazMQoYJxPmMeby47BD0HhvJN7BskN61CPS8HCAvICg==
   dependencies:
-    "@angular-devkit/core" "21.2.16"
+    "@angular-devkit/core" "21.2.18"
     jsonc-parser "3.3.1"
     magic-string "0.30.21"
     ora "9.3.0"
@@ -306,13 +306,13 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/pwa@^21.2.8":
-  version "21.2.16"
-  resolved "https://registry.yarnpkg.com/@angular/pwa/-/pwa-21.2.16.tgz#080f851b73835c37b9f888adb613a0d254196042"
-  integrity sha512-Ah2GR7RHlYWisPNRtwpv10CUkWwhCgwKR8OkyNTi5asEEReY2vkNSSQ5K6zunqVomeiHCTTxEE/kCTdGhcEn5Q==
+"@angular/pwa@^21.2.13":
+  version "21.2.18"
+  resolved "https://registry.yarnpkg.com/@angular/pwa/-/pwa-21.2.18.tgz#1806fc6927e3841a93c117ee6a65f51b7f914d04"
+  integrity sha512-9V+cILY0ImuzzV8t3XaNWkOhj1OQotw/UNmL6bq8aJATsHGxowRj6GPnxaix6z7mqRJxy6WxtFbktzeXbk9qrQ==
   dependencies:
-    "@angular-devkit/schematics" "21.2.16"
-    "@schematics/angular" "21.2.16"
+    "@angular-devkit/schematics" "21.2.18"
+    "@schematics/angular" "21.2.18"
     parse5-html-rewriting-stream "8.0.0"
 
 "@angular/router@^21.2.6":
@@ -329,10 +329,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/ssr@^21.2.8":
-  version "21.2.16"
-  resolved "https://registry.yarnpkg.com/@angular/ssr/-/ssr-21.2.16.tgz#44ce2dc791fc84d976c3eeb2eb88696c08bc5024"
-  integrity sha512-zojXkqJ1M79EzAtxFwSclwpd656Jn3MpiRtFt7GWqgIqz68OrL34GwDecvzhwX5hhLrKWS4uMuoJX9yy/0a/MA==
+"@angular/ssr@^21.2.13":
+  version "21.2.18"
+  resolved "https://registry.yarnpkg.com/@angular/ssr/-/ssr-21.2.18.tgz#13e7201bf03bbd0aa8a5784ebc7eeef392e6115a"
+  integrity sha512-XLCMFm8/1ElMIlXe2idelA6hAHIvrbuTGQYm1c/Vz4CSkMilTb4hnZimU7CaoQdvvSjf2g9xj+QxmEW+eGDUSw==
   dependencies:
     tslib "^2.3.0"
 
@@ -1864,13 +1864,13 @@
   optionalDependencies:
     fsevents "~2.3.2"
 
-"@schematics/angular@21.2.16":
-  version "21.2.16"
-  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-21.2.16.tgz#4ef4db546e1378f28fa67ca79ea4cc570c606c6d"
-  integrity sha512-ctvsRartACu77VAM416VlNV3mag7FhU08I/734f4+sS/UZmnhuTM5a4tTTWEI1U7iPeJoBtjreh6LgeP+QZLbQ==
+"@schematics/angular@21.2.18":
+  version "21.2.18"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-21.2.18.tgz#cb5b0f3de6f53842b23665b22f8256de8f1fe6b7"
+  integrity sha512-XNEWvJSUg/ljLXgGVs7picBOtzVC4abBf2+i/ds9E7GaYYVyH19Mpgk6BOuMHAgRpjPWBAeWiBkTqetiR2Ps5Q==
   dependencies:
-    "@angular-devkit/core" "21.2.16"
-    "@angular-devkit/schematics" "21.2.16"
+    "@angular-devkit/core" "21.2.18"
+    "@angular-devkit/schematics" "21.2.18"
     jsonc-parser "3.3.1"
 
 "@schematics/angular@21.2.5", "@schematics/angular@^21.2.5":
@@ -1933,112 +1933,112 @@
   resolved "https://registry.npmjs.org/@socket.io/component-emitter/-/component-emitter-3.1.2.tgz"
   integrity sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==
 
-"@spartacus/asm@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/asm/-/asm-221121.11.0.tgz#4ad8e35c01cf9bcf06368738a595173d1c93647a"
-  integrity sha512-YPp8UvN3rrVH1wZmMV5a3OwZz8bt51z0ufT0PDeWvM2EB8hE21bn69MidiLVwnBsH1gxpPhaPhN4vZf13B9cnA==
+"@spartacus/asm@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/asm/-/asm-221121.13.1.tgz#3c6afb72e85c26226cb510021b9c1e53054292b2"
+  integrity sha512-HkTppsQOJLvDHFkP8VIBXR3Dre8B/mqZ4ghasB3V70e5R3U7kUxpsTjTmkmo9bQn7KL7+XFVtP1jHSEn0CuPJg==
   dependencies:
     tslib "^2.8.1"
 
-"@spartacus/assets@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/assets/-/assets-221121.11.0.tgz#afdff659c37e71fd06f8ebaa8600677cc8a724ac"
-  integrity sha512-QNxjFxpzw6Qo0S5QSah8DZAdBwZNzoqqlEmnSI9NdIjfO7e2zqIrqDvqxIPW0rvsSHflKoxhWFl91xYIKq8tIA==
+"@spartacus/assets@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/assets/-/assets-221121.13.1.tgz#9ef55845b7cb832a29633ca5c0a42e969a6f5018"
+  integrity sha512-E8J1HO1ykbL+a2IUNCMit9V2YKiCfasi8hBDSnplIxyFPKVFrUnlHaoun4BS+nuDYtwrkwKIpE0yChwCUD4erA==
   dependencies:
     tslib "^2.8.1"
 
-"@spartacus/cart@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/cart/-/cart-221121.11.0.tgz#0f86d38ac6d58416d59b85833f1b35ffe78310c3"
-  integrity sha512-3mY5DJTJTr8MS1lO2etumg/4KejGnfmCia5HAipeV01bQtneT932TkUiF/A+WhsSp5kmF91JKRfPFxjp+4uAlA==
+"@spartacus/cart@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/cart/-/cart-221121.13.1.tgz#0dce3d1332b0df0c4952f40d4f7097cf90d55bf4"
+  integrity sha512-v7JxJ8JVaLGXUm3NkjkxJmdjri8JWJrcB5EADFczjVLGNKNH8ac40EmJK9BTLb4Kwx83obGUD6J2/NyCaHXIqA==
   dependencies:
     tslib "^2.8.1"
 
-"@spartacus/checkout@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/checkout/-/checkout-221121.11.0.tgz#02f975d3ffd278a9f76a970158d778fe51163296"
-  integrity sha512-8pmQ3EYsNFypSwm9BGeYmJo5HgI3E5UJKyfrEJIdS3I062KZS4WyxbHcrp8r9QmIx7d24PL3MK46wax5KZxKJw==
+"@spartacus/checkout@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/checkout/-/checkout-221121.13.1.tgz#c0b5a7d5093d6ceba5971a9eae4465be0aaa0a2c"
+  integrity sha512-cyI+afUMYFAYL5wC89DwqN0p9OUJWNWo8+AKGkh3E8Cpu1ND6GWunhcPIOZmDNZWOvs/j5s3qCJqRaLkNgw9JQ==
   dependencies:
     tslib "^2.8.1"
 
-"@spartacus/core@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/core/-/core-221121.11.0.tgz#38c50aa4b9f913d09f296f1ef294830fef9b38fe"
-  integrity sha512-WJ9TjNioucxgepGT0V2HjMq86NVhjdTUxU7n7vZuSy1RwNcIcR94fCGiKNTiIUZd14clUezJsM5LirGQJnoi3g==
+"@spartacus/core@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/core/-/core-221121.13.1.tgz#00983cd0378f141717a5cd2a14de2fb24b46fc92"
+  integrity sha512-r3A4Tdq2+xigZkMZm0BiLi9OfVksenswP35x+wqh+KLnjNbRfihO0ClAZYeBeE+L8/26TLRiZ6cxLjepTNQuow==
   dependencies:
     tslib "^2.8.1"
 
-"@spartacus/order@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/order/-/order-221121.11.0.tgz#8d1e9c2fbfbb27684daf532b40f1d0a335fc0f3e"
-  integrity sha512-Lc05HLB1EP7e2HOhjYBVf+IpuDaBoOVjC4IN/tepfboIZ6o5hqocggguv5qOJLxzfOopTTX0a9cBuuDMEmUFmg==
+"@spartacus/order@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/order/-/order-221121.13.1.tgz#c6795c62a313dc82e576b69fbbf9e567a0176f8a"
+  integrity sha512-OjlTTi9s5sPP6yi3X0liAhCiIKO+OmOQB6KPbM+PTIBIbrj406a4EPefNOMYMZ9nLRHeyemf615y1cPBUJRtOA==
   dependencies:
     tslib "^2.8.1"
 
-"@spartacus/pdf-invoices@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/pdf-invoices/-/pdf-invoices-221121.11.0.tgz#57ec85f379dc63e931882892cf5e3297c86ff60d"
-  integrity sha512-XI+vrtc7CAmMW13kfnOxKyEjjE+Wi+DmCJi31EB4I0Qt47f4NJl+cki1JNmqW1mb51lz+GOSpeGeKkopNFWefQ==
+"@spartacus/pdf-invoices@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/pdf-invoices/-/pdf-invoices-221121.13.1.tgz#e50b27b17b52a7240cd3fbba779eecb027dbd65e"
+  integrity sha512-lcd+NXBwQMcVpiFpFHXv2z+7J7BJsulKaK5hFgQ8vk/l5P5OUlR8DQ0e9gTR90ZiGpDB1UZ2FYFWR7M6hrY1Ag==
   dependencies:
     tslib "^2.8.1"
 
-"@spartacus/product@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/product/-/product-221121.11.0.tgz#c1c15516d7740745348bf7dd3dccf0cb018d1b82"
-  integrity sha512-cdbfL0wXCCYGNtCLpC9QEJo2IbN+RLcUagiWEdFARG5REY0J4D95JBz/W0ZuUbeBYCs3GFqtVSW6CmMweRK6qw==
+"@spartacus/product@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/product/-/product-221121.13.1.tgz#2a2e99d1b933829518b4373be9ec8f4e52f2ce96"
+  integrity sha512-4bAKYIiOBwx1YRv4o0gm2Gu4SA3mXbZGPPuQfrHFMd3rv1PB9y1puTx52V0mDrvjFnW/XtJ1wM0YzKstdVhqqA==
   dependencies:
     tslib "^2.8.1"
 
-"@spartacus/schematics@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/schematics/-/schematics-221121.11.0.tgz#a504fc215ad93edc9b61ce365cc8288bab1cea99"
-  integrity sha512-kgEjtNbUxsxJH6k1HpCTJ5jQtKaF0ANkV5xZmaYKINtlfkxlld4hgvmtGLh2wk3fvcp56i8e7Bc8+0e9dWPnIQ==
+"@spartacus/schematics@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/schematics/-/schematics-221121.13.1.tgz#2542df71aa408489ebf29d909d6c638b83eea045"
+  integrity sha512-huvsj6MMZgOPijpOgUQyQXOajYhAxRPmuC+TPOJchJ2IKsznGCVdkvEngKEPIakFCCvy1P2B9CRn3hQPA6dKqA==
   dependencies:
-    "@angular/pwa" "^21.2.8"
-    "@angular/ssr" "^21.2.8"
+    "@angular/pwa" "^21.2.13"
+    "@angular/ssr" "^21.2.13"
     semver "^7.7.3"
     ts-morph "^27.0.2"
     tslib "^2.8.1"
 
-"@spartacus/smartedit@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/smartedit/-/smartedit-221121.11.0.tgz#df8bb39b66b43f86648dbec9ea45ad74e3741c34"
-  integrity sha512-2YF/EXYYZ+CGYPhu2Y/A6LOmaeBA94guWyX9tKJNzFbI7yDAIZBLNiFLIKWUOxm5oDVSIE980iloQREtEeRAxg==
+"@spartacus/smartedit@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/smartedit/-/smartedit-221121.13.1.tgz#0a78122619a12a68466bc10fd1eca0a7d81e29aa"
+  integrity sha512-No6qo3zlHw7ZOpD3QVA1L3X3HfzZzwBzl2n+0vtDIwx45jlbqZOnSXP7I5K7UgB8k3vxkBdLJBXxCKXEDeaVPQ==
   dependencies:
     tslib "^2.8.1"
 
-"@spartacus/storefinder@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/storefinder/-/storefinder-221121.11.0.tgz#f5efb302f0b590aa25f9343fd9adda0a07329511"
-  integrity sha512-LV+5Uy+z+bW/6RiCGpJ9rXZv0tO0nljxAvX8mT1/k3JRbfqCPcAk32sMYb8KHQFFGSoeQ/idWma38xbzy8V3sQ==
+"@spartacus/storefinder@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/storefinder/-/storefinder-221121.13.1.tgz#fe49637c5f6aeffd76f184aa4e6283eff67c69ba"
+  integrity sha512-5EjYD6mkBsy+PWMtCISf7UA01T1xBs/4JQ7ZvQeV77RfR0+G5uJYk4xNM1tP1JYymmshYWbj4jQVS8Z1viO/wA==
   dependencies:
     tslib "^2.8.1"
 
-"@spartacus/storefront@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/storefront/-/storefront-221121.11.0.tgz#9a22d24396fae11adcf1c3cfad2a2a8a5423f0e7"
-  integrity sha512-1h4a34Xrf06V8njbfV97eV22kmVFfEHcjvbzeRDp7Gk+ZKRJmA9yd5N9RI/6Zsh7f+TBRx/bM8lotCjIX4QLxA==
+"@spartacus/storefront@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/storefront/-/storefront-221121.13.1.tgz#a25d44342ccbe9054c26c8eb205073d1cdb1bc79"
+  integrity sha512-e65tlxnuW0Xg99TYy3mv9Lc1T6muBgxPGv2+7inhYjULWiXXwX/RiwpNzbeFLmV+oClGLgeaUaMBM1XooPdxYw==
   dependencies:
     tslib "^2.8.1"
 
-"@spartacus/styles@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/styles/-/styles-221121.11.0.tgz#7273d11ee5734b82874d0ae9893c3fef535733bc"
-  integrity sha512-fPFCejsBj4GpOrKk9XAvMRgBL6zuDjTc6cj2hRogSKtSgyAtkqTHJY1t2pMTJYRcj73kTiwOQm9373gIP9hDwg==
+"@spartacus/styles@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/styles/-/styles-221121.13.1.tgz#8e2d337e2ce279a9af0e7d68562a79f5df533f81"
+  integrity sha512-UQ67VrVPiiIoA59iV4I54yKz6FHbkaYnqE32rO12/Q/8yZEfzHt+3T+L8k0HTlsVr9TXMZ5T87+Exij2vQxYXA==
   dependencies:
     hamburgers "^1.2.1"
 
-"@spartacus/tracking@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/tracking/-/tracking-221121.11.0.tgz#7fedfebec8ca0cc4d3c7f7cf2e322f596eaf5852"
-  integrity sha512-IC8ZsWAeh5em3IfsGeXcXLCIf0LgOg5y6rSNfjiQI+oMkslDQVaYGkQyAFRlaYCZi4833fufUUPccCUlyuq8Sg==
+"@spartacus/tracking@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/tracking/-/tracking-221121.13.1.tgz#595d8abe555932dea338498c63c7cd5b6e535ad3"
+  integrity sha512-IruiOrJz+YOWJYigL9fGBS4GT766+YHRr18VSgqIurwMgHYDkHT2Sts1OAoH3PGEJkU3q4vw88zIvjWb/DOHVw==
   dependencies:
     tslib "^2.8.1"
 
-"@spartacus/user@~221121.11.0":
-  version "221121.11.0"
-  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/user/-/user-221121.11.0.tgz#dc0a4b25027595b0144a6d49baffb91d4027bd81"
-  integrity sha512-WKACvL5bR4k4yuGjJxDU9y6qQwbFlgn6x+gmMhKFtspYrZgQNGRZH2UF/jOYYs/PtGHnk2wIc0joxI/jDvluig==
+"@spartacus/user@~221121.13.0":
+  version "221121.13.1"
+  resolved "https://73554900100900004337.npmsrv.base.repositories.cloud.sap/nexus3/repository/npm73554900100900004337/@spartacus/user/-/user-221121.13.1.tgz#9445cc92c216603aff049a7b130c38131d50d893"
+  integrity sha512-LHRhYP/elxFpyiMOEgKdmpPJoMlEO3hwp2fanPBRQU92lv1sF4tt9X/dAXdsZv3U/8rc0qKOIn89SHNuLDj7bg==
   dependencies:
     tslib "^2.8.1"
 
