@@ -1,0 +1,13 @@
+---
+description: Cloudinary SAP Commerce Cloud (Hybris) integration — agent guide
+alwaysApply: true
+---
+
+See [`AGENTS.md`](../../AGENTS.md) in the repo root for the full agent guide: what this suite is, the extension dependency graph, install/build with the Hybris `ant` toolchain (no CI), configuration via the `CloudinaryConfig` Backoffice item, and conventions/gotchas.
+
+Key points:
+- This is Cloudinary's **SAP Commerce Cloud (Hybris)** integration — nine Hybris extensions installed into a licensed SAP Commerce platform, not an SDK or registry package.
+- `cloudinarymediacore` is the root extension; facades sit on core; addons/OCC/web services sit on facades.
+- Credentials aren't properties — they're set on the `CloudinaryConfig` item (`cloudinaryURL` field) via Backoffice.
+- The Cloudinary Java SDK (1.29.0) is vendored as jars in `cloudinarymediacore/lib/`, not pulled from Maven. Java 21. Package root `uk.ptr.cloudinary`.
+- There's no CI — build with `ant clean all` / `ant updatesystem` inside the licensed platform.
